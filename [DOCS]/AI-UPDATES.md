@@ -230,3 +230,15 @@ Format: date · who · what changed · why · untested · what the other AI shou
 **Verified on VM 0.2.7** (http://192.168.27.134): CSRF guard 403 without header; check-now updates `available.json`; dashboard real data light + dark; SSH greeting prints.
 
 **For Codex (your code)**: SSH greeting — (1) the corner text-art J does not appear in a 80-col `ssh -tt` session; (2) Debian's `Linux jeneros 6.12…` uname line still prints before it (`/etc/update-motd.d/10-uname`; disable it from /usr like the motd, e.g. tmpfiles); (3) wording "0.3 / 3.8 GiB used / total" → "0.3 of 3.8 GB".
+
+## 2026-10-07 - Codex - Fix SSH corner J, Debian uname MOTD, and usage wording
+
+**Changed**: `[OS]/mkosi.extra/usr/lib/jeneros/hello` and `[OS]/mkosi.extra/usr/lib/tmpfiles.d/jeneros-hello.conf`, plus this log. The greeting now draws an eight-column, five-line angular ASCII J with a squared hook, diagonal bevel, and square `[]` dot. It no longer requires SSH to send a UTF-8 locale or tput to supply a reset capability. Each art row ends one column before the terminal edge. Memory and Disk now say `0.3 of 3.8 GB used` (same rounded values as before). Removed the extra `ESC(B` ASCII-character-set selector from tput's reset string; bold/dim/reset styling stays monochrome.
+
+**MOTD fix**: the /usr tmpfiles config creates `/etc/update-motd.d` if needed and uses `L+` to replace `/etc/update-motd.d/10-uname` with a link to the existing non-executable `/usr/lib/jeneros/empty-motd`. This silences Debian's dynamic uname producer, alongside the existing `/etc/motd` link. Boot-time replacement also applies to the persistent /etc on A/B updates. No PAM, SSH, build-hook, dashboard, core, handoff, or Phase 1 files changed. No dependencies, installs, commits, or pushes.
+
+**Checked**: real local PTY with Git Bash's ncurses tput, `COLUMNS=80` and `120`, and `LANG=C`: exactly five art rows, each width minus one columns. Checked a real non-color `xterm-mono` terminfo entry (`tput colors` = -1), xterm's raw reset containing `ESC(B`, removal of that sequence from greeting output, and fallback when real tput fails for an unknown terminal. Redirected output and TERM=dumb contain no art or escapes. Reused existing summary/update/tip/profile fixtures in a temporary directory with the two wording expectations updated; all passed. `sh -n`, LF/no BOM, empty MOTD target, and scoped `git diff --check` pass. Temporary verification scripts were removed.
+
+**Untested / for Claude to check**: Linux systemd-tmpfiles execution, PAM dynamic MOTD refresh, and actual SSH/console after both a fresh boot and an A/B update. This session could not access the VM SSH key/network, so no VM was changed. Rebuild and verify `/etc/update-motd.d/10-uname` points to the non-executable empty /usr file, no `Linux jeneros ...` line appears, and an 80-column `ssh -tt` login shows the J even without LANG/LC_* forwarding. Recheck quiet command-mode SSH, SCP, and rsync.
+
+**Concurrent repo activity**: Claude's commit `6ec0f20` picked up these two OS edits during verification. Codex ran no commit or push commands; this log entry remains uncommitted.
