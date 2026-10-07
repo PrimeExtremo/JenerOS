@@ -16,7 +16,7 @@ Pinned by Jener (2026-10-07, latest): the Apple-style dashboard (frosted bar, so
 
 THESIS: Your home server greets you like a calm, warm app on your phone: an iOS-style home with real numbers and honest "coming soon" cards. Refuses the dark glassy admin console with neon graphs.
 
-OWN-WORLD: Zen paper #F2F0E3, ivory cards #FAF9F5, ink #2E2E2E (dark: #1F1F1F, #2A2927, #ECE9DD). Claude orange #D97757 for marks, meters and focus; #B9562F for filled buttons (AA). Muted warm app gradients (coral, sky, sun, sage, lavender, clay). Frosted sticky bar, filled ink pill for the active page, 22px soft-shadow cards, squircle app icons with white line doodles. Bricolage Grotesque headings, system UI text.
+OWN-WORLD: Zen paper #F6F1E7, ivory cards #FFFCF6, ink #2E2E2E (dark paper #1F1913, card #2B241C, ink #F6F1E7; dark bar rgba(31,25,19,.8)). Claude orange #D97757 for marks, meters and focus; #B9562F for filled buttons (AA). Muted warm app gradients (coral, sky, sun, sage, lavender); Storage teal #82AAA0 to #527F76, System green #A3B58C to #74895F. Frosted sticky bar, filled ink pill for the active page, 22px soft-shadow cards, squircle app icons with white line doodles. Self-hosted Bricolage Grotesque 700 headings, system UI text.
 
 STORY: The owner sees a friendly greeting, knows the box is up (address, storage, memory, busy, awake time), what lives on it, and whether it is current, and can update in one tap.
 
