@@ -86,7 +86,7 @@ function renderSystem(s) {
     : `Your stuff lives at home, on ${s.hostname} at ${addr || 'no address yet'}.`;
 
   $('statAddr').textContent = addr || 'None';
-  $('statDisk').textContent = s.diskTotalB ? `${gb(diskUsed)} of ${gb(s.diskTotalB)}` : 'Unknown';
+  $('statDisk').textContent = s.diskTotalB ? `${(diskUsed / 1e9).toFixed(1)} of ${gb(s.diskTotalB)}` : 'Unknown';
   meter('meterDisk', pct(diskUsed, s.diskTotalB));
   $('statMem').textContent = s.memTotalMB ? `${(used / 1024).toFixed(1)} of ${Math.round(s.memTotalMB / 1024)} GB` : 'Unknown';
   meter('meterMem', pct(used, s.memTotalMB));
@@ -240,7 +240,8 @@ document.addEventListener('keydown', (e) => {
   const dir = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
   if (!dir || e.altKey || e.ctrlKey || e.metaKey) return;
   const here = document.activeElement;
-  if (!here || here === document.body || here.matches('input, textarea, select')) return;
+  if (!here || here === document.body) { e.preventDefault(); document.querySelector('.nav [aria-current]').focus(); return; }
+  if (here.matches('input, textarea, select')) return;
   const from = here.getBoundingClientRect();
   const fx = from.left + from.width / 2, fy = from.top + from.height / 2;
   const items = [...document.querySelectorAll('.bar a, .bar button:not([hidden]), .view:not([hidden]) a, .view:not([hidden]) button:not([hidden])')]

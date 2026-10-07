@@ -1,7 +1,6 @@
 #!/bin/sh
 # Called by hello-profile.sh for interactive logins. Direct runs also work.
 # These path overrides let the greeting be checked without a running OS image.
-original_locale=${LC_ALL:-${LC_CTYPE:-${LANG:-}}}
 LC_ALL=C
 export LC_ALL
 os_release=${JENEROS_OS_RELEASE:-/usr/lib/os-release}
@@ -16,9 +15,10 @@ version=$(sed -n 's/^IMAGE_VERSION=//p' "$os_release" 2>/dev/null | head -n1)
 version=$(safe_version "$version")
 version=${version:-unknown}
 
-bold= dim= reset= fancy=
+bold= dim= reset= art=
 cols=80
 if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -n "${TERM:-}" ]; then
+    art=1
     cols=$(tput cols 2>/dev/null) || cols=80
     case $cols in ''|*[!0-9]*) cols=80 ;; esac
     # Avoid pathological widths; leave one column free to prevent wrapping.
@@ -26,25 +26,25 @@ if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -n "${TERM:-}" ]; then
     bold=$(tput bold 2>/dev/null) || bold=
     dim=$(tput dim 2>/dev/null) || dim=
     reset=$(tput sgr0 2>/dev/null) || reset=
+    # ncurses can also select the ASCII character set. We use only ASCII,
+    # so keep that extra ESC ( B out of the greeting (including vt100).
+    esc=$(printf '\033')
+    reset=$(printf '%s' "$reset" | sed "s/${esc}(B//g")
     # Without a reset capability, keep the greeting entirely plain.
-    if [ -n "$reset" ]; then fancy=1; else bold= dim=; fi
+    if [ -z "$reset" ]; then bold= dim=; fi
 fi
 
 printf '\n'
-if [ -n "$fancy" ]; then
-    # Seven single-cell glyphs per line, five lines tall: dot + short top,
-    # tall right stem, and a round hook, like the monochrome app mark.
-    # UTF-8 only: terminals in a legacy locale get the plain greeting.
-    case $original_locale in
-        *[Uu][Tt][Ff]*8*)
-            pad=$((cols - 8))
-            printf '%s%*s%s%s\n' "$dim" "$pad" '' ' ▪  ▄▄▄' "$reset"
-            printf '%s%*s%s%s\n' "$dim" "$pad" '' '     ██' "$reset"
-            printf '%s%*s%s%s\n' "$dim" "$pad" '' '     ██' "$reset"
-            printf '%s%*s%s%s\n' "$dim" "$pad" '' ' ██  ██' "$reset"
-            printf '%s%*s%s%s\n' "$dim" "$pad" '' '  ▀██▀ ' "$reset"
-            ;;
-    esac
+if [ -n "$art" ]; then
+    # Angular v1: squared J, square dot, and a 45-degree lower turn.
+    # Eight ASCII cells work even when SSH does not send a UTF-8 locale.
+    # Leave the last terminal column free to prevent automatic wrapping.
+    pad=$((cols - 9))
+    printf '%s%*s%s%s\n' "$dim" "$pad" '' '  ======' "$reset"
+    printf '%s%*s%s%s\n' "$dim" "$pad" '' '  []  ||' "$reset"
+    printf '%s%*s%s%s\n' "$dim" "$pad" '' '||    ||' "$reset"
+    printf '%s%*s%s%s\n' "$dim" "$pad" '' '||===// ' "$reset"
+    printf '%s%*s%s%s\n' "$dim" "$pad" '' '=====   ' "$reset"
 fi
 printf '%sJenerOS %s%s\n' "$bold" "$version" "$reset"
 printf 'Hey, welcome home!\n\n'
@@ -70,11 +70,11 @@ memory=$(awk '
     /^MemTotal:/ {total = $2}
     /^MemAvailable:/ {available = $2; found = 1}
     END {if (total > 0 && found)
-        printf "%.1f / %.1f GiB used / total", (total - available) / 1048576, total / 1048576}
+        printf "%.1f of %.1f GB used", (total - available) / 1048576, total / 1048576}
 ' "$proc/meminfo" 2>/dev/null)
 memory=${memory:-Not available}
 disk=$(df -Pk / 2>/dev/null | awk 'NR == 2 && NF >= 6 && $(NF-4) > 0 {
-    printf "%.1f / %.1f GiB used / total", $(NF-3) / 1048576, $(NF-4) / 1048576
+    printf "%.1f of %.1f GB used", $(NF-3) / 1048576, $(NF-4) / 1048576
 }')
 disk=${disk:-Not available}
 
