@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JenerOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glow"></div>
+  <header class="top">
+    <div class="brand"><span class="logo"></span>JenerOS</div>
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#store">Store</a>
+      <a href="#machines">Machines</a>
+      <a href="#storage">Storage</a>
+    </nav>
+    <div class="host" id="host">—</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 id="greeting">Welcome home</h1>
+      <p class="sub" id="subline">Your cloud, on your hardware.</p>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section>
+      <h2>Your apps</h2>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section id="store">
+      <h2>Store <span class="muted">· self-hosted apps, one click</span></h2>
+      <div class="store" id="storeList"></div>
+    </section>
+
+    <p class="demo" id="demo" hidden>Showing sample data. Start <code>jenerd</code> to see this machine.</p>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

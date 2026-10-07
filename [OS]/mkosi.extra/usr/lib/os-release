@@ -1,0 +1,10 @@
+NAME="JenerOS"
+PRETTY_NAME="JenerOS 0.1.0"
+ID=jeneros
+ID_LIKE=debian
+VERSION="0.1.0"
+VERSION_ID=0.1.0
+VERSION_CODENAME=trixie
+IMAGE_ID=jeneros
+IMAGE_VERSION=0.1.0
+HOME_URL="https://jener.dev/os"

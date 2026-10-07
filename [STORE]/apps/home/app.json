@@ -1,0 +1,24 @@
+{
+  "manifest": 1,
+  "id": "home",
+  "name": "Home",
+  "upstream": "Home Assistant",
+  "version": "0.1.0",
+  "category": "home",
+  "icon": "home",
+  "tagline": "Lights, locks, cameras and automations in one place.",
+  "arch": ["amd64", "arm64"],
+  "requirements": { "memoryMB": 2048, "diskGB": 8 },
+  "services": [
+    {
+      "name": "core",
+      "image": "ghcr.io/home-assistant/home-assistant:stable",
+      "network": "host",
+      "mounts": [{ "pool": "data", "path": "/config" }],
+      "devices": ["usb"]
+    }
+  ],
+  "web": { "service": "core", "port": 8123 },
+  "auth": { "type": "header" },
+  "backup": { "services": ["core"] }
+}

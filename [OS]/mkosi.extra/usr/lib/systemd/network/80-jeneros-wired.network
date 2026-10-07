@@ -1,0 +1,6 @@
+# Every wired port gets an address by DHCP. Router mode (Phase 7) replaces this.
+[Match]
+Type=ether
+
+[Network]
+DHCP=yes

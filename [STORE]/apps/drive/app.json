@@ -1,0 +1,66 @@
+{
+  "manifest": 1,
+  "id": "drive",
+  "name": "Drive",
+  "upstream": "Nextcloud",
+  "version": "0.1.0",
+  "category": "files",
+  "icon": "drive",
+  "tagline": "Your files, synced to every computer and phone.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 1024,
+    "diskGB": 10
+  },
+  "services": [
+    {
+      "name": "app",
+      "image": "docker.io/library/nextcloud:stable",
+      "env": {
+        "POSTGRES_HOST": "${service.db.host}",
+        "POSTGRES_PASSWORD": "${secret.db}",
+        "NEXTCLOUD_TRUSTED_DOMAINS": "drive.${jener.domain}",
+        "POSTGRES_DB": "nextcloud",
+        "POSTGRES_USER": "postgres"
+      },
+      "mounts": [
+        {
+          "pool": "files",
+          "path": "/var/www/html/data"
+        }
+      ]
+    },
+    {
+      "name": "db",
+      "image": "docker.io/library/postgres:17",
+      "env": {
+        "POSTGRES_PASSWORD": "${secret.db}",
+        "POSTGRES_DB": "nextcloud"
+      },
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/var/lib/postgresql/data"
+        }
+      ]
+    }
+  ],
+  "web": {
+    "service": "app",
+    "port": 80
+  },
+  "auth": {
+    "type": "oidc"
+  },
+  "backup": {
+    "pools": [
+      "files"
+    ],
+    "services": [
+      "db"
+    ]
+  }
+}
