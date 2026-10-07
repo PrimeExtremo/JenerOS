@@ -1,0 +1,73 @@
+{
+  "manifest": 1,
+  "id": "photos",
+  "name": "Photos",
+  "upstream": "Immich",
+  "version": "0.1.0",
+  "category": "media",
+  "icon": "photos",
+  "tagline": "Every photo and video, backed up from every device.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 4096,
+    "diskGB": 20
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "ghcr.io/immich-app/immich-server:release",
+      "env": {
+        "DB_HOSTNAME": "${service.db.host}",
+        "DB_PASSWORD": "${secret.db}",
+        "REDIS_HOSTNAME": "${service.redis.host}",
+        "IMMICH_MACHINE_LEARNING_URL": "http://${service.ml.host}:3003"
+      },
+      "mounts": [
+        {
+          "pool": "photos",
+          "path": "/usr/src/app/upload"
+        }
+      ]
+    },
+    {
+      "name": "ml",
+      "image": "ghcr.io/immich-app/immich-machine-learning:release"
+    },
+    {
+      "name": "redis",
+      "image": "docker.io/valkey/valkey:8"
+    },
+    {
+      "name": "db",
+      "image": "ghcr.io/immich-app/postgres:16-vectorchord0.4.3",
+      "env": {
+        "POSTGRES_PASSWORD": "${secret.db}",
+        "POSTGRES_DB": "immich"
+      },
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/var/lib/postgresql/data"
+        }
+      ]
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 2283
+  },
+  "auth": {
+    "type": "oidc"
+  },
+  "backup": {
+    "pools": [
+      "photos"
+    ],
+    "services": [
+      "db"
+    ]
+  }
+}

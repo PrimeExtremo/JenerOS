@@ -1,0 +1,26 @@
+{
+  "manifest": 1,
+  "id": "tv",
+  "name": "TV",
+  "upstream": "Jellyfin",
+  "version": "0.1.0",
+  "category": "media",
+  "icon": "tv",
+  "tagline": "Movies and shows streamed to your TVs, phones and Fire TVs.",
+  "arch": ["amd64", "arm64"],
+  "requirements": { "memoryMB": 2048, "diskGB": 5 },
+  "services": [
+    {
+      "name": "server",
+      "image": "docker.io/jellyfin/jellyfin:latest",
+      "mounts": [
+        { "pool": "media", "path": "/media", "readOnly": true },
+        { "pool": "data", "path": "/config" }
+      ],
+      "devices": ["gpu"]
+    }
+  ],
+  "web": { "service": "server", "port": 8096 },
+  "auth": { "type": "oidc" },
+  "backup": { "services": ["server"] }
+}
