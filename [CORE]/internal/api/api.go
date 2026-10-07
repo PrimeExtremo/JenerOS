@@ -29,6 +29,7 @@ func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("DELETE /api/apps/{id}", sameSite(s.remove))
 	mux.HandleFunc("GET /api/update", s.updateInfo)
 	mux.HandleFunc("POST /api/update", sameSite(s.updateStart))
+	mux.HandleFunc("POST /api/update/check", sameSite(s.updateCheck))
 }
 
 // sameSite rejects state-changing requests that lack the X-JenerOS header.
@@ -96,6 +97,14 @@ func (s *Server) updateInfo(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) updateStart(w http.ResponseWriter, r *http.Request) {
 	if err := update.Request(s.updates); err != nil {
+		writeError(w, http.StatusInternalServerError, err)
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+}
+
+func (s *Server) updateCheck(w http.ResponseWriter, r *http.Request) {
+	if err := update.RequestCheck(s.updates); err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return
 	}

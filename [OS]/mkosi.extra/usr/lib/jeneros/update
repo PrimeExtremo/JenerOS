@@ -17,7 +17,7 @@ status() { # state version
 # check-new exits 1 both for "nothing newer" and "server unreachable";
 # list only fails when the update source can't be read.
 if ! "$SYSUPDATE" list >/dev/null 2>&1; then
-    rm -f /run/jeneros/update.request
+    rm -f /run/jeneros/update.request /run/jeneros/check.request
     write available.json "{\"error\":\"Can't reach the update server\",\"checked\":\"$(date -Is)\"}"
     [ "${1:-}" = apply ] && status failed ""
     exit 1
@@ -25,7 +25,10 @@ fi
 new=$("$SYSUPDATE" check-new 2>/dev/null | tail -n1)
 case "${1:-}" in
 check)
-    write available.json "{\"version\":\"$new\",\"checked\":\"$(date -Is)\"}"
+    rm -f /run/jeneros/check.request
+    # A version that failed its boot tries is left on the ESP as <name>+0-N.efi.
+    bad=$(ls /boot/EFI/Linux/ 2>/dev/null | sed -n 's/^jeneros_\(.*\)+0-[0-9]*\.efi$/\1/p' | sort -V | tail -n1)
+    write available.json "{\"version\":\"$new\",\"rolledBack\":\"$bad\",\"checked\":\"$(date -Is)\"}"
     ;;
 apply)
     rm -f /run/jeneros/update.request

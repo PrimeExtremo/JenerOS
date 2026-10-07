@@ -3,10 +3,12 @@ package system
 
 import (
 	"bufio"
+	"net"
 	"os"
 	goruntime "runtime"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 type Info struct {
@@ -17,6 +19,10 @@ type Info struct {
 	MemTotalMB int     `json:"memTotalMB"`
 	MemFreeMB  int     `json:"memFreeMB"`
 	UptimeSec  float64 `json:"uptimeSec"`
+	Load1      float64 `json:"load1"`
+	DiskTotalB uint64  `json:"diskTotalB"`
+	DiskFreeB  uint64  `json:"diskFreeB"`
+	Addresses  []string `json:"addresses"`
 }
 
 func Read() Info {
@@ -28,7 +34,34 @@ func Read() Info {
 			info.UptimeSec, _ = strconv.ParseFloat(f[0], 64)
 		}
 	}
+	if b, err := os.ReadFile("/proc/loadavg"); err == nil {
+		if f := strings.Fields(string(b)); len(f) > 0 {
+			info.Load1, _ = strconv.ParseFloat(f[0], 64)
+		}
+	}
+	// ponytail: root filesystem only; per-pool numbers arrive with storage pools (M3).
+	var st syscall.Statfs_t
+	if syscall.Statfs("/", &st) == nil {
+		info.DiskTotalB = st.Blocks * uint64(st.Bsize)
+		info.DiskFreeB = st.Bavail * uint64(st.Bsize)
+	}
+	info.Addresses = addresses()
 	return info
+}
+
+// addresses returns the box's IPv4 addresses, skipping loopback.
+func addresses() []string {
+	out := []string{}
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return out
+	}
+	for _, a := range addrs {
+		if ipn, ok := a.(*net.IPNet); ok && !ipn.IP.IsLoopback() && ipn.IP.To4() != nil {
+			out = append(out, ipn.IP.String())
+		}
+	}
+	return out
 }
 
 // meminfo parses /proc/meminfo; it returns zeros off Linux.

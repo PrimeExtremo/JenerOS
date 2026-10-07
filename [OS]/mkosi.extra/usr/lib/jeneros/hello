@@ -1,0 +1,119 @@
+#!/bin/sh
+# Called by hello-profile.sh for interactive logins. Direct runs also work.
+# These path overrides let the greeting be checked without a running OS image.
+original_locale=${LC_ALL:-${LC_CTYPE:-${LANG:-}}}
+LC_ALL=C
+export LC_ALL
+os_release=${JENEROS_OS_RELEASE:-/usr/lib/os-release}
+available=${JENEROS_UPDATE_AVAILABLE:-/run/jeneros-update/available.json}
+proc=${JENEROS_PROC_ROOT:-/proc}
+
+# Never source os-release or print unchecked strings from status files.
+safe_version() {
+    printf '%s' "$1" | tr -cd 'A-Za-z0-9.+_-' | cut -c1-32
+}
+version=$(sed -n 's/^IMAGE_VERSION=//p' "$os_release" 2>/dev/null | head -n1)
+version=$(safe_version "$version")
+version=${version:-unknown}
+
+bold= dim= reset= fancy=
+cols=80
+if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -n "${TERM:-}" ]; then
+    cols=$(tput cols 2>/dev/null) || cols=80
+    case $cols in ''|*[!0-9]*) cols=80 ;; esac
+    # Avoid pathological widths; leave one column free to prevent wrapping.
+    if [ "$cols" -lt 10 ] || [ "$cols" -gt 1000 ]; then cols=80; fi
+    bold=$(tput bold 2>/dev/null) || bold=
+    dim=$(tput dim 2>/dev/null) || dim=
+    reset=$(tput sgr0 2>/dev/null) || reset=
+    # Without a reset capability, keep the greeting entirely plain.
+    if [ -n "$reset" ]; then fancy=1; else bold= dim=; fi
+fi
+
+printf '\n'
+if [ -n "$fancy" ]; then
+    # Seven single-cell glyphs per line, five lines tall: dot + short top,
+    # tall right stem, and a round hook, like the monochrome app mark.
+    # UTF-8 only: terminals in a legacy locale get the plain greeting.
+    case $original_locale in
+        *[Uu][Tt][Ff]*8*)
+            pad=$((cols - 8))
+            printf '%s%*s%s%s\n' "$dim" "$pad" '' ' ▪  ▄▄▄' "$reset"
+            printf '%s%*s%s%s\n' "$dim" "$pad" '' '     ██' "$reset"
+            printf '%s%*s%s%s\n' "$dim" "$pad" '' '     ██' "$reset"
+            printf '%s%*s%s%s\n' "$dim" "$pad" '' ' ██  ██' "$reset"
+            printf '%s%*s%s%s\n' "$dim" "$pad" '' '  ▀██▀ ' "$reset"
+            ;;
+    esac
+fi
+printf '%sJenerOS %s%s\n' "$bold" "$version" "$reset"
+printf 'Hey, welcome home!\n\n'
+
+ip_address=$(ip -4 -o addr show 2>/dev/null |
+    awk '$2 != "lo" && $4 !~ /^127\./ {split($4, a, "/"); print a[1]; exit}')
+if [ -n "$ip_address" ]; then
+    dashboard="http://$ip_address"
+else
+    dashboard='Waiting for a network address'
+fi
+
+up=$(awk '{
+    minutes = int($1 / 60)
+    days = int(minutes / 1440)
+    hours = int(minutes / 60) % 24
+    if (days) printf "%dd ", days
+    if (hours || days) printf "%dh ", hours
+    printf "%dm", minutes % 60
+}' "$proc/uptime" 2>/dev/null)
+up=${up:-Not available}
+memory=$(awk '
+    /^MemTotal:/ {total = $2}
+    /^MemAvailable:/ {available = $2; found = 1}
+    END {if (total > 0 && found)
+        printf "%.1f / %.1f GiB used / total", (total - available) / 1048576, total / 1048576}
+' "$proc/meminfo" 2>/dev/null)
+memory=${memory:-Not available}
+disk=$(df -Pk / 2>/dev/null | awk 'NR == 2 && NF >= 6 && $(NF-4) > 0 {
+    printf "%.1f / %.1f GiB used / total", $(NF-3) / 1048576, $(NF-4) / 1048576
+}')
+disk=${disk:-Not available}
+
+updates='Waiting for the first check'
+if [ -r "$available" ]; then
+    # The updater writes a flat JSON object atomically. Join pretty-printed
+    # lines as well; grep/sed are enough for these known string fields.
+    json=$(tr '\n' ' ' < "$available" 2>/dev/null)
+    new=$(printf '%s' "$json" | sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+    bad=$(printf '%s' "$json" | sed -n 's/.*"rolledBack"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+    new=$(safe_version "$new")
+    bad=$(safe_version "$bad")
+    if printf '%s' "$json" | grep -q '"error"[[:space:]]*:'; then
+        updates="Can't reach the update server"
+    elif [ -n "$bad" ]; then
+        updates="$bad rolled back; you're on $version"
+    elif [ -n "$new" ] && [ "$new" != "$version" ]; then
+        updates="$new is ready in the dashboard"
+    elif printf '%s' "$json" | grep -q '"version"[[:space:]]*:[[:space:]]*"'; then
+        updates='All up to date!'
+    fi
+fi
+
+printf '  Dashboard  %s\n' "$dashboard"
+printf '  Uptime     %s\n' "$up"
+printf '  Memory     %s\n' "$memory"
+printf '  Disk /     %s\n' "$disk"
+printf '  Updates    %s\n' "$updates"
+
+day=$(date +%d 2>/dev/null)
+# Strip the leading zero: POSIX shell arithmetic treats 08 and 09 as octal.
+day=${day#0}
+case $day in ''|*[!0-9]*) day=1 ;; esac
+case $((day % 6)) in
+    0) tip='open the dashboard on your phone too!' ;;
+    1) tip='your dashboard is just a browser tab away.' ;;
+    2) tip='peek at the app store for your next little helper.' ;;
+    3) tip='a spare PC can make a lovely little home server.' ;;
+    4) tip='give your files a second home with a backup.' ;;
+    5) tip='check the dashboard for updates and little improvements.' ;;
+esac
+printf '\n%sTip: %s%s\n\n' "$dim" "$tip" "$reset"

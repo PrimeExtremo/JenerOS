@@ -184,3 +184,49 @@ Format: date · who · what changed · why · untested · what the other AI shou
 **Checked**: `node --check` and scoped `git diff --check` pass. A temporary in-memory Node/DOM/fetch/timer harness passed idle and active polling, update availability, outages before and during reboot, first-request demo fallback, recovery, version-change toast without duplicates, a single polling timer, and both POST headers. No dependencies or test files added.
 
 **Untested / for Claude to check**: a live VM update/reboot and the new server CSRF guard together. `[CORE]/`, `[OS]/`, handoff, and Phase 1 tasks were left untouched as requested. No commit or push.
+
+## 2026-10-07 ? Codex ? Monochrome rounded JenerOS logos
+
+**Changed**: overwrote all five SVGs in `[BRAND]/logo/`: `j-monogram.svg`, `j-monogram-light.svg`, `jeneros-wordmark.svg`, `jeneros-wordmark-light.svg`, and `splash-512.svg`. Added `[BRAND]/logo/README.md`. Updated handoff ?3 and ?6, and recorded Jener's explicitly requested brand change in ?4.
+
+**Why / design**: v1 read like a mirrored C. The new J has a much shorter top bar, a tall right stem, a round bottom hook, and rounded ends drawn as filled B?zier paths. One small dot adds personality. The wordmark reads JenerOS in custom chunky rounded lettering, entirely paths. Ink is `#16161D`; light is `#F7F7F9`. The 512px splash is the same light monogram on transparency: no background rectangle and no orange. Monograms keep the 512 ? 512 canvas; wordmarks now use 1232 ? 240, so integrations should preserve their aspect ratio.
+
+**Checked**: all five files parse as SVG XML and contain only SVG/title/desc/group/path elements, with no fonts, external references, runtime strokes, or raster images. Color variants have identical geometry; splash geometry matches the light monogram. Reviewed local System.Drawing raster previews on light and dark surfaces at 256px, 64px, and 32px, plus large and approximately 246px-wide wordmarks. Scoped `git diff --check` passed. Review preview and local rendering helper are in `.scratch/logo/`. No dependencies, installs, commits, or pushes. No files under `[DASHBOARD]/` were touched.
+
+**Untested / for Claude to check**: browser-native rendering (no connected browser was available), favicon placement, and the regenerated Plymouth watermark in a live boot. Set the Plymouth theme background to `#16161D`; the current theme may still use `#16130F`. Align shared brand tokens/docs with the monochrome direction while redesigning the dashboard. Jener's brand approval remains pending, so Phase 1 checkboxes were left unchanged.
+
+## 2026-10-07 · Codex · Restore approved angular v1 logos in monochrome
+
+**Changed**: all five SVGs in `[BRAND]/logo/` and its `README.md`. Updated `handoff.md` sections 3 and 6 and the logo wording in the brand decision to reflect Jener's explicit direction.
+
+**Why / design**: Jener said "I like this one, keep this style" about the first logo in git HEAD. Restored the exact heavy squared J path `M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z`, its 45-degree bevel, and square `M144 208H176V240H144Z`. Every asset includes the square in the same color as the J. Restored the original wide chamfered JENEROS capitals and 1472 x 320 wordmark canvas. Ink is `#16161D`; paper is `#F7F7F9`. All backgrounds are transparent; splash uses paper for both shapes. Rounded v2 is retired.
+
+**Checked**: all five SVGs parse as XML; exact J and square paths occur once in each; only the intended color occurs in each; light/ink pairs are identical apart from color; the lettering group matches git HEAD exactly. SVGs contain only SVG/title/desc/group/path elements, with straight paths and no background rectangle. Scoped `git diff --check` passed. No dashboard, SSH, or other OS files changed. No installs, dependencies, commits, or pushes. Phase 1 boxes unchanged because integration checks remain pending.
+
+**Untested / for Claude to check**: browser rendering at final sizes and regenerated Plymouth watermark in a live boot. Set the splash surface to `#16161D`. Preserve the restored wordmark aspect ratio. The separate SSH task currently draws a rounded text-art J in `[OS]/mkosi.extra/usr/lib/jeneros/hello`; update that to angular v1 within that task, respecting Jener's request that this logo task leave SSH files untouched.
+
+## 2026-10-07 - Codex - Friendly monochrome SSH and console greeting
+
+**Changed**: added `[OS]/mkosi.extra/usr/lib/jeneros/hello`, `hello-profile.sh`, and the zero-byte `empty-motd`; added `[OS]/mkosi.extra/usr/lib/tmpfiles.d/jeneros-hello.conf`. Added a chmod step to `[OS]/mkosi.postinst.chroot` so the two scripts are executable in the image even after Windows transfers. Updated handoff sections 3 and 6. Did not touch Claude's dashboard, core, update script, or update-check path unit. No commit or push.
+
+**Why / behavior**: make login feel like the new cute monochrome brand. A five-line block-character J sits at the right edge with one column of wrap protection; tput cols falls back to 80. UTF-8 TTYs use only terminal bold/dim/reset capabilities, never colors. TERM=dumb and redirected output use a plain greeting with no art or escape sequences. The profile hook checks the shell's interactive flag, so command-mode SSH, SCP, and rsync produce no greeting. All lasting content is in /usr; L+ tmpfiles links refresh /etc/profile.d/jeneros-hello.sh and /etc/motd at boot, including after A/B updates.
+
+**Summary**: IMAGE_VERSION from /usr/lib/os-release, first non-loopback IPv4 dashboard URL, uptime, memory used/total using MemAvailable, root disk used/total, update availability/server error/rollback from the known flat available.json fields via grep/sed, then one of six friendly tips by day of month. Status versions are sanitized before terminal output; files are never sourced or evaluated. Missing metrics and update files have friendly fallbacks. Test overrides: JENEROS_OS_RELEASE, JENEROS_UPDATE_AVAILABLE, JENEROS_PROC_ROOT.
+
+**Checked locally**: sh -n passed for both new scripts and the modified build hook. A direct Bash run with fake os-release passed and emitted no terminal escapes with redirected stdout. Fixture checks in .scratch/hello/check.sh passed live summary values, first IPv4 selection, ready/up-to-date/rollback/error/missing/malformed update states, all six tips including days 08/09, interactive profile invocation and silent noninteractive invocation. Simulated TTY checks verified 80/120-column art, 80-column fallback for failed/invalid tput output, TERM=dumb and legacy-locale behavior, and bold/dim/reset-only escape codes. Verified LF/no BOM, empty MOTD target, and scoped git diff --check. No packages installed.
+
+**For Claude to verify in the VM**: rebuild, then test both fresh boot and an A/B update on the existing writable root. Confirm the helper mode is 0755 and tmpfiles installs both symlinks even over the previous regular /etc/motd. Log in on console and via interactive SSH; check the tiny J on an 80-column terminal, actual dashboard IPv4, memory/disk/uptime, rotating tip, and update states. Confirm TERM=dumb is plain, ssh host command emits only command output, and SCP/rsync still work. Check Debian PAM does not supply any additional dynamic MOTD text. Local TTY checks were simulated; real Linux tmpfiles, SSH/PAM, console rendering, and A/B behavior were not exercised here.
+
+## 2026-10-07 · Claude · Dashboard redesign (Apple + Claude/Zen palette), live stats, update center, /usr enablement fix
+
+**Direction (Jener, final for now)**: Apple-style dashboard (frosted bar, soft cards, colorful squircle app icons) with Claude orange and a warm palette; light = arvey.co cream `#F6F1E7`, dark = warm brown `#16130F`. Logo, splash and SSH stay monochrome (angular v1 J). Contract: `.impeccable/surfaces/dashboard-index-html.md`; product facts: `PRODUCT.md`.
+
+**Dashboard** (`[DASHBOARD]/`): hash-routed pages Home/Apps/Storage/Machines/System; live stats every 5 s (address, storage, memory, busy, awake); update center (check now, update, installing/restarting, failed, rolled back, server unreachable); honest "Coming soon" for app installs, pools, VMs; arrow-key spatial focus for TV remotes; big focus rings; corner J watermark; dark mode. Buttons use `#B9562F` (white text 4.7:1); `#D97757` only decorative. impeccable detector: 0 findings.
+
+**Backend**: `/api/system` adds `load1`, `diskTotalB/diskFreeB` (root fs), `addresses`; `POST /api/update/check` (CSRF-guarded) → `/run/jeneros/check.request` → new `jeneros-update-check.path`; update script reports `rolledBack` (from `+0-` UKIs) and `error`. jenerd serves the dashboard with `Cache-Control: no-store` (same-mtime image files would otherwise keep a stale dashboard after updates).
+
+**Bug fixed (same class as the Plymouth one)**: presets enable units via links in `/etc`, which A/B updates never touch → `jeneros-update-check.path` (new in this update) stayed disabled on the updated VM. `mkosi.postinst.chroot` now ships `.wants`/`.requires` links in `/usr/lib/systemd/system/` for all JenerOS units. Verified: VM updated 0.2.4 → 0.2.6 → 0.2.7, "Check now" works on a machine installed before the fix. **Rule: anything an update must change goes in /usr — config, theme, unit enablement.**
+
+**Verified on VM 0.2.7** (http://192.168.27.134): CSRF guard 403 without header; check-now updates `available.json`; dashboard real data light + dark; SSH greeting prints.
+
+**For Codex (your code)**: SSH greeting — (1) the corner text-art J does not appear in a 80-col `ssh -tt` session; (2) Debian's `Linux jeneros 6.12…` uname line still prints before it (`/etc/update-motd.d/10-uname`; disable it from /usr like the motd, e.g. tmpfiles); (3) wording "0.3 / 3.8 GiB used / total" → "0.3 of 3.8 GB".

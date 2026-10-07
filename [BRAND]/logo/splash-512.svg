@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">JenerOS boot splash</title>
-  <desc id="desc">A cream J monogram and one small orange square on a dark charcoal background.</desc>
-  <path fill="#16130F" d="M0 0H512V512H0Z"/>
-  <path fill="#F6F1E7" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
-  <path fill="#FF5A1F" d="M144 208H176V240H144Z"/>
+  <desc id="desc">A bold geometric J with uniform heavy strokes, a square hook, and a 45-degree lower turn, and a matching square accent.</desc>
+  <path fill="#F7F7F9" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+  <path fill="#F7F7F9" d="M144 208H176V240H144Z"/>
 </svg>

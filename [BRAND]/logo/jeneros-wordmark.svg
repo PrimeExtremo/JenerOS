@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1472" height="320" viewBox="0 0 1472 320" role="img" aria-labelledby="title desc">
   <title id="title">JenerOS wordmark</title>
   <desc id="desc">The J monogram beside JENEROS in wide, geometric capitals drawn entirely as paths.</desc>
-  <g fill="#211C16">
+  <g fill="#16161D">
     <path transform="translate(16 32) scale(.5)" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+    <path transform="translate(16 32) scale(.5)" d="M144 208H176V240H144Z"/>
     <g transform="translate(304 88)">
       <!-- J -->
       <path d="M0 0H120V112L88 144H0V96H32V112H72L88 96V32H0Z"/>

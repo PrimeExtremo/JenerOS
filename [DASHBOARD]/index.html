@@ -3,57 +3,156 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <title>JenerOS</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="glow"></div>
-  <header class="top">
-    <div class="brand"><span class="logo"></span>JenerOS</div>
-    <nav>
-      <a href="#home" class="active">Home</a>
-      <a href="#store">Store</a>
-      <a href="#machines">Machines</a>
-      <a href="#storage">Storage</a>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="brand" href="#/home" aria-label="JenerOS home">
+      <svg class="brand-mark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
+      <span class="brand-name">JenerOS</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#/home" data-nav="home">Home</a>
+      <a href="#/apps" data-nav="apps">Apps</a>
+      <a href="#/storage" data-nav="storage">Storage</a>
+      <a href="#/machines" data-nav="machines">Machines</a>
+      <a href="#/system" data-nav="system">System</a>
     </nav>
-    <div class="host" id="host">—</div>
+    <div class="bar-end">
+      <button class="pill pill-accent" id="barUpdate" hidden></button>
+      <span class="pill pill-quiet" id="hostPill">Connecting…</span>
+    </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <h1 id="greeting">Welcome home</h1>
-      <p class="sub" id="subline">Your cloud, on your hardware.</p>
+  <main id="main" tabindex="-1">
+    <!-- Home -->
+    <section class="view" data-view="home" aria-labelledby="homeTitle">
+      <h1 id="homeTitle" class="hello" tabindex="-1"><svg class="hello-mark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg><span id="greeting">Hello</span></h1>
+      <p class="lede" id="homeLede">Checking on your box…</p>
+
+      <ul class="stats" aria-label="Your box right now">
+        <li class="stat">
+          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-net"/></svg>
+          <span class="stat-label">Address</span>
+          <span class="stat-value" id="statAddr">—</span>
+        </li>
+        <li class="stat">
+          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-disk"/></svg>
+          <span class="stat-label">Storage</span>
+          <span class="stat-value" id="statDisk">—</span>
+          <span class="meter" aria-hidden="true"><i id="meterDisk"></i></span>
+        </li>
+        <li class="stat">
+          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-chip"/></svg>
+          <span class="stat-label">Memory</span>
+          <span class="stat-value" id="statMem">—</span>
+          <span class="meter" aria-hidden="true"><i id="meterMem"></i></span>
+        </li>
+        <li class="stat">
+          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-cpu"/></svg>
+          <span class="stat-label">Busy</span>
+          <span class="stat-value" id="statCpu">—</span>
+          <span class="meter" aria-hidden="true"><i id="meterCpu"></i></span>
+        </li>
+        <li class="stat">
+          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-clock"/></svg>
+          <span class="stat-label">Awake for</span>
+          <span class="stat-value" id="statUp">—</span>
+        </li>
+      </ul>
+
+      <h2 class="title">On this box</h2>
+      <div class="tiles" id="homeTiles"></div>
     </section>
 
-    <section class="stats" id="stats"></section>
-
-    <section>
-      <h2>Your apps</h2>
-      <div class="tiles" id="tiles"></div>
+    <!-- Apps -->
+    <section class="view" data-view="apps" aria-labelledby="appsTitle" hidden>
+      <h1 id="appsTitle" class="page-title" tabindex="-1">Apps</h1>
+      <p class="lede">Self-hosted apps, one tap each. Installing arrives in a future update, so for now you can see what's coming.</p>
+      <ul class="store" id="storeList"></ul>
     </section>
 
-    <section id="store">
-      <h2>Store <span class="muted">· self-hosted apps, one click</span></h2>
-      <div class="store" id="storeList"></div>
-    </section>
-
-    <section id="system">
-      <h2>System</h2>
-      <div class="card system-card">
-        <div class="meta">
-          <div class="title" id="osVersion">JenerOS</div>
-          <div class="tag" id="updateText">Checking for updates…</div>
-        </div>
-        <button class="btn" id="updateBtn" hidden>Update now</button>
+    <!-- Storage -->
+    <section class="view" data-view="storage" aria-labelledby="storageTitle" hidden>
+      <h1 id="storageTitle" class="page-title" tabindex="-1">Storage</h1>
+      <div class="panel">
+        <h2 class="panel-title">System disk</h2>
+        <p class="big-num" id="storageBig">—</p>
+        <span class="meter meter-wide" aria-hidden="true"><i id="meterDisk2"></i></span>
+        <p class="note" id="storageNote">Apps, settings and logs live here.</p>
+      </div>
+      <div class="panel panel-soon">
+        <h2 class="panel-title">Your disks and pools <span class="tag">Coming soon</span></h2>
+        <p>Plug in more drives and JenerOS will join them into one place for photos, files and movies. Every drive stays readable by any Linux computer, so you can always take your stuff with you.</p>
       </div>
     </section>
 
-    <p class="demo" id="demo" hidden>Showing sample data. Start <code>jenerd</code> to see this machine.</p>
+    <!-- Machines -->
+    <section class="view" data-view="machines" aria-labelledby="machinesTitle" hidden>
+      <h1 id="machinesTitle" class="page-title" tabindex="-1">Machines</h1>
+      <div class="panel">
+        <h2 class="panel-title">Room for machines</h2>
+        <p class="big-num" id="machinesBig">—</p>
+        <p class="note">Processor cores and free memory on this box.</p>
+      </div>
+      <div class="panel panel-soon">
+        <h2 class="panel-title">Virtual machines and containers <span class="tag">Coming soon</span></h2>
+        <p>Run Windows, another Linux or Home Assistant right on this box, like Proxmox does, from this page.</p>
+      </div>
+    </section>
+
+    <!-- System -->
+    <section class="view" data-view="system" aria-labelledby="systemTitle" hidden>
+      <h1 id="systemTitle" class="page-title" tabindex="-1">System</h1>
+      <div class="panel update" aria-live="polite">
+        <h2 class="panel-title">Updates</h2>
+        <p class="big-num" id="osVersion">JenerOS</p>
+        <p class="update-text" id="updateText">Checking for updates…</p>
+        <div class="row">
+          <button class="pill pill-accent" id="updateBtn" hidden>Update now</button>
+          <button class="pill" id="checkBtn">Check now</button>
+        </div>
+        <p class="note">Updates install into a spare copy of the system. If a new version doesn't start properly, your box goes back to the old one by itself.</p>
+      </div>
+      <div class="panel">
+        <h2 class="panel-title">About this box</h2>
+        <dl class="facts" id="facts"></dl>
+      </div>
+    </section>
   </main>
 
-  <div class="toast" id="toast"></div>
+  <svg class="watermark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
+  <div class="toast" id="toast" role="status"></div>
+
+  <!-- Shared drawings: logo by Codex ([BRAND]/logo/j-monogram.svg), doodles 2px round strokes -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="j-mark" viewBox="0 0 512 512">
+      <path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+      <path fill="currentColor" d="M144 208H176V240H144Z"/>
+    </symbol>
+    <symbol id="i-net" viewBox="0 0 28 28"><path d="M4 11.5 L14 4 L24 11.5 V23 a1.5 1.5 0 0 1 -1.5 1.5 H5.5 A1.5 1.5 0 0 1 4 23 Z"/><path d="M10 18 a5.5 5.5 0 0 1 8 0 M12.5 21 a2 2 0 0 1 3 0"/></symbol>
+    <symbol id="i-disk" viewBox="0 0 28 28"><ellipse cx="14" cy="7" rx="9" ry="3.5"/><path d="M5 7 v14 c0 2 4 3.5 9 3.5 s9 -1.5 9 -3.5 V7 M5 14 c0 2 4 3.5 9 3.5 s9 -1.5 9 -3.5"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 28 28"><rect x="4" y="8" width="20" height="12" rx="2.5"/><path d="M8 12 v4 M12 12 v4 M16 12 v4 M20 12 v4 M7 20 v3 M21 20 v3"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 28 28"><rect x="7.5" y="7.5" width="13" height="13" rx="3"/><path d="M11 4 v3 M17 4 v3 M11 21 v3 M17 21 v3 M4 11 h3 M4 17 h3 M21 11 h3 M21 17 h3"/><circle cx="14" cy="14" r="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><path d="M14 8.5 V14 l3.5 2.5"/></symbol>
+    <symbol id="i-photos" viewBox="0 0 28 28"><rect x="3.5" y="5.5" width="21" height="17" rx="3"/><path d="M4 19 l6 -6 l5 5 l3 -3 l6 6"/><circle cx="19" cy="10.5" r="2"/></symbol>
+    <symbol id="i-drive" viewBox="0 0 28 28"><path d="M3.5 8 a2 2 0 0 1 2 -2 h5 l2.5 2.5 h9.5 a2 2 0 0 1 2 2 V21 a2 2 0 0 1 -2 2 H5.5 a2 2 0 0 1 -2 -2 Z"/><path d="M3.5 12 h21"/></symbol>
+    <symbol id="i-home" viewBox="0 0 28 28"><path d="M4 12.5 L14 4.5 L24 12.5 M7 10.5 V23 h14 V10.5"/><path d="M11.5 23 v-6 h5 v6"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 28 28"><rect x="3.5" y="5" width="21" height="14" rx="3"/><path d="M10 23 c2.5 -1 5.5 -1 8 0 M14 19 v3.5"/></symbol>
+    <symbol id="i-relay" viewBox="0 0 28 28"><path d="M14 3.5 L22.5 7 v6.5 c0 5 -3.6 9.2 -8.5 11 c-4.9 -1.8 -8.5 -6 -8.5 -11 V7 Z"/><path d="M10 14 l3 3 l5.5 -6"/></symbol>
+    <symbol id="i-apps" viewBox="0 0 28 28"><path d="M6 9.5 h16 l-1.4 13.5 a1.5 1.5 0 0 1 -1.5 1.3 H8.9 a1.5 1.5 0 0 1 -1.5 -1.3 Z"/><path d="M10 12 V8.5 a4 4 0 0 1 8 0 V12"/></symbol>
+    <symbol id="i-machines" viewBox="0 0 28 28"><rect x="4" y="4.5" width="20" height="8" rx="2.5"/><rect x="4" y="15.5" width="20" height="8" rx="2.5"/><path d="M8.5 8.5 h.01 M8.5 19.5 h.01 M13 8.5 h6 M13 19.5 h6"/></symbol>
+    <symbol id="i-system" viewBox="0 0 28 28"><path d="M5 8 h10 M19 8 h4 M5 14 h4 M13 14 h10 M5 20 h12 M21 20 h2"/><circle cx="17" cy="8" r="2"/><circle cx="11" cy="14" r="2"/><circle cx="19" cy="20" r="2"/></symbol>
+  </svg>
+
   <script src="app.js"></script>
 </body>
 </html>

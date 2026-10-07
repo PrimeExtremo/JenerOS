@@ -6,3 +6,4 @@ enable ssh.service
 enable jeneros-health.service
 enable jeneros-update.path
 enable jeneros-update-check.timer
+enable jeneros-update-check.path

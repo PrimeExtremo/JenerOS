@@ -1,0 +1,12 @@
+
+JenerOS 0.9.1
+Hey, welcome home!
+
+  Dashboard  Waiting for a network address
+  Uptime     2h 51m
+  Memory     Not available
+  Disk /     372.8 / 1861.9 GiB used / total
+  Updates    Waiting for the first check
+
+Tip: your dashboard is just a browser tab away.
+

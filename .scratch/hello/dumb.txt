@@ -1,0 +1,12 @@
+
+JenerOS 0.9.1
+Hey, welcome home!
+
+  Dashboard  http://192.168.1.42
+  Uptime     2d 3h 4m
+  Memory     5.0 / 8.0 GiB used / total
+  Disk /     8.0 / 32.0 GiB used / total
+  Updates    Waiting for the first check
+
+Tip: your dashboard is just a browser tab away.
+
