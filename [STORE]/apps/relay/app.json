@@ -1,0 +1,23 @@
+{
+  "manifest": 1,
+  "id": "relay",
+  "name": "Relay",
+  "upstream": "AdGuard Home",
+  "version": "0.1.0",
+  "category": "network",
+  "icon": "relay",
+  "tagline": "Blocks ads and trackers for every device on your network.",
+  "arch": ["amd64", "arm64"],
+  "requirements": { "memoryMB": 256, "diskGB": 1 },
+  "services": [
+    {
+      "name": "dns",
+      "image": "docker.io/adguard/adguardhome:latest",
+      "ports": [{ "host": 53, "container": 53, "protocol": "udp" }, { "host": 53, "container": 53, "protocol": "tcp" }],
+      "mounts": [{ "pool": "data", "path": "/opt/adguardhome/conf" }]
+    }
+  ],
+  "web": { "service": "dns", "port": 3000 },
+  "auth": { "type": "header" },
+  "backup": { "services": ["dns"] }
+}
