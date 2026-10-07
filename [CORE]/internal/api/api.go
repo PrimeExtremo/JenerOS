@@ -25,10 +25,25 @@ func New(cat *catalog.Catalog, rt runtime.Runtime, updates update.Paths) *Server
 func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/system", s.system)
 	mux.HandleFunc("GET /api/store", s.store)
-	mux.HandleFunc("POST /api/apps/{id}/install", s.install)
-	mux.HandleFunc("DELETE /api/apps/{id}", s.remove)
+	mux.HandleFunc("POST /api/apps/{id}/install", sameSite(s.install))
+	mux.HandleFunc("DELETE /api/apps/{id}", sameSite(s.remove))
 	mux.HandleFunc("GET /api/update", s.updateInfo)
-	mux.HandleFunc("POST /api/update", s.updateStart)
+	mux.HandleFunc("POST /api/update", sameSite(s.updateStart))
+}
+
+// sameSite rejects state-changing requests that lack the X-JenerOS header.
+// Browsers won't attach a custom header cross-origin without a CORS preflight
+// (which jenerd never answers), so other websites can't trigger these.
+// ponytail: blocks CSRF only; anyone on the LAN can still call the API until
+// the M3 owner account adds real auth.
+func sameSite(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-JenerOS") != "1" {
+			writeError(w, http.StatusForbidden, errors.New("missing X-JenerOS header"))
+			return
+		}
+		h(w, r)
+	}
 }
 
 type storeApp struct {

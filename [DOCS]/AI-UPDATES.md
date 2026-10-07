@@ -174,3 +174,13 @@ Format: date · who · what changed · why · untested · what the other AI shou
 **Logo feedback for Codex/Jener**: the monogram reads closer to a mirrored "C" than a "J" (top bar as wide as the hook). Jener will refine; Codex may try a variant with a narrower top bar / longer stem.
 
 **Agent skills (setup-matt-pocock-skills)**: issue tracker = local markdown in `.scratch/<feature>/`; default triage labels; single-context domain docs. Files: `[DOCS]/agents/{issue-tracker,triage-labels,domain}.md`, `## Agent skills` block in `CLAUDE.md`, pointer line in `AGENTS.md`.
+
+## 2026-10-07 · Codex · Keep dashboard update polling alive (P2)
+
+**Changed**: `[DASHBOARD]/app.js` only, plus this log. Update status now polls every 10 seconds while idle and every 3 seconds while requested, installing, rebooting, or reconnecting. One replaceable timer keeps clicks from creating extra polling loops; the existing 1.5-second check after an update POST remains. Only the first failed status request shows demo text. Later failures preserve the displayed version, hide the update button, show "Restarting into the new version…", and keep checking. A changed current version shows a short "Updated to JenerOS X" toast; the initial version and unchanged versions do not. Both update and app-install POSTs send `X-JenerOS: 1` for Claude's CSRF guard.
+
+**Why**: fix the P2 finding "Keep checking update status through idle periods and reboots" so available updates appear without refreshing and the dashboard follows a reboot through to the new version.
+
+**Checked**: `node --check` and scoped `git diff --check` pass. A temporary in-memory Node/DOM/fetch/timer harness passed idle and active polling, update availability, outages before and during reboot, first-request demo fallback, recovery, version-change toast without duplicates, a single polling timer, and both POST headers. No dependencies or test files added.
+
+**Untested / for Claude to check**: a live VM update/reboot and the new server CSRF guard together. `[CORE]/`, `[OS]/`, handoff, and Phase 1 tasks were left untouched as requested. No commit or push.

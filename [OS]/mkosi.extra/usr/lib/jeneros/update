@@ -14,6 +14,14 @@ status() { # state version
     write status.json "{\"state\":\"$1\",\"version\":\"$2\",\"time\":\"$(date -Is)\"}"
 }
 
+# check-new exits 1 both for "nothing newer" and "server unreachable";
+# list only fails when the update source can't be read.
+if ! "$SYSUPDATE" list >/dev/null 2>&1; then
+    rm -f /run/jeneros/update.request
+    write available.json "{\"error\":\"Can't reach the update server\",\"checked\":\"$(date -Is)\"}"
+    [ "${1:-}" = apply ] && status failed ""
+    exit 1
+fi
 new=$("$SYSUPDATE" check-new 2>/dev/null | tail -n1)
 case "${1:-}" in
 check)
