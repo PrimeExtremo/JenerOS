@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/PrimeExtremo/jeneros/core/internal/catalog"
-	"github.com/PrimeExtremo/jeneros/core/internal/runtime"
-	"github.com/PrimeExtremo/jeneros/core/internal/update"
+	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
+	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
+	"github.com/PrimeExtremo/JenerOS/core/internal/update"
 )
 
 func TestUpdateNeedsHeader(t *testing.T) {

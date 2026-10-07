@@ -6,10 +6,10 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/PrimeExtremo/jeneros/core/internal/catalog"
-	"github.com/PrimeExtremo/jeneros/core/internal/runtime"
-	"github.com/PrimeExtremo/jeneros/core/internal/system"
-	"github.com/PrimeExtremo/jeneros/core/internal/update"
+	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
+	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
+	"github.com/PrimeExtremo/JenerOS/core/internal/system"
+	"github.com/PrimeExtremo/JenerOS/core/internal/update"
 )
 
 type Server struct {

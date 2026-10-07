@@ -4,7 +4,9 @@
 #   VERSION=0.1.1 ./[OS]/build.sh         build a specific version
 #   VERSION=0.1.2 BROKEN=1 ./[OS]/build.sh   deliberately broken (jenerd won't start) to test rollback
 #   NO_VMDK=1 ./[OS]/build.sh             skip the VMware disk (update-only builds)
-#   RELEASE=1 ./[OS]/build.sh             no dev SSH key in the image
+#   RELEASE=1 VERSION=0.3.0 ./[OS]/build.sh   public release: no dev SSH key, no console
+#                                         autologin, updates from GitHub Releases, plus a
+#                                         flashable jeneros_<ver>.img.xz in ~/jeneros-release/<ver>
 # Env: VM_DIR (VMware disk, default ~/jeneros-out), UPDATES_DIR (update server
 # folder, default ~/jeneros-updates), UPDATE_URL (what installed systems download from).
 # Runs inside the Debian build VM. Copy the VMware disk to Windows with [OS]/fetch-vm.ps1.
@@ -14,9 +16,16 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OS="$ROOT/[OS]"
 STAGE="$OS/build/staging"
 VM_DIR="${VM_DIR:-$HOME/jeneros-out}"
-UPDATES_DIR="${UPDATES_DIR:-$HOME/jeneros-updates}"
-UPDATE_URL="${UPDATE_URL:-http://192.168.27.132:8000/}"
 VERSION="${VERSION:-$(sed -n 's/^ImageVersion=//p' "$OS/mkosi.conf")}"
+if [ "${RELEASE:-}" = 1 ]; then
+    UPDATES_DIR="${UPDATES_DIR:-$HOME/jeneros-release/$VERSION}"
+    UPDATE_URL="${UPDATE_URL:-https://github.com/PrimeExtremo/JenerOS/releases/latest/download/}"
+    MKOSI_EXTRA="--autologin=no"
+else
+    UPDATES_DIR="${UPDATES_DIR:-$HOME/jeneros-updates}"
+    UPDATE_URL="${UPDATE_URL:-http://192.168.27.132:8000/}"
+    MKOSI_EXTRA=""
+fi
 OUT="$OS/out"
 
 echo "==> JenerOS $VERSION"
@@ -75,12 +84,21 @@ if [ "${BROKEN:-}" = 1 ]; then
 fi
 
 echo "==> image"
-(cd "$OS" && mkosi -f --image-version="$VERSION" build)
+# shellcheck disable=SC2086
+(cd "$OS" && mkosi -f --image-version="$VERSION" $MKOSI_EXTRA build)
 RAW="$OUT/jeneros_${VERSION}.raw"
 
 echo "==> update files -> $UPDATES_DIR"
 mkdir -p "$UPDATES_DIR"
-cp "$OUT/jeneros_${VERSION}.efi" "$OUT"/jeneros_"${VERSION}".usr-x86-64*.raw "$UPDATES_DIR/"
+cp "$OUT/jeneros_${VERSION}.efi" "$UPDATES_DIR/"
+# usr images are 2 GiB raw (over GitHub's per-file limit); sysupdate unpacks .xz itself.
+for f in "$OUT"/jeneros_"${VERSION}".usr-x86-64*.raw; do
+    xz -T0 -6 -c "$f" > "$UPDATES_DIR/$(basename "$f").xz"
+done
+if [ "${RELEASE:-}" = 1 ]; then
+    echo "==> flashable disk image"
+    xz -T0 -6 -c "$RAW" > "$UPDATES_DIR/jeneros_${VERSION}.img.xz"
+fi
 (cd "$UPDATES_DIR" && sha256sum jeneros_* > SHA256SUMS)
 
 if [ "${NO_VMDK:-}" != 1 ]; then

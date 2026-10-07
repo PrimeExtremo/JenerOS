@@ -82,7 +82,7 @@ The OS can be wiped and reinstalled without touching your data disks.
 | Layer | Name | Notes |
 |---|---|---|
 | Company | **Jener, Inc.** | "Inc." requires forming a Maryland corporation; an LLC would be "Jener LLC" until converted |
-| Handle | **@jener_inc** on TikTok, Instagram, YouTube, X · GitHub: founder account **PrimeExtremo** (repo PrimeExtremo/jeneros) · Bluesky: **@jener.dev** (domain as handle) | Bluesky does not allow underscores; @jenerinc is taken on TikTok and X |
+| Handle | **@jener_inc** on TikTok, Instagram, YouTube, X · GitHub: founder account **PrimeExtremo** (repo PrimeExtremo/JenerOS) · Bluesky: **@jener.dev** (domain as handle) | Bluesky does not allow underscores; @jenerinc is taken on TikTok and X |
 | Website | **jener.dev** (owned, Cloudflare Registrar, 2026-10-07) — the only domain for now; JenerOS lives at jener.dev/os | jeneros.org (still free) only if the project takes off; jeneros.com is taken |
 | Product | **JenerOS** | |
 | Founder's personal accounts | unchanged | Promote the company from them (Omarchy/DHH model) |
