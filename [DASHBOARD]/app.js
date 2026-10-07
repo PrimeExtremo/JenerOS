@@ -115,7 +115,7 @@ document.addEventListener('click', async (e) => {
   const id = btn.dataset.install;
   if (btn.textContent !== 'Get') return toast(`Opening ${id}.jener.local…`);
   try {
-    const res = await fetch(`/api/apps/${id}/install`, { method: 'POST' });
+    const res = await fetch(`/api/apps/${id}/install`, { method: 'POST', headers: { 'X-JenerOS': '1' } });
     if (res.status === 501) return toast('Installing arrives in Phase 2 — the runtime is next.');
     if (!res.ok) throw new Error(res.status);
     toast(`Installing ${id}…`);
@@ -132,23 +132,44 @@ const UPDATE_TEXT = {
   uptodate: () => 'Up to date.',
 };
 
+let updateTimer, updateVersion;
+let updateChecked = false, updateBusy = false;
+
+function pollUpdate(delay) {
+  clearTimeout(updateTimer);
+  updateTimer = setTimeout(renderUpdate, delay);
+}
+
 async function renderUpdate() {
+  clearTimeout(updateTimer);
   let u;
   try {
     u = await getJSON('/api/update');
   } catch {
-    $('osVersion').textContent = 'JenerOS (demo)';
-    $('updateText').textContent = 'Updates show here on a real JenerOS machine.';
+    if (!updateChecked && !updateBusy) {
+      $('osVersion').textContent = 'JenerOS (demo)';
+      $('updateText').textContent = 'Updates show here on a real JenerOS machine.';
+    } else {
+      $('updateText').textContent = 'Restarting into the new version…';
+      updateBusy = true;
+    }
+    $('updateBtn').hidden = true;
+    updateChecked = true;
+    pollUpdate(updateBusy ? 3000 : 10000);
     return;
   }
+  updateChecked = true;
+  if (updateVersion && u.current && updateVersion !== u.current) toast(`Updated to JenerOS ${u.current}`);
+  updateVersion = u.current;
   $('osVersion').textContent = `JenerOS ${u.current}`;
   const btn = $('updateBtn');
   const st = u.status && u.status.state;
   const avail = u.available && u.available.version;
-  if (u.requested || st === 'installing' || st === 'rebooting') {
+  updateBusy = !!u.requested || st === 'installing' || st === 'rebooting';
+  pollUpdate(updateBusy ? 3000 : 10000);
+  if (updateBusy) {
     $('updateText').textContent = (UPDATE_TEXT[st] || (() => 'Starting update…'))(u.status ? u.status.version : avail);
     btn.hidden = true;
-    setTimeout(renderUpdate, 3000);
     return;
   }
   if (avail) {
@@ -161,15 +182,18 @@ async function renderUpdate() {
 }
 
 $('updateBtn').addEventListener('click', async () => {
+  updateBusy = true;
+  pollUpdate(3000);
   $('updateBtn').hidden = true;
   $('updateText').textContent = 'Starting update…';
   try {
-    const res = await fetch('/api/update', { method: 'POST' });
+    const res = await fetch('/api/update', { method: 'POST', headers: { 'X-JenerOS': '1' } });
     if (!res.ok) throw new Error(res.status);
   } catch {
+    updateBusy = false;
     toast('Could not start the update.');
   }
-  setTimeout(renderUpdate, 1500);
+  pollUpdate(1500);
 });
 
 (async function init() {
