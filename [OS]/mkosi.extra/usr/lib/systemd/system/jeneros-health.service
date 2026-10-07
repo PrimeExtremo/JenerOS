@@ -1,0 +1,14 @@
+[Unit]
+Description=JenerOS health check (gates marking a new version good)
+After=jenerd.service network-online.target
+Wants=jenerd.service
+Before=boot-complete.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/jeneros/health-check
+
+[Install]
+RequiredBy=boot-complete.target
+WantedBy=multi-user.target

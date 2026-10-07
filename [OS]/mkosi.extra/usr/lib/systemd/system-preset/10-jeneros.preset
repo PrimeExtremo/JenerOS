@@ -3,3 +3,6 @@ enable systemd-networkd.service
 enable systemd-resolved.service
 enable systemd-timesyncd.service
 enable ssh.service
+enable jeneros-health.service
+enable jeneros-update.path
+enable jeneros-update-check.timer

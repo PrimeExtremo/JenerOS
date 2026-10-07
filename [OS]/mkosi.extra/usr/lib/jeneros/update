@@ -1,0 +1,38 @@
+#!/bin/sh
+# JenerOS updates, run as root by systemd units (never by jenerd directly).
+#   update check   -> /run/jeneros-update/available.json
+#   update apply   -> download into the B slot, then reboot into it
+set -u
+SYSUPDATE=/usr/lib/systemd/systemd-sysupdate
+DIR=/run/jeneros-update
+mkdir -p "$DIR"
+
+write() { # file json
+    printf "%s\n" "$2" > "$DIR/$1.tmp" && mv "$DIR/$1.tmp" "$DIR/$1"
+}
+status() { # state version
+    write status.json "{\"state\":\"$1\",\"version\":\"$2\",\"time\":\"$(date -Is)\"}"
+}
+
+new=$("$SYSUPDATE" check-new 2>/dev/null | tail -n1)
+case "${1:-}" in
+check)
+    write available.json "{\"version\":\"$new\",\"checked\":\"$(date -Is)\"}"
+    ;;
+apply)
+    rm -f /run/jeneros/update.request
+    if [ -z "$new" ]; then status uptodate ""; exit 0; fi
+    status installing "$new"
+    if "$SYSUPDATE" update; then
+        status rebooting "$new"
+        systemctl reboot
+    else
+        status failed "$new"
+        exit 1
+    fi
+    ;;
+*)
+    echo "usage: update check|apply" >&2
+    exit 2
+    ;;
+esac

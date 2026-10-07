@@ -28,12 +28,12 @@ Known gaps to accept for M1: root partition doesn't grow to the 32 GB disk yet; 
 
 | # | Task | Owner | Done when |
 |---|---|---|---|
-| 1 | [ ] Partition layout in `[OS]/mkosi.repart/`: ESP (1 GB), `usr-A` + verity, `usr-B` (empty), writable root/`var` that grows to fill the disk | C | `lsblk` in the VM shows the layout; root fills the disk |
-| 2 | [ ] Read-only `/usr` (erofs + dm-verity), state in `/etc` + `/var` | C | Writing to `/usr` fails; `/etc` changes survive reboot |
-| 3 | [ ] Unified kernel images + systemd-boot boot counting (`+3` tries) | C | `bootctl list` shows the entry with a tries counter |
-| 4 | [ ] `systemd-sysupdate` transfer files for `usr` + UKI; local update server = a folder served by `jenerd` or a static HTTP server | C | Build 0.1.1, run `systemd-sysupdate update`, reboot → `/usr/lib/os-release` says 0.1.1 |
-| 5 | [ ] Rollback test: ship a deliberately broken 0.1.2 | C + J | VM boots 0.1.2 three times, fails, comes back on 0.1.1 by itself |
-| 6 | [ ] "Update" button + status in dashboard (calls jenerd → sysupdate) | C | Click → updates → reboot prompt |
+| 1 | [x] Partition layout in `[OS]/mkosi.repart/`: ESP (1 GB), `usr-A` + verity, `usr-B` (empty), writable root/`var` that grows to fill the disk | C | `lsblk` in the VM shows the layout; root fills the disk |
+| 2 | [x] Read-only `/usr` (erofs + dm-verity), state in `/etc` + `/var` | C | Writing to `/usr` fails; `/etc` changes survive reboot |
+| 3 | [x] Unified kernel images + systemd-boot boot counting (`+3` tries) | C | `bootctl list` shows the entry with a tries counter |
+| 4 | [x] `systemd-sysupdate` transfer files for `usr` + UKI; local update server = a folder served by `jenerd` or a static HTTP server | C | Build 0.1.1, run `systemd-sysupdate update`, reboot → `/usr/lib/os-release` says 0.1.1 |
+| 5 | [x] Rollback test: ship a deliberately broken 0.1.2 | C + J | VM boots 0.1.2 three times, fails, comes back on 0.1.1 by itself |
+| 6 | [x] "Update" button + status in dashboard (calls jenerd → sysupdate) | C | Click → updates → reboot prompt |
 | 7 | [ ] Review update + rollback design | X | Notes in AI-UPDATES.md |
 
 ## Milestone 3 — Storage, Incus, first-boot wizard

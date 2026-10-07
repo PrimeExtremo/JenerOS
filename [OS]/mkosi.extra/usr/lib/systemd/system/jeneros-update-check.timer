@@ -1,0 +1,10 @@
+[Unit]
+Description=Check for a new JenerOS version regularly
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=6h
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target

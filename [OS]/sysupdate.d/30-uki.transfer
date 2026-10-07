@@ -1,0 +1,22 @@
+# Written last: the new version only becomes bootable once /usr is in place.
+# New entries get 3 tries; if they never boot cleanly, systemd-boot falls back.
+[Transfer]
+ProtectVersion=%A
+Verify=no
+
+[Source]
+Type=url-file
+Path=@UPDATE_URL@
+MatchPattern=jeneros_@v.efi
+
+[Target]
+Type=regular-file
+Path=/EFI/Linux
+PathRelativeTo=boot
+MatchPattern=jeneros_@v+@l-@d.efi \
+             jeneros_@v+@l.efi \
+             jeneros_@v.efi
+Mode=0444
+TriesLeft=3
+TriesDone=0
+InstancesMax=2

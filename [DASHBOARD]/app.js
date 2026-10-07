@@ -124,7 +124,56 @@ document.addEventListener('click', async (e) => {
   }
 });
 
+// System card: installed version + update status from /api/update.
+const UPDATE_TEXT = {
+  installing: (v) => `Installing JenerOS ${v}… the system will restart by itself.`,
+  rebooting: (v) => `Restarting into JenerOS ${v}…`,
+  failed: (v) => `Update to ${v} failed. You're still on the working version.`,
+  uptodate: () => 'Up to date.',
+};
+
+async function renderUpdate() {
+  let u;
+  try {
+    u = await getJSON('/api/update');
+  } catch {
+    $('osVersion').textContent = 'JenerOS (demo)';
+    $('updateText').textContent = 'Updates show here on a real JenerOS machine.';
+    return;
+  }
+  $('osVersion').textContent = `JenerOS ${u.current}`;
+  const btn = $('updateBtn');
+  const st = u.status && u.status.state;
+  const avail = u.available && u.available.version;
+  if (u.requested || st === 'installing' || st === 'rebooting') {
+    $('updateText').textContent = (UPDATE_TEXT[st] || (() => 'Starting update…'))(u.status ? u.status.version : avail);
+    btn.hidden = true;
+    setTimeout(renderUpdate, 3000);
+    return;
+  }
+  if (avail) {
+    $('updateText').textContent = `JenerOS ${avail} is ready to install.`;
+    btn.hidden = false;
+  } else {
+    $('updateText').textContent = st === 'failed' ? UPDATE_TEXT.failed(u.status.version) : 'Up to date.';
+    btn.hidden = true;
+  }
+}
+
+$('updateBtn').addEventListener('click', async () => {
+  $('updateBtn').hidden = true;
+  $('updateText').textContent = 'Starting update…';
+  try {
+    const res = await fetch('/api/update', { method: 'POST' });
+    if (!res.ok) throw new Error(res.status);
+  } catch {
+    toast('Could not start the update.');
+  }
+  setTimeout(renderUpdate, 1500);
+});
+
 (async function init() {
+  renderUpdate();
   try {
     const [sys, apps] = await Promise.all([getJSON('/api/system'), getJSON('/api/store')]);
     renderSystem(sys);

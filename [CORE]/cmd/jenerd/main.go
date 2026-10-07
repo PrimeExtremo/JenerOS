@@ -10,6 +10,7 @@ import (
 	"github.com/PrimeExtremo/jeneros/core/internal/api"
 	"github.com/PrimeExtremo/jeneros/core/internal/catalog"
 	"github.com/PrimeExtremo/jeneros/core/internal/runtime"
+	"github.com/PrimeExtremo/jeneros/core/internal/update"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 	}
 	log.Printf("loaded %d apps from %s", len(cat.Apps()), *storeDir)
 
-	srv := api.New(cat, runtime.NewIncus())
+	srv := api.New(cat, runtime.NewIncus(), update.DefaultPaths)
 	mux := http.NewServeMux()
 	srv.Register(mux)
 	mux.Handle("/", http.FileServer(http.Dir(*webDir)))

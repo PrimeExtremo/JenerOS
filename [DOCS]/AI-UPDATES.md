@@ -121,3 +121,27 @@ Format: date · who · what changed · why · untested · what the other AI shou
 - From Windows: `/api/system` = hostname `jeneros`, 2 CPU, 3.9 GB, uptime live; `/api/store` = 5 apps; dashboard renders with real data (no sample-data note).
 - PHASE-1 M1 steps 0b–6 ticked. Step 0a (WSL uninstall) unconfirmed by Jener. Step 7 = Codex review.
 - Next: M2 (IncusOS-style partition layout, read-only /usr, A/B sysupdate, rollback test). Repo still uncommitted.
+
+## 2026-10-07 · Claude · ✅ Milestone 2: A/B updates + automatic rollback
+
+**Layout** (`[OS]/mkosi.repart/`, IncusOS-style): ESP 1G · usr-verity A 128M · usr A 2G (erofs, dm-verity) · usr-verity B · usr B (`_empty`) · root ext4 last, `GrowFileSystem=yes`, grown on first boot by `/usr/lib/repart.d/50-root.conf` (1G → 26.7G on a 32G disk). UKIs `jeneros_<ver>.efi` carry `usrhash=`; `/usr` mounts as `/dev/mapper/usr` erofs ro.
+
+**Updates**: `[OS]/sysupdate.d/*.transfer` (rendered with `@UPDATE_URL@` by build.sh; `Verify=no` for now). New UKIs get `+3` tries. `jeneros-health.service` (Before/RequiredBy `boot-complete.target`) polls jenerd 60 s; on a counted boot that fails it runs `systemd-bless-boot bad` + reboot. Dashboard → `POST /api/update` → jenerd writes `/run/jeneros/update.request` (RuntimeDirectory) → `jeneros-update.path` → root `jeneros-update.service` → `/usr/lib/jeneros/update apply`. `jeneros-update-check.timer` writes `/run/jeneros-update/available.json`. jenerd never runs as root.
+
+**New files**: `[OS]/mkosi.repart/*`, `[OS]/sysupdate.d/*`, `[OS]/serve-updates.sh`, `mkosi.extra/usr/lib/jeneros/{health-check,update}`, units `jeneros-health.service`, `jeneros-update.{path,service}`, `jeneros-update-check.{service,timer}`, `[CORE]/internal/update` (+ tests), `catalog_test.go` (bracket regression), dashboard System card. build.sh: `VERSION=`, `BROKEN=1`, `NO_VMDK=1`, `RELEASE=1`; generates os-release; publishes to `~/jeneros-updates` + SHA256SUMS; dev builds copy the build VM's authorized_keys to root (tmpfiles).
+
+**Verified**
+- 0.2.0 fresh disk boots; `/api/update` current=0.2.0; check timer ran.
+- 0.2.0 → 0.2.1 via `POST /api/update`: installed into slot B, rebooted, back in ~20 s, `systemd-bless-boot status` = good.
+- 0.2.1 → broken 0.2.2 (`jenerd` ExecStart=/bin/false): health check failed after 60 s, marked bad (`jeneros_0.2.2+0-1.efi`), rebooted, systemd-boot fell back to 0.2.1 — ~85 s total, no manual action.
+- `/usr` write → "Read-only file system"; `/etc` writable. `go test ./...` passes.
+
+**Known gaps / follow-ups**
+1. Update files are uncompressed 2 GB `usr` images — compress (sysupdate supports `.raw.zst`/`.xz` sources; to verify).
+2. `Verify=no`: sign SHA256SUMS (gpg) before any public update server.
+3. After a rollback the dashboard says "Up to date" (0.2.2 is in a slot, so check-new finds nothing newer). Show "0.2.2 failed and was rolled back".
+4. First boot of 0.2.0 took minutes before the dashboard answered; later boots are fast. Investigate with `systemd-analyze` on a fresh disk.
+5. `UPDATE_URL` is hard-coded to the build VM (192.168.27.132:8000). Real server: jener.dev.
+6. Test VM IP changes per fresh disk (new machine-id): now 192.168.27.134.
+
+**For Codex**: review M2 (repart/sysupdate/health-check/update script/`internal/update`). Note: never use `pkill -f` patterns that also appear in your own SSH command line.

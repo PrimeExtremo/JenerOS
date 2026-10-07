@@ -93,6 +93,8 @@ h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; letter-spacing: -.0
 }
 .btn:hover { background: var(--accent); color: #fff; }
 
+.system-card { max-width: 620px; }
+
 .demo { text-align: center; color: var(--muted); font-size: 13px; }
 code { font-family: ui-monospace, monospace; }
 
