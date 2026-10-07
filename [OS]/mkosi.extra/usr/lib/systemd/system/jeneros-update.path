@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch for update requests from the dashboard
+
+[Path]
+PathExists=/run/jeneros/update.request
+
+[Install]
+WantedBy=multi-user.target

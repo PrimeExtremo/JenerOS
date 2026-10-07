@@ -1,0 +1,17 @@
+# @UPDATE_URL@ is filled in by build.sh.
+[Transfer]
+ProtectVersion=%A
+Verify=no
+
+[Source]
+Type=url-file
+Path=@UPDATE_URL@
+MatchPattern=jeneros_@v.usr-x86-64-verity.@u.raw
+
+[Target]
+Type=partition
+Path=auto
+MatchPattern=jeneros_@v_verity
+MatchPartitionType=usr-verity
+PartitionFlags=0
+ReadOnly=1

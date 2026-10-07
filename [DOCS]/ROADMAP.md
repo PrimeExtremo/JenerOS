@@ -10,7 +10,7 @@ Each phase ends with something usable.
 
 ## Phase 1 — Bootable OS (in progress — tasks in [PHASE-1.md](PHASE-1.md))
 - [x] M1: boots in a VM, jenerd serves the dashboard on :80 (2026-10-07; review pending)
-- [ ] M2: read-only system, A/B updates, automatic rollback
+- [x] M2: read-only system, A/B updates, automatic rollback (2026-10-07; review pending)
 - [ ] M3: ZFS/btrfs, Incus 7, first-boot wizard
 - [ ] M4: USB installer
 - [ ] M5: Raspberry Pi 5 image

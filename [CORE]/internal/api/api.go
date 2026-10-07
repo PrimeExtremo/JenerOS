@@ -9,15 +9,17 @@ import (
 	"github.com/PrimeExtremo/jeneros/core/internal/catalog"
 	"github.com/PrimeExtremo/jeneros/core/internal/runtime"
 	"github.com/PrimeExtremo/jeneros/core/internal/system"
+	"github.com/PrimeExtremo/jeneros/core/internal/update"
 )
 
 type Server struct {
-	cat *catalog.Catalog
-	rt  runtime.Runtime
+	cat     *catalog.Catalog
+	rt      runtime.Runtime
+	updates update.Paths
 }
 
-func New(cat *catalog.Catalog, rt runtime.Runtime) *Server {
-	return &Server{cat: cat, rt: rt}
+func New(cat *catalog.Catalog, rt runtime.Runtime, updates update.Paths) *Server {
+	return &Server{cat: cat, rt: rt, updates: updates}
 }
 
 func (s *Server) Register(mux *http.ServeMux) {
@@ -25,6 +27,8 @@ func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/store", s.store)
 	mux.HandleFunc("POST /api/apps/{id}/install", s.install)
 	mux.HandleFunc("DELETE /api/apps/{id}", s.remove)
+	mux.HandleFunc("GET /api/update", s.updateInfo)
+	mux.HandleFunc("POST /api/update", s.updateStart)
 }
 
 type storeApp struct {
@@ -64,6 +68,23 @@ func (s *Server) remove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func (s *Server) updateInfo(w http.ResponseWriter, r *http.Request) {
+	info, err := update.Read(s.updates)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, info)
+}
+
+func (s *Server) updateStart(w http.ResponseWriter, r *http.Request) {
+	if err := update.Request(s.updates); err != nil {
+		writeError(w, http.StatusInternalServerError, err)
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
 }
 
 func statusFor(err error) int {

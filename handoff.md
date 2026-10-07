@@ -40,7 +40,7 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
   applied (Nextcloud `POSTGRES_DB`/`POSTGRES_USER`; Immich `IMMICH_MACHINE_LEARNING_URL`).
 - `[SPEC]/app-manifest.md` — store manifest format v1.
 
-**Phase 1 (bootable image) — M1 works (2026-10-07): JenerOS 0.1.0 boots in VMware and serves the dashboard with real data at http://192.168.27.133. Codex review of M1 pending.**
+**Phase 1 (bootable image) — M1 + M2 work (2026-10-07).** JenerOS boots in VMware (`S:\[VMs]\[JENEROS]`, currently 0.2.1 at http://192.168.27.134), read-only verified `/usr` in A/B slots, root grows to fill the disk, updates install from the build VM's update server (`[OS]/serve-updates.sh`, port 8000) and a broken update rolls back automatically. Commits on `main`. Codex review of M1+M2 pending.
 - `[OS]/mkosi.conf` — Debian 13 trixie, amd64, UEFI + systemd-boot, DHCP, SSH, jenerd on :80.
 - `[OS]/build.sh` — builds jenerd → mkosi image → VMware `.vmdk` in `S:\[VMs]\[JENEROS]`.
 - `[OS]/setup-build-vm.sh` — installs mkosi, Go, qemu-utils in the build VM.
@@ -79,7 +79,7 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 ## 6. Next steps (in order)
 
 1. **Jener:** uninstall WSL, reboot, install the Debian build VM (`[DOCS]/PHASE-1.md` steps 0a–0b).
-2. **Claude:** copy repo into the VM, run `[OS]/setup-build-vm.sh`, first compile of `jenerd` (fix Go errors), first `build.sh`, copy the `.vmdk` back to `S:\[VMs]\[JENEROS]`.
+2. ~~Claude: first builds~~ done — M1 and M2 complete.
 3. **Jener:** open `S:\[VMs]\[JENEROS]\jeneros.vmx` in VMware, boot it, confirm the
    console shows `Dashboard: http://<ip>` and the dashboard loads from Windows.
 4. **Codex:** review the first working build (everything is still uncommitted).

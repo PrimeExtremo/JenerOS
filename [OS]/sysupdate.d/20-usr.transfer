@@ -1,0 +1,16 @@
+[Transfer]
+ProtectVersion=%A
+Verify=no
+
+[Source]
+Type=url-file
+Path=@UPDATE_URL@
+MatchPattern=jeneros_@v.usr-x86-64.@u.raw
+
+[Target]
+Type=partition
+Path=auto
+MatchPattern=jeneros_@v
+MatchPartitionType=usr
+PartitionFlags=0
+ReadOnly=1
