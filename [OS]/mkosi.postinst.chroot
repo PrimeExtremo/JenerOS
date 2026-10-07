@@ -1,0 +1,21 @@
+#!/bin/sh
+# Boot splash: Debian's "spinner" theme (logo + spinner, like Linux Mint) with
+# JenerOS colours. build.sh drops our watermark.png into the theme folder first;
+# cp -n keeps it.
+# ponytail: splash starts after switch-root; add plymouth to the initrd if the
+# first ~2 s of boot need it too.
+set -e
+T=/usr/share/plymouth/themes
+mkdir -p "$T/jeneros"
+cp -rn "$T/spinner/." "$T/jeneros/"
+rm -f "$T/jeneros/spinner.plymouth"
+sed -e 's#^Name=Spinner#Name=JenerOS#' -e '/^Name\[/d' \
+    -e 's#^ImageDir=.*#ImageDir=/usr/share/plymouth/themes/jeneros#' \
+    -e 's#^WatermarkVerticalAlignment=.*#WatermarkVerticalAlignment=.45#' \
+    -e 's#^VerticalAlignment=.*#VerticalAlignment=.75#' \
+    -e 's#^Background\(Start\|End\)Color=.*#Background\1Color=0x16130f#' \
+    -e 's#^Title=Installing Updates...#Title=Updating JenerOS#' \
+    "$T/spinner/spinner.plymouth" > "$T/jeneros/jeneros.plymouth"
+# Set the theme in /usr, not /etc: /etc lives on the writable root partition,
+# which A/B updates never touch, so an /etc setting would never reach updated systems.
+sed -i 's#^Theme=.*#Theme=jeneros#' /usr/share/plymouth/plymouthd.defaults

@@ -48,6 +48,13 @@ for f in "$OS"/sysupdate.d/*.transfer; do
     sed "s#@UPDATE_URL@#$UPDATE_URL#" "$f" > "$STAGE/usr/lib/sysupdate.d/$(basename "$f")"
 done
 
+SPLASH="$ROOT/[BRAND]/logo/splash-512.svg"
+if [ -f "$SPLASH" ]; then
+    echo "==> boot splash logo"
+    mkdir -p "$STAGE/usr/share/plymouth/themes/jeneros"
+    rsvg-convert -w 256 -h 256 "$SPLASH" -o "$STAGE/usr/share/plymouth/themes/jeneros/watermark.png"
+fi
+
 if [ "${RELEASE:-}" != 1 ]; then
     # Dev builds: let the build VM's key log in as root so the test VM can be debugged.
     KEY="${DEV_SSH_KEY:-$HOME/.ssh/authorized_keys}"
