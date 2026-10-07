@@ -6,6 +6,7 @@ Applies to Claude, ChatGPT, Codex and any other agent.
 1. Read [handoff.md](handoff.md) — goal, current state, decisions, next steps.
 2. Read the task list for the current phase: [PHASE-1.md](%5BDOCS%5D/PHASE-1.md).
 3. Read the newest entries at the bottom of [AI-UPDATES.md](%5BDOCS%5D/AI-UPDATES.md).
+4. Issues/tasks live in `.scratch/<feature>/` (local markdown); see `[DOCS]/agents/` for the issue-tracker, triage-label and domain-doc conventions.
 
 ## When you finish a change
 - Append an entry to the bottom of `[DOCS]/AI-UPDATES.md`:

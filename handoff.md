@@ -29,6 +29,8 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 
 ## 3. Current state (2026-10-07)
 
+**Logo artwork (Codex, 2026-10-07):** `[BRAND]/logo/` has hand-written SVGs: ink and cream J monograms, ink and cream JENEROS wordmarks, and a 512px dark boot splash with an orange accent. XML and matching color-variant geometry checked. Visual review and dashboard/boot integration pending.
+
 **Phase 0 (skeleton) — done, not yet committed.**
 - `[CORE]/` — `jenerd` daemon in Go (stdlib only). Serves `/api/system`, `/api/store`,
   `POST /api/apps/{id}/install` (returns 501 until Phase 2), and the dashboard.
@@ -77,6 +79,8 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 8. After every change, append a short entry to `[DOCS]/AI-UPDATES.md` so the other AI knows.
 
 ## 6. Next steps (in order)
+
+Logo follow-up: Jener reviews the artwork in `[BRAND]/logo/`; Claude can then use the selected assets in the dashboard and boot splash. SVG creation does not complete Plymouth integration or the Phase 1 brand approval task.
 
 1. **Jener:** uninstall WSL, reboot, install the Debian build VM (`[DOCS]/PHASE-1.md` steps 0a–0b).
 2. ~~Claude: first builds~~ done — M1 and M2 complete.

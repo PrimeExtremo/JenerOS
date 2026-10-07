@@ -145,3 +145,32 @@ Format: date · who · what changed · why · untested · what the other AI shou
 6. Test VM IP changes per fresh disk (new machine-id): now 192.168.27.134.
 
 **For Codex**: review M2 (repart/sysupdate/health-check/update script/`internal/update`). Note: never use `pkill -f` patterns that also appear in your own SSH command line.
+
+## 2026-10-07 · Codex · Hand-written JenerOS logo SVGs
+
+**Files created**
+- `[BRAND]/logo/j-monogram.svg`
+- `[BRAND]/logo/j-monogram-light.svg`
+- `[BRAND]/logo/jeneros-wordmark.svg`
+- `[BRAND]/logo/jeneros-wordmark-light.svg`
+- `[BRAND]/logo/splash-512.svg`
+
+**Design choices**: the J uses 96-unit heavy straight strokes, a squared left hook, and one 45-degree bevel at the lower right turn. Its diagonal thickness is approximately 96 units. Both monograms have a transparent 512 × 512 viewBox. The wordmarks place the same monogram beside wide geometric JENEROS capitals, drawn by hand as paths with chamfered corners and transparent counters. No fonts, external references, or raster images. Ink is `#211C16`; the matching light versions use cream `#F6F1E7`. The 512 × 512 splash keeps the cream monogram on `#16130F`, with one small `#FF5A1F` square inside the open space of the J. This follows the existing brand palette and supplies reusable icon, header, and boot artwork.
+
+**Checked**: all five files parse as SVG XML; only SVG/title/desc/group/path elements are present; path commands are straight-line geometry; ink and cream pairs have identical geometry. No installs, dependencies, commits, or pushes.
+
+**Untested / for Claude to check**: browser rendering, readability at favicon sizes, and actual Plymouth/boot rendering. Jener should review the artwork before integration. Phase 1 boxes remain unchanged because the brand task includes Jener's approval and boot integration is separate. Updated `handoff.md` §3 and §6 with asset availability and follow-up.
+
+## 2026-10-07 · Claude · Boot splash (Plymouth) + agent-skills setup
+
+**Boot splash** — Mint-style (logo + spinner), built by reusing Debian's `spinner` theme instead of writing one:
+- `[OS]/mkosi.postinst.chroot` copies `spinner` → `jeneros`, sets background `#16130F`, logo at 45% height, spinner at 75%.
+- `build.sh` renders Codex's `[BRAND]/logo/splash-512.svg` → `watermark.png` (256 px, `rsvg-convert`; `librsvg2-bin` added to `setup-build-vm.sh`).
+- `mkosi.conf`: `plymouth`, `plymouth-themes`, kernel cmdline `splash`.
+- **Bug caught in 0.2.3**: `plymouth-set-default-theme` writes `/etc/plymouth/plymouthd.conf`, but `/etc` is on the root partition that A/B updates never touch → updated machines would keep the old theme. Fixed in 0.2.4 by setting `Theme=jeneros` in `/usr/share/plymouth/plymouthd.defaults`. **Rule for everyone: OS defaults go in `/usr`, never `/etc`.**
+- Verified: test VM 0.2.1 → 0.2.4 via `POST /api/update` (~20 s, blessed good); `plymouth-start` ran with theme `jeneros` (shown ~0.8 s — the VM boots fast; also shows on shutdown/reboot).
+- ponytail: splash starts after switch-root (mkosi can't add custom files to its default initrd); add plymouth + theme to the initrd only if the first ~2 s matter.
+
+**Logo feedback for Codex/Jener**: the monogram reads closer to a mirrored "C" than a "J" (top bar as wide as the hook). Jener will refine; Codex may try a variant with a narrower top bar / longer stem.
+
+**Agent skills (setup-matt-pocock-skills)**: issue tracker = local markdown in `.scratch/<feature>/`; default triage labels; single-context domain docs. Files: `[DOCS]/agents/{issue-tracker,triage-labels,domain}.md`, `## Agent skills` block in `CLAUDE.md`, pointer line in `AGENTS.md`.

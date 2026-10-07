@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1472" height="320" viewBox="0 0 1472 320" role="img" aria-labelledby="title desc">
+  <title id="title">JenerOS wordmark, cream</title>
+  <desc id="desc">The J monogram beside JENEROS in wide, geometric capitals drawn entirely as paths.</desc>
+  <g fill="#F6F1E7">
+    <path transform="translate(16 32) scale(.5)" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+    <g transform="translate(304 88)">
+      <!-- J -->
+      <path d="M0 0H120V112L88 144H0V96H32V112H72L88 96V32H0Z"/>
+      <!-- E -->
+      <path transform="translate(160 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/>
+      <!-- N -->
+      <path transform="translate(320 0)" d="M0 144V0H32L96 88V0H128V144H96L32 56V144Z"/>
+      <!-- E -->
+      <path transform="translate(488 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/>
+      <!-- R: the counter is cut out, so the background stays transparent. -->
+      <path transform="translate(648 0)" fill-rule="evenodd" d="M0 144V0H96L128 32V64L104 88L136 144H98L66 88H32V144ZM32 32V56H84L96 44L84 32Z"/>
+      <!-- O -->
+      <path transform="translate(824 0)" fill-rule="evenodd" d="M32 0H112L144 32V112L112 144H32L0 112V32ZM44 32L32 44V100L44 112H100L112 100V44L100 32Z"/>
+      <!-- S -->
+      <path transform="translate(1008 0)" d="M32 0H128V32H44L32 44V56H96L128 88V112L96 144H0V112H84L96 100V88H32L0 56V32Z"/>
+    </g>
+  </g>
+</svg>
