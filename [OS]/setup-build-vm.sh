@@ -4,5 +4,5 @@
 set -euo pipefail
 
 sudo apt-get update
-sudo apt-get install -y mkosi golang-go qemu-utils rsync curl
+sudo apt-get install -y mkosi golang-go qemu-utils rsync curl librsvg2-bin
 echo "Ready. Build with: ./[OS]/build.sh"
