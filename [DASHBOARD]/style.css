@@ -143,7 +143,7 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 .doodle { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .stat .doodle { width: 26px; height: 26px; margin-bottom: 8px; color: var(--accent); }
 .stat-label { color: var(--soft); font-size: 0.92rem; font-weight: 500; }
-.stat-value { font: 700 1.45rem/1.2 var(--display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat-value { font: 700 1.45rem/1.2 var(--display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; overflow-wrap: normal; }
 .meter { display: block; height: 8px; margin-top: auto; border-radius: 999px; background: var(--track); overflow: hidden; }
 .stat .meter { margin-top: 12px; }
 .meter i {
@@ -238,6 +238,8 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
   main { padding-top: 32px; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .stat { padding: 14px; }
+  .stat:first-child { grid-column: span 2; }
+  .nav a { padding: 8px 11px; font-size: 0.92rem; }
   .stat-value { font-size: 1.25rem; }
   .store { grid-template-columns: 1fr; }
   .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }

@@ -2,3 +2,5 @@
 [[]OS]/build/
 [[]OS]/mkosi.cache/
 [[]OS]/mkosi.tools/
+.impeccable/review/
+.impeccable/tmp/
