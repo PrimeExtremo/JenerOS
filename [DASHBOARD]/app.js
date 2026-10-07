@@ -135,7 +135,7 @@ function renderApps(apps) {
     <li class="app">
       ${icon(a.id)}
       <span><span class="app-name">${esc(a.name)}</span><br><span class="app-by">Made by ${esc(a.upstream)}</span></span>
-      <button class="pill" disabled aria-describedby="appsTitle">Coming soon</button>
+      <span class="tag">Coming soon</span>
       <p class="app-tag">${esc(a.tagline)}</p>
     </li>`).join('');
 }
