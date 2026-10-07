@@ -1,0 +1,17 @@
+
+[2m                                                                                                                 ▪  ▄▄▄[0m
+[2m                                                                                                                     ██[0m
+[2m                                                                                                                     ██[0m
+[2m                                                                                                                 ██  ██[0m
+[2m                                                                                                                  ▀██▀ [0m
+[1mJenerOS 0.9.1[0m
+Hey, welcome home!
+
+  Dashboard  http://192.168.1.42
+  Uptime     2d 3h 4m
+  Memory     5.0 / 8.0 GiB used / total
+  Disk /     8.0 / 32.0 GiB used / total
+  Updates    Waiting for the first check
+
+[2mTip: your dashboard is just a browser tab away.[0m
+

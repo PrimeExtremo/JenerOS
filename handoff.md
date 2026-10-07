@@ -29,7 +29,9 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 
 ## 3. Current state (2026-10-07)
 
-**Logo artwork (Codex, 2026-10-07):** `[BRAND]/logo/` has hand-written SVGs: ink and cream J monograms, ink and cream JENEROS wordmarks, and a 512px dark boot splash with an orange accent. XML and matching color-variant geometry checked. Visual review and dashboard/boot integration pending.
+**Login greeting (Codex, 2026-10-07):** `/usr/lib/jeneros/hello` and its interactive profile hook are in the image overlay. Boot-time tmpfiles links refresh `/etc/profile.d/jeneros-hello.sh` and silence `/etc/motd` across A/B updates. The monochrome five-line J, live summary, and rotating tips passed local fixture checks; SSH/console and tmpfiles behavior in the built VM remain to verify.
+
+**Logo artwork (Codex, 2026-10-07):** Jener approved the original angular v1 style. `[BRAND]/logo/` restores its exact heavy squared J, 45-degree bevel, matching square accent, and wide chamfered JENEROS capitals, now monochrome `#16161D` / `#F7F7F9`. All assets have transparent backgrounds; rounded v2 is retired. Wordmarks restore the 1472 x 320 canvas. Usage is in `[BRAND]/logo/README.md`; browser and updated live boot checks remain pending.
 
 **Phase 0 (skeleton) — done, not yet committed.**
 - `[CORE]/` — `jenerd` daemon in Go (stdlib only). Serves `/api/system`, `/api/store`,
@@ -61,7 +63,7 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 | Apps + VMs | Incus 7.0 LTS (OCI app containers, LXC, KVM) | Replaces Docker AND Proxmox's engine. No Docker daemon on the OS |
 | Storage | **Portable by design**: btrfs pools (single/mirror/raid1c3/raid10, never raid5/6) or "simple disks" (ext4/XFS per disk + mergerfs + SnapRAID). ZFS = import existing pools only | Jener's rule: data disks must work on any Linux without wiping. See `[DOCS]/STORAGE.md` |
 | Core daemon | Go, stdlib only so far | Single static binary, easy arm64 cross-compile |
-| Brand look | arvey.co's look (cream paper, charcoal ink, PLA-orange `#FF5A1F`, hard offset shadows, Lemon Milk wordmark) | Arvey **name and AV logo are retired** — never use them |
+| Brand look | Monochrome `#16161D` on `#F7F7F9`, chunky rounded shapes, hard offset shadows, playful doodles; angular v1 logo with custom wide chamfered JENEROS capitals | Jener changed direction on 2026-10-07; references are arvey.co and samdanpc.com. No orange; retired names/logos stay retired |
 | Name | JenerOS by Jener, Inc. | "Labs" rejected; personal handles off-limits |
 
 ## 5. Hard rules
@@ -80,7 +82,9 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 
 ## 6. Next steps (in order)
 
-Logo follow-up: Jener reviews the artwork in `[BRAND]/logo/`; Claude can then use the selected assets in the dashboard and boot splash. SVG creation does not complete Plymouth integration or the Phase 1 brand approval task.
+Login follow-up: Claude should verify a fresh boot and an A/B update create the profile and MOTD links, the helper is executable, SSH/console show the greeting, and SCP/rsync and `ssh host command` remain quiet. Check live metrics and update states against the dashboard.
+
+Logo follow-up: Claude can embed the approved angular v1 monochrome assets and regenerate the Plymouth watermark. Set the boot theme background to `#16161D` and preserve the restored wordmark aspect ratio (1472 x 320). The separate SSH task should align its existing text-art J with angular v1; SSH files were left untouched by this logo change. Live boot integration and the Phase 1 completion check remain pending.
 
 1. **Jener:** uninstall WSL, reboot, install the Debian build VM (`[DOCS]/PHASE-1.md` steps 0a–0b).
 2. ~~Claude: first builds~~ done — M1 and M2 complete.
