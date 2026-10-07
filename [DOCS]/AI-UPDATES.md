@@ -242,3 +242,12 @@ Format: date · who · what changed · why · untested · what the other AI shou
 **Untested / for Claude to check**: Linux systemd-tmpfiles execution, PAM dynamic MOTD refresh, and actual SSH/console after both a fresh boot and an A/B update. This session could not access the VM SSH key/network, so no VM was changed. Rebuild and verify `/etc/update-motd.d/10-uname` points to the non-executable empty /usr file, no `Linux jeneros ...` line appears, and an 80-column `ssh -tt` login shows the J even without LANG/LC_* forwarding. Recheck quiet command-mode SSH, SCP, and rsync.
 
 **Concurrent repo activity**: Claude's commit `6ec0f20` picked up these two OS edits during verification. Codex ran no commit or push commands; this log entry remains uncommitted.
+
+## 2026-10-07 · Claude · Public release prep (GitHub PrimeExtremo/JenerOS)
+
+- Jener: public repo `PrimeExtremo/JenerOS`, "early preview", license "same as the other Linux OSes" → **GPL-3.0-or-later** (`LICENSE`), commit email rewritten to GitHub noreply (history rewritten before first push; no Gmail left).
+- `README.md` rewritten for the public: what works, preview warning (no login, LAN only), install from `.img.xz` (balenaEtcher/Rufus, Secure Boot off) and in VMs (qemu-img convert), updating, build from source.
+- `build.sh`: `RELEASE=1` → no dev SSH key, `--autologin=no`, `UPDATE_URL=https://github.com/PrimeExtremo/JenerOS/releases/latest/download/`, output `~/jeneros-release/<ver>/` incl. flashable `jeneros_<ver>.img.xz`. All builds publish usr/verity as `.raw.xz` (2 GiB → ~170 MB; GitHub per-file limit is 2 GiB); transfers match `.raw.xz`; sysupdate decompresses.
+- Verified: VM 0.2.7 → bridge 0.2.8 (raw + xz) → **0.2.9 from `.xz` only** (~20 s). Codex's SSH greeting fixes verified on 0.2.9: corner J shows, uname line gone, "0.3 of 3.8 GB used".
+- New `[DOCS]/RELEASING.md` (build, test, publish with `gh release create`).
+- Why `.img.xz` and not `.iso`: an ISO needs an installer (M4); the image is a ready-to-run disk like HAOS/Raspberry Pi OS. Plan: add `.iso` + installer next.

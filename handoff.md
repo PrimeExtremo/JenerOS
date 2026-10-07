@@ -24,7 +24,7 @@ client app (they can't run the OS).
 
 The company is **Jener, Inc.** (not yet formed). Public site: **jener.dev** (owned,
 Cloudflare Registrar, bought 2026-10-07; site intentionally offline for now).
-Code will be public at **github.com/PrimeExtremo/jeneros** (Jener's own account).
+Code is public (early preview) at **github.com/PrimeExtremo/JenerOS** under GPL-3.0-or-later; installed systems update from its Releases.
 Company socials planned as **@jener_inc**. Jener's personal accounts are NOT changing.
 
 ## 3. Current state (2026-10-07)
@@ -107,6 +107,7 @@ Logo follow-up: Claude can embed the approved angular v1 monochrome assets and r
 | `AGENTS.md` | Rules for any AI working here (Codex reads it automatically) |
 | `CLAUDE.md` | Points Claude Code at AGENTS.md |
 | `[DOCS]/ARCHITECTURE.md` | Full system design |
+| `[DOCS]/RELEASING.md` | How to build, test and publish a GitHub release |
 | `[DOCS]/BUILD-VM.md` | How the Debian build VM was set up + SSH access |
 | `[DOCS]/STORAGE.md` | Portable storage design (btrfs / simple disks, no ZFS by default) |
 | `[DOCS]/RESEARCH.md` | How other self-hosting OSes are built; IncusOS lessons |
