@@ -5,7 +5,7 @@ package runtime
 import (
 	"errors"
 
-	"github.com/PrimeExtremo/jeneros/core/internal/catalog"
+	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 )
 
 var ErrNotImplemented = errors.New("not implemented yet")

@@ -6,7 +6,7 @@ Verify=no
 [Source]
 Type=url-file
 Path=@UPDATE_URL@
-MatchPattern=jeneros_@v.usr-x86-64-verity.@u.raw
+MatchPattern=jeneros_@v.usr-x86-64-verity.@u.raw.xz
 
 [Target]
 Type=partition
