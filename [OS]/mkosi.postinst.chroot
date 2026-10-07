@@ -5,6 +5,9 @@
 # ponytail: splash starts after switch-root; add plymouth to the initrd if the
 # first ~2 s of boot need it too.
 set -e
+# Windows transfers do not reliably preserve executable bits for extensionless
+# scripts. Set login-helper modes in the image before /usr becomes read-only.
+chmod 0755 /usr/lib/jeneros/hello /usr/lib/jeneros/hello-profile.sh
 T=/usr/share/plymouth/themes
 mkdir -p "$T/jeneros"
 cp -rn "$T/spinner/." "$T/jeneros/"
@@ -19,3 +22,15 @@ sed -e 's#^Name=Spinner#Name=JenerOS#' -e '/^Name\[/d' \
 # Set the theme in /usr, not /etc: /etc lives on the writable root partition,
 # which A/B updates never touch, so an /etc setting would never reach updated systems.
 sed -i 's#^Theme=.*#Theme=jeneros#' /usr/share/plymouth/plymouthd.defaults
+
+# Enable JenerOS units from /usr, not with presets: presets write their links
+# into /etc, which A/B updates never touch, so a unit added in an update would
+# stay disabled on every machine that was already installed.
+U=/usr/lib/systemd/system
+want() { mkdir -p "$U/$2"; ln -sf "../$1" "$U/$2/$1"; }
+want jenerd.service multi-user.target.wants
+want jeneros-health.service multi-user.target.wants
+want jeneros-health.service boot-complete.target.requires
+want jeneros-update.path multi-user.target.wants
+want jeneros-update-check.path multi-user.target.wants
+want jeneros-update-check.timer timers.target.wants

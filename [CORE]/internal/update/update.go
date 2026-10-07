@@ -19,12 +19,14 @@ type Paths struct {
 	OSRelease string // /usr/lib/os-release
 	StatusDir string // /run/jeneros-update (written by the update script)
 	Request   string // /run/jeneros/update.request (watched by jeneros-update.path)
+	Check     string // /run/jeneros/check.request (watched by jeneros-update-check.path)
 }
 
 var DefaultPaths = Paths{
 	OSRelease: "/usr/lib/os-release",
 	StatusDir: "/run/jeneros-update",
 	Request:   "/run/jeneros/update.request",
+	Check:     "/run/jeneros/check.request",
 }
 
 type Info struct {
@@ -54,6 +56,11 @@ func Read(p Paths) (Info, error) {
 // Request asks the system to download and install the newest version.
 func Request(p Paths) error {
 	return os.WriteFile(p.Request, nil, 0o644)
+}
+
+// RequestCheck asks the system to look for a new version now.
+func RequestCheck(p Paths) error {
+	return os.WriteFile(p.Check, nil, 0o644)
 }
 
 func imageVersion(path string) (string, error) {

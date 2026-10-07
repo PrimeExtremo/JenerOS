@@ -28,7 +28,13 @@ func main() {
 	srv := api.New(cat, runtime.NewIncus(), update.DefaultPaths)
 	mux := http.NewServeMux()
 	srv.Register(mux)
-	mux.Handle("/", http.FileServer(http.Dir(*webDir)))
+	web := http.FileServer(http.Dir(*webDir))
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Image builds can give every version the same file times, so a cached
+		// dashboard could outlive an OS update. The files are small; skip caching.
+		w.Header().Set("Cache-Control", "no-store")
+		web.ServeHTTP(w, r)
+	})
 
 	log.Printf("JenerOS listening on %s", *addr)
 	log.Fatal(http.ListenAndServe(*addr, mux))
