@@ -1,0 +1,53 @@
+#!/bin/sh
+# Fixed on/off actions only. The dashboard never supplies a shell command.
+set -eu
+DIR=/run/jeneros-ssh
+REQUEST=/run/jeneros/ssh.request
+FLAG=/var/lib/jeneros/ssh-enabled
+mkdir -p "$DIR"
+status() {
+    printf '{"state":"%s","message":"%s"}\n' "$1" "$2" > "$DIR/status.json.tmp"
+    chmod 0644 "$DIR/status.json.tmp"
+    mv "$DIR/status.json.tmp" "$DIR/status.json"
+    case "$1" in done|failed) finished=yes ;; esac
+}
+fail() { status failed "$1"; exit 1; }
+# Consume on every handled failure, so PathExists cannot repeatedly apply it.
+finished=no
+cleanup() {
+    rm -f "$REQUEST"
+    if [ "$finished" = no ]; then
+        status failed 'Developer access could not be changed. Please try again.'
+    fi
+}
+trap cleanup EXIT
+trap 'exit 1' HUP INT TERM
+exec 9>"$DIR/action.lock"
+flock -n 9 || fail 'Developer access is already changing. Try again in a moment.'
+status applying 'Changing developer access.'
+[ -f /var/lib/jeneros/setup-done ] || fail 'Finish setting up your box first.'
+[ ! -f /usr/share/jeneros/dev/authorized_keys ] || fail 'This development image keeps SSH on for testing.'
+action=$(cat "$REQUEST") || fail 'Could not read the developer access request.'
+case "$action" in
+    enable)
+        already=no
+        [ ! -f "$FLAG" ] || already=yes
+        touch "$FLAG" || fail 'Could not save your developer access choice.'
+        if ! chmod 0644 "$FLAG"; then
+            [ "$already" = yes ] || rm -f "$FLAG"
+            fail 'Could not save your developer access choice.'
+        fi
+        if ! systemctl start ssh.service; then
+            [ "$already" = yes ] || rm -f "$FLAG"
+            fail 'Could not start SSH. Please check your box locally.'
+        fi
+        status done 'SSH is on. Sign in with your local account.'
+        ;;
+    disable)
+        # Stop socket activation as well, otherwise a connection can restart it.
+        systemctl stop ssh.socket ssh.service || fail 'Could not stop SSH. Please check your box locally.'
+        rm -f "$FLAG" || fail 'Could not save your developer access choice.'
+        status done 'SSH is off.'
+        ;;
+    *) fail 'Choose whether SSH should be on or off.' ;;
+esac

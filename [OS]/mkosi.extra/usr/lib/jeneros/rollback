@@ -1,0 +1,31 @@
+#!/bin/sh
+# Only the root path service runs this. HTTP cannot choose an entry or command.
+set -eu
+DIR=/run/jeneros-update
+REQUEST=/run/jeneros/rollback.request
+mkdir -p "$DIR"
+status() {
+    printf '{"state":"%s","message":"%s"}\n' "$1" "$2" > "$DIR/rollback.json.tmp"
+    mv "$DIR/rollback.json.tmp" "$DIR/rollback.json"
+}
+fail() { status failed "$1"; exit 1; }
+# Serialize with the root update script, including its check operation.
+exec 9>"$DIR/action.lock"
+if ! flock -n 9; then
+    rm -f "$REQUEST"
+    fail 'Your box is busy with an update. Try again when it finishes.'
+fi
+status selecting 'Looking for the other installed version.'
+# Consume even a failed request so PathExists cannot loop and reboot later.
+rm -f "$REQUEST"
+trap 'rm -f "$DIR/boot-entries.json"' EXIT
+bootctl --no-pager --json=short list > "$DIR/boot-entries.json" || fail 'Could not read the boot menu. Your box has not restarted.'
+entry=$(/usr/bin/jenerd rollback-entry < "$DIR/boot-entries.json") || fail 'No other bootable JenerOS version was found, or the boot menu is unclear. Your box has not restarted.'
+bootctl set-oneshot "$entry" || fail 'Could not choose the other version. Your box has not restarted.'
+status rebooting 'Restarting into the other installed version.'
+if ! systemctl reboot; then
+    if ! bootctl set-oneshot ''; then
+        fail 'Could not restart or clear the next-boot choice. Check the boot menu locally before restarting.'
+    fi
+    fail 'Could not restart your box. Please check it locally.'
+fi

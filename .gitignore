@@ -2,3 +2,7 @@
 [[]OS]/build/
 [[]OS]/mkosi.cache/
 [[]OS]/mkosi.tools/
+
+# Reference screenshots of other products: never publish
+.scratch/zimaos/shots/
+

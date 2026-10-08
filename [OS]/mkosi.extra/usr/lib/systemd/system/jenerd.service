@@ -4,7 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/bin/jenerd -addr :80 -store /usr/share/jeneros/store/apps -web /usr/share/jeneros/dashboard
+ExecStart=/usr/bin/jenerd -setup -addr :80 -store /usr/share/jeneros/store/apps -web /usr/share/jeneros/dashboard
 DynamicUser=yes
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE

@@ -1,135 +1,113 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-wallpaper="ribbon">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
+  <meta name="color-scheme" content="dark light">
   <title>JenerOS</title>
   <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <script src="desktop-preferences.js"></script>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="desktop.css">
 </head>
-<body>
+<body class="desktop">
   <a class="skip" href="#main">Skip to content</a>
-
-  <header class="bar">
-    <a class="brand" href="#/home" aria-label="JenerOS home">
-      <svg class="brand-mark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
-      <span class="brand-name">JenerOS</span>
-    </a>
-    <nav class="nav" aria-label="Main">
-      <a href="#/home" data-nav="home">Home</a>
-      <a href="#/apps" data-nav="apps">Apps</a>
-      <a href="#/storage" data-nav="storage">Storage</a>
-      <a href="#/machines" data-nav="machines">Machines</a>
-      <a href="#/system" data-nav="system">System</a>
-    </nav>
-    <div class="bar-end">
-      <button class="pill pill-accent" id="barUpdate" hidden></button>
-      <span class="pill pill-quiet" id="hostPill">Connecting…</span>
-    </div>
+  <div class="desktop-wallpaper" aria-hidden="true"></div>
+  <header class="desktop-bar">
+    <button class="icon-button" data-settings="account" aria-label="Your account"><svg viewBox="0 0 28 28"><use href="#i-person"/></svg></button>
+    <button class="icon-button" data-settings="general" aria-label="Settings"><svg viewBox="0 0 28 28"><use href="#i-settings"/></svg></button>
+    <a class="desktop-brand" href="#/home" aria-label="JenerOS home"><svg viewBox="0 0 512 512"><use href="#j-mark"/></svg><span>JenerOS</span></a>
+    <span id="hostPill" class="connection-label">Connecting…</span>
+    <button class="pill pill-accent" id="barUpdate" hidden></button>
   </header>
-
-  <main id="main" tabindex="-1">
-    <!-- Home -->
-    <section class="view" data-view="home" aria-labelledby="homeTitle">
-      <h1 id="homeTitle" class="hello" tabindex="-1"><svg class="hello-mark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg><span id="greeting">Hello</span></h1>
-      <p class="lede" id="homeLede">Checking on your box…</p>
-
-      <ul class="stats" aria-label="Your box right now">
-        <li class="stat">
-          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-net"/></svg>
-          <span class="stat-label">Address</span>
-          <span class="stat-value" id="statAddr">—</span>
-        </li>
-        <li class="stat">
-          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-disk"/></svg>
-          <span class="stat-label">Storage</span>
-          <span class="stat-value" id="statDisk">—</span>
-          <span class="meter" aria-hidden="true"><i id="meterDisk"></i></span>
-        </li>
-        <li class="stat">
-          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-chip"/></svg>
-          <span class="stat-label">Memory</span>
-          <span class="stat-value" id="statMem">—</span>
-          <span class="meter" aria-hidden="true"><i id="meterMem"></i></span>
-        </li>
-        <li class="stat">
-          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-cpu"/></svg>
-          <span class="stat-label">Busy</span>
-          <span class="stat-value" id="statCpu">—</span>
-          <span class="meter" aria-hidden="true"><i id="meterCpu"></i></span>
-        </li>
-        <li class="stat">
-          <svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-clock"/></svg>
-          <span class="stat-label">Awake for</span>
-          <span class="stat-value" id="statUp">—</span>
-        </li>
-      </ul>
-
-      <h2 class="title">On this box</h2>
-      <div class="tiles" id="homeTiles"></div>
-    </section>
-
-    <!-- Apps -->
-    <section class="view" data-view="apps" aria-labelledby="appsTitle" hidden>
-      <h1 id="appsTitle" class="page-title" tabindex="-1">Apps</h1>
-      <p class="lede">Self-hosted apps, one tap each. Installing arrives in a future update, so for now you can see what's coming.</p>
-      <ul class="store" id="storeList"></ul>
-    </section>
-
-    <!-- Storage -->
-    <section class="view" data-view="storage" aria-labelledby="storageTitle" hidden>
-      <h1 id="storageTitle" class="page-title" tabindex="-1">Storage</h1>
-      <div class="panel">
-        <h2 class="panel-title">System disk</h2>
-        <p class="big-num" id="storageBig">—</p>
-        <span class="meter meter-wide" aria-hidden="true"><i id="meterDisk2"></i></span>
-        <p class="note" id="storageNote">Apps, settings and logs live here.</p>
-      </div>
-      <div class="panel panel-soon">
-        <h2 class="panel-title">Your disks and pools <span class="tag">Coming soon</span></h2>
-        <p>Plug in more drives and JenerOS will join them into one place for photos, files and movies. Every drive stays readable by any Linux computer, so you can always take your stuff with you.</p>
-      </div>
-    </section>
-
-    <!-- Machines -->
-    <section class="view" data-view="machines" aria-labelledby="machinesTitle" hidden>
-      <h1 id="machinesTitle" class="page-title" tabindex="-1">Machines</h1>
-      <div class="panel">
-        <h2 class="panel-title">Room for machines</h2>
-        <p class="big-num" id="machinesBig">—</p>
-        <p class="note">Processor cores and free memory on this box.</p>
-      </div>
-      <div class="panel panel-soon">
-        <h2 class="panel-title">Virtual machines and containers <span class="tag">Coming soon</span></h2>
-        <p>Run Windows, another Linux or Home Assistant right on this box, like Proxmox does, from this page.</p>
-      </div>
-    </section>
-
-    <!-- System -->
-    <section class="view" data-view="system" aria-labelledby="systemTitle" hidden>
-      <h1 id="systemTitle" class="page-title" tabindex="-1">System</h1>
-      <div class="panel update" aria-live="polite">
-        <h2 class="panel-title">Updates</h2>
-        <p class="big-num" id="osVersion">JenerOS</p>
-        <p class="update-text" id="updateText">Checking for updates…</p>
-        <div class="row">
-          <button class="pill pill-accent" id="updateBtn" hidden>Update now</button>
-          <button class="pill" id="checkBtn">Check now</button>
+  <main id="main" class="desktop-main" tabindex="-1">
+    <h1 class="sr-only">Your JenerOS dashboard</h1>
+    <aside class="widgets" aria-label="Your box right now">
+      <section class="widget clock-widget" data-widget="clock" aria-label="Clock"><time id="clockTime">--:--</time><p id="clockDate">Today</p></section>
+      <section class="widget" data-widget="system" aria-labelledby="systemHeading">
+        <div class="widget-heading"><h2 id="systemHeading">System</h2><button class="icon-button" data-settings="general" aria-label="System details">›</button></div>
+        <div class="gauges">
+          <div class="gauge-group"><div class="gauge" id="cpuGauge" role="meter" aria-label="CPU usage" aria-valuemin="0" aria-valuemax="100"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="gauge-track" cx="50" cy="50" r="40"/><circle class="gauge-fill" cx="50" cy="50" r="40"/></svg><strong id="statCpu">—</strong></div><span>CPU</span></div>
+          <div class="gauge-group"><div class="gauge" id="ramGauge" role="meter" aria-label="Memory usage" aria-valuemin="0" aria-valuemax="100"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="gauge-track" cx="50" cy="50" r="40"/><circle class="gauge-fill" cx="50" cy="50" r="40"/></svg><strong id="statMem">—</strong></div><span>RAM</span></div>
         </div>
-        <p class="note">Updates install into a spare copy of the system. If a new version doesn't start properly, your box goes back to the old one by itself.</p>
-      </div>
-      <div class="panel">
-        <h2 class="panel-title">About this box</h2>
-        <dl class="facts" id="facts"></dl>
-      </div>
+        <div class="widget-meta"><span id="cpuNote">Waiting for your box</span><span id="ramNote">—</span></div><p class="widget-foot" id="temperature" hidden></p>
+      </section>
+      <section class="widget" data-widget="storage" aria-labelledby="storageHeading">
+        <div class="widget-heading"><h2 id="storageHeading">Storage</h2><button class="icon-button" data-settings="storage" aria-label="Storage details"><svg viewBox="0 0 28 28"><use href="#i-settings"/></svg></button></div>
+        <div class="storage-summary"><svg class="disk-art" viewBox="0 0 64 72" aria-hidden="true"><rect x="8" y="4" width="48" height="64" rx="7"/><circle cx="32" cy="30" r="17"/><circle cx="32" cy="30" r="5"/><path d="m45 17-13 13M18 58h18"/><circle cx="46" cy="58" r="2"/></svg><div><span class="health-badge" id="diskHealth">System disk</span><p id="statDisk">—</p><p id="diskTotal">—</p></div></div>
+        <span class="meter" role="meter" aria-label="System disk space used" aria-valuemin="0" aria-valuemax="100" id="diskMeter"><i id="meterDisk"></i></span>
+      </section>
+      <section class="widget network-widget" data-widget="network" aria-labelledby="networkHeading">
+        <div class="widget-heading"><h2 id="networkHeading">Network</h2><button class="network-link" data-settings="network"><span id="networkName">LAN</span><span aria-hidden="true">›</span></button></div>
+        <div class="network-chart"><span id="graphScale">KB/s</span><svg viewBox="0 0 240 85" preserveAspectRatio="none" role="img" aria-labelledby="graphTitle"><title id="graphTitle">Network traffic is waiting for your box</title><path class="graph-grid" d="M0 10H240 M0 35H240 M0 60H240 M0 84H240"/><path id="networkDown" class="graph-down" d="M0 84H240"/><path id="networkUp" class="graph-up" d="M0 84H240"/></svg></div>
+        <div class="network-rates"><span>↓ <strong id="downloadRate">—</strong></span><span>↑ <strong id="uploadRate">—</strong></span></div><p class="widget-foot" id="networkNote">Waiting for your box</p>
+      </section>
+      <button class="widget widget-settings" id="widgetSettings">Widget settings <span aria-hidden="true">›</span></button>
+    </aside>
+    <section class="workspace" aria-label="Apps and notices">
+      <form class="desktop-search" id="searchForm" role="search"><svg viewBox="0 0 28 28" aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="appSearch">Search your apps</label><input type="search" id="appSearch" placeholder="Search your apps…" autocomplete="off"><kbd aria-hidden="true">/</kbd></form>
+      <section class="notices" aria-label="Your box notices">
+        <div class="notice-track" id="noticeTrack" tabindex="0" aria-label="Swipe or use the arrow buttons to browse notices">
+          <article class="notice-card"><h2><svg viewBox="0 0 28 28" aria-hidden="true"><use href="#i-disk"/></svg>Your storage</h2><p id="storageNotice">Checking the space on your box…</p><button class="pill pill-accent notice-action" data-settings="storage">Manage</button></article>
+          <article class="notice-card"><h2><svg viewBox="0 0 28 28" aria-hidden="true"><use href="#i-net"/></svg>Home, wherever you are</h2><p>Keep your box at home. Private access while you're away is coming soon.</p><button class="pill notice-action" data-settings="network">Learn more</button></article>
+          <article class="notice-card"><h2><svg viewBox="0 0 28 28" aria-hidden="true"><use href="#i-system"/></svg>Made to keep going</h2><p id="updateNotice">A spare system copy helps your box recover if an update can't start.</p><button class="pill notice-action" data-settings="general">View updates</button></article>
+        </div>
+        <div class="notice-navigation"><button class="icon-button" id="noticePrev" aria-label="Previous notice">‹</button><div id="noticeDots" class="notice-dots"><button aria-label="Notice 1" aria-current="true"></button><button aria-label="Notice 2"></button><button aria-label="Notice 3"></button></div><button class="icon-button" id="noticeNext" aria-label="Next notice">›</button></div>
+      </section>
+      <div class="apps-heading"><h2>Apps</h2><button class="icon-button" id="addApp" aria-label="Add an app">+</button></div>
+      <div class="desktop-tiles" id="homeTiles"></div>
+      <p id="searchEmpty" class="search-empty" role="status" hidden>No apps match. Try another name.</p>
+      <p class="preview-note" id="previewNote" hidden>Preview · widgets show sample data. Open this page from your box for live numbers.</p>
+      <p class="preview-note" id="connectionNote" role="status" hidden></p>
     </section>
   </main>
-
+  <dialog class="settings-window" id="settingsWindow" aria-labelledby="settingsTitle">
+    <aside class="settings-sidebar"><div class="settings-brand"><h2 id="settingsTitle">Settings</h2><button class="avatar-mini" data-settings="account" aria-label="Your account"><svg viewBox="0 0 64 64"><use href="#i-avatar"/></svg></button></div>
+      <nav aria-label="Settings sections">
+        <button data-settings="general"><svg viewBox="0 0 28 28"><use href="#i-settings"/></svg>General</button>
+        <button data-settings="storage"><svg viewBox="0 0 28 28"><use href="#i-disk"/></svg>Storage</button>
+        <button data-settings="network"><svg viewBox="0 0 28 28"><use href="#i-net"/></svg>Network</button>
+        <button data-settings="apps"><svg viewBox="0 0 28 28"><use href="#i-apps"/></svg>Apps</button>
+        <button data-settings="account"><svg viewBox="0 0 28 28"><use href="#i-person"/></svg>Account</button>
+      </nav><button class="power-button" data-settings="power"><svg viewBox="0 0 28 28"><use href="#i-power"/></svg><span>Power</span></button>
+    </aside>
+    <div class="settings-body"><header class="window-header"><h3 id="settingsPageTitle" tabindex="-1">General</h3><button class="icon-button" id="closeSettings" aria-label="Close settings">×</button></header>
+      <p class="window-feedback" id="settingsFeedback" role="status" hidden></p>
+      <div class="settings-scroll">
+        <section data-settings-panel="general">
+          <article class="settings-card device-card"><div><h4 id="deviceName">JenerOS</h4><p class="device-address"><span class="status-dot"></span>LAN <span id="deviceIP">—</span></p><button class="text-button" id="deviceInfo" aria-expanded="false" aria-controls="facts">Device info <span aria-hidden="true">↗</span></button></div><svg class="device-mark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg><dl class="facts device-facts" id="facts" hidden></dl></article>
+          <article class="settings-card update" aria-live="polite"><div class="setting-row version-row"><span>JenerOS <span class="tag">Free, for everyone</span></span><strong id="osVersion">JenerOS</strong></div><p class="update-text" id="updateText">Checking for updates…</p><div class="row"><button class="pill pill-accent" id="updateBtn" hidden>Update now</button><button class="pill" id="checkBtn" disabled>Check now</button><button class="pill" id="rollbackBtn" disabled>Start previous version</button></div><p class="note" id="rollbackMessage" role="status"></p></article>
+          <article class="settings-card"><div class="setting-row"><label for="appearance">Appearance</label><select id="appearance"><option value="dark">Warm dark</option><option value="light">Cream light</option></select></div><fieldset class="wallpaper-picker"><legend>Wallpaper</legend><label><input type="radio" name="wallpaper" value="ribbon"><span class="wallpaper-swatch swatch-ribbon"></span><span>Ember ribbons</span></label><label><input type="radio" name="wallpaper" value="dune"><span class="wallpaper-swatch swatch-dune"></span><span>Quiet dunes</span></label><label><input type="radio" name="wallpaper" value="plain"><span class="wallpaper-swatch swatch-plain"></span><span>Plain paper</span></label></fieldset></article>
+          <article class="settings-card setting-list"><div class="setting-row"><label for="language">Language</label><select id="language" disabled><option>English</option></select></div><div class="setting-row"><label for="timezone">Clock timezone</label><select id="timezone"><option value="local">This browser's timezone</option><option value="UTC">UTC</option><option value="America/New_York">America / New York</option><option value="America/Chicago">America / Chicago</option><option value="America/Denver">America / Denver</option><option value="America/Los_Angeles">America / Los Angeles</option><option value="Europe/London">Europe / London</option><option value="Europe/Paris">Europe / Paris</option><option value="Asia/Tokyo">Asia / Tokyo</option><option value="Australia/Sydney">Australia / Sydney</option></select></div><div class="setting-row"><label for="timeFormat">Time format</label><select id="timeFormat"><option value="24">24-hour</option><option value="12">12-hour</option></select></div><p class="setting-help">Appearance and clock choices are saved in this browser. More languages are on the way.</p></article>
+          <article class="settings-card setting-list"><div class="setting-row"><span>Disk standby</span><span class="muted">Coming later</span></div><div class="setting-row"><span>Battery backup (UPS)</span><span class="muted">Coming later</span></div><div class="setting-row"><label for="sshToggle">Developer access · SSH</label><input type="checkbox" role="switch" id="sshToggle" disabled></div><p class="setting-help" id="sshNote">Checking developer access…</p></article>
+        </section>
+        <section data-settings-panel="storage" hidden>
+          <article class="settings-card bays-card"><div><h4>Your disks</h4><p class="muted">Space for the things you love.</p></div><div class="disk-bays" aria-hidden="true"><span></span><span></span></div></article>
+          <article class="settings-card"><div class="setting-row"><h4>System disk</h4><strong id="storageBig">—</strong></div><span class="meter meter-wide"><i id="meterDisk2"></i></span><p class="setting-help" id="storageNote">Apps, settings and logs live here.</p></article>
+          <article class="storage-coming"><h4>Make room for more</h4><p>Bring your disks together for files, photos and movies. Storage setup is coming in a later phase.</p><span class="tag">Coming soon</span><svg viewBox="0 0 28 28" aria-hidden="true"><use href="#i-disk"/></svg></article>
+        </section>
+        <section data-settings-panel="network" hidden>
+          <article class="settings-card ports-card"><div><h4>Connections</h4><p class="muted">Your way home.</p></div><svg viewBox="0 0 96 66" aria-hidden="true"><rect x="5" y="5" width="86" height="53" rx="7"/><path d="M19 17h58v24H64v9H32v-9H19Z M29 18v13m9-13v13m10-13v13m10-13v13m10-13v13"/><circle cx="80" cy="49" r="2"/></svg></article>
+          <article class="settings-card" id="connectionRows"><p class="muted">Checking your network…</p></article>
+          <article class="settings-card"><div class="setting-row"><h4>Access away from home</h4><span class="tag">Coming soon</span></div><p class="setting-help">Private remote access will let you reach your box on the go. For now, use the dashboard on your home network.</p></article>
+        </section>
+        <section data-settings-panel="apps" hidden>
+          <p class="section-caption">Where your apps live</p><article class="settings-card setting-list"><div class="setting-row"><span>App data</span><span class="muted">Choose with storage setup</span></div><div class="setting-row"><span>App images</span><span class="muted">Available with app installs</span></div><div class="setting-row"><span>Space used</span><span class="muted">Not available yet</span></div></article><article class="settings-card"><h4>Keep things tidy</h4><p class="setting-help">App cleanup arrives with app management. Your files stay yours.</p></article><button class="pill" id="browseApps">Browse the app catalog</button>
+        </section>
+        <section data-settings-panel="account" hidden>
+          <article class="settings-card owner-card"><div><h4>Owner</h4><p class="muted">Your local account on this box</p><button class="pill" disabled>Change password · coming later</button></div><svg class="owner-avatar" viewBox="0 0 64 64" aria-label="Friendly face avatar"><use href="#i-avatar"/></svg></article>
+          <article class="settings-card"><h4>Pick your face</h4><div class="avatar-options" role="group" aria-label="Avatar color"><button data-avatar="orange" aria-label="Orange avatar">☀</button><button data-avatar="sage" aria-label="Sage avatar">✿</button><button data-avatar="clay" aria-label="Clay avatar">♥</button></div><p class="setting-help">A little color, saved in this browser.</p></article>
+          <article class="settings-card members-card"><h4>Family members</h4><p class="muted">A place for everyone, with no paid limits.</p><p class="setting-help">Family accounts are coming later.</p><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-avatar"/></svg></article>
+        </section>
+        <section data-settings-panel="power" hidden><article class="settings-card"><h4>A fresh start</h4><p class="setting-help">If an update gives you trouble, start the other installed version. Your box will restart.</p><button class="pill" id="powerRollback">Open recovery controls</button></article><article class="settings-card"><h4>Restart and shut down</h4><p class="setting-help">Web power controls are coming later. Use your box's local console for now.</p></article></section>
+      </div>
+    </div>
+  </dialog>
+  <dialog class="desktop-dialog" id="widgetWindow" aria-labelledby="widgetTitle"><header class="window-header"><h2 id="widgetTitle">Widget settings</h2><button class="icon-button" data-close="widgetWindow" aria-label="Close widget settings">×</button></header><p class="muted">Make this space your own.</p><div class="widget-choices"><label><span>Clock</span><input type="checkbox" data-widget-toggle="clock"></label><label><span>System</span><input type="checkbox" data-widget-toggle="system"></label><label><span>Storage</span><input type="checkbox" data-widget-toggle="storage"></label><label><span>Network</span><input type="checkbox" data-widget-toggle="network"></label></div><p class="setting-help">Saved in this browser.</p></dialog>
+  <dialog class="desktop-dialog" id="appWindow" aria-labelledby="appWindowTitle"><header class="window-header"><h2 id="appWindowTitle">App catalog</h2><button class="icon-button" data-close="appWindow" aria-label="Close app window">×</button></header><p id="appWindowNote" class="muted"></p><ul class="store" id="storeList"></ul></dialog>
   <svg class="watermark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
   <div class="toast" id="toast" role="status"></div>
-
-  <!-- Shared drawings: logo ([BRAND]/logo/j-monogram.svg), doodles 2px round strokes -->
+  <!-- Original JenerOS artwork; reference screenshots are never product assets. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="j-mark" viewBox="0 0 512 512">
       <path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
@@ -148,8 +126,14 @@
     <symbol id="i-apps" viewBox="0 0 28 28"><path d="M6 9.5 h16 l-1.4 13.5 a1.5 1.5 0 0 1 -1.5 1.3 H8.9 a1.5 1.5 0 0 1 -1.5 -1.3 Z"/><path d="M10 12 V8.5 a4 4 0 0 1 8 0 V12"/></symbol>
     <symbol id="i-machines" viewBox="0 0 28 28"><rect x="4" y="4.5" width="20" height="8" rx="2.5"/><rect x="4" y="15.5" width="20" height="8" rx="2.5"/><path d="M8.5 8.5 h.01 M8.5 19.5 h.01 M13 8.5 h6 M13 19.5 h6"/></symbol>
     <symbol id="i-system" viewBox="0 0 28 28"><path d="M5 8 h10 M19 8 h4 M5 14 h4 M13 14 h10 M5 20 h12 M21 20 h2"/><circle cx="17" cy="8" r="2"/><circle cx="11" cy="14" r="2"/><circle cx="19" cy="20" r="2"/></symbol>
-  </svg>
-
+  <symbol id="i-settings" viewBox="0 0 28 28"><path d="m11 4 6 0 1 3 3 1 3 5-2 2 0 3-5 4-3-1-3 1-5-4 0-3-2-2 3-5 3-1Z"/><circle cx="14" cy="14" r="4"/></symbol>
+<symbol id="i-person" viewBox="0 0 28 28"><circle cx="14" cy="9" r="4"/><path d="M5 24v-3a9 9 0 0 1 18 0v3"/></symbol>
+<symbol id="i-search" viewBox="0 0 28 28"><circle cx="12" cy="12" r="7"/><path d="m17 17 7 7"/></symbol>
+<symbol id="i-power" viewBox="0 0 28 28"><path d="M14 3v11M8 6a10 10 0 1 0 12 0"/></symbol>
+<symbol id="i-backup" viewBox="0 0 28 28"><path d="M5 10a10 10 0 1 1-1 8M3 4v7h7m4-4v7l4 3"/></symbol>
+<symbol id="i-avatar" viewBox="0 0 64 64"><rect x="5" y="5" width="54" height="54" rx="20" fill="currentColor" opacity=".12"/><path d="M21 21v8m22-8v8" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M19 38q13 18 26 0" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></symbol></svg>
+  <script src="rollback.js"></script>
+  <script src="desktop-metrics.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

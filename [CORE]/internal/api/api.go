@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"sync"
 
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
@@ -13,9 +14,10 @@ import (
 )
 
 type Server struct {
-	cat     *catalog.Catalog
-	rt      runtime.Runtime
-	updates update.Paths
+	cat      *catalog.Catalog
+	rt       runtime.Runtime
+	updates  update.Paths
+	actionMu sync.Mutex
 }
 
 func New(cat *catalog.Catalog, rt runtime.Runtime, updates update.Paths) *Server {
@@ -30,6 +32,7 @@ func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/update", s.updateInfo)
 	mux.HandleFunc("POST /api/update", sameSite(s.updateStart))
 	mux.HandleFunc("POST /api/update/check", sameSite(s.updateCheck))
+	mux.HandleFunc("POST /api/update/rollback", sameSite(s.rollbackStart))
 }
 
 // sameSite rejects state-changing requests that lack the X-JenerOS header.
@@ -96,8 +99,28 @@ func (s *Server) updateInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) updateStart(w http.ResponseWriter, r *http.Request) {
+	s.actionMu.Lock()
+	defer s.actionMu.Unlock()
 	if err := update.Request(s.updates); err != nil {
-		writeError(w, http.StatusInternalServerError, err)
+		code := http.StatusInternalServerError
+		if errors.Is(err, update.ErrBusy) {
+			code = http.StatusConflict
+		}
+		writeError(w, code, err)
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+}
+
+func (s *Server) rollbackStart(w http.ResponseWriter, r *http.Request) {
+	s.actionMu.Lock()
+	defer s.actionMu.Unlock()
+	if err := update.RequestRollback(s.updates); err != nil {
+		code := http.StatusInternalServerError
+		if errors.Is(err, update.ErrBusy) {
+			code = http.StatusConflict
+		}
+		writeError(w, code, err)
 		return
 	}
 	w.WriteHeader(http.StatusAccepted)

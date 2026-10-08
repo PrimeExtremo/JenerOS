@@ -1,0 +1,4 @@
+#!/bin/sh
+# JSON is decoded and validated by Go. Never put passwords on a command line.
+set -eu
+exec /usr/bin/jenerd setup-apply /run/jeneros/setup.request

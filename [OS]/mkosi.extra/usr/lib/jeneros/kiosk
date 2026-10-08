@@ -1,0 +1,23 @@
+#!/bin/sh
+# Run as an ordinary local kiosk user in a logind session on tty1.
+set -eu
+while :; do
+    if [ -f /var/lib/jeneros/setup-done ]; then
+        url=http://127.0.0.1/screen.html
+        break
+    fi
+    # jenerd may still be starting; do not open an empty or stale setup link.
+    if [ -s /run/jeneros/setup-code ]; then
+        code=$(cat /run/jeneros/setup-code 2>/dev/null) || code=
+        case "$code" in
+            *[!0-9]*|'') code= ;;
+        esac
+        if [ "${#code}" -eq 6 ]; then
+            url="http://127.0.0.1/setup.html?code=$code"
+            break
+        fi
+    fi
+    sleep 1
+done
+until /usr/bin/curl --fail --silent --output /dev/null http://127.0.0.1/api/system; do sleep 1; done
+exec /usr/bin/dbus-run-session -- /usr/bin/cage -s -d -- /usr/bin/cog -P wl --webprocess-failure=restart "$url"

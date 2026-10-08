@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Privacy Policy · JenerOS</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar"><a class="brand" href="setup.html"><svg class="brand-mark" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z M144 208H176V240H144Z"/></svg><span class="brand-name">JenerOS</span></a></header>
+  <!-- Text copied from [DOCS]/PRIVACY.md. Policy version: 2026-10-08. -->
+  <main class="privacy-main"><article class="setup-card privacy-policy">
+    <h1 class="page-title">JenerOS Privacy Policy</h1>
+    <p>Draft for the early preview. Have a lawyer check this before JenerOS is sold or marketed in the EU/UK.</p>
+    <p class="note">Effective: 2026-10-08 · Jener, Inc. · jener.dev</p>
+    <h2 class="panel-title">The short version</h2>
+    <p>Your box is yours. JenerOS keeps your photos, files, passwords and settings on your box. We don't run accounts, collect analytics, or see what you store.</p>
+    <h2 class="panel-title">What stays on your box</h2>
+    <ul><li>Everything you store: files, photos, media, app data, backups.</li><li>Your owner account. The password is stored as a one-way hash, never in plain text.</li><li>Settings you choose in setup: box name, timezone, keyboard, network.</li><li>System logs. They stay on the box and rotate on their own.</li></ul>
+    <h2 class="panel-title">What your box connects to, and why</h2>
+    <div class="privacy-table"><table class="box-facts"><thead><tr><th scope="col">Connects to</th><th scope="col">When</th><th scope="col">What it sends</th></tr></thead><tbody>
+      <tr><td>GitHub Releases (github.com)</td><td>Checking for and downloading JenerOS updates</td><td>A normal web request: your public IP and the file it asks for. No account, no ID.</td></tr>
+      <tr><td>Public time servers (Debian NTP pool)</td><td>Keeping the clock right</td><td>A standard time request.</td></tr>
+      <tr><td>App image registries (e.g. Docker Hub)</td><td>Only when you install or update an app</td><td>A normal download request.</td></tr>
+      <tr><td>The app itself</td><td>Whatever that app does</td><td>Each app has its own privacy policy. Check it before you install.</td></tr>
+    </tbody></table></div>
+    <p>JenerOS sends no telemetry, crash reports or usage stats. If we ever add any, it will be off until you turn it on, and this page will say so first.</p>
+    <h2 class="panel-title">Setup on your phone</h2>
+    <p>The setup QR code and 6-digit code work only on your home network and only until setup is done. Nothing goes through our servers.</p>
+    <h2 class="panel-title">Remote access</h2>
+    <p>Remote access (from outside your home) is off by default. If you turn it on, this page and the setup screen will name the service it uses.</p>
+    <h2 class="panel-title">Kids</h2>
+    <p>JenerOS doesn't collect anything from anyone, including children. Parents decide who gets an account on the box.</p>
+    <h2 class="panel-title">Your choices</h2>
+    <ul><li>Only install the apps you want. Nothing is installed for you.</li><li>Wipe the box by reinstalling JenerOS.</li></ul>
+    <h2 class="panel-title">Changes</h2>
+    <p>If this policy changes, the new version ships with the update that changes it, and the dashboard tells you.</p>
+    <h2 class="panel-title">Contact</h2>
+    <p><a href="mailto:privacy@jener.dev">privacy@jener.dev</a></p>
+  </article></main>
+</body>
+</html>

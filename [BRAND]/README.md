@@ -1,29 +1,33 @@
-# JENER brand
+# JenerOS brand
 
-The look comes from arvey.co (cream paper, charcoal ink, one PLA-orange accent, hard offset shadows).
-The **Arvey name and AV monogram are retired** — never use them here.
+Techy geometric logo, clean Apple/ZimaOS-style interface, warm palette of its own.
+The **Arvey name and AV monogram are retired**. Never use them here.
 
-## Tokens
-
-| Token | Light | Dark | Use |
-|---|---|---|---|
-| `--paper` | `#F6F1E7` | `#16130F` | Page background |
-| `--paper-2` | `#EFE8D8` | `#1F1B16` | Cards, panels |
-| `--ink` | `#211C16` | `#F6F1E7` | Headings, borders, shadows |
-| `--soft` | `#3A3226` | `#D9D0BF` | Body text |
-| `--mid` | `#5E5545` | `#A39883` | Secondary text (AA on paper) |
-| `--hairline` | `#DCD3C2` | `#3A3226` | Dividers |
-| `--orange` | `#FF5A1F` | `#FF5A1F` | The one accent: buttons, active states |
-| `--orange-ink` | `#C2410C` | `#FF7A45` | Orange text on paper (AA) |
-| `--shadow` | `3px 3px 0 var(--ink)` | `3px 3px 0 #000` | Cards/buttons |
-| `--shadow-lg` | `5px 5px 0 var(--ink)` | `5px 5px 0 #000` | Hero elements |
-| `--r` / `--rl` | `10px` / `16px` | | Radii |
+## Logo
+- **J monogram:** a custom drawn shape, not a font. Square J with a 45° bevel and a square dot.
+  Path: `M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z` + dot `M144 208H176V240H144Z`.
+  Files and rules: [logo/README.md](logo/README.md).
+- **Wordmark:** **JENEROS** in custom wide geometric capitals with chamfered corners, drawn as
+  paths to match the J (no font). Files: `logo/jeneros-wordmark.svg` (ink) and
+  `logo/jeneros-wordmark-light.svg` (paper). Jener picked this techy look over clean grotesk
+  versions on 2026-10-08; keep it.
+- Monochrome: ink `#1F1913` on light, paper `#F6F1E7` on dark. No orange in the logo.
 
 ## Type
-- Wordmark: **Lemon Milk** (all caps), file in arvey.co repo `[WEBSITE] - V7/fonts/` — copy into `[BRAND]/fonts/` when used.
-- Headings: **Baloo 2** (600–700). Body/UI: **Quicksand** (500–700). Numbers/code: **IBM Plex Mono**.
+| Use | Font | License |
+|---|---|---|
+| Wordmark | Custom geometric capitals (paths, no font) | Ours |
+| Dashboard headings, "JenerOS" next to the J | Bricolage Grotesque Bold, self-hosted in `[DASHBOARD]/fonts/` | OFL |
+| Body and UI text | System font stack (`system-ui`, -apple-system, Segoe UI, Roboto) | n/a |
+| Box text consoles | DejaVu Sans Mono / the console font | n/a |
 
-## To make
-- [ ] `jener-wordmark.svg` — "JENER" in Lemon Milk, ink + white versions
-- [ ] `j-monogram.svg` — a "J" built like the old AV monogram (heavy geometric strokes), for favicon / app icon / boot logo
-- [ ] Boot splash (Plymouth) + systemd-boot entry title using the monogram
+## Colors
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| Paper | `#F6F1E7` (cream) | `#1F1913` (brown) | Page background |
+| Card | `#FFFCF6` | `#2B241C` | Cards, panels |
+| Ink | `#1F1913` | `#F6F1E7` | Text, logo |
+| Orange | `#D97757` | `#D97757` | Decoration, highlights |
+| Orange button | `#B9562F` | `#B9562F` | Button fill (white text passes AA) |
+
+Dashboard tokens live in `[DASHBOARD]/style.css`; treat that file as the source of truth.

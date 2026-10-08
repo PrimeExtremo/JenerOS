@@ -12,22 +12,31 @@ import (
 )
 
 type Info struct {
-	Hostname   string  `json:"hostname"`
-	OS         string  `json:"os"`
-	Arch       string  `json:"arch"`
-	CPUs       int     `json:"cpus"`
-	MemTotalMB int     `json:"memTotalMB"`
-	MemFreeMB  int     `json:"memFreeMB"`
-	UptimeSec  float64 `json:"uptimeSec"`
-	Load1      float64 `json:"load1"`
-	DiskTotalB uint64  `json:"diskTotalB"`
-	DiskFreeB  uint64  `json:"diskFreeB"`
-	Addresses  []string `json:"addresses"`
+	Manufacturer string        `json:"manufacturer"`
+	Model        string        `json:"model"`
+	Kernel       string        `json:"kernel"`
+	OSVersion    string        `json:"osVersion"`
+	BuildDate    string        `json:"buildDate"`
+	SSHStatus    string        `json:"sshStatus"`
+	Hostname     string        `json:"hostname"`
+	OS           string        `json:"os"`
+	Arch         string        `json:"arch"`
+	CPUs         int           `json:"cpus"`
+	MemTotalMB   int           `json:"memTotalMB"`
+	MemFreeMB    int           `json:"memFreeMB"`
+	UptimeSec    float64       `json:"uptimeSec"`
+	Load1        float64       `json:"load1"`
+	DiskTotalB   uint64        `json:"diskTotalB"`
+	DiskFreeB    uint64        `json:"diskFreeB"`
+	Addresses    []string      `json:"addresses"`
+	CPUCounters  *CPUTime      `json:"cpuCounters,omitempty"`
+	Network      []NetworkInfo `json:"network,omitempty"`
 }
 
 func Read() Info {
 	host, _ := os.Hostname()
 	info := Info{Hostname: host, OS: goruntime.GOOS, Arch: goruntime.GOARCH, CPUs: goruntime.NumCPU()}
+	readBoxFacts(&info, "/sys/class/dmi/id", "/proc", "/usr/lib/os-release")
 	info.MemTotalMB, info.MemFreeMB = meminfo()
 	if b, err := os.ReadFile("/proc/uptime"); err == nil {
 		if f := strings.Fields(string(b)); len(f) > 0 {
@@ -46,22 +55,61 @@ func Read() Info {
 		info.DiskFreeB = st.Bavail * uint64(st.Bsize)
 	}
 	info.Addresses = addresses()
+	info.CPUCounters = readCPUTime("/proc/stat")
+	info.Network = readNetwork("/proc/net/dev")
 	return info
 }
 
-// addresses returns the box's IPv4 addresses, skipping loopback.
+// Prefer IPv4 for home links; fall back to IPv6 on an IPv6-only network.
 func addresses() []string {
 	out := []string{}
-	addrs, err := net.InterfaceAddrs()
+	ipv6 := []string{}
+	interfaces, err := net.Interfaces()
 	if err != nil {
 		return out
 	}
-	for _, a := range addrs {
-		if ipn, ok := a.(*net.IPNet); ok && !ipn.IP.IsLoopback() && ipn.IP.To4() != nil {
-			out = append(out, ipn.IP.String())
+	for _, iface := range interfaces {
+		if !homeInterface(iface) {
+			continue
+		}
+		addrs, err := iface.Addrs()
+		if err != nil {
+			continue
+		}
+		for _, addr := range addrs {
+			ip, _, err := net.ParseCIDR(addr.String())
+			if err != nil || !homeAddress(ip) {
+				continue
+			}
+			if ip.To4() != nil {
+				out = append(out, ip.String())
+			} else {
+				ipv6 = append(ipv6, ip.String())
+			}
 		}
 	}
+	if len(out) == 0 {
+		return ipv6
+	}
 	return out
+}
+
+// Exclude container bridges and their virtual peers, not whole private ranges:
+// a real home LAN can also use 172.16/12 or 10/8.
+func homeInterface(iface net.Interface) bool {
+	if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 {
+		return false
+	}
+	for _, prefix := range []string{"docker", "br-", "veth", "virbr", "incus", "lxc", "lxd", "cni", "flannel", "podman"} {
+		if strings.HasPrefix(iface.Name, prefix) {
+			return false
+		}
+	}
+	return true
+}
+
+func homeAddress(ip net.IP) bool {
+	return ip.IsGlobalUnicast() && !ip.IsLoopback() && !ip.IsLinkLocalUnicast()
 }
 
 // meminfo parses /proc/meminfo; it returns zeros off Linux.

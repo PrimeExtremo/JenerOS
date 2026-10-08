@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <!-- Original contour artwork; no external imagery. -->
+  <defs><linearGradient id="sand" x1="800" y1="300" x2="900" y2="1200" gradientUnits="userSpaceOnUse"><stop stop-color="#BA7952" stop-opacity=".28"/><stop offset="1" stop-color="#61412C" stop-opacity=".02"/></linearGradient></defs>
+  <path d="M-200 620C350 80 630 970 1100 420S1640 460 1900 300V1200H-200Z" fill="url(#sand)"/>
+  <path d="M-200 780C280 250 740 1100 1190 670S1650 420 1900 560V1200H-200Z" fill="url(#sand)"/>
+  <g stroke="#DDA57B" stroke-opacity=".12"><path d="M-200 620C350 80 630 970 1100 420S1640 460 1900 300"/><path d="M-200 650C350 110 630 1000 1100 450S1640 490 1900 330"/><path d="M-200 780C280 250 740 1100 1190 670S1650 420 1900 560"/><path d="M-200 810C280 280 740 1130 1190 700S1650 450 1900 590"/></g>
+</svg>
