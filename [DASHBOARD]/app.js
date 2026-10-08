@@ -20,6 +20,105 @@ const BUILTIN_TILES = [
   { id: 'backup', name: 'Backup', icon: 'backup', soon: 'Keep another copy of the things you love. Backup tools are coming soon.' },
   { id: 'machines', name: 'Machines', icon: 'machines', soon: 'Room for another computer inside your box. Virtual machines are coming soon.' },
 ];
+// Motion helpers (.scratch/motion/BRIEF.md). Timing comes from the CSS tokens.
+// Every helper falls back to an instant change when animation is unavailable,
+// and under reduced motion keeps only short opacity fades.
+const JenerMotion = window.JenerMotion = (() => {
+  const root = document.documentElement;
+  const token = name => root && typeof getComputedStyle === 'function' ? getComputedStyle(root).getPropertyValue(name).trim() : '';
+  const ms = name => parseFloat(token(name)) || 0;
+  const can = el => !!el && typeof el.animate === 'function' && typeof matchMedia === 'function';
+  const moving = () => typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // cubic-bezier(x1, y1, x2, y2) as a function of progress, for tweens the browser can't run.
+  function curve(name) {
+    const [x1, y1, x2, y2] = (token(name).match(/-?[\d.]+/g) || [0, 0, 1, 1]).map(Number);
+    const at = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3;
+    return k => {
+      let lo = 0, hi = 1, t = k;
+      for (let i = 0; i < 20; i++) { t = (lo + hi) / 2; if (at(x1, x2, t) < k) lo = t; else hi = t; }
+      return at(y1, y2, t);
+    };
+  }
+  const running = new WeakMap();
+  function stop(key) {
+    if (running.has(key) && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(running.get(key));
+    running.delete(key);
+  }
+  // Calls draw(eased 0..1, done) for `duration` ms; instant under reduced motion or in fixtures.
+  function tween(key, duration, easing, draw) {
+    stop(key);
+    if (!moving() || typeof requestAnimationFrame !== 'function') { draw(1, true); return; }
+    const ease = curve(easing), start = performance.now();
+    const frame = now => {
+      const k = Math.min(1, (now - start) / duration);
+      draw(k === 1 ? 1 : ease(k), k === 1);
+      if (k < 1) running.set(key, requestAnimationFrame(frame)); else running.delete(key);
+    };
+    running.set(key, requestAnimationFrame(frame));
+  }
+  function open(dialog) {
+    dialog.closing?.cancel();
+    if (!dialog.open) dialog.showModal();
+  }
+  // Plays the close animation, then calls the real close(). Reopening cancels it.
+  function close(dialog) {
+    if (!dialog?.open || dialog.closing) return;
+    if (!can(dialog) || typeof dialog.getAnimations !== 'function') { dialog.close(); return; }
+    let cancelled = false;
+    dialog.classList.add('is-closing');
+    dialog.closing = { cancel() { cancelled = true; dialog.closing = null; dialog.classList.remove('is-closing'); } };
+    const outro = dialog.getAnimations().filter(a => /j-(window|fade)-out/.test(a.animationName || ''));
+    Promise.all(outro.map(a => a.finished)).then(() => {
+      if (cancelled) return;
+      dialog.closing = null; dialog.classList.remove('is-closing'); dialog.close();
+    }, () => {});
+  }
+  // Runs fn once a just-opened window has settled, unless focus already moved.
+  function settled(dialog, fn) {
+    const intro = typeof dialog?.getAnimations === 'function' ? dialog.getAnimations().filter(a => a.animationName === 'j-window-in' && a.playState === 'running') : [];
+    if (!intro.length) { fn(); return; }
+    const before = document.activeElement;
+    Promise.all(intro.map(a => a.finished)).then(() => { if (document.activeElement === before) fn(); }, () => {});
+  }
+  // New window content: 8px slide from the right with a crossfade.
+  function enter(el) {
+    if (!can(el)) return;
+    el.animate(moving() ? [{ opacity: 0, transform: 'translateX(8px)' }, { opacity: 1, transform: 'none' }] : [{ opacity: 0 }, { opacity: 1 }],
+      { duration: ms(moving() ? '--t-std' : '--t-quick'), easing: token('--ease') });
+  }
+  // Moves one highlight between sidebar items instead of repainting each item.
+  function pill(nav) {
+    if (!nav?.querySelector) return;
+    let marker = nav.querySelector(':scope > .nav-pill');
+    if (!marker) {
+      if (typeof nav.prepend !== 'function') return;
+      marker = document.createElement('span'); marker.className = 'nav-pill'; marker.setAttribute('aria-hidden', 'true'); marker.hidden = true;
+      nav.prepend(marker); nav.classList.add('has-pill');
+    }
+    const current = nav.querySelector('button[aria-current]');
+    if (!current || !current.offsetWidth) { marker.hidden = true; return; }
+    const first = marker.hidden;
+    marker.hidden = false;
+    marker.style.width = `${current.offsetWidth}px`; marker.style.height = `${current.offsetHeight}px`;
+    marker.style.transform = `translate(${current.offsetLeft}px, ${current.offsetTop}px)`;
+    if (first || !moving()) { marker.style.transition = 'none'; void marker.offsetWidth; marker.style.transition = ''; }
+  }
+  // The only celebration: a check that pops and draws, and six dots that burst once.
+  function celebrate(host) {
+    if (!host?.insertAdjacentHTML || !moving()) return;
+    host.insertAdjacentHTML('beforeend', [0, 1, 2, 3, 4, 5].map(i => {
+      const a = i * Math.PI / 3 + .3;
+      return `<span class="confetti" aria-hidden="true" style="--dx:${Math.round(Math.cos(a) * 26)}px;--dy:${Math.round(Math.sin(a) * 26)}px"></span>`;
+    }).join(''));
+    setTimeout(() => host.querySelectorAll(':scope > .confetti').forEach(dot => dot.remove()), 700);
+  }
+  if (typeof document.addEventListener === 'function') {
+    // Escape plays the same close animation as the close buttons.
+    document.addEventListener('cancel', e => { if (e.target?.localName === 'dialog') { e.preventDefault(); close(e.target); } }, true);
+    document.addEventListener('visibilitychange', () => root?.classList.toggle('page-hidden', document.hidden));
+  }
+  return { token, ms, can, moving, curve, stop, tween, open, close, settled, enter, pill, celebrate };
+})();
 let demo = false, systemOnline = false, lastSystem = null, previousSystem = null;
 let appCatalog = [], graphSamples = [], graphInterface = '';
 let sshInfo = null, sshSubmitting = false, sshError = '';
@@ -52,9 +151,15 @@ function ago(seconds) {
 }
 function meter(id, value) { $(id).style.transform = `scaleX(${value / 100})`; }
 function gauge(id, textID, value) {
-  const element = $(id);
-  $(textID).textContent = value === null ? '—' : `${value}%`;
-  element.querySelector('.gauge-fill').style.strokeDasharray = `${value === null ? 0 : value * 1.885} 251.3`;
+  const element = $(id), fill = element.querySelector('.gauge-fill');
+  const from = Number(fill.dataset.value) || 0, to = value ?? 0;
+  fill.dataset.value = to;
+  // The ring sweeps to the new value and the number counts along with it.
+  JenerMotion.tween(fill, 600, '--ease', (k, done) => {
+    const now = done ? to : from + (to - from) * k;
+    fill.style.strokeDasharray = `${now * 1.885} 251.3`;
+    $(textID).textContent = value === null ? '—' : `${Math.round(now)}%`;
+  });
   if (value === null) { element.removeAttribute('aria-valuenow'); element.setAttribute('aria-valuetext', 'Not available yet'); }
   else { element.setAttribute('aria-valuenow', value); element.removeAttribute('aria-valuetext'); }
 }
@@ -83,11 +188,16 @@ function renderNetwork(s) {
   const name = selected?.name || '';
   if (name !== graphInterface) { graphSamples = []; graphInterface = name; }
   const rates = name ? DesktopMetrics.network(previousSystem, s, name) : null;
+  const shift = !!rates && graphSamples.length >= 48;
   if (rates) graphSamples.push(rates); else graphSamples = [];
   graphSamples = graphSamples.slice(-48);
   const scale = Math.max(1024, ...graphSamples.flatMap(p => [p.down, p.up]));
   $('networkDown').setAttribute('d', DesktopMetrics.graph(graphSamples, 'down', scale));
   $('networkUp').setAttribute('d', DesktopMetrics.graph(graphSamples, 'up', scale));
+  // A full graph scrolls: the newest point slides in from the right.
+  if (shift && JenerMotion.moving()) for (const id of ['networkDown', 'networkUp']) {
+    if (JenerMotion.can($(id))) $(id).animate([{ transform: `translateX(${240 / 47}px)` }, { transform: 'none' }], { duration: JenerMotion.ms('--t-slow'), easing: JenerMotion.token('--ease') });
+  }
   const rate = bytes => bytes >= 1e6 ? `${(bytes / 1e6).toFixed(1)} MB/s` : `${(bytes / 1000).toFixed(1)} KB/s`;
   $('downloadRate').textContent = rates ? rate(rates.down) : '—';
   $('uploadRate').textContent = rates ? rate(rates.up) : '—';
@@ -186,28 +296,34 @@ function openApp(id) {
     ? `${app.name} is ${app.status}. Launch and management controls are coming with app management.`
     : builtin?.soon || 'This app is coming soon. Take a look in the app catalog.';
   $('storeList').hidden = true;
-  if (!$('appWindow').open) $('appWindow').showModal();
+  JenerMotion.open($('appWindow'));
 }
 function openSettings(page = 'general') {
   const titles = { general: 'General', storage: 'Storage', network: 'Network', apps: 'Apps', account: 'Account', power: 'Power' };
   if (!titles[page]) page = 'general';
   $('appWindow').close();
   $('settingsFeedback').hidden = true;
-  document.querySelectorAll('[data-settings-panel]').forEach(panel => { panel.hidden = panel.dataset.settingsPanel !== page; });
+  const win = $('settingsWindow'), opening = !win.open || !!win.closing;
+  const panels = [...document.querySelectorAll('[data-settings-panel]')];
+  const before = panels.find(panel => !panel.hidden)?.dataset.settingsPanel;
+  panels.forEach(panel => { panel.hidden = panel.dataset.settingsPanel !== page; });
   document.querySelectorAll('.settings-sidebar [data-settings]').forEach(button => {
     if (button.dataset.settings === page) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
   });
   $('settingsPageTitle').textContent = titles[page];
-  if (!$('settingsWindow').open) $('settingsWindow').showModal();
-  $('settingsWindow').querySelector('.settings-scroll').scrollTop = 0;
-  $('settingsPageTitle').focus({ preventScroll: true });
+  JenerMotion.open(win);
+  win.querySelector('.settings-scroll').scrollTop = 0;
+  JenerMotion.pill(win.querySelector('.settings-sidebar nav'));
+  if (!opening && before !== page) JenerMotion.enter(panels.find(panel => !panel.hidden));
+  // Focus moves once the window has settled (instantly if it was already open).
+  JenerMotion.settled(win, () => $('settingsPageTitle').focus({ preventScroll: true }));
 }
 function route() {
   const view = location.hash.slice(2);
   if (['system', 'storage', 'network', 'account', 'settings'].includes(view)) openSettings(view === 'system' || view === 'settings' ? 'general' : view);
   else if (view === 'apps') openCatalog();
   else if (['files', 'photos', 'backup', 'machines'].includes(view)) openApp(view);
-  else { $('settingsWindow').close(); $('appWindow').close(); JenerStore.close(); }
+  else { JenerMotion.close($('settingsWindow')); JenerMotion.close($('appWindow')); JenerStore.close(); }
 }
 function savePreferences() {
   if (!DesktopPreferences.save()) toast('Changed for now. This browser could not save your choices.');
@@ -354,12 +470,12 @@ document.addEventListener('click', e => {
   const settings = e.target.closest('[data-settings]'), app = e.target.closest('[data-app]'), close = e.target.closest('[data-close]');
   if (settings) openSettings(settings.dataset.settings);
   else if (app) openApp(app.dataset.app);
-  else if (close) $(close.dataset.close).close();
+  else if (close) JenerMotion.close($(close.dataset.close));
 });
-$('closeSettings').addEventListener('click', () => $('settingsWindow').close());
+$('closeSettings').addEventListener('click', () => JenerMotion.close($('settingsWindow')));
 $('addApp').addEventListener('click', openCatalog);
 $('browseApps').addEventListener('click', openCatalog);
-$('widgetSettings').addEventListener('click', () => $('widgetWindow').showModal());
+$('widgetSettings').addEventListener('click', () => JenerMotion.open($('widgetWindow')));
 $('powerRollback').addEventListener('click', () => { openSettings('general'); $('rollbackBtn').focus(); });
 $('deviceInfo').addEventListener('click', () => {
   $('facts').hidden = !$('facts').hidden;
@@ -397,8 +513,31 @@ function noticeStops() {
 function notice(index) {
   const stops = noticeStops();
   noticeIndex = Math.max(0, Math.min(stops.length - 1, index));
-  const left = stops[noticeIndex];
-  track.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  scrollNotices(stops[noticeIndex]);
+}
+// Slides by one card with the signature curve; touch, wheel or a key stops it.
+function scrollNotices(left) {
+  if (!JenerMotion.moving()) {
+    track.scrollLeft = left;
+    if (JenerMotion.can(track)) track.animate([{ opacity: .4 }, { opacity: 1 }], { duration: JenerMotion.ms('--t-quick'), easing: JenerMotion.token('--ease') });
+    return;
+  }
+  const from = track.scrollLeft;
+  track.style.scrollSnapType = 'none';
+  JenerMotion.tween(track, 320, '--ease', (k, done) => {
+    track.scrollLeft = from + (left - from) * k;
+    if (done) track.style.scrollSnapType = '';
+  });
+}
+function stopNotices() { JenerMotion.stop(track); track.style.scrollSnapType = ''; restartNotices(); }
+// Auto-advance no faster than every 8s; paused on hover, focus, open windows,
+// hidden tabs and reduced motion.
+let noticeTimer;
+function restartNotices() { clearInterval(noticeTimer); noticeTimer = setInterval(autoNotice, 8000); }
+function autoNotice() {
+  if (!JenerMotion.moving() || document.hidden || document.querySelector('dialog[open]') || track.closest('.notices').matches(':hover, :focus-within')) return;
+  const stops = noticeStops();
+  if (stops.length > 1) notice(noticeIndex + 1 >= stops.length ? 0 : noticeIndex + 1);
 }
 function syncNotices() {
   const stops = noticeStops();
@@ -411,14 +550,18 @@ function syncNotices() {
   $('noticePrev').disabled = track.scrollLeft <= 1;
   $('noticeNext').disabled = track.scrollLeft >= max - 1;
 }
-$('noticePrev').addEventListener('click', () => notice(noticeIndex - 1));
-$('noticeNext').addEventListener('click', () => notice(noticeIndex + 1));
+$('noticePrev').addEventListener('click', () => { restartNotices(); notice(noticeIndex - 1); });
+$('noticeNext').addEventListener('click', () => { restartNotices(); notice(noticeIndex + 1); });
 $('noticeDots').addEventListener('click', e => {
   const dot = e.target.closest('[data-notice]');
-  if (dot) notice(Number(dot.dataset.notice));
+  if (dot) { restartNotices(); notice(Number(dot.dataset.notice)); }
 });
 track.addEventListener('scroll', syncNotices, { passive: true });
-window.addEventListener('resize', syncNotices);
+for (const name of ['pointerdown', 'wheel', 'touchstart']) track.addEventListener(name, stopNotices, { passive: true });
+window.addEventListener('resize', () => {
+  syncNotices();
+  document.querySelectorAll('.settings-sidebar nav.has-pill').forEach(JenerMotion.pill);
+});
 
 // Arrow keys stay inside the top dialog. Native editors and radios keep their
 // own keyboard behavior; the desktop keeps TV remote navigation.
@@ -450,7 +593,9 @@ document.addEventListener('keydown', e => {
 
 // ---------- start ----------
 applyWidgets(); updateAvatarChoices(); clock(); setInterval(clock, 1000);
-renderApps([]); route(); syncNotices(); pollSystem(); pollSSH(); renderUpdate();
+renderApps([]); route(); syncNotices(); pollSystem(); pollSSH(); renderUpdate(); restartNotices();
+// The load cascade plays once; later re-renders appear without it.
+setTimeout(() => document.body.classList.remove('is-arriving'), 700);
 (async () => {
   try { renderApps(await getJSON('/api/store')); } catch { renderApps(SAMPLE_STORE); }
 })();
