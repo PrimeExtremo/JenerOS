@@ -240,7 +240,7 @@ function renderSystem(s) {
   meter('meterDisk', diskPercent); meter('meterDisk2', diskPercent);
   if (s.diskTotalB) $('diskMeter').setAttribute('aria-valuenow', diskPercent); else $('diskMeter').removeAttribute('aria-valuenow');
   $('storageBig').textContent = s.diskTotalB ? `${gb(s.diskFreeB)} free` : 'Space unknown';
-  $('storageNote').textContent = s.diskTotalB ? `${gb(usedDisk)} used of ${gb(s.diskTotalB)}. Apps, settings and logs live here.` : 'Apps, settings and logs live here.';
+  $('storageNote').textContent = s.diskTotalB ? `Your data space: ${gb(usedDisk)} used of ${gb(s.diskTotalB)}. The rest holds two copies of JenerOS for safe updates.` : 'Apps, settings and logs live here.';
   $('storageNotice').textContent = s.diskTotalB ? `${gb(s.diskFreeB)} free on your system disk. Manage your disks or create storage for your files.` : 'Your system disk keeps apps, settings and logs. Open Storage to manage your disks.';
   $('deviceName').textContent = s.hostname || 'JenerOS';
   $('deviceIP').textContent = s.addresses?.join(' · ') || 'No address yet';

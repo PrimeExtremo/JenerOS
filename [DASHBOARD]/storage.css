@@ -59,7 +59,11 @@
 .storage-disk { display: flex; gap: 14px; align-items: center; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 16px; cursor: pointer; }
 .storage-disk > span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .storage-disk small { display: block; color: var(--soft); margin-top: 5px; }
-.storage-disk.unavailable { cursor: default; background: transparent; }
+.storage-disk.unavailable { opacity: .5; cursor: default; background: transparent; }
+.storage-disk.unavailable:hover { background: transparent; }
+.storage-table tr.unavailable { opacity: .5; background: transparent; }
+.storage-table tr.unavailable:hover { background: transparent; }
+.storage-table tr.unavailable label, .storage-table tr.unavailable input, .storage-disk.unavailable input { cursor: default; }
 .storage-disk.unavailable input { opacity: .5; }
 .storage-capacity-bar { display: flex; height: 12px; margin-top: 16px; border-radius: 6px; background: var(--track); overflow: hidden; }
 .storage-capacity-bar i:first-child { background: var(--sage); }
