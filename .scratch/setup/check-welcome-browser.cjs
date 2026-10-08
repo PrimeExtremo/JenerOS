@@ -8,8 +8,10 @@ const os = require('node:os');
 const { spawn, execFileSync } = require('node:child_process');
 const root = path.resolve('[DASHBOARD]');
 const baseline = process.argv.includes('--baseline');
+const suite = process.env.JENER_UI_FIXTURE || 'welcome';
+if (!['welcome', 'click-shim', 'shine'].includes(suite)) throw Error('Unknown browser fixture');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
-const checks = fs.readFileSync(path.join(__dirname, 'welcome-browser.js'), 'utf8');
+const checks = fs.readFileSync(path.join(__dirname, suite + '-browser.js'), 'utf8');
 let browser, timer;
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://fixture');
@@ -26,15 +28,17 @@ const server = http.createServer((req, res) => {
     res.end(`<html><body><script>
       (async () => {
         const errors = [], passed = [];
-        for (const theme of ['dark', 'light']) for (const width of [1280, 390]) for (const mode of ['native', 'missing', 'throwing', 'noop', 'qr-failure']) {
+        for (const page of ${JSON.stringify(suite === 'shine' ? ['setup', 'login'] : ['setup'])})
+        for (const theme of ['dark', 'light']) for (const width of [1280, 390]) for (const mode of ${JSON.stringify(suite === 'welcome' ? ['native', 'missing', 'throwing', 'noop', 'qr-failure'] : suite === 'shine' ? ['native', 'reduced-motion', 'reduced-transparency'] : ['native'])}) {
           const frame = document.createElement('iframe'); frame.width = width; frame.height = 800;
           frame.style.border = '0'; document.body.append(frame);
           const result = await new Promise(resolve => {
-            const listener = e => { if (e.source === frame.contentWindow) { window.removeEventListener('message', listener); resolve(e.data); } };
+            const timeout = setTimeout(() => { window.removeEventListener('message', listener); resolve({error:'Frame did not report a result: ' + page}); }, 8000);
+            const listener = e => { if (e.source === frame.contentWindow) { clearTimeout(timeout); window.removeEventListener('message', listener); resolve(e.data); } };
             window.addEventListener('message', listener);
-            frame.src = '/setup.html?code=012345&theme=' + theme + '&mode=' + mode;
+            frame.src = '/' + page + '.html?code=012345&theme=' + theme + '&mode=' + mode;
           });
-          const tag = theme + '/' + width + '/' + mode;
+          const tag = page + '/' + theme + '/' + width + '/' + mode;
           if (result.error) errors.push(tag + ': ' + result.error); else passed.push(tag);
           frame.remove();
         }
@@ -44,6 +48,7 @@ const server = http.createServer((req, res) => {
   }
   if (url.pathname.startsWith('/api/')) {
     res.setHeader('Content-Type', 'application/json');
+    if (url.pathname === '/api/auth/session') { res.writeHead(401); res.end('{}'); return; }
     res.end(JSON.stringify(url.pathname === '/api/system' ? { hostname: 'jeneros', addresses: ['192.168.1.20'] }
       : url.pathname === '/api/setup/status' ? { state: 'waiting' }
       : { keymaps: [{ id: 'us', name: 'English (US)' }], timezones: ['UTC'], interfaces: ['eth0'], hostname: 'jeneros', reservedUsernames: [] })); return;
@@ -53,7 +58,7 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', types[path.extname(file)] || 'application/octet-stream');
   let source = baseline && /\.(html|css|js)$/.test(file)
     ? execFileSync('git', ['show', 'HEAD:[DASHBOARD]/' + path.relative(root, file).replaceAll('\\', '/')]) : fs.readFileSync(file);
-  if (url.pathname === '/setup.html') {
+  if (url.pathname === '/setup.html' || (suite === 'shine' && url.pathname === '/login.html')) {
     source = source.toString().replace('<head>', `<head><script>
       const mode = new URLSearchParams(location.search).get('mode');
       localStorage.setItem('jeneros.desktop', JSON.stringify({theme:new URLSearchParams(location.search).get('theme')}));
@@ -61,6 +66,18 @@ const server = http.createServer((req, res) => {
       if (mode === 'throwing') HTMLDialogElement.prototype.showModal = function(){throw Error('fixture showModal failure')};
       if (mode === 'noop') HTMLDialogElement.prototype.showModal = function(){};
       if (mode === 'qr-failure') window.TextEncoder = undefined;
+      ${suite === 'shine' ? `
+      window.fixturePreferences = {};
+      const realMatchMedia = window.matchMedia.bind(window);
+      window.matchMedia = query => {
+        const actual = realMatchMedia(query), listeners = [];
+        const mock = { override:query === '(prefers-' + mode + ': reduce)' ? true : undefined,
+          get matches(){return mock.override === undefined ? actual.matches : mock.override},
+          addEventListener(type, fn){listeners.push(fn)}, addListener(fn){listeners.push(fn)},
+          set(value){mock.override=value; listeners.forEach(fn => fn(mock))} };
+        (window.fixturePreferences[query] ||= []).push(mock); return mock;
+      };
+      ` : ''}
     </script>`).replace('</body>', `<script>${checks}</script></body>`);
   }
   res.end(source);

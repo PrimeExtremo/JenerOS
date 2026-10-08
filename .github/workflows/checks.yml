@@ -41,14 +41,16 @@ jobs:
           node-version: 22
       - name: JavaScript syntax
         run: for f in "[DASHBOARD]"/*.js; do node --check "$f"; done
-      # Local fixtures with fake DOMs and fake services. Browser checks that
-      # need a running jenerd (check-store.cjs) are not run here.
+      # Local fixtures with fake services. Browser fixtures use preinstalled
+      # Chromium and fake APIs; no running jenerd or browser downloads needed.
       - name: Fixtures
         run: |
           for f in \
             .scratch/setup/check-pages.cjs \
             .scratch/setup/check-controls.cjs \
             .scratch/setup/check-welcome.cjs \
+            .scratch/setup/check-click-shim.cjs \
+            .scratch/setup/check-shine.cjs \
             .scratch/setup/check-phone.cjs \
             .scratch/setup/check-qr.cjs \
             .scratch/setup/check-rollback.cjs \
