@@ -53,6 +53,8 @@ jobs:
             .scratch/setup/check-screen.cjs \
             .scratch/setup/check-validation.cjs \
             .scratch/zimaos/check-desktop.cjs \
+            .scratch/zimaos/check-login.cjs \
+            .scratch/zimaos/check-onboarding.cjs \
             .scratch/zimaos/check-ssh-helper.cjs
           do
             echo "::group::$f"
