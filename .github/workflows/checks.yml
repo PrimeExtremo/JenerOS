@@ -1,0 +1,61 @@
+# Fast checks for every pull request: the same ones an AI or contributor runs
+# locally (see AGENTS.md). No OS images are built here.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, zimaos-style]
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    name: go
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: "[CORE]"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "[CORE]/go.mod"
+          cache-dependency-path: "[CORE]/go.mod"
+      - name: gofmt
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then echo "Run gofmt -w on:"; echo "$unformatted"; exit 1; fi
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go build ./...
+
+  dashboard:
+    name: dashboard
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: JavaScript syntax
+        run: for f in "[DASHBOARD]"/*.js; do node --check "$f"; done
+      # Local fixtures with fake DOMs and fake services. Browser checks that
+      # need a running jenerd (check-store.cjs) are not run here.
+      - name: Fixtures
+        run: |
+          for f in \
+            .scratch/setup/check-pages.cjs \
+            .scratch/setup/check-phone.cjs \
+            .scratch/setup/check-qr.cjs \
+            .scratch/setup/check-rollback.cjs \
+            .scratch/setup/check-screen.cjs \
+            .scratch/setup/check-validation.cjs \
+            .scratch/zimaos/check-desktop.cjs \
+            .scratch/zimaos/check-ssh-helper.cjs
+          do
+            echo "::group::$f"
+            node "$f"
+            echo "::endgroup::"
+          done
