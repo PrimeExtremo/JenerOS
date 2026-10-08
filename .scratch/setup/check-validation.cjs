@@ -20,7 +20,7 @@ test.validate(); assert.equal(element('next').disabled, true);
 element('acceptedPrivacy').checked = true; test.validate(); assert.equal(element('next').disabled, false);
 element('language').value = 'en';
 assert.equal(test.request().acceptedPrivacy, true); assert.equal(test.request().language, 'en');
-test.step(4); test.validate(); assert.equal(element('next').disabled, true);
+test.step(1); test.validate(); assert.equal(element('next').disabled, true);
 element('password').value = element('passwordConfirm').value = '12345678';
 for (const value of ['a', 'jener_2', 'home-owner', 'a'.repeat(32)]) {
   element('username').value = value; test.validate(); assert.equal(element('next').disabled, false, value);

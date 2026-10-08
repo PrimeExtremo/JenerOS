@@ -38,8 +38,7 @@ func (s *Server) Register(mux *http.ServeMux) {
 // sameSite rejects state-changing requests that lack the X-JenerOS header.
 // Browsers won't attach a custom header cross-origin without a CORS preflight
 // (which jenerd never answers), so other websites can't trigger these.
-// ponytail: blocks CSRF only; anyone on the LAN can still call the API until
-// the M3 owner account adds real auth.
+// OwnerOnly also requires the owner session across the production mux.
 func sameSite(h http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("X-JenerOS") != "1" {
