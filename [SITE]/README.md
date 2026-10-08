@@ -84,20 +84,41 @@ from a local server, take a 1200 x 630 screenshot, and save it as `og-image.png`
 
 ## The preview page, screenshots and videos
 
-`preview.html` tells a scroll story: each real screen floats in 3D over the ribbon wallpaper and
-settles flat while its caption appears on a piece of glass, with one soft light sweep as it lands.
-Chromium also bends the background behind the captions (an SVG filter used as a backdrop filter);
-other browsers get frosted glass with the same rim light.
-With reduced motion or JavaScript off, the same screens show as a calm, still grid.
+`preview.html` is a cinematic tour: a booting box, assembled brand lettering, icon close-ups,
+a growing CPU widget, phone connection, Settings flip, disk bays, rollback and App Store, then
+a closing screen stack. Short word cards separate the shots. The warm cinema background stays
+dark; real screens and small glass pieces follow the system's light/dark preference.
 
-Everything the story shows depends only on the scroll position, so it can also be filmed frame by frame.
-To retake the screenshots or the videos after the dashboard changes (Linux or the build VM, needs
-Node with Playwright, Python with Pillow and ffmpeg), from the repo root:
+Scroll normally through nine sticky stages. **Still view** stops motion. Reduced motion,
+forced colors or JavaScript off use the same real captions and screens in a still grid.
+The only blur/refraction is on small chips and far macro icons, never on screen-sized layers.
+One requestAnimationFrame loop handles scroll progress, idle drift and pointer light; an
+IntersectionObserver stops offscreen work. The thin progress line uses a native CSS scroll
+timeline when supported, with a JS fallback. No libraries or external requests.
+
+For a clock-driven trailer, open:
+
+```text
+/preview.html?trailer=1&beats=assets/video/beats.json
+```
+
+The supplied grid is **96 BPM, offset 0.5 seconds, 43 seconds total**. The page is silent;
+the quiet `assets/video/test-click.wav` is only a timing aid for the recorder. No music is licensed
+or included. `sfx-cues.json` lists sound-effect times and types. A cleared track can replace the
+test clicks after beat analysis. See `.scratch/marketing/README.md` for exact commands.
+
+**Video status (2026-10-08):** the MP4s and posters are still the earlier 30 fps tour. ffmpeg was
+not available locally, so they were preserved. Links say "Earlier preview" until both new cuts
+are generated. The new recorder exports both sizes at 60 fps, enforces under 15 MB per file,
+normalizes audio toward -14 LUFS and adds 0.5/1.5 second fades. It needs installed Chrome/Edge,
+Node 22+ and ffmpeg; no Playwright dependency for recording.
+
+To refresh screenshots (the existing capture tool still needs Playwright and Python/Pillow):
 
 ```bash
 node .scratch/marketing/capture-shots.cjs     # PNGs into [SITE]/assets/shots/src/
 python3 .scratch/marketing/make-webp.py       # WebP 1x and 2x into [SITE]/assets/shots/
-node .scratch/marketing/record-video.cjs      # MP4s and posters into [SITE]/assets/video/
+node .scratch/marketing/record-video.cjs      # after ffmpeg is available; both 60 fps cuts
 ```
 
 More detail: `.scratch/marketing/README.md`.

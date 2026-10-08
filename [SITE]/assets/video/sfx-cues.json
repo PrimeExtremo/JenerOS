@@ -1,0 +1,70 @@
+[
+  {
+    "time": 0.5,
+    "type": "boot"
+  },
+  {
+    "time": 1.75,
+    "type": "whoosh"
+  },
+  {
+    "time": 3,
+    "type": "chime"
+  },
+  {
+    "time": 6.75,
+    "type": "whoosh"
+  },
+  {
+    "time": 9.25,
+    "type": "pop"
+  },
+  {
+    "time": 14.25,
+    "type": "whoosh"
+  },
+  {
+    "time": 16.75,
+    "type": "chime"
+  },
+  {
+    "time": 18,
+    "type": "whoosh"
+  },
+  {
+    "time": 21.75,
+    "type": "pop"
+  },
+  {
+    "time": 22.375,
+    "type": "pop"
+  },
+  {
+    "time": 23,
+    "type": "pop"
+  },
+  {
+    "time": 25.5,
+    "type": "chime"
+  },
+  {
+    "time": 31.75,
+    "type": "whoosh"
+  },
+  {
+    "time": 34.875,
+    "type": "pop"
+  },
+  {
+    "time": 38,
+    "type": "whoosh"
+  },
+  {
+    "time": 40.5,
+    "type": "chime"
+  },
+  {
+    "time": 41.75,
+    "type": "pop"
+  }
+]
