@@ -7,6 +7,9 @@ const button = { disabled: true, addEventListener(name, fn) { handlers[name] = f
 let requests = [], messages = [];
 const context = vm.createContext({ window: {}, document: { createElement() { return dialog; }, body: { append() {} } },
   fetch: async (url, options) => { requests.push({ url, options }); return { ok: true }; } });
+context.JenerSession = { fetch: (...args) => context.fetch(...args), loginURL: () => '/login?next=%2Fscreen.html' };
+let destination;
+context.location = { assign(url) { destination = url; } };
 vm.runInContext(fs.readFileSync('[DASHBOARD]/rollback.js', 'utf8'), context);
 const rollback = context.window.JenerRollback.bind(button, message => messages.push(message));
 (async () => {
@@ -27,5 +30,8 @@ const rollback = context.window.JenerRollback.bind(button, message => messages.p
   rollback.open(); dialog.open = false; dialog.returnValue = 'start'; await handlers.close();
   assert.equal(rollback.pending, false); assert.equal(messages.at(-1), 'Busy');
   rollback.offline(); assert.equal(button.disabled, true);
+  rollback.requireLogin(); rollback.open();
+  assert.equal(destination, '/login?next=%2Fscreen.html');
+  assert.equal(rollback.pending, false);
   console.log('Rollback UI checks passed: confirm, cancel, CSRF, double submit, busy, stale failure and retry.');
 })().catch(err => { console.error(err); process.exitCode = 1; });

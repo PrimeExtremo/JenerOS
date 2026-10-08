@@ -92,6 +92,7 @@ const context = vm.createContext({ window: { addEventListener() {} }, document: 
   JenerRollback: { bind() { return { pending: false, render() {}, offline() {} }; } },
   fetch: async (url, options) => { requests.push({ url, options }); return { ok: true, json: async () => ({}) }; },
 });
+context.JenerSession = { fetch: (...args) => context.fetch(...args) };
 vm.runInContext(source.slice(0, source.indexOf('// ---------- start ----------')), context);
 const run = code => vm.runInContext(code, context);
 run('renderApps(SAMPLE_STORE)');

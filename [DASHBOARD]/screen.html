@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="vendor/qrcode.js" defer></script>
   <script src="box-ui.js" defer></script>
+  <script src="session.js" defer></script>
   <script src="rollback.js" defer></script>
   <script src="screen.js" defer></script>
 </head>
@@ -28,7 +29,7 @@
       <div class="screen-connect"><div><h2 class="panel-title">Make yourself at home</h2><p class="note" id="phonePrompt" role="status">Finding your dashboard address…</p><a class="box-address" id="screenAddress" hidden></a><a class="box-address" id="screenLocalAddress" hidden></a><p class="note">Scan with your phone's camera on the same home network.</p></div><div class="box-qr" id="screenQR" role="img" aria-label="Dashboard link for your phone" hidden></div></div>
       <p class="note screen-ssh" id="screenSSH">Checking SSH status…</p>
     </section>
-    <footer class="screen-footer"><div><button class="pill" id="rollbackBtn" disabled>Start previous version</button><p class="note">Press <kbd>S</kbd> to switch to the other installed version and reboot.</p><p class="note" id="rollbackMessage" role="status"></p></div><span>A little box. All yours.</span></footer>
+    <footer class="screen-footer"><div><button class="pill" id="rollbackBtn" disabled>Start previous version</button><p class="note">Press <kbd>S</kbd> to sign in and choose the other installed version.</p><p class="note" id="rollbackMessage" role="status"></p></div><span>A little box. All yours.</span></footer>
   </main>
   <svg width="0" height="0" aria-hidden="true" class="svg-defs"><defs><path id="j-mark" fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z M144 208H176V240H144Z"/></defs></svg>
   <noscript><p class="setup-card">Turn on JavaScript to see your box's address and details.</p></noscript>

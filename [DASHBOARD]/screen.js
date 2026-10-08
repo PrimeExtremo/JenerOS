@@ -42,6 +42,7 @@
   async function updates() {
     try {
       const res = await fetch('/api/update', { cache: 'no-store' });
+      if (res.status === 401) { rollback.requireLogin(); return; }
       if (!res.ok) throw new Error('Disconnected');
       rollback.render(await res.json());
     } catch { rollback.offline(); }

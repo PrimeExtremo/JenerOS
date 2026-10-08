@@ -40,7 +40,7 @@ function toast(message) {
   toastTimer = setTimeout(() => $('toast').classList.remove('show'), 3500);
 }
 async function getJSON(path) {
-  const res = await fetch(path, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+  const res = await JenerSession.fetch(path, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
   if (!res.ok) throw new Error(res.status);
   return res.json();
 }
@@ -211,7 +211,7 @@ function route() {
   const view = location.hash.slice(2);
   if (['system', 'storage', 'network', 'account', 'settings'].includes(view)) openSettings(view === 'system' || view === 'settings' ? 'general' : view);
   else if (view === 'apps') openCatalog();
-  else if (view === 'machines') openApp('machines');
+  else if (['files', 'photos', 'backup', 'machines'].includes(view)) openApp(view);
   else { $('settingsWindow').close(); $('appWindow').close(); }
 }
 function savePreferences() {
@@ -246,7 +246,7 @@ $('sshToggle').addEventListener('change', async () => {
   if (sshSubmitting || !sshInfo?.available || sshInfo.devMode) { renderSSH(); return; }
   sshError = ''; sshSubmitting = true; renderSSH();
   try {
-    const res = await fetch('/api/settings/ssh', { method: 'POST', headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ enabled }), signal: AbortSignal.timeout(8000) });
+    const res = await JenerSession.fetch('/api/settings/ssh', { method: 'POST', headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ enabled }), signal: AbortSignal.timeout(8000) });
     if (!res.ok) { const data = await res.json(); throw new Error(data.error || 'Could not change developer access.'); }
     sshInfo = { ...sshInfo, requested: true };
   } catch (err) { sshError = err.message || 'Could not reach your box. Please try again.'; }
@@ -328,7 +328,7 @@ async function startUpdate() {
   updateBusy = true;
   setUpdate('Starting the update…');
   try {
-    const res = await fetch('/api/update', POST);
+    const res = await JenerSession.fetch('/api/update', POST);
     if (!res.ok) throw new Error(res.status);
   } catch {
     updateBusy = false;
@@ -344,7 +344,7 @@ $('checkBtn').addEventListener('click', async () => {
   btn.disabled = true;
   btn.textContent = 'Checking…';
   try {
-    const res = await fetch('/api/update/check', POST);
+    const res = await JenerSession.fetch('/api/update/check', POST);
     if (!res.ok) throw new Error(res.status);
     setTimeout(renderUpdate, 4000);
   } catch {
@@ -459,4 +459,17 @@ renderApps([]); route(); syncNotices(); pollSystem(); pollSSH(); renderUpdate();
 (async () => {
   try { renderApps(await getJSON('/api/store')); } catch { catalogSample = true; renderApps(SAMPLE_STORE); }
   if ($('appWindow').open && $('appWindowTitle').textContent === 'App catalog') openCatalog();
+})();
+
+$('signOut').addEventListener('click', async () => {
+  $('signOut').disabled = true;
+  try {
+    const res = await JenerSession.fetch('/api/auth/logout', POST);
+    if (!res.ok) throw new Error('Could not sign out. Please try again.');
+    location.replace('/login');
+  } catch (err) { toast(err.message); $('signOut').disabled = false; }
+});
+(async () => {
+  try { const session = await getJSON('/api/auth/session'); $('ownerName').textContent = session.username; }
+  catch { /* Static previews can still show their sample data. */ }
 })();

@@ -1,0 +1,25 @@
+[Unit]
+Description=JenerOS owner password verifier
+Requires=jeneros-auth.socket
+After=jeneros-auth.socket
+BindsTo=jenerd.service
+
+[Service]
+ExecStart=/usr/bin/jenerd auth-helper
+Environment=GOMAXPROCS=2
+User=root
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH
+LimitCORE=0
+MemoryMax=128M
+TasksMax=32
+Restart=on-failure
+RestartSec=2s

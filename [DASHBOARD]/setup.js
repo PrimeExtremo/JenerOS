@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const labels = ['Welcome', 'Keyboard', 'Timezone', 'Box name', 'Owner', 'Network', 'Summary', 'Done'];
+  const labels = ['Welcome', 'Create account', 'Introducing JenerOS'];
   let step = 0, info, network, busy = false, finished = false, submitted = false;
   let code = new URLSearchParams(location.search).get('code') || '';
   const touched = new Set();
@@ -27,7 +27,7 @@
     }
     $('next').disabled = !info || busy
       || (step === 0 && (!$('acceptedPrivacy').checked || !/^\d{6}$/.test(code)))
-      || (step === 4 && Object.values(errors).some(Boolean));
+      || (step === 1 && Object.values(errors).some(Boolean));
     return !Object.values(errors).some(Boolean);
   }
   $('wizard').addEventListener('input', e => {
@@ -52,11 +52,10 @@
       return li;
     }));
     $('back').hidden = step === 0;
-    $('actions').hidden = busy || step === 7;
-    $('next').textContent = step === 0 ? "Let's begin" : step === 6 ? 'Set up my box' : 'Continue';
-    $('wizard').setAttribute('aria-busy', String(busy || !info));
+    $('actions').hidden = busy || step === 2;
+    $('next').setAttribute('aria-label', step === 0 ? 'Continue to create your account' : 'Create account and set up my box');
+    $('wizard').setAttribute('aria-busy', String(!finished && (busy || !info)));
     $('applying').hidden = !busy;
-    if (step === 6 && info) summary();
     validateFields();
     if (focus && !busy) document.querySelector(`[data-step="${step}"] h1`).focus();
   }
@@ -66,7 +65,7 @@
   }
   function renderPhone() {
     const enabled = network?.addresses?.[0] && /^\d{6}$/.test(code) && !finished;
-    $('phoneCard').hidden = finished || !info;
+    $('phoneCard').hidden = finished || !info || !BoxUI.local;
     $('phoneLinks').hidden = !enabled;
     $('phoneHint').textContent = !network
       ? "Checking your box's network connection..."
@@ -92,6 +91,7 @@
     $('codeLabel').textContent = 'Open either address, or enter code ' + code + ' if asked.';
   }
   async function refreshNetwork() {
+    if (!BoxUI.local) return;
     try {
       const res = await fetch('/api/system', { cache: 'no-store' });
       if (!res.ok) throw new Error('Disconnected');
@@ -111,21 +111,6 @@
         gateway: $('gateway').value.trim(), dns: $('dns').value.split(/[,\s]+/).filter(Boolean),
       },
     };
-  }
-  function summary() {
-    const req = request();
-    const rows = [
-      ['Keyboard', info.keymaps.find(k => k.id === req.keymap)?.name],
-      ['Language', 'English'], ['Privacy Policy', `Accepted · ${info.privacyPolicyVersion}`],
-      ['Timezone', req.timezone.replaceAll('_', ' ')], ['Box name', req.hostname],
-      ['Owner', req.username], ['Password', 'Set · kept private'],
-      ['Network', req.network.mode === 'automatic' ? 'Automatic (recommended)' : `${req.network.interface} · ${req.network.address}`],
-    ];
-    if (req.network.mode === 'fixed') rows.push(['Router', req.network.gateway], ['DNS servers', req.network.dns.join(', ')]);
-    $('summary').replaceChildren(...rows.flatMap(([label, value]) => {
-      const dt = document.createElement('dt'), dd = document.createElement('dd');
-      dt.textContent = label; dd.textContent = value; return [dt, dd];
-    }));
   }
   $('zoneSearch').addEventListener('input', () => {
     const selected = $('timezone').value;
@@ -154,13 +139,16 @@
     if (step === 0 && !/^\d{6}$/.test(code)) { error('Enter the 6-digit code from your box, or scan its setup QR.'); $('setupCode').focus(); return; }
     for (const input of document.querySelector(`[data-step="${step}"]`).querySelectorAll('input, select')) {
       if (input.closest('[hidden]')) continue;
-      if (!input.reportValidity()) return;
+      if (!input.checkValidity()) {
+        const details = input.closest('details'); if (details) details.open = true;
+        input.reportValidity(); return;
+      }
     }
-    if (step === 4) {
+    if (step === 1) {
       for (const id of ['username', 'password', 'passwordConfirm']) touched.add(id);
       if (!validateFields()) return;
     }
-    if (step < 6) { step++; show(); return; }
+    if (step === 0) { step = 1; show(); return; }
     const req = request();
     busy = true; show(false);
     if (req.network.mode === 'fixed') {
@@ -183,16 +171,20 @@
   });
   async function done() {
     if (finished) return;
-    finished = true; busy = false; step = 7;
+    finished = true; busy = false; step = 2;
     $('password').value = ''; $('passwordConfirm').value = '';
     code = ''; history.replaceState(null, '', location.pathname);
     $('phoneCard').hidden = true; $('connectionMessage').hidden = true; error(''); show();
-    if (BoxUI.local) { location.replace('/screen.html'); return; }
+    $('boxScreenLink').hidden = !BoxUI.local;
     let ip = network?.addresses?.[0];
     try { const res = await fetch('/api/system', { cache: 'no-store' }); if (res.ok) ip = (await res.json()).addresses?.[0]; } catch { /* the chosen fixed address is also offered below */ }
     const address = ip ? BoxUI.address(ip) : location.origin;
-    $('doneAddress').textContent = address; $('doneAddress').href = address;
-    $('dashboardLink').href = address;
+    const reqAddress = $('address').value.split('/')[0];
+    const base = document.querySelector('[name="networkMode"]:checked').value === 'fixed' && reqAddress ? BoxUI.address(reqAddress) : address;
+    $('doneAddress').textContent = base; $('doneAddress').href = base + '/login';
+    $('dashboardLink').href = base + '/login';
+    $('filesLink').href = base + '/login?next=%2F%23%2Ffiles';
+    $('storeLink').href = base + '/login?next=%2F%23%2Fapps';
   }
   async function load() {
     try {
@@ -220,9 +212,9 @@
       if (!res.ok) throw new Error('Disconnected');
       const status = await res.json();
       if (status.state === 'done') { await done(); return; }
-      if (status.state === 'applying') { busy = true; step = 6; show(false); $('applyMessage').textContent = status.message || 'Keep your box switched on while we finish.'; }
+      if (status.state === 'applying') { busy = true; step = 1; show(false); $('applyMessage').textContent = status.message || 'Keep your box switched on while we finish.'; }
       if (status.state === 'failed' && busy) {
-        busy = false; submitted = false; step = 4; show();
+        busy = false; submitted = false; step = 1; show();
         error(status.message || "Setup couldn't finish. Please try again.");
         $('password').value = ''; $('passwordConfirm').value = '';
         validateFields();

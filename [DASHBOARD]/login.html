@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <title>Sign in · JenerOS</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <script src="desktop-preferences.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="desktop.css">
+  <link rel="stylesheet" href="onboarding.css">
+  <script src="session.js" defer></script>
+  <script src="login.js" defer></script>
+</head>
+<body class="onboarding-page login-page">
+  <a class="skip" href="#main">Skip to sign in</a>
+  <div class="desktop-wallpaper" aria-hidden="true"></div>
+  <main id="main" class="onboarding-main">
+    <form id="loginForm" class="onboarding-card" novalidate>
+      <img class="onboarding-mark" src="logo.svg" alt="" width="96" height="96">
+      <h1 class="page-title">Welcome home.<br>Sign in to JenerOS</h1>
+      <p class="lede">Use the owner account you created for this box.</p>
+      <div class="account-fields">
+        <div class="field"><label for="loginUsername">Username</label><input id="loginUsername" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="32" required aria-describedby="loginError"></div>
+        <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required aria-describedby="loginError"></div>
+        <button id="showPassword" class="pill" type="button" aria-pressed="false">Show password</button>
+      </div>
+      <p id="loginError" class="field-error" role="alert" hidden></p>
+      <p id="loginStatus" class="note" role="status" hidden></p>
+      <div class="setup-actions"><button id="signIn" class="pill pill-accent" type="submit">Sign in <span aria-hidden="true">→</span></button></div>
+    </form>
+  </main>
+  <img class="corner-mark" src="logo.svg" alt="" width="28" height="28">
+  <noscript><p class="onboarding-card">Turn on JavaScript to sign in to your box.</p></noscript>
+</body>
+</html>

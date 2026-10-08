@@ -9,6 +9,7 @@
   <script src="desktop-preferences.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="desktop.css">
+  <script src="session.js" defer></script>
 </head>
 <body class="desktop">
   <a class="skip" href="#main">Skip to content</a>
@@ -95,7 +96,7 @@
           <p class="section-caption">Where your apps live</p><article class="settings-card setting-list"><div class="setting-row"><span>App data</span><span class="muted">Choose with storage setup</span></div><div class="setting-row"><span>App images</span><span class="muted">Available with app installs</span></div><div class="setting-row"><span>Space used</span><span class="muted">Not available yet</span></div></article><article class="settings-card"><h4>Keep things tidy</h4><p class="setting-help">App cleanup arrives with app management. Your files stay yours.</p></article><button class="pill" id="browseApps">Browse the app catalog</button>
         </section>
         <section data-settings-panel="account" hidden>
-          <article class="settings-card owner-card"><div><h4>Owner</h4><p class="muted">Your local account on this box</p><button class="pill" disabled>Change password · coming later</button></div><svg class="owner-avatar" viewBox="0 0 64 64" aria-label="Friendly face avatar"><use href="#i-avatar"/></svg></article>
+          <article class="settings-card owner-card"><div><h4 id="ownerName">Owner</h4><p class="muted">Your local account on this box</p><button class="pill" disabled>Change password · coming later</button><button class="pill" id="signOut">Sign out</button></div><svg class="owner-avatar" viewBox="0 0 64 64" aria-label="Friendly face avatar"><use href="#i-avatar"/></svg></article>
           <article class="settings-card"><h4>Pick your face</h4><div class="avatar-options" role="group" aria-label="Avatar color"><button data-avatar="orange" aria-label="Orange avatar">☀</button><button data-avatar="sage" aria-label="Sage avatar">✿</button><button data-avatar="clay" aria-label="Clay avatar">♥</button></div><p class="setting-help">A little color, saved in this browser.</p></article>
           <article class="settings-card members-card"><h4>Family members</h4><p class="muted">A place for everyone, with no paid limits.</p><p class="setting-help">Family accounts are coming later.</p><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-avatar"/></svg></article>
         </section>

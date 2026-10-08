@@ -2,15 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert/strict');
 const read = file => fs.readFileSync(file, 'utf8');
-for (const page of ['setup', 'screen', 'privacy', 'index']) {
+for (const page of ['setup', 'screen', 'privacy', 'index', 'login']) {
   const html = read(`[DASHBOARD]/${page}.html`);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, `${page}: duplicate ID`);
   for (const m of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
     if (/^(?:https?:|mailto:)/.test(m[1])) continue;
+    if (/^\/login(?:\?|$)/.test(m[1])) { assert.ok(fs.existsSync('[DASHBOARD]/login.html')); continue; }
     assert.ok(fs.existsSync(path.join('[DASHBOARD]', m[1])), `${page}: missing ${m[1]}`);
   }
-  if (['setup', 'screen'].includes(page)) {
+  if (['setup', 'screen', 'login'].includes(page)) {
     for (const m of read(`[DASHBOARD]/${page}.js`).matchAll(/\$\('([^']+)'\)/g)) assert.ok(ids.includes(m[1]), `${page}: missing DOM id ${m[1]}`);
   }
 }
