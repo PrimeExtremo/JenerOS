@@ -25,6 +25,11 @@ window.JenerStore = (() => {
     { id: 'relay', name: 'Relay', upstream: 'AdGuard Home', developer: 'AdGuard', category: 'network', icon: 'relay', version: '0.1.0', added: '2026-10-07', tagline: 'Blocks ads and trackers for every device on your network.', requirements: { memoryMB: 256, diskGB: 1 }, web: { port: 3000 } },
   ].map(a => ({ ...a, status: 'not-installed', whatsNew: 'Sample catalog entry.', description: 'Sample catalog. Open this page from your box to see the full story for each app.' }));
 
+  // Motion helpers live in app.js; without them windows open and close instantly.
+  // app.js loads after this file, so look the helpers up when they're used.
+  const instant = { open: d => d.open || d.showModal(), close: d => d.close(), settled: (d, fn) => fn(), enter() {}, pill() {}, celebrate() {} };
+  const motion = () => window.JenerMotion || instant;
+  let opened = false;
   let win, sheet, apps = [], sample = false, loaded = false, loading;
   let view = { page: 'discover' }, back = [], query = '';
   const installs = {};
@@ -118,12 +123,13 @@ window.JenerStore = (() => {
 
   function open(page) {
     build();
+    opened = win.open && !win.closing;
     document.querySelectorAll('dialog[open]').forEach(d => { if (d !== win) d.close(); });
-    if (!win.open) win.showModal();
+    motion().open(win);
     go(page ? { page } : view, false);
     load();
   }
-  function close() { if (win?.open) win.close(); }
+  function close() { if (win?.open) motion().close(win); }
 
   async function load() {
     if (loading) return loading;
@@ -199,8 +205,11 @@ window.JenerStore = (() => {
       return;
     }
     page.scrollTop = 0;
-    if (view.page === 'search') $('#storeSearch').focus();
-    else $('#storePageTitle').focus({ preventScroll: true });
+    // A new page crossfades in; a just-opened window takes focus once it settles.
+    motion().pill(win.querySelector('.settings-sidebar nav'));
+    if (opened) motion().enter(page);
+    opened = true;
+    motion().settled(win, () => (view.page === 'search' ? $('#storeSearch') : $('#storePageTitle')).focus({ preventScroll: true }));
   }
 
   function discoverPage() {
@@ -244,7 +253,7 @@ window.JenerStore = (() => {
     const off = installed(a) || busy || st.state === 'soon';
     return `<div class="store-install">
   <button class="pill pill-accent store-install-button${busy ? ' busy' : ''}" data-store-install="${esc(a.id)}" aria-describedby="storeInstallNote"${off ? ' aria-disabled="true"' : ''}${busy ? ' aria-busy="true"' : ''}>
-    <svg class="store-ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="store-ring-track" cx="18" cy="18" r="14"/>${busy || installed(a) ? `<circle class="store-ring-fill" cx="18" cy="18" r="14" style="--progress:${busy ? 25 : 100}"/>` : ''}</svg>
+    <svg class="store-ring" viewBox="0 0 36 36" aria-hidden="true"><g transform="rotate(-90 18 18)"><circle class="store-ring-track" cx="18" cy="18" r="14"/>${installed(a) || st.progress ? `<circle class="store-ring-fill" cx="18" cy="18" r="14" style="--progress:${installed(a) ? 100 : st.progress}"/>` : ''}</g>${installed(a) ? '<path class="store-ring-check" d="M12.5 18.5l3.5 3.5 7.5-8" pathLength="1"/>' : ''}</svg>
     <span>${label}<span class="sr-only"> ${esc(a.name)}</span></span></button>
   <p class="store-help" id="storeInstallNote">${esc(st.message || (installed(a) ? `${a.name} is ${statusText(a).toLowerCase()}.` : `Needs about ${size(a.requirements?.memoryMB)} of memory.`))}</p></div>`;
   }
@@ -267,14 +276,16 @@ window.JenerStore = (() => {
     if (!win.open) return;
     await load();
     const a = apps.find(x => x.id === id);
-    if (a && installed(a)) { delete installs[id]; rerenderInstall(a); } else if (a) watch(id);
+    if (a && installed(a)) { delete installs[id]; rerenderInstall(a, true); } else if (a) watch(id);
   }
-  function rerenderInstall(a) {
+  function rerenderInstall(a, celebrate = false) {
     const box = view.page === 'app' && view.id === a.id && $('.store-install');
     if (!box) return;
     const hadFocus = box.contains(document.activeElement);
     box.outerHTML = installButton(a);
     if (hadFocus) $('.store-install-button').focus();
+    // The joy moment: the ring becomes a check that pops, plus one small burst.
+    if (celebrate) { $('.store-install-button').classList.add('pop'); motion().celebrate($('.store-install-button')); }
   }
 
   function appPage(a) {
@@ -351,14 +362,14 @@ window.JenerStore = (() => {
   }
   function openSheet() {
     field('storeCustomStatus').hidden = true;
-    sheet.showModal();
-    sheet.querySelector('[name="storeMode"]:checked').focus();
+    motion().open(sheet);
+    motion().settled(sheet, () => sheet.querySelector('[name="storeMode"]:checked').focus());
   }
   function bindSheet() {
     sheet.querySelectorAll('[name="storeMode"]').forEach(r => r.addEventListener('change', () => setMode(r.value)));
     field('customYaml').addEventListener('input', () => { yamlEdited = true; });
     sheet.addEventListener('click', e => {
-      if (e.target.closest('[data-sheet-close]')) sheet.close();
+      if (e.target.closest('[data-sheet-close]')) motion().close(sheet);
       if (e.target.closest('[data-yaml-reset]')) { yamlEdited = false; setMode('form'); field('customName').focus(); }
     });
     field('storeCustomForm').addEventListener('submit', e => {

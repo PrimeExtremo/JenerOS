@@ -2,6 +2,14 @@
   'use strict';
   const $ = id => document.getElementById(id);
   let pending = false, retryAt = 0;
+  // Wrong password: three firm ±8px shakes in 320ms. The error text says the same thing.
+  function shake() {
+    const fields = document.querySelector?.('.account-fields');
+    if (typeof fields?.animate !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ease = getComputedStyle(document.documentElement).getPropertyValue('--ease').trim();
+    fields.animate([0, -8, 8, -8, 8, -8, 8, 0].map(x => ({ transform: `translateX(${x}px)`, easing: ease })), { duration: 320 });
+  }
+  document.addEventListener?.('visibilitychange', () => document.documentElement.classList.toggle('page-hidden', document.hidden));
   $('showPassword').addEventListener('click', () => {
     const show = $('loginPassword').type === 'password';
     $('loginPassword').type = show ? 'text' : 'password';
@@ -40,6 +48,7 @@
         const data = await res.json();
         if (res.status === 401 || res.status === 400) {
           for (const id of ['loginUsername', 'loginPassword']) $(id).setAttribute('aria-invalid', 'true');
+          shake();
         }
         throw new Error(data.error || 'Could not sign in. Please try again.');
       }

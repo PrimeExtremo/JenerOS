@@ -12,7 +12,7 @@
   <script src="session.js" defer></script>
   <link rel="stylesheet" href="store.css">
 </head>
-<body class="desktop">
+<body class="desktop is-arriving">
   <a class="skip" href="#main">Skip to content</a>
   <div class="desktop-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
@@ -41,7 +41,7 @@
       </section>
       <section class="widget network-widget" data-widget="network" aria-labelledby="networkHeading">
         <div class="widget-heading"><h2 id="networkHeading">Network</h2><button class="network-link" data-settings="network"><span id="networkName">LAN</span><span aria-hidden="true">›</span></button></div>
-        <div class="network-chart"><span id="graphScale">KB/s</span><svg viewBox="0 0 240 85" preserveAspectRatio="none" role="img" aria-labelledby="graphTitle"><title id="graphTitle">Network traffic is waiting for your box</title><path class="graph-grid" d="M0 10H240 M0 35H240 M0 60H240 M0 84H240"/><path id="networkDown" class="graph-down" d="M0 84H240"/><path id="networkUp" class="graph-up" d="M0 84H240"/></svg></div>
+        <div class="network-chart"><span id="graphScale">KB/s</span><svg viewBox="0 0 240 85" preserveAspectRatio="none" role="img" aria-labelledby="graphTitle"><title id="graphTitle">Network traffic is waiting for your box</title><path class="graph-grid" d="M0 10H240 M0 35H240 M0 60H240 M0 84H240"/><clipPath id="graphClip"><rect x="-2" y="-2" width="244" height="89"/></clipPath><g clip-path="url(#graphClip)"><path id="networkDown" class="graph-down" d="M0 84H240"/><path id="networkUp" class="graph-up" d="M0 84H240"/></g></svg></div>
         <div class="network-rates"><span>↓ <strong id="downloadRate">—</strong></span><span>↑ <strong id="uploadRate">—</strong></span></div><p class="widget-foot" id="networkNote">Waiting for your box</p>
       </section>
       <button class="widget widget-settings" id="widgetSettings">Widget settings <span aria-hidden="true">›</span></button>

@@ -30,7 +30,7 @@
 .desktop-brand svg { width: 24px; height: 24px; }
 .connection-label { margin-left: auto; padding: 0 12px; color: var(--soft); font-size: .8rem; }
 .connection-label.demo { color: var(--accent-ink); }
-.icon-button { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 10px; border: 0; border-radius: 10px; background: transparent; color: var(--soft); font-size: 1.5rem !important; line-height: 1; cursor: pointer; }
+.icon-button { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 10px; border: 0; border-radius: 10px; background: transparent; color: var(--soft); font-size: 1.5rem !important; line-height: 1; cursor: pointer; transition: background-color var(--t-quick) var(--ease); }
 .icon-button:hover { color: var(--ink); background: var(--hover); }
 .icon-button:disabled { opacity: .35; cursor: default; background: transparent; }
 .desktop svg:not(.watermark, .device-mark, .owner-avatar) { flex: none; }
@@ -52,7 +52,7 @@
 .gauge svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(135deg); }
 .gauge circle { fill: none; stroke-width: 8; stroke-linecap: round; }
 .gauge-track { stroke: var(--track); stroke-dasharray: 188.5 251.3; }
-.gauge-fill { stroke: var(--accent); stroke-dasharray: 0 251.3; transition: stroke-dasharray .4s; }
+.gauge-fill { stroke: var(--accent); stroke-dasharray: 0 251.3; }
 #ramGauge .gauge-fill { stroke: var(--sage); }
 .gauge strong { font: 700 1.25rem/1 var(--display); font-variant-numeric: tabular-nums; }
 .widget-meta { display: flex; justify-content: space-around; gap: 6px; font-size: .68rem; color: var(--soft); }
@@ -96,13 +96,17 @@
 .notice-navigation .icon-button { font-size: 1.1rem !important; }
 .notice-dots { display: flex; }
 .notice-dots button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
-.notice-dots button::after { content: ''; width: 5px; height: 5px; background: var(--soft); opacity: .4; border-radius: 20px; }
-.notice-dots button[aria-current]::after { width: 18px; opacity: 1; background: var(--ink); }
+.notice-dots button::after { content: ''; width: 20px; height: 5px; background: var(--soft); opacity: .4; border-radius: 20px; scale: .4 1; transition: scale var(--t-std) var(--ease), opacity var(--t-std) var(--ease); }
+.notice-dots button[aria-current]::after { scale: 1; opacity: 1; background: var(--ink); }
 .apps-heading { display: flex; align-items: center; justify-content: space-between; margin: 0 0 9px; }
 .apps-heading h2 { font: 700 1.05rem var(--display); }
 .desktop-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 14px; }
-.desktop-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; min-height: 148px; padding: 20px 8px 16px; border-radius: 14px; cursor: pointer; text-decoration: none; text-align: center; color: var(--ink); transition: background .15s, transform .15s; }
-.desktop-tile:hover { background: var(--card); transform: translateY(-2px); }
+.desktop-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; min-height: 148px; padding: 20px 8px 16px; border-radius: 14px; cursor: pointer; text-decoration: none; text-align: center; color: var(--ink); transition: translate var(--t-quick) var(--ease), scale 200ms var(--ease), box-shadow var(--t-quick) var(--ease), background-color var(--t-quick) var(--ease); }
+.desktop-tile:hover { background: var(--card); translate: 0 -2px; box-shadow: var(--shadow-up); }
+.desktop-tile:active { scale: .97; box-shadow: var(--shadow); transition-duration: var(--t-quick), 80ms, 80ms, var(--t-quick); }
+.desktop-tile:focus-visible { translate: 0 -2px; transition-duration: 0s, 200ms, 0s, 0s; }
+.desktop-tile .icon { transition: scale var(--t-quick) var(--ease); }
+.desktop-tile:hover .icon { scale: 1.04; }
 .desktop-tile .icon { width: 54px; height: 54px; border-radius: 15px; position: relative; box-shadow: inset 0 1px 1px rgb(255 255 255 / 30%), 0 5px 14px rgb(0 0 0 / 12%); }
 .desktop-tile .icon .doodle { width: 31px; height: 31px; stroke-width: 1.8; }
 .desktop-tile .tile-name { font-size: .8rem; font-weight: 500; }
@@ -120,8 +124,9 @@
 .settings-brand h2 { font: 700 1.1rem var(--display); letter-spacing: -.04em; }
 .avatar-mini { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; color: var(--accent); }
 .avatar-mini svg { width: 28px; height: 28px; }
-.settings-sidebar nav { display: grid; gap: 5px; }
-.settings-sidebar nav button, .power-button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--soft); text-align: left; cursor: pointer; font-size: .82rem !important; }
+.settings-sidebar nav { position: relative; display: grid; gap: 5px; }
+.settings-sidebar nav button, .power-button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--soft); text-align: left; cursor: pointer; font-size: .82rem !important; transition: background-color var(--t-quick) var(--ease); }
+.settings-sidebar nav button { position: relative; }
 .settings-sidebar nav button[aria-current], .settings-sidebar nav button:hover, .power-button:hover, .power-button[aria-current] { background: var(--hover); color: var(--ink); border-color: var(--line); }
 .settings-sidebar nav svg, .power-button svg { width: 17px; height: 17px; }
 .power-button { margin-top: auto; }
@@ -142,10 +147,10 @@
 .setting-help { margin-top: 8px; line-height: 1.65; }
 .setting-list .setting-help { padding-bottom: 12px; }
 .desktop input:disabled, .desktop select:disabled { opacity: .65; cursor: not-allowed; }
-.setting-row input[role="switch"] { appearance: none; width: 36px; height: 21px; background: var(--track); border: 1px solid var(--line); border-radius: 20px; flex: none; position: relative; }
-.setting-row input[role="switch"]::before { content: ''; position: absolute; left: 3px; top: 3px; width: 13px; height: 13px; border-radius: 50%; background: var(--soft); }
+.setting-row input[role="switch"] { appearance: none; width: 36px; height: 21px; background: var(--track); border: 1px solid var(--line); border-radius: 20px; flex: none; position: relative; transition: background-color var(--t-quick) var(--ease); }
+.setting-row input[role="switch"]::before { content: ''; position: absolute; left: 3px; top: 3px; width: 13px; height: 13px; border-radius: 50%; background: var(--soft); transition: translate 220ms var(--ease-pop), background-color var(--t-quick) var(--ease); }
 .setting-row input[role="switch"]:checked { background: var(--accent-solid); }
-.setting-row input[role="switch"]:checked::before { left: 18px; background: #fff; }
+.setting-row input[role="switch"]:checked::before { translate: 15px 0; background: #fff; }
 .setting-row input[role="switch"]:disabled { opacity: 1; }
 .device-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; background-image: radial-gradient(var(--line) .7px, transparent .7px); background-size: 10px 10px; }
 .device-card h4 { font-size: 1.3rem; overflow-wrap: anywhere; }
@@ -253,7 +258,6 @@ html[data-avatar] { color: var(--ink); }
   .wallpaper-swatch { height: 48px; }
   .desktop-dialog { padding: 18px; }
 }
-@media (prefers-reduced-motion: reduce) { .desktop * { scroll-behavior: auto !important; } }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   :root, :root[data-theme] { --glass: var(--card); --bar: var(--card); }
   .desktop-bar, .widget, .notice-card, .desktop-search, .desktop-tile,
@@ -264,4 +268,88 @@ html[data-avatar] { color: var(--ink); }
 }
 @media (prefers-contrast: more) {
   :root, :root[data-theme] { --soft: var(--ink); --line: var(--ink); }
+}
+
+/* ---------- Motion (.scratch/motion/BRIEF.md) ----------
+   Only these tokens. Movement uses transform/translate/scale and opacity;
+   hover may also fade background-color and box-shadow. The SVG ring sweep,
+   check draw and install progress use stroke dashes because the spec asks
+   for those strokes. Reduced motion: no movement, 120ms opacity fades. */
+:root {
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-in: cubic-bezier(0.3, 0, 1, 1);
+  --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --t-quick: 120ms;
+  --t-std: 240ms;
+  --t-slow: 380ms;
+}
+@keyframes j-rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes j-fade { from { opacity: 0; } }
+@keyframes j-fade-out { to { opacity: 0; } }
+@keyframes j-window-in { from { opacity: 0; transform: scale(.96); } }
+@keyframes j-window-out { to { opacity: 0; transform: scale(.98); } }
+@keyframes j-toast-in { from { opacity: 0; transform: translate(-50%, 16px); } }
+@keyframes j-drift { from { transform: translate(-1.5%, -1%); } to { transform: translate(1.5%, 1%); } }
+@keyframes j-pulse { from { opacity: .7; } }
+@keyframes j-pop { from { transform: scale(0); } }
+@keyframes j-draw { from { stroke-dashoffset: 1; } }
+@keyframes j-confetti { to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.5); } }
+
+/* Buttons: press 0.97, primary glow on hover. */
+.pill { transition: transform var(--t-quick) var(--ease), box-shadow var(--t-quick) var(--ease), background-color var(--t-quick) var(--ease); }
+.pill:active { transform: scale(.97); }
+.pill-accent:not([disabled], [aria-disabled="true"]):hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent), 0 8px 22px color-mix(in srgb, var(--accent) 32%, transparent); }
+.meter i { transition: transform var(--t-slow) var(--ease); }
+
+/* Sliding active pill in window sidebars (placed by JenerMotion.pill). */
+.nav-pill { position: absolute; left: 0; top: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--hover); pointer-events: none; transition: transform var(--t-std) var(--ease); }
+@media (min-width: 681px) {
+  .settings-sidebar nav.has-pill button[aria-current]:not(:hover) { background: transparent; border-color: transparent; }
+}
+@media (max-width: 680px) { .nav-pill { display: none; } }
+
+/* Toasts rise 16px in, drop 8px out. */
+.desktop .toast { transform: translate(-50%, 8px); transition: opacity 180ms var(--ease-in), transform 180ms var(--ease-in); }
+.desktop .toast.show { transform: translate(-50%, 0); animation: j-toast-in var(--t-std) var(--ease-out); }
+
+/* Load cascade: clock first, then widgets, notices and tiles; 30ms steps, done by 390ms. */
+.widgets > :nth-child(1) { --i: 0; }
+.widgets > :nth-child(2), .desktop-search { --i: 1; }
+.widgets > :nth-child(3) { --i: 2; }
+.widgets > :nth-child(4), .notice-card:nth-child(1) { --i: 3; }
+.widgets > :nth-child(5), .notice-card:nth-child(2), .desktop-tile:nth-child(1) { --i: 4; }
+
+/* Success: check pops and draws, six dots burst once. */
+.success-check { display: inline-grid; place-items: center; position: relative; width: 22px; height: 22px; margin-right: 8px; vertical-align: -5px; border-radius: 50%; background: var(--accent-solid); color: #fff; }
+.success-check svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+.confetti { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--accent); pointer-events: none; opacity: 0; }
+.confetti:nth-child(even) { background: #f6f1e7; box-shadow: 0 0 0 1px rgb(31 25 19 / 15%); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-arriving .widgets > *, .is-arriving .desktop-search, .is-arriving .notice-card, .is-arriving .desktop-tile {
+    animation: j-rise var(--t-std) var(--ease-out) both; animation-delay: calc(var(--i, 5) * 30ms);
+  }
+  .desktop dialog[open] { animation: j-window-in var(--t-slow) var(--ease-out); }
+  .desktop dialog[open]::backdrop { animation: j-fade 200ms var(--ease-out); }
+  .desktop dialog.is-closing { animation: j-window-out 220ms var(--ease-in) forwards; }
+  .desktop dialog.is-closing::backdrop { animation: j-fade-out 220ms var(--ease-in) forwards; }
+  /* Ambient: a very slow drift, paused while the tab is hidden. */
+  .desktop-wallpaper::after { inset: -2%; animation: j-drift 30s var(--ease) infinite alternate; }
+  .page-hidden .desktop-wallpaper::after { animation-play-state: paused; }
+  .success-check.pop { animation: j-pop 300ms var(--ease-pop) both; }
+  .success-check.pop svg { animation: j-draw 250ms var(--ease) 150ms both; }
+  .confetti { animation: j-confetti 600ms var(--ease-out) forwards; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desktop * { scroll-behavior: auto !important; }
+  /* style.css turns every animation off here; these keep short opacity fades. */
+  .is-arriving .widgets > *, .is-arriving .desktop-search, .is-arriving .notice-card, .is-arriving .desktop-tile,
+  .desktop dialog[open], .success-check.pop { animation: j-fade var(--t-quick) var(--ease) both !important; }
+  .desktop dialog.is-closing { animation: j-fade-out var(--t-quick) var(--ease-in) forwards !important; }
+  .desktop .toast { transform: translate(-50%, 0) !important; transition: opacity var(--t-quick) var(--ease) !important; animation: none !important; }
+  .pill:hover, .pill:active, .desktop-tile:hover, .desktop-tile:active, .desktop-tile:focus-visible, .desktop-tile:hover .icon {
+    transform: none !important; translate: none !important; scale: none !important;
+  }
+  .confetti { display: none; }
 }
