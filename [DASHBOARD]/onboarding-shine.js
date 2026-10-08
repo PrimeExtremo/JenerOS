@@ -2,11 +2,13 @@
 // Remote browsers sample paused Web Animations at <=30fps. Local WPE gets
 // only a finite border sweep: no wallpaper layer and no recurring JS clock.
 (() => {
-  const local = !!window.BoxUI?.local;
+  const local = !!window.BoxUI?.local || (typeof location !== 'undefined' && ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname));
   if (local) document.documentElement.classList.add('box-local');
-  const wallpaper = document.querySelector('.onboarding-page .desktop-wallpaper');
+  const wallpaper = document.querySelector('.desktop-wallpaper');
+  // The dashboard has no single card: it gets only the wallpaper light.
   const card = document.querySelector('#wizard, #loginForm');
-  if (!wallpaper || !card || typeof card.animate !== 'function' || typeof matchMedia !== 'function') return;
+  if (!wallpaper || typeof (card || wallpaper).animate !== 'function' || typeof matchMedia !== 'function') return;
+  if (local && !card) return;
   const preferences = ['prefers-reduced-motion', 'prefers-reduced-transparency'].map(name => matchMedia(`(${name}: reduce)`));
   preferences.push(matchMedia('(prefers-contrast: more)'), matchMedia('(forced-colors: active)'));
   const layers = [], animations = [];
@@ -18,7 +20,7 @@
     return light;
   }
   const sweep = local ? null : layer(wallpaper, 'wallpaper-shine');
-  const edge = layer(card, 'card-shine');
+  const edge = card ? layer(card, 'card-shine') : null;
   if (local) {
     let active = null;
     const stopSweep = () => {
@@ -76,7 +78,7 @@
           { transform: 'translate(0, 0)', opacity: .12, offset: .45 },
           { transform: 'translate(120px, -80px)', opacity: 0 }
         ], 16000);
-        animate(edge, [
+        if (edge) animate(edge, [
           { transform: 'translateX(-128px)', opacity: 0 },
           { transform: `translateX(${card.clientWidth * .4}px)`, opacity: .2, offset: .5 },
           { transform: `translateX(${card.clientWidth}px)`, opacity: 0 }

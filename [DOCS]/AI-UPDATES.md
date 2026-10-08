@@ -578,3 +578,11 @@ go test -race ./...
 
 ## 2026-10-08 · Claude · Owner password minimum is 6 characters
 - Jener asked for 6 instead of 8. Changed `[CORE]/internal/setup/setup.go` (server rule + message), `[DASHBOARD]/setup.js` (inline error), `setup.html` (help text), Go tests and `.scratch/setup/check-validation.cjs` (5 fails, 6 passes). Login has no minimum, so nothing else changes.
+
+## 2026-10-08 · Claude · Phone settings sheet, badge, watermark, dashboard shine
+- Phone Settings: tabs are one clean scrollable row of pills; Power is an icon at the end (label kept for screen readers).
+- "Free, for everyone" tag now centered on the JenerOS line.
+- Phone sheets get a real grabber (`phone-layout.js`); dragging it down >80px closes through the sheet's own close button.
+- Phone: the corner J becomes a static footer under the page, so it never sits over cards (it was already click-through).
+- Shine: moved to shared `shine.css`; `onboarding-shine.js` now also runs on the dashboard in remote browsers only. The box screen never loads it (and the kiosk shows screen.html).
+- Hot-loaded onto the 0.3.8 test VM with a bind mount for Jener to try; next image build includes it.
