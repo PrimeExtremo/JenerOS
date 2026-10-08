@@ -25,14 +25,14 @@ func TestOwnerValidation(t *testing.T) {
 			t.Errorf("%q accepted", name)
 		}
 	}
-	for _, password := range []string{"12345678", "éééééééé", strings.Repeat("a", 256)} {
+	for _, password := range []string{"123456", "éééééé", strings.Repeat("a", 256)} {
 		req := valid
 		req.Password, req.PasswordConfirm = password, password
 		if err := Validate(req, info); err != nil {
 			t.Errorf("valid password rejected: %v", err)
 		}
 	}
-	for _, password := range []string{"", "1234567", "éééé", strings.Repeat("a", 257), "password\n", "password\r", "password\x00", "password\xff"} {
+	for _, password := range []string{"", "12345", "ééééé", strings.Repeat("a", 257), "password\n", "password\r", "password\x00", "password\xff"} {
 		req := valid
 		req.Password, req.PasswordConfirm = password, password
 		if err := Validate(req, info); err == nil {
