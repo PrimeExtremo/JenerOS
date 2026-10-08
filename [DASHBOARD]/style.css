@@ -292,10 +292,11 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 .field-error { margin-top: 8px; color: var(--accent-ink); font-size: 0.92rem; }
 .field [aria-invalid="true"] { border-color: var(--accent-ink); }
 .privacy-choice { display: flex; align-items: start; gap: 12px; margin-top: 24px; line-height: 1.6; cursor: pointer; }
-.privacy-check { display: grid; flex: none; width: 24px; height: 24px; }
-.privacy-check > input, .privacy-check-box { grid-area: 1 / 1; width: 24px; height: 24px; margin: 0; }
-.privacy-check > input { opacity: 0; cursor: pointer; z-index: 1; }
-.privacy-check-box { display: grid; place-items: center; border: 2px solid var(--soft); border-radius: 5px; background: var(--paper); pointer-events: none; }
+.privacy-check { position: relative; display: flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; }
+/* The native input owns the entire hit area, including the painted box. */
+.privacy-check > input { position: absolute; top: 0; left: 0; width: 44px; height: 44px; margin: 0; padding: 0; opacity: 0; cursor: pointer; z-index: 1; pointer-events: auto; }
+.privacy-check-box { display: grid; place-items: center; width: 24px; height: 24px; border: 2px solid var(--soft); border-radius: 5px; background: var(--paper); pointer-events: none; }
+.privacy-check-box *, .privacy-check::before, .privacy-check::after { pointer-events: none; }
 .privacy-check-box svg { display: block; width: 18px; height: 18px; fill: none; stroke: var(--on-accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
 .privacy-check > input:checked + .privacy-check-box { border-color: var(--accent-solid); background: var(--accent-solid); }
 .privacy-check > input:checked + .privacy-check-box svg { visibility: visible; }
