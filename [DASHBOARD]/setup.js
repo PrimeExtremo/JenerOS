@@ -92,9 +92,8 @@
     validateFields();
     if (focus && !busy) document.querySelector(`[data-step="${step}"] h1`).focus();
   }
-  function choices(select, values, selected) {
-    select.replaceChildren(...values.map(v => new Option(v.name || v.replaceAll('_', ' '), v.id || v)));
-    if (selected && [...select.options].some(o => o.value === selected)) select.value = selected;
+  function choices(field, values, selected, preserve = false) {
+    SetupChoices.set(field, values, selected, preserve);
   }
   function renderPhone() {
     const enabled = network?.addresses?.[0] && /^\d{6}$/.test(code) && !finished;
@@ -146,15 +145,17 @@
     };
   }
   $('zoneSearch').addEventListener('input', () => {
+    if (!info) return;
     const selected = $('timezone').value;
     const query = $('zoneSearch').value.trim().toLowerCase().replaceAll(' ', '_');
     const zones = info.timezones.filter(z => z.toLowerCase().includes(query));
-    choices($('timezone'), zones, selected);
+    choices($('timezone'), zones, selected, true);
     $('zoneHint').textContent = zones.length ? `${zones.length} timezones. Choose one below.` : 'No match. Try a nearby city.';
   });
   document.querySelectorAll('[name="networkMode"]').forEach(radio => radio.addEventListener('change', () => {
     const fixed = radio.value === 'fixed';
     $('fixedFields').hidden = !fixed;
+    $('interfaceButton').setAttribute('aria-required', String(fixed));
     for (const el of $('fixedFields').querySelectorAll('input, select')) el.required = fixed;
   }));
   $('togglePassword').addEventListener('click', () => {
@@ -183,6 +184,16 @@
       }
     }
     if (step === 1) {
+      const requiredChoices = ['keymap', 'timezone'];
+      if (document.querySelector('[name="networkMode"]:checked').value === 'fixed') requiredChoices.push('interface');
+      for (const id of requiredChoices) {
+        if (!$(id).value) {
+          document.querySelector('.box-options').open = true;
+          error('Choose ' + (id === 'interface' ? 'a network connection.' : id === 'timezone' ? 'a timezone.' : 'a keyboard layout.'));
+          $(id === 'timezone' ? 'timezoneList' : id + 'Button').focus();
+          return;
+        }
+      }
       for (const id of ['username', 'password', 'passwordConfirm']) touched.add(id);
       if (!validateFields()) return;
     }

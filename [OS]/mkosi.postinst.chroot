@@ -9,6 +9,7 @@ set -e
 # scripts. Set login-helper modes in the image before /usr becomes read-only.
 chmod 0755 /usr/lib/jeneros/hello /usr/lib/jeneros/hello-profile.sh
 chmod 0755 /usr/lib/jeneros/setup-apply /usr/lib/jeneros/kiosk
+chmod 0755 /usr/lib/jeneros/kiosk-fallback
 chmod 0755 /usr/lib/jeneros/rollback
 chmod 0755 /usr/lib/jeneros/ssh-access
 # Keep the issue version correct regardless of ExtraTrees overlay ordering.
@@ -54,6 +55,7 @@ want jeneros-update-check.timer timers.target.wants
 want jeneros-setup-apply.path multi-user.target.wants
 want jeneros-kiosk.service multi-user.target.wants
 want jeneros-kiosk.service jenerd.service.wants
+want jeneros-kiosk-fallback.service multi-user.target.wants
 # tty1 belongs to the kiosk in releases; password logins stay available on tty2.
 for tty in 2 3 4 5 6; do
     mkdir -p "$U/getty.target.wants"
