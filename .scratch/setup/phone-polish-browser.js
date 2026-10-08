@@ -10,7 +10,9 @@ window.addEventListener('load', async () => {
     assert(r.width > 0 && r.left >= -1 && r.right <= innerWidth + 1 && r.top >= -1 && r.bottom <= innerHeight + 1, el.id + ': sheet fits screen ' + JSON.stringify(r));
     if (compact) {
       assert(r.height <= innerHeight * .85 + 1 && Math.abs(r.bottom - innerHeight) < 2, el.id + ': bottom aligned, at most 85dvh');
-      assert(getComputedStyle(el, '::before').content !== 'none', el.id + ': grabber');
+      // Setup sheets draw the grabber with ::before; dashboard sheets use a real, draggable .sheet-grabber.
+      const grab = el.querySelector(':scope > .sheet-grabber');
+      assert(getComputedStyle(el, '::before').content !== 'none' || (grab && grab.getClientRects().length), el.id + ': grabber');
     }
   };
   try {
