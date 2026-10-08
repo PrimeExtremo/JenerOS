@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JenerOS: your stuff lives at home</title>
+<meta name="description" content="JenerOS is a free, open-source home server OS. It turns an old PC into your own little cloud for photos, files, movies and more, with one friendly dashboard.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1F1913" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://jener.dev/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JenerOS">
+<meta property="og:title" content="JenerOS: your stuff lives at home">
+<meta property="og:description" content="A free, open-source home server OS that turns an old PC into your own little cloud.">
+<meta property="og:url" content="https://jener.dev/">
+<meta property="og:image" content="https://jener.dev/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The JENEROS wordmark over warm brown ribbons, with the line: Your stuff lives at home.">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="./">
+      <picture>
+        <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+        <img src="assets/logo/j-monogram.svg" width="30" height="30" alt="">
+      </picture>
+      <span>JenerOS</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <svg class="hero-art" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="fold" x1="280" y1="80" x2="1180" y2="930" gradientUnits="userSpaceOnUse"><stop stop-color="#7C5035"/><stop offset=".3" stop-color="#38251C"/><stop offset=".57" stop-color="#A76440"/><stop offset=".72" stop-color="#4F3324"/><stop offset="1" stop-color="#211A14"/></linearGradient>
+        <linearGradient id="edge" x1="300" y1="100" x2="1250" y2="950" gradientUnits="userSpaceOnUse"><stop stop-color="#E5B28B" stop-opacity=".08"/><stop offset=".48" stop-color="#D97757" stop-opacity=".5"/><stop offset="1" stop-color="#E5B28B" stop-opacity=".04"/></linearGradient>
+        <radialGradient id="glow"><stop stop-color="#B86A40" stop-opacity=".15"/><stop offset="1" stop-color="#1F1913" stop-opacity="0"/></radialGradient>
+        <linearGradient id="sheen" x1="0" y1="0" x2="1" y2=".25"><stop stop-color="#FFE6D2" stop-opacity="0"/><stop offset=".5" stop-color="#FFE6D2" stop-opacity=".85"/><stop offset="1" stop-color="#FFE6D2" stop-opacity="0"/></linearGradient>
+        <mask id="ribbon-mask">
+          <path fill="#fff" d="M730-180C590 190 1320 185 1300 480S520 620 470 1180H790C720 750 1510 830 1610 480S920 130 1110-180Z"/>
+          <path fill="none" stroke="#fff" stroke-width="180" d="M-160 760C180 430 510 850 760 690S850 280 1800 190"/>
+        </mask>
+      </defs>
+      <g class="ribbons">
+        <ellipse cx="1200" cy="300" rx="650" ry="640" fill="url(#glow)"/>
+        <path d="M730-180C590 190 1320 185 1300 480S520 620 470 1180H790C720 750 1510 830 1610 480S920 130 1110-180Z" fill="url(#fold)" opacity=".55"/>
+        <path d="M-160 760C180 430 510 850 760 690S850 280 1800 190" fill="none" stroke="url(#fold)" stroke-width="180" opacity=".32"/>
+        <path d="M730-180C590 190 1320 185 1300 480S520 620 470 1180M-160 671C180 341 510 761 760 601S850 191 1800 101" fill="none" stroke="url(#edge)" stroke-width="2"/>
+      </g>
+      <g class="shine" mask="url(#ribbon-mask)">
+        <rect x="0" y="-100" width="460" height="1200" fill="url(#sheen)"/>
+      </g>
+    </svg>
+    <div class="wrap hero-inner">
+      <p class="pill">Early preview</p>
+      <h1 id="hero-title" class="wordmark">
+        <picture>
+          <source srcset="assets/logo/jeneros-wordmark-light.svg" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo/jeneros-wordmark.svg" width="1472" height="320" alt="JenerOS">
+        </picture>
+      </h1>
+      <p class="promise">Your stuff lives at home.</p>
+      <p class="lede">JenerOS is a free home server OS. It turns an old PC into your own little cloud for photos, files and movies, with one friendly dashboard for the whole family.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="download.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See it on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What it does</span>
+        <h2 id="what-title">One box for your whole digital home</h2>
+        <p>The things you keep in other people's clouds, on a computer you own.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/><circle class="dot" cx="19" cy="10.5" r="2.2"/></svg></div>
+          <h3>Photos</h3>
+          <p>Back up every phone in the house and keep the family album in one place.</p>
+          <span class="tag">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><path d="M3 9a3 3 0 0 1 3-3h5l3 3h8a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3Z"/><circle class="dot" cx="19.5" cy="16" r="2"/></svg></div>
+          <h3>Files</h3>
+          <p>Your documents and folders, reachable from any phone or computer at home.</p>
+          <span class="tag">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="15" rx="3"/><path d="M10 24h8"/><path class="dot" d="M12 9.5v6l5-3Z"/></svg></div>
+          <h3>Movies and TV</h3>
+          <p>Stream your own movies and shows to the TV, tablet or phone.</p>
+          <span class="tag">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><path d="M4 13 14 5l10 8v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><circle class="dot" cx="14" cy="17" r="2.5"/></svg></div>
+          <h3>Smart home</h3>
+          <p>Lights, plugs and sensors run from your box, not from a far-away server.</p>
+          <span class="tag">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><path d="M14 3 5 6.5V13c0 5.5 3.8 9.6 9 11 5.2-1.4 9-5.5 9-11V6.5Z"/><path d="m10 13.5 3 3 5-6"/></svg></div>
+          <h3>Ad blocking</h3>
+          <p>Fewer ads and trackers on every device on your Wi-Fi, with nothing to install on them.</p>
+          <span class="tag">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="icon"><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="4" y="4" width="8.5" height="8.5" rx="2.5"/><rect x="15.5" y="4" width="8.5" height="8.5" rx="2.5"/><rect x="4" y="15.5" width="8.5" height="8.5" rx="2.5"/><rect class="dot" x="15.5" y="15.5" width="8.5" height="8.5" rx="2.5"/></svg></div>
+          <h3>Dashboard and app store</h3>
+          <p>See your whole box at a glance. Add apps from its own store when you want them.</p>
+          <span class="tag on">Dashboard works today</span>
+        </article>
+      </div>
+      <p class="note">JenerOS is an early preview. The dashboard, safe updates and phone setup work today. The apps are on the way, and we will say so here when each one is ready.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="life-title">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Less e-waste</span>
+        <h2 id="life-title">Give an old PC a second life</h2>
+        <p>That computer in the closet still has years of work left in it. It does not need to be fast. It just needs to stay on.</p>
+        <p>JenerOS turns it into something the whole family uses every day, instead of something that ends up in a landfill.</p>
+        <ul class="checks">
+          <li>Most 64-bit PCs from 2012 or later will do</li>
+          <li>4 GB of memory and a 32 GB drive to start</li>
+          <li>Old desktops, mini PCs and laptops all count</li>
+        </ul>
+      </div>
+      <div class="art">
+        <svg viewBox="0 0 460 320" role="img" aria-labelledby="pc-art-title">
+          <title id="pc-art-title">An old desktop computer showing the J logo, with a small sprout growing from its tower</title>
+          <rect class="ink" x="20" y="44" width="270" height="180" rx="20"/>
+          <rect class="wash" x="40" y="64" width="230" height="140" rx="10"/>
+          <g class="fill-ink" transform="translate(92 74) scale(.23)">
+            <path d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+            <path d="M144 208H176V240H144Z"/>
+          </g>
+          <path class="ink" d="M155 224v40M105 266h100"/>
+          <rect class="ink" x="322" y="84" width="110" height="182" rx="18"/>
+          <path class="ink" d="M347 118h60M347 142h60"/>
+          <circle class="warm" cx="377" cy="232" r="10"/>
+          <path class="ink" d="M377 84V46"/>
+          <path class="warm" d="M377 58c-3-21-21-32-41-30 2 19 19 32 41 30Z"/>
+          <path class="warm" d="M377 49c4-19 21-28 38-25-2 17-17 27-38 25Z"/>
+          <path class="ink" d="M8 298h444" opacity=".25"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="setup-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Setup</span>
+        <h2 id="setup-title">Ready in three steps</h2>
+        <p>No keyboard tricks, no command line. You finish setup on your phone.</p>
+      </div>
+      <ol class="steps">
+        <li class="card">
+          <h3>Flash</h3>
+          <p>Download JenerOS and write it to the PC's drive with a free tool like balenaEtcher.</p>
+        </li>
+        <li class="card">
+          <h3>Boot</h3>
+          <p>Put the drive in the PC, turn Secure Boot off and switch it on. JenerOS starts by itself.</p>
+        </li>
+        <li class="card">
+          <h3>Scan the QR</h3>
+          <p>The screen shows a QR code. Scan it with your phone, enter the 6-digit code and finish setup there.</p>
+        </li>
+      </ol>
+      <p class="note">Setup stays on your home network. Nothing goes through our servers. <a href="download.html">See the full guide</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="updates-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Safe updates</span>
+        <h2 id="updates-title">Updates with a safety net</h2>
+        <p>Your box keeps two copies of the system. Updates always go into the spare one, so the working copy stays untouched.</p>
+      </div>
+      <ol class="flow">
+        <li class="card"><strong>1. Press Update</strong><p>One button on the dashboard. The new version downloads into the spare copy.</p></li>
+        <li class="card"><strong>2. Restart and check</strong><p>The box restarts into the new version and checks that it started properly.</p></li>
+        <li class="card"><strong>3. Keep it or go back</strong><p>All good? It stays. If it fails to start, the box goes back to the old version by itself.</p></li>
+      </ol>
+      <p class="note">Changed your mind? There is also a button to go back to the previous version.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="shots-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">A look inside</span>
+        <h2 id="shots-title">Screenshots</h2>
+        <p>Real screenshots land here with the first preview release.</p>
+      </div>
+      <div class="shots">
+        <figure>
+          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <figcaption>The dashboard<small>Your box at a glance</small></figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <figcaption>The app store<small>Pick the apps you want</small></figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <figcaption>Setup on your phone<small>Scan, type the code, done</small></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Questions</span>
+        <h2 id="faq-title">Good to know</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is it free?</summary>
+          <div class="answer">
+            <p>Yes. JenerOS is free to download and use, with no subscription and no account with us. It is open source under the GNU GPL 3.0, so anyone can read and check the code.</p>
+          </div>
+        </details>
+        <details>
+          <summary>What hardware do I need?</summary>
+          <div class="answer">
+            <p>A 64-bit (x86-64) PC with UEFI, which covers most PCs from 2012 on. Plan for 4 GB of memory and a spare drive of 32 GB or more. Installing erases that drive. You turn Secure Boot off in the PC's settings. You can also try it in a virtual machine first.</p>
+            <p><a href="download.html#hardware">Full hardware list</a></p>
+          </div>
+        </details>
+        <details>
+          <summary>Is my data private?</summary>
+          <div class="answer">
+            <p>Your photos, files and settings stay on your box. We don't run accounts, collect analytics or see what you store. The box only reaches out to check for updates, set its clock, and download apps you choose to install.</p>
+            <p><a href="privacy.html">Read the privacy policy</a></p>
+          </div>
+        </details>
+        <details>
+          <summary>Can I go back if an update breaks?</summary>
+          <div class="answer">
+            <p>Yes. Each update goes into a spare copy of the system. If the new version fails to start, your box goes back to the old one by itself. You can also go back to the previous version with one button.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Is it ready for my family's photos?</summary>
+          <div class="answer">
+            <p>Not yet. JenerOS is an early preview. It boots, updates itself and rolls back bad updates, but the apps are still coming. Please don't trust it with your only copy of anything yet.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta">
+        <h2 id="cta-title">Bring your stuff home</h2>
+        <p>The first preview release is coming soon. Follow along on GitHub to hear when it lands.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="download.html">Download</a>
+          <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See it on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="./">
+        <picture>
+          <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo/j-monogram.svg" width="26" height="26" alt="">
+        </picture>
+        <span>JenerOS</span>
+      </a>
+      <p>Your stuff lives at home.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS/blob/main/LICENSE">License: GPL-3.0</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <p class="legal">&copy; 2026 Jener, Inc. JenerOS is free software.</p>
+  </div>
+</footer>
+</body>
+</html>
