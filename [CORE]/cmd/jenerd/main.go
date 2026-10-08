@@ -16,10 +16,17 @@ import (
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
 	"github.com/PrimeExtremo/JenerOS/core/internal/setup"
+	"github.com/PrimeExtremo/JenerOS/core/internal/storage"
 	"github.com/PrimeExtremo/JenerOS/core/internal/update"
 )
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "storage-create" {
+		if err := storage.Apply(storage.DefaultPaths); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
 	if len(os.Args) == 2 && os.Args[1] == "auth-helper" {
 		if err := auth.ServeHelper(); err != nil {
 			log.Fatal(err)
@@ -61,6 +68,7 @@ func main() {
 	api.RegisterAuth(mux, sessions)
 	srv.Register(mux)
 	api.RegisterSSH(mux, access.DefaultPaths)
+	api.RegisterStorage(mux, storage.DefaultPaths)
 	var firstBoot *setup.Manager
 	if *setupEnabled {
 		firstBoot, err = setup.New(setup.DefaultPaths)
