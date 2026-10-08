@@ -417,3 +417,14 @@ go test -race ./...
 ~~~
 
 **Implementation references**: [Linux-PAM 1.7.0 password/expiry checker](https://github.com/linux-pam/linux-pam/blob/v1.7.0/modules/pam_unix/unix_chkpwd.c), [Debian checker files](https://packages.debian.org/trixie/amd64/libpam-modules-bin/filelist), [systemd socket ownership](https://github.com/systemd/systemd/blob/v257/man/systemd.socket.xml) and [DynamicUser/NSS](https://github.com/systemd/systemd/blob/v257/man/systemd.exec.xml). Browser/VM review stays pending, and work stops after style phase 2 as requested.
+## 2026-10-08 - Claude cloud - GitHub checks on every pull request
+
+**Changed**: new `.github/workflows/checks.yml` (branch `cloud/ci`). Jener asked for automated checks so `main` can require them before merging.
+
+**What runs**: two jobs, on every pull request and on pushes to `main`/`zimaos-style`. `go`: gofmt (fails if any file needs formatting), `go vet`, `go test`, `go build` in `[CORE]`, using the Go version from `go.mod`. `dashboard`: `node --check` on every `[DASHBOARD]/*.js`, then the eight local fixtures in `.scratch/setup/` and `.scratch/zimaos/`. No images are built, and no secrets are used (read-only token).
+
+**For any AI adding code**: new Go must be gofmt-clean, and new fixture scripts must be added to the list in the workflow. Browser checks that need a running jenerd (like `check-store.cjs` from the App Store PR) stay out of CI.
+
+**Checked**: all steps ran locally on this branch and passed. The first real GitHub run happens on this PR.
+
+**Not done**: branch protection on `main`. No tool in the cloud session can change repo settings, so Jener sets the ruleset by hand. Once this workflow has run once, its `go` and `dashboard` checks can be added as required.
