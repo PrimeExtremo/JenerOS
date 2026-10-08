@@ -87,6 +87,10 @@
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Download
         </a>
+        <a class="btn btn-ghost" href="preview.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 9v6l4.5-3Z" fill="currentColor"/></svg>
+          Watch the preview
+        </a>
         <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See it on GitHub</a>
       </div>
     </div>
@@ -222,19 +226,34 @@
       <div class="section-head">
         <span class="eyebrow">A look inside</span>
         <h2 id="shots-title">Screenshots</h2>
-        <p>Real screenshots land here with the first preview release.</p>
+        <p>Real screens from the JenerOS dashboard. <a href="preview.html">Take the full tour</a>.</p>
       </div>
       <div class="shots">
         <figure>
-          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <div class="shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 92vw">
+              <img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 92vw" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS dashboard: a clock, CPU and memory rings, disk use and a network graph on the left, notices and app tiles on the right.">
+            </picture>
+          </div>
           <figcaption>The dashboard<small>Your box at a glance</small></figcaption>
         </figure>
         <figure>
-          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <div class="shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/shots/store-discover.webp 1280w, assets/shots/store-discover@2x.webp 2560w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 92vw">
+              <img src="assets/shots/store-discover-light.webp" srcset="assets/shots/store-discover-light.webp 1280w, assets/shots/store-discover-light@2x.webp 2560w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 92vw" width="1280" height="800" loading="lazy" decoding="async" alt="The App Store, Discover page, with a featured Photos banner and popular apps: Photos, TV, Drive and Home.">
+            </picture>
+          </div>
           <figcaption>The app store<small>Pick the apps you want</small></figcaption>
         </figure>
         <figure>
-          <div class="shot"><span><svg viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x="3" y="5" width="22" height="18" rx="4"/><path d="m3 19 6-6 5 5 3-3 8 8"/></svg>Screenshot coming soon</span></div>
+          <div class="shot phone-shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-setup.webp 390w, assets/shots/phone-setup@2x.webp 780w" sizes="(min-width: 1100px) 104px, (min-width: 700px) 13vw, 26vw">
+              <img src="assets/shots/phone-setup-light.webp" srcset="assets/shots/phone-setup-light.webp 390w, assets/shots/phone-setup-light@2x.webp 780w" sizes="(min-width: 1100px) 104px, (min-width: 700px) 13vw, 26vw" width="390" height="844" loading="lazy" decoding="async" alt="JenerOS setup on a phone: welcome, language, privacy policy, the 6-digit code field and a Continue button.">
+            </picture>
+          </div>
           <figcaption>Setup on your phone<small>Scan, type the code, done</small></figcaption>
         </figure>
       </div>
