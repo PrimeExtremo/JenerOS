@@ -1,0 +1,24 @@
+[Unit]
+Description=JenerOS text screen when the kiosk cannot start
+After=jeneros-kiosk.service
+# Deliberately independent of jenerd: recovery text must survive its failure.
+
+[Service]
+Type=oneshot
+# The boot want() link also makes this available on updated systems. Skip the
+# normal boot start; OnFailure starts it again when kiosk retries are exhausted.
+ExecCondition=/usr/bin/systemctl --quiet is-failed jeneros-kiosk.service
+ExecStartPre=-/usr/bin/plymouth quit --retain-splash
+ExecStartPre=-/usr/bin/chvt 1
+ExecStart=/usr/lib/jeneros/kiosk-fallback
+StandardInput=tty-force
+StandardOutput=tty
+StandardError=journal
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=no
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,43 @@
+#!/bin/sh
+# systemd gives this root helper tty1. No graphics, network wait or daemon needed.
+set -eu
+host=$(hostname 2>/dev/null) || host=jeneros
+kernel=$(uname -r 2>/dev/null) || kernel=unknown
+ip_address=$(ip -4 -o addr show scope global 2>/dev/null |
+    awk '$2 !~ /^(lo|docker|veth|br-|virbr|incus|lxc)/ {split($4, a, "/"); if (a[1] !~ /^169\.254\./) {print a[1]; exit}}') || ip_address=
+
+# /usr/lib/issue uses agetty escapes. Expand just those used by our banner;
+# printf %b handles its colour escapes after hostname/kernel/IP substitution.
+printf '\033[0m\033[2J\033[H'
+if [ -r /usr/lib/issue ]; then
+    banner=$(awk -v host="$host" -v kernel="$kernel" -v ip="$ip_address" '
+        /On the main screen/ {exit}
+        {gsub(/\\n/, host); gsub(/\\r/, kernel); gsub(/\\4/, ip); print}
+    ' /usr/lib/issue)
+    printf '%b\n' "$banner"
+else
+    printf 'JENEROS\n'
+fi
+printf '\n  Your box is running with a text screen.\n'
+if [ -f /var/lib/jeneros/setup-done ]; then
+    printf '  Open your dashboard on your phone or computer:\n'
+else
+    printf '  Finish setup on your phone or computer:\n'
+fi
+if [ -n "$ip_address" ]; then
+    printf '  http://%s\n' "$ip_address"
+else
+    printf '  Connect a network cable, then try:\n'
+fi
+printf '  http://jeneros.local\n'
+if [ "$host" != jeneros ]; then printf '  http://%s.local\n' "$host"; fi
+if [ ! -f /var/lib/jeneros/setup-done ]; then
+    code=$(cat /run/jeneros/setup-code 2>/dev/null) || code=
+    case "$code" in *[!0-9]*|'') code= ;; esac
+    if [ "${#code}" -eq 6 ]; then
+        printf '\n  Setup code: %s\n' "$code"
+    else
+        printf '\n  Setup code is not ready. Restart your box if it stays missing.\n'
+    fi
+fi
+printf '\n  For a local login, press Ctrl+Alt+F2.\n'

@@ -20,8 +20,6 @@
 .welcome-bottom { margin-top: 80px; max-width: 500px; }
 .welcome-bottom .field { max-width: 230px; }
 .onboarding-page .privacy-choice { font-size: .875rem; min-height: 44px; align-items: center; margin-top: 10px; }
-.privacy-fallback { font-size: .75rem; margin: 0 0 0 36px; }
-.privacy-fallback a { color: var(--soft); text-underline-offset: 3px; }
 .box-options { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 12px; }
 .box-options summary { cursor: pointer; min-height: 44px; padding: 10px 0; font-weight: 600; font-size: .875rem; }
 .onboarding-page .setup-phone { padding: 18px 24px; border-radius: 18px; background: var(--card); }
@@ -55,4 +53,32 @@
 @media (prefers-reduced-motion: reduce) {
   .onboarding-page * { scroll-behavior: auto !important; }
   .onboarding-card, .setup-page .setup-card { animation: j-fade var(--t-quick) var(--ease) both !important; }
+}
+/* Page-owned setup controls and the policy sheet share the card palette. */
+.language-choice { border: 0; padding: 0; }
+.language-choice legend, .field-label { display: block; font-size: .875rem; margin-bottom: 6px; }
+.onboarding-page .language-pill { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 18px; border: 1px solid var(--accent-ink); border-radius: 24px; background: var(--paper); margin: 0; }
+.onboarding-page .language-pill input { width: 18px; min-height: 18px; height: 18px; padding: 0; accent-color: var(--accent-ink); }
+.setup-picker { position: relative; }
+.setup-picker-button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.setup-picker-button span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.setup-list { max-height: 220px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 6px; scroll-padding: 6px; }
+.setup-popover { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 5; max-height: min(220px, 40dvh); background: var(--card); box-shadow: var(--shadow-up); }
+.setup-list-option { min-height: 48px; padding: 12px; border: 2px solid transparent; border-radius: 6px; color: var(--ink); cursor: pointer; overflow-wrap: anywhere; }
+.setup-list-option[aria-selected="true"] { background: var(--card); border-color: var(--accent-ink); font-weight: 600; }
+.setup-list-option.is-active { outline: 2px solid var(--accent-ink); outline-offset: -4px; }
+.setup-list-option:hover { background: var(--card); }
+.privacy-sheet { width: min(720px, calc(100% - 28px)); max-width: none; max-height: calc(100dvh - 28px); margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); box-shadow: var(--shadow-up); }
+.privacy-sheet[open] { display: flex; flex-direction: column; }
+.privacy-sheet::backdrop { background: rgb(0 0 0 / .6); }
+.privacy-sheet-header { flex: none; padding: 24px; border-bottom: 1px solid var(--line); }
+.privacy-sheet-content { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 24px; }
+.privacy-sheet-content .privacy-policy { padding: 0; overflow-wrap: anywhere; }
+.privacy-sheet-content .privacy-table { max-width: 100%; overflow-x: auto; }
+.privacy-sheet-actions { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 18px 24px; border-top: 1px solid var(--line); }
+.privacy-sheet-actions a { display: inline-flex; align-items: center; min-height: 48px; }
+.privacy-sheet-actions #privacyClose { margin-left: auto; min-width: 120px; min-height: 52px; }
+@media (max-width: 560px) {
+  .privacy-sheet-header, .privacy-sheet-content { padding: 18px; }
+  .privacy-sheet-actions { padding: 14px 18px; }
 }
