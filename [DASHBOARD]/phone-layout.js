@@ -19,3 +19,36 @@
   document.addEventListener('focusout', () => root.classList.remove('keyboard-open'));
   update();
 })();
+
+// Phone sheets: drag the grabber down to close, like a native bottom sheet.
+// Closing goes through the sheet's own close button so motion and focus stay right.
+(() => {
+  'use strict';
+  const phone = matchMedia('(max-width: 680px), (max-height: 500px) and (max-width: 960px)');
+  for (const sheet of document.querySelectorAll('.desktop .settings-window, .desktop .desktop-dialog')) {
+    const grabber = document.createElement('div');
+    grabber.className = 'sheet-grabber';
+    grabber.setAttribute('aria-hidden', 'true');
+    sheet.prepend(grabber);
+    let start = null, dy = 0;
+    grabber.addEventListener('pointerdown', e => {
+      if (!phone.matches || !sheet.open) return;
+      start = e.clientY; dy = 0;
+      grabber.setPointerCapture(e.pointerId);
+      sheet.style.transition = 'none';
+    });
+    grabber.addEventListener('pointermove', e => {
+      if (start === null) return;
+      dy = Math.max(0, e.clientY - start);
+      sheet.style.transform = `translateY(${dy}px)`;
+    });
+    const end = () => {
+      if (start === null) return;
+      start = null;
+      sheet.style.transition = ''; sheet.style.transform = '';
+      if (dy > 80) (sheet.querySelector('#closeSettings, .window-header .icon-button') || { click: () => sheet.close() }).click();
+    };
+    grabber.addEventListener('pointerup', end);
+    grabber.addEventListener('pointercancel', end);
+  }
+})();

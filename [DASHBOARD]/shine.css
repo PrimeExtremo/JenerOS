@@ -1,0 +1,15 @@
+/* Shared light accents for setup, sign-in and the dashboard, in remote browsers
+   only. The box's own screen never runs these loops (see onboarding-shine.js). */
+.wallpaper-shine { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
+  -webkit-mask: url('wallpaper-shine-mask.svg') center / cover no-repeat;
+  mask: url('wallpaper-shine-mask.svg') center / cover no-repeat; }
+.wallpaper-shine > span { position: absolute; left: calc(50% + 15vw); top: 24%; width: 200px; height: 240px;
+  opacity: 0; background: radial-gradient(ellipse, #f6f1e7 0%, transparent 70%); }
+[data-theme="light"] .wallpaper-shine { opacity: .45; }
+[data-wallpaper="dune"] .wallpaper-shine, [data-wallpaper="plain"] .wallpaper-shine { display: none; }
+.card-shine { position: absolute; top: -1px; left: 18px; right: 18px; height: 2px; overflow: hidden; pointer-events: none; }
+.card-shine > span { display: block; width: 128px; height: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--ink), transparent); }
+@media (prefers-reduced-motion: reduce), (prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active) {
+  .wallpaper-shine, .card-shine { display: none !important; }
+}
