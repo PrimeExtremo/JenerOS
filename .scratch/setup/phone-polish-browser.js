@@ -23,7 +23,10 @@ window.addEventListener('load', async () => {
       assert(symbol && symbol.getAttribute('viewBox') === '0 0 24 24', 'Shared symbol ' + use.getAttribute('href'));
       assert(symbol.getAttribute('stroke-width') === '1.75', 'Consistent weight');
       assert(use.closest('svg').getAttribute('aria-hidden') === 'true', 'Decorative SVG hidden');
-      assert(use.getBBox().width > 0, 'Glyph paints: ' + use.getAttribute('href'));
+      // Icons on hidden steps/sheets, or the deliberately hidden half of a toggle, don't paint.
+      const svg = use.closest('svg');
+      const shown = svg.getClientRects().length && getComputedStyle(svg).visibility !== 'hidden';
+      if (shown) assert(use.getBBox().width > 0, 'Glyph paints: ' + use.getAttribute('href'));
     }
     if ($('loginForm')) {
       const fields = document.querySelector('.account-fields');
