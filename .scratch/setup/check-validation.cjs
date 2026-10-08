@@ -30,10 +30,10 @@ for (const value of ['', '_owner', '2owner', 'Owner', 'a.b', 'a b', 'a'.repeat(3
   assert.equal(element('next').attributes['aria-disabled'], 'true', value); assert.equal(element('usernameError').hidden, false, value);
 }
 element('username').value = 'jener';
-for (const value of ['12345678', 'é'.repeat(8), 'a'.repeat(256), '??'.repeat(8)]) {
+for (const value of ['123456', 'é'.repeat(6), 'a'.repeat(256), '??'.repeat(8)]) {
   element('password').value = element('passwordConfirm').value = value; test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'false');
 }
-for (const value of ['', '1234567', 'é'.repeat(4), 'a'.repeat(257), 'password\n', 'password\0', 'password\uD800', 'password\uDC00', 'password\uD800x']) {
+for (const value of ['', '12345', 'é'.repeat(5), 'a'.repeat(257), 'password\n', 'password\0', 'password\uD800', 'password\uDC00', 'password\uD800x']) {
   element('password').value = element('passwordConfirm').value = value; test.touch('password'); test.validate();
   assert.equal(element('next').attributes['aria-disabled'], 'true'); assert.equal(element('passwordError').hidden, false);
 }

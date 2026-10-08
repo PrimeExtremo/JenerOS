@@ -22,7 +22,7 @@
       username: !/^[a-z][a-z0-9_-]{0,31}$/.test(username)
         ? 'Start with a lowercase letter. Use up to 32 lowercase letters, numbers, - or _.'
         : info?.reservedUsernames?.includes(username) ? 'That name is reserved for the system. Choose your own.' : '',
-      password: [...password].length < 8 ? 'Use at least 8 characters.'
+      password: [...password].length < 6 ? 'Use at least 6 characters.'
         : [...password].reduce((bytes, char) => bytes + (char.codePointAt(0) < 0x80 ? 1 : char.codePointAt(0) < 0x800 ? 2 : char.codePointAt(0) < 0x10000 ? 3 : 4), 0) > 256 || /[\r\n\0]/.test(password) || invalidUnicode(password)
           ? 'Use up to 256 bytes, without line breaks.' : '',
       passwordConfirm: $('passwordConfirm').value !== password || !$('passwordConfirm').value ? 'Type the same password again.' : '',

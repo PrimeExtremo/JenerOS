@@ -575,3 +575,6 @@ go test -race ./...
 - Setup password fields now use the same in-field eye toggle as login (removed the "Show passwords" pill).
 - Icons: login/setup loaded the sprite by fetching index.html, which redirects to /login when signed out, so their icons were blank. Added public `[DASHBOARD]/icons.svg` (mirror of the index.html sprite) and `.scratch/setup/check-icons-public.cjs` (in CI) to keep them identical.
 - Notice "clipped card" was a mid-slide screenshot, not a bug.
+
+## 2026-10-08 · Claude · Owner password minimum is 6 characters
+- Jener asked for 6 instead of 8. Changed `[CORE]/internal/setup/setup.go` (server rule + message), `[DASHBOARD]/setup.js` (inline error), `setup.html` (help text), Go tests and `.scratch/setup/check-validation.cjs` (5 fails, 6 passes). Login has no minimum, so nothing else changes.

@@ -242,8 +242,8 @@ func Validate(req Request, info Info) error {
 	if !usernamePattern.MatchString(req.Username) || contains(ReservedUsernames, req.Username) {
 		return errors.New("Username: start with a lowercase letter; use up to 32 lowercase letters, numbers, underscores or dashes. Choose a name that isn't reserved.")
 	}
-	if !utf8.ValidString(req.Password) || utf8.RuneCountInString(req.Password) < 8 || len(req.Password) > 256 || strings.ContainsAny(req.Password, "\r\n\x00") {
-		return errors.New("Choose a password with 8 or more characters (up to 256 bytes), without line breaks.")
+	if !utf8.ValidString(req.Password) || utf8.RuneCountInString(req.Password) < 6 || len(req.Password) > 256 || strings.ContainsAny(req.Password, "\r\n\x00") {
+		return errors.New("Choose a password with 6 or more characters (up to 256 bytes), without line breaks.")
 	}
 	if req.Password != req.PasswordConfirm {
 		return errors.New("The passwords don't match. Please type them again.")
