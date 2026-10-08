@@ -1,0 +1,4 @@
+# Files in [SITE]/ that Wrangler should not publish.
+wrangler.jsonc
+README.md
+.assetsignore
