@@ -112,6 +112,33 @@ assert.equal(element('statMem').textContent, '50%'); assert.equal(element('diskH
 assert.ok(!element('facts').innerHTML.includes('<script>')); assert.match(element('deviceIP').textContent, /fd12/);
 run('sshInfo = {available: true, sshStatus: "off", status: {}}; renderSSH()'); assert.equal(element('sshToggle').disabled, false);
 (async () => {
+  run('renderPendingSystem(); setUpdate("Checking…")');
+  assert.equal(element('deviceIP').textContent, '—');
+  assert.equal(element('storageBig').textContent, '—');
+  assert.equal(element('updateText').textContent, 'Checking…');
+  // First-load API calls wait for the deferred session helper, without samples.
+  context.document.readyState = 'loading';
+  let ready;
+  context.document.addEventListener = (name, fn) => { if (name === 'DOMContentLoaded') ready = fn; };
+  const beforeRequests = requests.length;
+  const loading = run('getJSON("/api/system")');
+  assert.equal(requests.length, beforeRequests);
+  context.window.JenerSession = context.JenerSession;
+  ready(); await loading;
+  context.document.readyState = 'complete';
+  assert.equal(requests.length, beforeRequests + 1);
+  assert.equal(run('previewFailure({status: 503})'), false);
+  assert.equal(run('previewFailure({status: 404})'), true);
+  assert.equal(run('previewFailure(new Error("offline"))'), true);
+  run('boxOnline = true');
+  assert.equal(run('previewFailure(new Error("offline"))'), false);
+  const savedFetch = context.fetch;
+  context.fetch = async () => ({ ok: false, status: 503 });
+  await run('pollSystem()');
+  assert.equal(element('deviceIP').textContent, '—', 'box API errors keep neutral readings');
+  await run('renderUpdate()');
+  assert.ok(!element('updateText').textContent.includes('open this page from your box'));
+  context.fetch = savedFetch;
   element('sshToggle').checked = true; await element('sshToggle').listeners.change();
   assert.equal(requests.at(-1).url, '/api/settings/ssh'); assert.equal(requests.at(-1).options.headers['X-JenerOS'], '1');
   assert.equal(JSON.parse(requests.at(-1).options.body).enabled, true);

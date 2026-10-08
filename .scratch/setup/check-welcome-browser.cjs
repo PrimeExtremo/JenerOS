@@ -9,9 +9,9 @@ const { spawn, execFileSync } = require('node:child_process');
 const root = path.resolve('[DASHBOARD]');
 const baseline = process.argv.includes('--baseline');
 const suite = process.env.JENER_UI_FIXTURE || 'welcome';
-if (!['welcome', 'click-shim', 'shine', 'kiosk-shine', 'phone-polish'].includes(suite)) throw Error('Unknown browser fixture');
+if (!['welcome', 'click-shim', 'shine', 'kiosk-shine', 'phone-polish', 'storage'].includes(suite)) throw Error('Unknown browser fixture');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
-const checks = fs.readFileSync(path.join(__dirname, suite + '-browser.js'), 'utf8');
+const checks = fs.readFileSync(path.join(__dirname, suite === 'storage' ? '../zimaos/storage-browser.js' : suite + '-browser.js'), 'utf8');
 let browser, timer;
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://fixture');
@@ -28,8 +28,8 @@ const server = http.createServer((req, res) => {
     res.end(`<html><body><script>
       (async () => {
         const errors = [], passed = [];
-        for (const page of ${JSON.stringify(suite === 'phone-polish' ? ['setup', 'login', 'index'] : suite === 'kiosk-shine' ? ['setup', 'login', 'screen'] : suite === 'shine' ? ['setup', 'login'] : ['setup'])})
-        for (const theme of ['dark', 'light']) for (const [width, height] of ${JSON.stringify(suite === 'phone-polish' ? [[360,780],[390,844],[430,932],[780,360],[932,430],[1280,800]] : [[1280,800],[390,800]])}) for (const mode of ${JSON.stringify(suite === 'phone-polish' ? ['native', 'large-text', 'missing'] : suite === 'welcome' ? ['native', 'missing', 'throwing', 'noop', 'qr-failure'] : suite.endsWith('shine') ? ['native', 'reduced-motion', 'reduced-transparency'] : ['native'])}) {
+        for (const page of ${JSON.stringify(suite === 'storage' ? ['index'] : suite === 'phone-polish' ? ['setup', 'login', 'index'] : suite === 'kiosk-shine' ? ['setup', 'login', 'screen'] : suite === 'shine' ? ['setup', 'login'] : ['setup'])})
+        for (const theme of ['dark', 'light']) for (const [width, height] of ${JSON.stringify(suite === 'storage' ? [[360,780],[390,844],[780,360],[1280,800]] : suite === 'phone-polish' ? [[360,780],[390,844],[430,932],[780,360],[932,430],[1280,800]] : [[1280,800],[390,800]])}) for (const mode of ${JSON.stringify(suite === 'storage' ? ['native', 'missing', 'reduced-motion', 'large-text'] : suite === 'phone-polish' ? ['native', 'large-text', 'missing'] : suite === 'welcome' ? ['native', 'missing', 'throwing', 'noop', 'qr-failure'] : suite.endsWith('shine') ? ['native', 'reduced-motion', 'reduced-transparency'] : ['native'])}) {
           const frame = document.createElement('iframe'); frame.width = width; frame.height = height;
           frame.style.border = '0'; document.body.append(frame);
           const result = await new Promise(resolve => {
@@ -49,10 +49,10 @@ const server = http.createServer((req, res) => {
   if (url.pathname.startsWith('/api/')) {
     res.setHeader('Content-Type', 'application/json');
     if (url.pathname === '/api/auth/session') {
-      const dashboard = suite === 'phone-polish' && /index.html/.test(req.headers.referer || '');
+      const dashboard = ['phone-polish', 'storage'].includes(suite) && /index.html/.test(req.headers.referer || '');
       res.writeHead(dashboard ? 200 : 401); res.end('{"username":"Owner"}'); return;
     }
-    if (suite === 'phone-polish' && !['/api/system', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
+    if (['phone-polish', 'storage'].includes(suite) && !['/api/system', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
     res.end(JSON.stringify(url.pathname === '/api/system' ? { hostname: 'jeneros', addresses: ['192.168.1.20'] }
       : url.pathname === '/api/setup/status' ? { state: 'waiting' }
       : { keymaps: [{ id: 'us', name: 'English (US)' }], timezones: ['UTC'], interfaces: ['eth0'], hostname: 'jeneros', reservedUsernames: [] })); return;
@@ -67,7 +67,7 @@ const server = http.createServer((req, res) => {
   if (suite === 'shine' && url.pathname === '/box-ui.js') source += '\nwindow.BoxUI.local = false;\n';
   // The shared controller now also detects loopback without BoxUI (dashboard).
   if (suite === 'shine' && url.pathname === '/onboarding-shine.js') source = source.toString().replace(/const local =[^;]+;/, 'const local = false;');
-  if (url.pathname === '/setup.html' || ((suite.endsWith('shine') || suite === 'phone-polish') && url.pathname === '/login.html') || (suite === 'kiosk-shine' && url.pathname === '/screen.html') || (suite === 'phone-polish' && url.pathname === '/index.html')) {
+  if (url.pathname === '/setup.html' || ((suite.endsWith('shine') || suite === 'phone-polish') && url.pathname === '/login.html') || (suite === 'kiosk-shine' && url.pathname === '/screen.html') || (['phone-polish', 'storage'].includes(suite) && url.pathname === '/index.html')) {
     source = source.toString().replace('<head>', `<head><script>
       const mode = new URLSearchParams(location.search).get('mode');
       localStorage.setItem('jeneros.desktop', JSON.stringify({theme:new URLSearchParams(location.search).get('theme')}));
@@ -75,7 +75,7 @@ const server = http.createServer((req, res) => {
       if (mode === 'throwing') HTMLDialogElement.prototype.showModal = function(){throw Error('fixture showModal failure')};
       if (mode === 'noop') HTMLDialogElement.prototype.showModal = function(){};
       if (mode === 'qr-failure') window.TextEncoder = undefined;
-      ${suite.endsWith('shine') ? `
+      ${(suite.endsWith('shine') || suite === 'storage') ? `
       window.fixturePreferences = {};
       const realMatchMedia = window.matchMedia.bind(window);
       window.matchMedia = query => {
@@ -101,5 +101,5 @@ server.listen(0, '127.0.0.1', () => {
   let stderr = ''; browser.stderr.on('data', data => stderr += data);
   browser.on('exit', code => { if (server.listening) { console.error('Browser exited before results: ' + code + '\n' + stderr.slice(-1500)); process.exitCode = 1; clearTimeout(timer); server.close(); } });
   browser.on('error', error => { clearTimeout(timer); console.error(error.message); process.exitCode = 1; server.close(); });
-  timer = setTimeout(() => { console.error('Browser fixture timed out. ' + stderr.slice(-1500)); process.exitCode = 1; browser.kill(); server.close(); }, ['kiosk-shine', 'phone-polish'].includes(suite) ? 240000 : 45000);
+  timer = setTimeout(() => { console.error('Browser fixture timed out. ' + stderr.slice(-1500)); process.exitCode = 1; browser.kill(); server.close(); }, ['kiosk-shine', 'phone-polish', 'storage'].includes(suite) ? 240000 : 45000);
 });

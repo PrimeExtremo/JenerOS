@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="desktop.css">
   <script src="session.js" defer></script>
   <link rel="stylesheet" href="store.css">
+  <link rel="stylesheet" href="storage.css">
   <link rel="stylesheet" href="shine.css">
   <script src="onboarding-shine.js" defer></script>
 </head>
@@ -88,9 +89,11 @@
           <article class="settings-card setting-list"><div class="setting-row"><span>Disk standby</span><span class="muted">Coming later</span></div><div class="setting-row"><span>Battery backup (UPS)</span><span class="muted">Coming later</span></div><div class="setting-row"><label for="sshToggle">Developer access · SSH</label><input type="checkbox" role="switch" id="sshToggle" disabled></div><p class="setting-help" id="sshNote">Checking developer access…</p></article>
         </section>
         <section data-settings-panel="storage" hidden>
-          <article class="settings-card bays-card"><div><h4>Your disks</h4><p class="muted">Space for the things you love.</p></div><div class="disk-bays" aria-hidden="true"><span></span><span></span></div></article>
-          <article class="settings-card"><div class="setting-row"><h4>System disk</h4><strong id="storageBig">—</strong></div><span class="meter meter-wide"><i id="meterDisk2"></i></span><p class="setting-help" id="storageNote">Apps, settings and logs live here.</p></article>
-          <article class="storage-coming"><h4>Make room for more</h4><p>Bring your disks together for files, photos and movies. Storage setup is coming in a later phase.</p><span class="tag">Coming soon</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-disk"/></svg></article>
+          <div id="storageOverview"><article class="settings-card"><h4>Bays</h4><p class="muted">Checking your disks…</p></article></div>
+          <article class="settings-card storage-system-list"><div class="setting-row"><h4>System disk</h4><strong id="storageBig">—</strong></div><p class="setting-help" id="storageDevices">Checking the system disk…</p><span class="meter meter-wide"><i id="meterDisk2"></i></span><p class="setting-help" id="storageNote">Apps, settings and logs live here.</p></article>
+          <article class="storage-create-card"><div><h4>Create storage</h4><p>A home for your photos, files and everything next.</p><button class="pill pill-accent" id="createStorage" disabled>Create storage</button></div><div class="storage-card-art" aria-hidden="true"><span></span><span></span><span></span></div></article>
+          <p id="storageAvailability" class="setting-help" role="status">Checking storage…</p>
+          <button class="pill" id="refreshStorage">Refresh disks</button>
         </section>
         <section data-settings-panel="network" hidden>
           <article class="settings-card ports-card"><div><h4>Connections</h4><p class="muted">Your way home.</p></div><svg viewBox="0 0 96 66" aria-hidden="true"><rect x="5" y="5" width="86" height="53" rx="7"/><path d="M19 17h58v24H64v9H32v-9H19Z M29 18v13m9-13v13m10-13v13m10-13v13m10-13v13"/><circle cx="80" cy="49" r="2"/></svg></article>
@@ -111,6 +114,12 @@
   </dialog>
   <dialog class="desktop-dialog" id="widgetWindow" aria-labelledby="widgetTitle"><header class="window-header"><h2 id="widgetTitle">Widget settings</h2><button class="icon-button" data-close="widgetWindow" aria-label="Close widget settings"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg></button></header><p class="muted">Make this space your own.</p><div class="widget-choices"><label><span>Clock</span><input type="checkbox" data-widget-toggle="clock"></label><label><span>System</span><input type="checkbox" data-widget-toggle="system"></label><label><span>Storage</span><input type="checkbox" data-widget-toggle="storage"></label><label><span>Network</span><input type="checkbox" data-widget-toggle="network"></label></div><p class="setting-help">Saved in this browser.</p></dialog>
   <dialog class="desktop-dialog" id="appWindow" aria-labelledby="appWindowTitle"><header class="window-header"><h2 id="appWindowTitle">App catalog</h2><button class="icon-button" data-close="appWindow" aria-label="Close app window"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg></button></header><p id="appWindowNote" class="muted"></p><ul class="store" id="storeList"></ul></dialog>
+  <dialog class="desktop-dialog storage-window" id="storageWindow" aria-labelledby="storageTitle">
+    <header class="window-header"><div><p id="storageStep" class="storage-eyebrow"></p><h2 id="storageTitle" tabindex="-1">Create storage</h2></div><button class="icon-button" id="closeStorage" aria-label="Close storage window"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg></button></header>
+    <div id="storageContent" class="storage-content"></div>
+    <p id="storageError" class="storage-error" role="alert" hidden></p>
+    <footer class="storage-actions"><button class="pill" id="storageBack">Back</button><button class="pill pill-accent" id="storageNext">Next</button></footer>
+  </dialog>
   <svg class="watermark" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
   <div class="toast" id="toast" role="status"></div>
   <!-- Original JenerOS artwork; reference screenshots are never product assets. -->
@@ -157,6 +166,7 @@
   <script src="rollback.js"></script>
   <script src="desktop-metrics.js"></script>
   <script src="store.js"></script>
+  <script src="storage.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

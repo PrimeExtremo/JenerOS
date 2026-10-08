@@ -241,7 +241,7 @@ function renderSystem(s) {
   if (s.diskTotalB) $('diskMeter').setAttribute('aria-valuenow', diskPercent); else $('diskMeter').removeAttribute('aria-valuenow');
   $('storageBig').textContent = s.diskTotalB ? `${gb(s.diskFreeB)} free` : 'Space unknown';
   $('storageNote').textContent = s.diskTotalB ? `${gb(usedDisk)} used of ${gb(s.diskTotalB)}. Apps, settings and logs live here.` : 'Apps, settings and logs live here.';
-  $('storageNotice').textContent = s.diskTotalB ? `${gb(s.diskFreeB)} free on your system disk. Disk pools and extra drives will be managed here soon.` : 'Your system disk keeps apps, settings and logs. More storage options are coming soon.';
+  $('storageNotice').textContent = s.diskTotalB ? `${gb(s.diskFreeB)} free on your system disk. Manage your disks or create storage for your files.` : 'Your system disk keeps apps, settings and logs. Open Storage to manage your disks.';
   $('deviceName').textContent = s.hostname || 'JenerOS';
   $('deviceIP').textContent = s.addresses?.join(' · ') || 'No address yet';
   if (!sshInfo) renderSSH();
@@ -340,6 +340,7 @@ function openSettings(page = 'general') {
     if (button.dataset.settings === page) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
   });
   $('settingsPageTitle').textContent = titles[page];
+  if (page === 'storage' && window.JenerStorage) JenerStorage.load();
   JenerMotion.open(win);
   win.querySelector('.settings-scroll').scrollTop = 0;
   JenerMotion.pill(win.querySelector('.settings-sidebar nav'));

@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for JenerOS storage requests
+
+[Path]
+PathExists=/run/jeneros/storage.request
+Unit=jeneros-storage-create.service
+
+[Install]
+WantedBy=multi-user.target

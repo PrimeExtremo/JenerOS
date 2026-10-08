@@ -62,6 +62,7 @@ jobs:
             .scratch/setup/check-validation.cjs \
             .scratch/setup/check-icons-public.cjs \
             .scratch/zimaos/check-desktop.cjs \
+            .scratch/zimaos/check-storage.cjs \
             .scratch/zimaos/check-login.cjs \
             .scratch/zimaos/check-onboarding.cjs \
             .scratch/zimaos/check-ssh-helper.cjs
