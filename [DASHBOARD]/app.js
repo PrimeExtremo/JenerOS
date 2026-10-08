@@ -21,7 +21,7 @@ const BUILTIN_TILES = [
   { id: 'machines', name: 'Machines', icon: 'machines', soon: 'Room for another computer inside your box. Virtual machines are coming soon.' },
 ];
 let demo = false, systemOnline = false, lastSystem = null, previousSystem = null;
-let appCatalog = [], catalogSample = false, graphSamples = [], graphInterface = '';
+let appCatalog = [], graphSamples = [], graphInterface = '';
 let sshInfo = null, sshSubmitting = false, sshError = '';
 let toastTimer;
 function toast(message) {
@@ -172,13 +172,8 @@ function filterApps() {
   $('searchEmpty').hidden = tiles.some(tile => !tile.hidden);
 }
 function openCatalog() {
-  $('settingsWindow').close();
-  $('appWindowTitle').textContent = 'App catalog';
-  $('appWindowNote').textContent = (catalogSample ? 'Sample catalog. ' : '') + 'A peek at what you can add. Installing apps arrives in a later phase.';
-  $('storeList').hidden = false;
-  $('storeList').innerHTML = appCatalog.map(a => `<li class="app">${icon(['photos', 'drive', 'home', 'tv', 'relay'].includes(a.id) ? a.id : 'apps')}<span><span class="app-name">${esc(a.name)}</span><br><span class="app-by">Made by ${esc(a.upstream)}</span></span><span class="tag">${a.status === 'running' ? 'Running' : a.status === 'stopped' ? 'Stopped' : 'Coming soon'}</span><p class="app-tag">${esc(a.tagline)}</p></li>`).join('');
-  if (!appCatalog.length) $('appWindowNote').textContent = 'The catalog is empty. Try again once your box is connected.';
-  if (!$('appWindow').open) $('appWindow').showModal();
+  $('settingsWindow').close(); $('appWindow').close();
+  JenerStore.open();
 }
 function openApp(id) {
   if (id === 'settings') return openSettings('general');
@@ -212,7 +207,7 @@ function route() {
   if (['system', 'storage', 'network', 'account', 'settings'].includes(view)) openSettings(view === 'system' || view === 'settings' ? 'general' : view);
   else if (view === 'apps') openCatalog();
   else if (['files', 'photos', 'backup', 'machines'].includes(view)) openApp(view);
-  else { $('settingsWindow').close(); $('appWindow').close(); }
+  else { $('settingsWindow').close(); $('appWindow').close(); JenerStore.close(); }
 }
 function savePreferences() {
   if (!DesktopPreferences.save()) toast('Changed for now. This browser could not save your choices.');
@@ -457,8 +452,7 @@ document.addEventListener('keydown', e => {
 applyWidgets(); updateAvatarChoices(); clock(); setInterval(clock, 1000);
 renderApps([]); route(); syncNotices(); pollSystem(); pollSSH(); renderUpdate();
 (async () => {
-  try { renderApps(await getJSON('/api/store')); } catch { catalogSample = true; renderApps(SAMPLE_STORE); }
-  if ($('appWindow').open && $('appWindowTitle').textContent === 'App catalog') openCatalog();
+  try { renderApps(await getJSON('/api/store')); } catch { renderApps(SAMPLE_STORE); }
 })();
 
 $('signOut').addEventListener('click', async () => {
