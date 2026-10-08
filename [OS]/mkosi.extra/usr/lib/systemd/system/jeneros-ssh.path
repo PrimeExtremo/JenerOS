@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch for JenerOS developer access requests
+
+[Path]
+PathExists=/run/jeneros/ssh.request
+
+[Install]
+WantedBy=multi-user.target

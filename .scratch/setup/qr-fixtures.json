@@ -1,0 +1,18 @@
+[
+  {
+    "text": "http://192.168.1.20",
+    "hash": "a60a214d00bd4936b77de03bf4145a4430ab9ab654efbc7ac90d97bffb5c15fe"
+  },
+  {
+    "text": "http://192.168.1.20/setup.html?code=000001",
+    "hash": "68eabdc13316c8bb45fae11367fd6a0227108e900b79b6790a103262366e5d52"
+  },
+  {
+    "text": "http://192.168.27.134:8080/setup.html?code=123456",
+    "hash": "e1ac041c3fefe4f38be68ba022281c6ecc7293df178aca32b4a4c2b04821ea6b"
+  },
+  {
+    "text": "http://[2001:db8:abcd:1234:5678:90ab:cdef:1234]/setup.html?code=987654",
+    "hash": "c5b4ac7b54408ed483ca0a6059af7c895e8adab4777110804438a49a1fb604a9"
+  }
+]

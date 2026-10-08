@@ -1,0 +1,31 @@
+const fs = require('fs');
+const vm = require('vm');
+const assert = require('assert/strict');
+const handlers = {};
+const dialog = { open: false, returnValue: '', setAttribute() {}, addEventListener(name, fn) { handlers[name] = fn; }, showModal() { this.open = true; } };
+const button = { disabled: true, addEventListener(name, fn) { handlers[name] = fn; } };
+let requests = [], messages = [];
+const context = vm.createContext({ window: {}, document: { createElement() { return dialog; }, body: { append() {} } },
+  fetch: async (url, options) => { requests.push({ url, options }); return { ok: true }; } });
+vm.runInContext(fs.readFileSync('[DASHBOARD]/rollback.js', 'utf8'), context);
+const rollback = context.window.JenerRollback.bind(button, message => messages.push(message));
+(async () => {
+  rollback.open(); assert.equal(dialog.open, false);
+  rollback.render({}); rollback.open(); assert.equal(dialog.open, true);
+  dialog.open = false; dialog.returnValue = 'cancel'; await handlers.close(); assert.equal(requests.length, 0);
+  rollback.open(); dialog.open = false; dialog.returnValue = 'start'; await handlers.close();
+  assert.equal(requests.length, 1); assert.equal(requests[0].url, '/api/update/rollback');
+  assert.equal(requests[0].options.headers['X-JenerOS'], '1'); assert.equal(button.disabled, true);
+  await handlers.close(); assert.equal(requests.length, 1, 'double close must not queue again');
+  rollback.render({ rollbackRequested: true, rollback: { state: 'failed', message: 'old failure' } });
+  assert.equal(rollback.pending, true, 'old failure must not override new queued request');
+  rollback.render({ rollback: { state: 'failed', message: 'No previous version.' } });
+  assert.equal(button.disabled, false); assert.equal(messages.at(-1), 'No previous version.');
+  rollback.render({ requested: true }); assert.equal(button.disabled, true);
+  rollback.render({ status: { state: 'installing' } }); assert.equal(button.disabled, true);
+  rollback.render({}); context.fetch = async () => ({ ok: false, json: async () => ({ error: 'Busy' }) });
+  rollback.open(); dialog.open = false; dialog.returnValue = 'start'; await handlers.close();
+  assert.equal(rollback.pending, false); assert.equal(messages.at(-1), 'Busy');
+  rollback.offline(); assert.equal(button.disabled, true);
+  console.log('Rollback UI checks passed: confirm, cancel, CSRF, double submit, busy, stale failure and retry.');
+})().catch(err => { console.error(err); process.exitCode = 1; });

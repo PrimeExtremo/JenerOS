@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch for JenerOS previous-version requests
+
+[Path]
+PathExists=/run/jeneros/rollback.request
+
+[Install]
+WantedBy=multi-user.target

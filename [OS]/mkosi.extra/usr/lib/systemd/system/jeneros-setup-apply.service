@@ -1,0 +1,14 @@
+[Unit]
+Description=Apply JenerOS first-boot choices
+After=systemd-networkd.service systemd-tmpfiles-setup.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/jeneros/setup-apply
+# Re-read the chosen hostname and republish the HTTP service after setup.
+ExecStartPost=/usr/bin/systemctl restart avahi-daemon.service
+UMask=0077
+RuntimeDirectory=jeneros-setup
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+TimeoutStartSec=5min
