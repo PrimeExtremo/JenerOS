@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 512 512">
+  <title>JenerOS</title>
+  <rect width="512" height="512" rx="112" fill="#F6F1E7"/>
+  <path fill="#16161D" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+  <path fill="#16161D" d="M144 208H176V240H144Z"/>
+</svg>
