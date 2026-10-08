@@ -50,3 +50,22 @@ Entrances are ~40% longer than exits. Animate only `transform` and `opacity` (pl
 - Nothing is communicated by motion alone (errors also have text, success also has a label).
 - Motion never blocks input; any animation can be interrupted by a click or key.
 - TV/remote focus ring moves instantly (no animated focus); only the focused element lifts.
+
+## Setup/login shine (2026-10-08)
+
+The requested kiosk shine replaces full-wallpaper drift on these two pages.
+The wallpaper stays fixed. A 200x240 radial light crosses a static mask of the
+two ribbon edges over 16 seconds. A 128x2 linear light travels along the card's
+top border over 18 seconds. Peak opacity is .12 and .2 respectively; light-theme
+wallpaper shine gets another .45 multiplier. Both use the existing `--ease`.
+
+`onboarding-shine.js` samples paused Web Animations every 34ms (at most about
+29 updates per second), changing only transform and opacity. No animated blur,
+gradient stops, layout, or full-screen drift. Hidden documents stop the timer;
+returning resumes from the paused time. Reduced motion, reduced transparency,
+increased contrast and forced colors remove the effects entirely, including
+when preferences change. Missing animation support leaves static artwork.
+The mask matches ribbon only; dune/plain retain their original wallpaper.
+
+Fixture: `.scratch/setup/check-shine.cjs`. Measure actual pixman CPU/frame cost
+on the box; local Chromium checks do not establish WPE software-rendering cost.
