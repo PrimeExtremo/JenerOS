@@ -9,7 +9,7 @@ window.JenerRollback = {
     document.body.append(dialog);
     const open = () => {
       if (needsLogin) { location.assign(JenerSession.loginURL()); return; }
-      if (!button.disabled && !dialog.open && !pending) { dialog.returnValue = ''; dialog.showModal(); }
+      if (!button.disabled && !dialog.open && !pending) { dialog.returnValue = ''; JenerUI.open(dialog); }
     };
     button.addEventListener('click', open);
     dialog.addEventListener('close', async () => {

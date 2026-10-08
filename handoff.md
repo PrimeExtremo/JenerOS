@@ -1,7 +1,7 @@
 # JenerOS — Handoff
 
 Written by Claude for whoever picks this up next (Claude, ChatGPT, Codex, or Jener).
-Last updated 2026-10-07. Read this file first, then [AGENTS.md](AGENTS.md).
+Last updated 2026-10-08. Read this file first, then [AGENTS.md](AGENTS.md).
 
 ## 1. Goal
 
@@ -27,7 +27,9 @@ Cloudflare Registrar, bought 2026-10-07; site intentionally offline for now).
 Code is public (early preview) at **github.com/PrimeExtremo/JenerOS** under GPL-3.0-or-later; installed systems update from its Releases.
 Company socials planned as **@jener_inc**. Jener's personal accounts are NOT changing.
 
-## 3. Current state (2026-10-07)
+## 3. Current state (2026-10-08)
+
+**Welcome card / older WebKit fixes (Codex, 2026-10-08):** consent uses a centered grid/SVG checkbox; the phone button opens a QR/address/code sheet with Close/Escape and a modal fallback. Welcome only checks consent and code; blocked attempts explain the missing value inline. Removed regex lookbehind, replaceAll, Array.at and :has dependencies; guarded dialogs, timeouts and animation failure across setup/login/dashboard. The new unit-ordering fixture guards path/socket/timer units (including drop-ins) against After=jenerd.service with default dependencies. All fourteen workflow fixtures and dashboard JS syntax pass. Actual Cog/Chromium/Firefox visuals remain pending; see newest AI-UPDATES for evidence and root-cause limits. Files only; no VM access, image builds, commits or pushes.
 
 **Setup kiosk controls (Codex, 2026-10-07):** the policy opens a scrollable in-page dialog using privacy.html's article. Close/Escape returns focus to consent; PDF download is hidden on BoxUI.local. English is a selected radio pill, keyboard/network use custom comboboxes, and timezone uses a custom searchable list. Existing submitted IDs/values remain. All twelve workflow fixtures and dashboard JS syntax pass. Real Cog, phone-width/light/dark rendering and screen-reader checks remain pending. Files only; no builds, commits or pushes.
 
@@ -99,6 +101,8 @@ Company socials planned as **@jener_inc**. Jener's personal accounts are NOT cha
 8. After every change, append a short entry to `[DOCS]/AI-UPDATES.md` so the other AI knows.
 
 ## 6. Next steps (in order)
+
+Welcome card follow-up: on the next authorized image, check the consent check stays centered in both themes at the actual 1280x800-ish Cog kiosk size. With only consent ticked (the kiosk URL carries its six-digit code), Continue must open Create account. Open the phone sheet, check the QR, current LAN IP, jeneros.local and six-digit code; Close/Escape must restore button focus. Repeat in Chromium/Firefox and phone widths. Missing consent/code/offline choices must show a useful inline reason. Also review the policy sheet and dashboard/rollback dialogs on the native-dialog fallback. Fixtures: .scratch/setup/check-welcome.cjs and check-unit-ordering.cjs. The exact runtime cause on the current Cog image cannot be confirmed from files alone.
 
 Setup controls follow-up: test the privacy sheet on the actual tty1 Cog kiosk and a phone/computer. Check policy scroll, Close/Escape and consent focus, PDF download hidden locally and available remotely. Review English, keyboard/network list popovers and timezone search in both themes at 320/390px; check keyboard/type-ahead, touch and screen-reader announcements. Filtering preserves the chosen timezone until another is selected. See .scratch/setup/check-controls.cjs and the newest AI-UPDATES entry. No image was built for this fix.
 

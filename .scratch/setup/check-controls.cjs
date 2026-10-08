@@ -21,6 +21,7 @@ function fixture(local = false) {
   const context = vm.createContext({ document, window: {}, BoxUI: { local }, Event: class { constructor(type, init) { this.type = type; Object.assign(this, init); } },
     DOMParser: class { parseFromString() { article = node(); article.querySelectorAll = () => [{ removeAttribute(key) { article.removed = key; } }]; return { querySelector: () => article }; } },
     fetch: async url => { fetches++; assert.equal(url, 'privacy.html'); return { ok: !fail, text: async () => '<article>shared policy</article>' }; } });
+context.JenerUI = { open: d => d.showModal(), close: d => d.open && d.close() };
   vm.runInContext(fs.readFileSync('[DASHBOARD]/setup-controls.js', 'utf8'), context);
   function key(id, key) {
     const e = { key, preventDefault() { this.prevented = true; }, stopPropagation() { this.stopped = true; } };

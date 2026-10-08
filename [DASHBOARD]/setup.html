@@ -7,6 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Set up your box · JenerOS</title>
   <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <script src="ui-compat.js" defer></script>
   <script src="desktop-preferences.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="desktop.css">
@@ -29,7 +30,7 @@
           <p class="lede">A little box. A place for everything you love.</p>
           <div class="welcome-bottom">
           <fieldset class="field language-choice"><legend>Language</legend><label class="language-pill"><input id="language" type="radio" name="language" value="en" checked><span>English</span></label><p class="field-help">More languages soon</p></fieldset>
-          <label class="privacy-choice"><input id="acceptedPrivacy" type="checkbox" required><span>I accept the <a id="privacyLink" href="#privacySheet" aria-haspopup="dialog">JenerOS Privacy Policy</a>.</span></label>
+          <label class="privacy-choice"><span class="privacy-check"><input id="acceptedPrivacy" type="checkbox" required><span class="privacy-check-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span></span><span>I accept the <a id="privacyLink" href="#privacySheet" aria-haspopup="dialog">JenerOS Privacy Policy</a>.</span></label>
           <div class="field" id="codeField" hidden><label for="setupCode">Code from your box's screen</label><input id="setupCode" inputmode="numeric" autocomplete="off" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="6 digits"><p class="field-help">This code lets you finish setup just once.</p></div></div>
         </section>
         <section data-step="1" hidden aria-labelledby="ownerTitle"><h1 id="ownerTitle" class="page-title" tabindex="-1">Create<br>your account</h1><p class="lede">These are your box's login details. Keep them somewhere safe.</p>
@@ -79,11 +80,16 @@
         <div id="applying" class="setup-applying" hidden role="status"><span class="setup-pulse" aria-hidden="true"></span><h2 class="panel-title">Making your box yours</h2><p class="note" id="applyMessage">Keep your box switched on. This will only take a little while.</p><a id="newAddress" class="box-address" hidden></a></div>
         <p id="setupError" class="setup-error" role="alert" hidden></p>
         <p id="connectionMessage" class="note" role="status">Connecting to your box…</p>
-        <div id="actions" class="setup-actions"><button type="button" class="pill" id="back" hidden>Back</button><button type="submit" class="pill pill-accent" id="next" aria-label="Continue" disabled><span aria-hidden="true">→</span></button></div>
+        <div id="actions" class="setup-actions"><button type="button" class="pill" id="back" hidden>Back</button><button type="submit" class="pill pill-accent" id="next" aria-label="Continue" aria-describedby="setupError"><span aria-hidden="true">→</span></button></div>
       </form>
-      <details class="setup-phone" id="phoneCard" hidden aria-labelledby="phoneTitle"><summary id="phoneTitle">Use your phone instead</summary><p class="note" id="phoneHint" role="status">Checking your box's network connection...</p><div id="phoneLinks" hidden><div class="box-qr" id="setupQR" role="img" aria-label="Setup link for your phone"></div><a class="box-address" id="phoneAddress"></a><a class="box-address" id="phoneLocalAddress"></a><p class="note" id="codeLabel"></p></div></details>
+      <button type="button" class="pill setup-phone-toggle" id="phoneCard" hidden aria-haspopup="dialog" aria-controls="phoneSheet">Use your phone instead</button>
     </div>
   </main>
+  <dialog id="phoneSheet" class="privacy-sheet setup-phone" aria-labelledby="phoneTitle">
+    <header class="privacy-sheet-header"><h2 id="phoneTitle" class="panel-title">Use your phone instead</h2></header>
+    <div class="privacy-sheet-content"><p class="note" id="phoneHint" role="status">Checking your box's network connection...</p><div id="phoneLinks" hidden><div class="box-qr" id="setupQR" role="img" aria-label="Setup link for your phone"></div><a class="box-address" id="phoneAddress"></a><a class="box-address" id="phoneLocalAddress"></a></div><p class="note" id="codeLabel"></p></div>
+    <footer class="privacy-sheet-actions"><button id="phoneClose" class="pill pill-accent" type="button">Close</button></footer>
+  </dialog>
   <dialog id="privacySheet" class="privacy-sheet" aria-labelledby="privacyTitle">
     <header class="privacy-sheet-header"><h2 id="privacyTitle" class="panel-title">JenerOS Privacy Policy</h2></header>
     <div id="privacyContent" class="privacy-sheet-content" tabindex="0" aria-busy="false"><p id="privacyStatus" role="status">Loading the policy&hellip;</p></div>

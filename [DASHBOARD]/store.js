@@ -27,7 +27,7 @@ window.JenerStore = (() => {
 
   // Motion helpers live in app.js; without them windows open and close instantly.
   // app.js loads after this file, so look the helpers up when they're used.
-  const instant = { open: d => d.open || d.showModal(), close: d => d.close(), settled: (d, fn) => fn(), enter() {}, pill() {}, celebrate() {} };
+  const instant = { open: d => d.open || JenerUI.open(d), close: d => JenerUI.close(d), settled: (d, fn) => fn(), enter() {}, pill() {}, celebrate() {} };
   const motion = () => window.JenerMotion || instant;
   let opened = false;
   let win, sheet, apps = [], sample = false, loaded = false, loading;
@@ -117,14 +117,14 @@ window.JenerStore = (() => {
     win.addEventListener('click', onClick);
     win.addEventListener('input', e => { if (e.target.id === 'storeSearch') { query = e.target.value; renderResults(); } });
     win.addEventListener('submit', e => e.preventDefault());
-    win.addEventListener('close', () => sheet.open && sheet.close());
+    win.addEventListener('close', () => sheet.open && JenerUI.close(sheet));
     bindSheet();
   }
 
   function open(page) {
     build();
     opened = win.open && !win.closing;
-    document.querySelectorAll('dialog[open]').forEach(d => { if (d !== win) d.close(); });
+    document.querySelectorAll('dialog[open]').forEach(d => { if (d !== win) JenerUI.close(d); });
     motion().open(win);
     go(page ? { page } : view, false);
     load();
@@ -135,7 +135,7 @@ window.JenerStore = (() => {
     if (loading) return loading;
     loading = (async () => {
       try {
-        const res = await fetch('/api/store', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+        const res = await fetch('/api/store', { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
         if (!Array.isArray(data)) throw new Error('bad catalog');
@@ -179,7 +179,7 @@ window.JenerStore = (() => {
     if (loaded && (view.page === 'app' && !apps.some(a => a.id === view.id) || view.page === 'cat' && !category(view.id))) { view = { page: 'discover' }; back = []; }
     const cat = view.page === 'cat' && category(view.id);
     const app = view.page === 'app' && apps.find(a => a.id === view.id);
-    const from = view.page === 'app' ? back.at(-1) || { page: 'discover' } : view;
+    const from = view.page === 'app' ? back[back.length - 1] || { page: 'discover' } : view;
     const current = from.page === 'cat' ? `cat:${from.id}` : from.page;
     win.querySelectorAll('[data-store-nav]').forEach(b => {
       if (b.closest('nav') && b.dataset.storeNav === current) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
@@ -263,7 +263,7 @@ window.JenerStore = (() => {
     if (sample) { installs[id] = { state: 'soon', message: 'This is a sample catalog. Open this page from your box to install apps.' }; return rerenderInstall(a); }
     installs[id] = { state: 'busy' }; rerenderInstall(a);
     try {
-      const res = await fetch(`/api/apps/${encodeURIComponent(id)}/install`, { method: 'POST', headers: { 'X-JenerOS': '1' }, signal: AbortSignal.timeout(8000) });
+      const res = await fetch(`/api/apps/${encodeURIComponent(id)}/install`, { method: 'POST', headers: { 'X-JenerOS': '1' }, signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
       if (res.status === 501) installs[id] = { state: 'soon', message: `Installing apps ${SOON}` };
       else if (res.ok) { installs[id] = { state: 'installing', message: `${a.name} is installing. This can take a few minutes.` }; watch(id); }
       else { const data = await res.json().catch(() => ({})); installs[id] = { state: 'error', message: data.error ? `Your box said: ${data.error}` : 'Your box could not start the install. Please try again.' }; }
