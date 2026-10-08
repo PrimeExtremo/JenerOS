@@ -251,3 +251,9 @@ Format: date · who · what changed · why · untested · what the other AI shou
 - Verified: VM 0.2.7 → bridge 0.2.8 (raw + xz) → **0.2.9 from `.xz` only** (~20 s). Codex's SSH greeting fixes verified on 0.2.9: corner J shows, uname line gone, "0.3 of 3.8 GB used".
 - New `[DOCS]/RELEASING.md` (build, test, publish with `gh release create`).
 - Why `.img.xz` and not `.iso`: an ISO needs an installer (M4); the image is a ready-to-run disk like HAOS/Raspberry Pi OS. Plan: add `.iso` + installer next.
+
+## 2026-10-07 · Claude · Public README refresh (PR, branch `readme-refresh`)
+
+**Changed**: `README.md` only. Wordmark hero via `<picture>` (ink wordmark in light mode, paper wordmark in dark mode), tagline "Your stuff lives at home.", badges (GPL-3.0, early preview, Debian 13), what it is, feature grid with honest status (works today / coming soon / planned), mermaid A/B update + rollback diagram, install (`.img.xz` with balenaEtcher, Raspberry Pi Imager or `dd`; VM conversion in a fold-out), first boot (today: address on screen; setup wizard with QR + 6-digit code marked coming soon), build from source, roadmap checklist, contributing, license. Screenshot placeholder comment left for `docs/readme/dashboard-light.png` / `dashboard-dark.png`.
+
+**Checked**: every relative link and image path exists; no em dashes; no retired names. Not checked: GitHub rendering of the `<picture>` swap and mermaid block (view the PR's README preview in both themes).
