@@ -12,8 +12,16 @@ window.JenerUI = (() => {
   function open(dialog) {
     if (dialog.open) return;
     dialog.returnFocus = document.activeElement;
+    // Fallback positioning must not inherit a card's transform/blur context.
+    if (dialog.parentElement !== document.body) document.body.append(dialog);
+    dialog.hidden = false;
     if (typeof dialog.showModal === 'function' && typeof dialog.close === 'function') {
-      try { dialog.showModal(); return; } catch { /* Use the page modal below. */ }
+      try {
+        dialog.showModal();
+        const style = getComputedStyle(dialog);
+        if (dialog.open && style.display !== 'none' && style.visibility !== 'hidden' && dialog.getClientRects().length) return;
+        if (dialog.open) dialog.close();
+      } catch { /* Use the page modal below. */ }
     }
     const shade = document.createElement('div');
     shade.className = 'modal-shade';

@@ -5,11 +5,11 @@ const assert = require('assert/strict');
 const html = fs.readFileSync('[DASHBOARD]/setup.html', 'utf8');
 const css = fs.readFileSync('[DASHBOARD]/style.css', 'utf8');
 assert.match(html, /class="privacy-check"><input id="acceptedPrivacy"[^>]*type="checkbox"[^>]*required><span class="privacy-check-box" aria-hidden="true"><svg/);
-assert.match(css, /\.privacy-check \{[^}]*display: grid/);
-assert.match(css, /\.privacy-check > input, \.privacy-check-box \{[^}]*grid-area: 1 \/ 1/);
+assert.match(css, /\.privacy-check \{[^}]*position: relative[^}]*width: 44px; height: 44px/);
+assert.match(css, /\.privacy-check > input \{[^}]*position: absolute[^}]*width: 44px; height: 44px[^}]*opacity: 0[^}]*pointer-events: auto/);
 assert.match(css, /\.privacy-check-box \{[^}]*place-items: center/);
 assert.match(css, /input:checked \+ \.privacy-check-box svg \{ visibility: visible/);
-assert.doesNotMatch(css, /\.privacy-check[^{}]*\{[^}]*(?:position: absolute|top:|left:)/);
+assert.match(css, /\.privacy-check-box \*[^{}]*\{ pointer-events: none/);
 assert.match(css, /forced-colors: active/);
 assert.doesNotMatch(html, /<details[^>]*id="phoneCard"/);
 assert.match(html, /<button[^>]*type="button"[^>]*id="phoneCard"/);
@@ -109,7 +109,7 @@ function fixture({ native = false, local = true, code = '012345', fail = false, 
     },
   };
   const context = vm.createContext({ document, window: {}, Element: Node, location: { hostname: local ? '127.0.0.1' : '192.168.1.20', port: '', search: code ? '?code=' + code : '', pathname: '/setup.html' },
-    URLSearchParams, Event: FakeEvent, setTimeout: (fn, ms) => timers.push({ fn, ms }),
+    URLSearchParams, Event: FakeEvent, getComputedStyle: node => ({ display: node.open ? 'flex' : 'none', visibility: 'visible' }), setTimeout: (fn, ms) => timers.push({ fn, ms }),
     QRCode: function(el, opts) { el.qr = opts.text; },
     fetch: async (url, options) => {
       requests.push({ url, options });
@@ -180,5 +180,11 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   const remote = fixture({ local: false }); await settle(); assert.equal(remote.$('phoneCard').hidden, true);
   const partial = fixture({ partialAnimation: true }); await settle(); partial.$('acceptedPrivacy').checked = true;
   await partial.submit(); assert.equal(partial.sections[1].hidden, false, 'Partial animation support cannot block advance');
-  console.log('Welcome checks passed: real startup on older APIs, consent-only advance, inline consent/code/offline errors, native/fallback phone sheet, QR/IP/.local/code, Close/Esc/focus/Tab and checkbox grid/SVG markup.');
+  const brokenQR = fixture(); await settle();
+  brokenQR.context.BoxUI.qr = () => { throw Error('Encoder unavailable'); };
+  await brokenQR.$('phoneCard').emit('click');
+  assert.equal(brokenQR.$('phoneSheet').open, true, 'Encoder errors cannot abort sheet opening');
+  assert.equal(brokenQR.$('phoneAddress').textContent, 'http://192.168.1.20');
+  assert.match(brokenQR.$('phoneHint').textContent, /Open either address/);
+  console.log('Welcome checks passed: older APIs/startup, consent/code validation, native/fallback sheet, QR failure recovery, Close/Esc/focus/Tab and 44px input overlay.');
 })().catch(err => { console.error(err); process.exitCode = 1; });

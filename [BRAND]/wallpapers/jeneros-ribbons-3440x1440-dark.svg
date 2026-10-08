@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="1440" viewBox="0 0 3440 1440" role="img" aria-labelledby="title desc">
+  <title id="title">JenerOS warm ribbons — dark, 3440 × 1440</title>
+  <desc id="desc">Wide warm brown swooshes with a quiet center and a small angular J above the bottom-right taskbar.</desc>
+  <rect width="3440" height="1440" fill="#1F1913"/>
+  <!-- Expand the wizard ribbons across the whole desktop, without cropping. -->
+  <svg width="3440" height="1440" viewBox="0 0 1600 1000" preserveAspectRatio="none" fill="none">
+    <g opacity="1">
+      <!-- Original JenerOS artwork: wide folded ribbons, lit with warm copper. -->
+  <defs>
+    <linearGradient id="fold" x1="280" y1="80" x2="1180" y2="930" gradientUnits="userSpaceOnUse"><stop stop-color="#7C5035"/><stop offset=".3" stop-color="#38251C"/><stop offset=".57" stop-color="#A76440"/><stop offset=".72" stop-color="#4F3324"/><stop offset="1" stop-color="#211A14"/></linearGradient>
+    <linearGradient id="edge" x1="300" y1="100" x2="1250" y2="950" gradientUnits="userSpaceOnUse"><stop stop-color="#E5B28B" stop-opacity=".08"/><stop offset=".48" stop-color="#D97757" stop-opacity=".5"/><stop offset="1" stop-color="#E5B28B" stop-opacity=".04"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#B86A40" stop-opacity=".15"/><stop offset="1" stop-color="#1F1913" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="1200" cy="300" rx="650" ry="640" fill="url(#glow)"/>
+  <path d="M730-180C590 190 1320 185 1300 480S520 620 470 1180H790C720 750 1510 830 1610 480S920 130 1110-180Z" fill="url(#fold)" opacity=".55"/>
+  <path d="M-160 760C180 430 510 850 760 690S850 280 1800 190" stroke="url(#fold)" stroke-width="180" opacity=".32"/>
+  <path d="M730-180C590 190 1320 185 1300 480S520 620 470 1180M-160 671C180 341 510 761 760 601S850 191 1800 101" stroke="url(#edge)" stroke-width="2"/>
+    </g>
+  </svg>
+  <!-- Painted right/bottom edges: 3400, 1360. -->
+  <g id="corner-mark" fill="#E9E9E2" opacity=".7" transform="translate(3377.25 1336.375) scale(0.0546875)">
+      <path d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"/>
+      <path d="M144 208H176V240H144Z"/>
+  </g>
+</svg>

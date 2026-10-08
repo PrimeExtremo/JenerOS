@@ -65,3 +65,5 @@ jobs:
             node "$f"
             echo "::endgroup::"
           done
+      - name: Welcome rendered visibility (Chromium)
+        run: node .scratch/setup/check-welcome-browser.cjs

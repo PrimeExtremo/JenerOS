@@ -136,14 +136,19 @@
     const base = BoxUI.address(network.addresses[0]);
     const local = BoxUI.localAddress(network.hostname);
     const suffix = '/setup.html?code=' + encodeURIComponent(code);
-    BoxUI.qr($('setupQR'), base + suffix);
     $('phoneAddress').href = base + suffix;
     $('phoneAddress').textContent = base;
     $('phoneLocalAddress').href = local + suffix;
     $('phoneLocalAddress').textContent = local;
+    // QR is optional: an encoder failure must not prevent opening the sheet.
+    try { BoxUI.qr($('setupQR'), base + suffix); }
+    catch {
+      $('setupQR').replaceChildren(); delete $('setupQR').dataset.text;
+      $('phoneHint').textContent = 'Open either address on your phone and enter the setup code below.';
+    }
   }
   $('phoneCard').addEventListener('click', () => {
-    renderPhone(); JenerUI.open($('phoneSheet')); $('phoneClose').focus();
+    JenerUI.open($('phoneSheet')); $('phoneClose').focus(); renderPhone();
   });
   $('phoneClose').addEventListener('click', () => JenerUI.close($('phoneSheet')));
   $('phoneSheet').addEventListener('cancel', e => { e.preventDefault(); JenerUI.close($('phoneSheet')); });
