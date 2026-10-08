@@ -119,7 +119,7 @@ const JenerMotion = window.JenerMotion = (() => {
   }
   return { token, ms, can, moving, curve, stop, tween, open, close, settled, enter, pill, celebrate };
 })();
-let demo = false, systemOnline = false, lastSystem = null, previousSystem = null;
+let demo = false, systemOnline = false, boxOnline = false, lastSystem = null, previousSystem = null;
 let appCatalog = [], graphSamples = [], graphInterface = '';
 let sshInfo = null, sshSubmitting = false, sshError = '';
 let toastTimer;
@@ -139,8 +139,12 @@ function toast(message) {
   toastTimer = setTimeout(() => $('toast').classList.remove('show'), 3500);
 }
 async function getJSON(path) {
+  // session.js is deferred; app.js can run before it on the first page load.
+  if (!window.JenerSession && document.readyState === 'loading') {
+    await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve, { once: true }));
+  }
   const res = await JenerSession.fetch(path, { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
-  if (!res.ok) throw new Error(res.status);
+  if (!res.ok) { const error = new Error(res.status); error.status = res.status; throw error; }
   return res.json();
 }
 const gb = bytes => (bytes / 1e9 >= 100 ? Math.round(bytes / 1e9) : (bytes / 1e9).toFixed(1)) + ' GB';
@@ -169,6 +173,8 @@ function clock() {
   $('clockTime').dateTime = now.toISOString();
   $('clockDate').textContent = new Intl.DateTimeFormat('en', { ...zone, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(now);
 }
+// Only unreachable servers and missing API routes qualify as static previews.
+const previewFailure = error => !boxOnline && (error.status === 404 || (error.status === undefined && error.message !== 'Sign in to your owner account to continue.'));
 function sampleSystem() {
   const tick = Math.floor(performance.now() / 5000);
   return { hostname: 'jeneros', manufacturer: 'Jener, Inc.', model: 'Sample box', arch: 'amd64', cpus: 4,
@@ -245,13 +251,36 @@ function renderSystem(s) {
   renderNetwork(s);
   previousSystem = s;
 }
+function renderPendingSystem() {
+  demo = false; lastSystem = null;
+  $('previewNote').hidden = true;
+  $('hostPill').textContent = 'Checking…';
+  $('hostPill').classList.remove('demo');
+  clearGraph();
+  gauge('cpuGauge', 'statCpu', null); gauge('ramGauge', 'statMem', null);
+  for (const id of ['cpuNote', 'ramNote', 'statDisk', 'diskTotal', 'storageBig', 'deviceIP', 'deviceName']) $(id).textContent = '—';
+  $('temperature').hidden = true;
+  meter('meterDisk', 0); meter('meterDisk2', 0);
+  $('diskMeter').removeAttribute('aria-valuenow');
+  $('diskHealth').textContent = 'Checking…';
+  $('diskHealth').classList.remove('warning');
+  $('storageNote').textContent = 'Checking…';
+  $('storageNotice').textContent = 'Checking storage…';
+  $('facts').innerHTML = '<dt>Device info</dt><dd>Checking…</dd>';
+  $('connectionRows').innerHTML = '<p class="muted">Checking…</p>';
+  $('networkNote').textContent = 'Checking…';
+  $('networkName').textContent = '—';
+  $('graphTitle').textContent = 'Checking network traffic…';
+  renderSSH();
+}
 async function pollSystem() {
   try {
     const s = await getJSON('/api/system');
     if (demo) clearGraph();
-    demo = false; systemOnline = true; renderSystem(s);
-  } catch {
-    if (!systemOnline) { demo = true; renderSystem(sampleSystem()); }
+    demo = false; systemOnline = true; boxOnline = true; renderSystem(s);
+  } catch (error) {
+    if (!systemOnline && previewFailure(error)) { demo = true; renderSystem(sampleSystem()); }
+    else if (!systemOnline) { renderPendingSystem(); }
     else {
       clearGraph(); gauge('cpuGauge', 'statCpu', null);
       $('hostPill').textContent = 'Reconnecting…';
@@ -390,7 +419,7 @@ async function renderUpdate() {
   let u;
   try {
     u = await getJSON('/api/update');
-  } catch {
+  } catch (error) {
     updateOnline = false;
     rollback.offline();
     // Only an operation already in progress can imply a restart.
@@ -398,13 +427,14 @@ async function renderUpdate() {
       setUpdate('Restarting into the new version. This page comes back by itself.');
     } else {
       if (!updateVersion) $('osVersion').textContent = 'JenerOS';
-      setUpdate(updateVersion ? 'Connection lost. Trying your box again…' : 'Updates show up here when you open this page from your box.');
+      setUpdate(updateVersion || !previewFailure(error) ? 'Connection lost. Trying your box again…' : 'Updates show up here when you open this page from your box.');
       $('checkBtn').disabled = true;
     }
     pollUpdate(updateBusy ? 3000 : 10000);
     return;
   }
-  updateOnline = true;
+  updateOnline = true; boxOnline = true;
+  if (demo && !systemOnline) renderPendingSystem();
   rollback.render(u);
   $('checkBtn').disabled = false;
   if (updateVersion && u.current && updateVersion !== u.current) toast(`Now running JenerOS ${u.current}`);
@@ -600,6 +630,7 @@ document.addEventListener('keydown', e => {
 
 // ---------- start ----------
 applyWidgets(); updateAvatarChoices(); clock(); setInterval(clock, 1000);
+renderPendingSystem(); setUpdate('Checking…');
 renderApps([]); route(); syncNotices(); pollSystem(); pollSSH(); renderUpdate(); restartNotices();
 // The load cascade plays once; later re-renders appear without it.
 setTimeout(() => document.body.classList.remove('is-arriving'), 700);
