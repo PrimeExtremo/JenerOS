@@ -1,0 +1,17 @@
+// Cloudflare Workers static assets config for jener.dev. No Worker code: Cloudflare serves the files.
+// Deploy from this folder with: npx wrangler deploy   (see README.md)
+{
+  "name": "jener-dev",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true
+  // Turn on when you're ready to go live on jener.dev (Cloudflare adds the DNS record on deploy):
+  // ,"routes": [
+  //   { "pattern": "jener.dev", "custom_domain": true },
+  //   { "pattern": "www.jener.dev", "custom_domain": true }
+  // ]
+}
