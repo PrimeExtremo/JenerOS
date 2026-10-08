@@ -41,6 +41,39 @@
   $('setupCode').required = !code;
   $('setupCode').addEventListener('input', () => { code = $('setupCode').value; renderPhone(); });
 
+  // Motion (.scratch/motion/BRIEF.md): the old card slides out, the new one in.
+  // Without animation support (or with reduced motion) steps change at once or fade.
+  const token = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const moving = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let finishSlide = null;
+  function slide(direction, update) {
+    finishSlide?.();
+    const card = $('wizard');
+    if (typeof card.animate !== 'function' || typeof matchMedia !== 'function') { update(); return; }
+    if (!moving()) { update(); card.animate([{ opacity: 0 }, { opacity: 1 }], { duration: parseFloat(token('--t-quick')), easing: token('--ease') }); return; }
+    const out = card.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-24 * direction}px)` }], { duration: 200, easing: token('--ease-in'), fill: 'forwards' });
+    let done = false;
+    finishSlide = () => {
+      if (done) return;
+      done = true; finishSlide = null; out.cancel(); update();
+      card.animate([{ opacity: 0, transform: `translateX(${24 * direction}px)` }, { opacity: 1, transform: 'none' }], { duration: 300, easing: token('--ease-out') });
+    };
+    out.onfinish = finishSlide;
+  }
+  // Setup finished: a check pops and draws next to its label, and six dots burst once.
+  function celebrate() {
+    const note = document.querySelector('[data-step="2"] .note');
+    if (!note?.insertAdjacentHTML || note.querySelector('.success-check')) return;
+    note.insertAdjacentHTML('afterbegin', '<span class="success-check pop" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></span>');
+    if (typeof matchMedia !== 'function' || !moving()) return;
+    const check = note.querySelector('.success-check');
+    check.insertAdjacentHTML('beforeend', [0, 1, 2, 3, 4, 5].map(i => {
+      const a = i * Math.PI / 3 + .3;
+      return `<span class="confetti" style="--dx:${Math.round(Math.cos(a) * 26)}px;--dy:${Math.round(Math.sin(a) * 26)}px"></span>`;
+    }).join(''));
+    setTimeout(() => check.querySelectorAll('.confetti').forEach(dot => dot.remove()), 700);
+  }
+  document.addEventListener?.('visibilitychange', () => document.documentElement.classList.toggle('page-hidden', document.hidden));
   function error(message) { $('setupError').textContent = message; $('setupError').hidden = !message; }
   function show(focus = true) {
     document.querySelectorAll('[data-step]').forEach(el => { el.hidden = Number(el.dataset.step) !== step || busy; });
@@ -130,9 +163,14 @@
     $('togglePassword').textContent = visible ? 'Hide passwords' : 'Show passwords';
     $('togglePassword').setAttribute('aria-pressed', String(visible));
   });
-  $('back').addEventListener('click', () => { step--; error(''); show(); });
+  $('back').addEventListener('click', () => {
+    if (finishSlide) { finishSlide(); return; }
+    slide(-1, () => { step--; error(''); show(); });
+  });
   $('wizard').addEventListener('submit', async e => {
     e.preventDefault();
+    // A click or key during a step slide finishes the slide instead.
+    if (finishSlide) { finishSlide(); return; }
     if (busy || !info) return;
     error('');
     if (step === 0 && !$('acceptedPrivacy').checked) { error('Please accept the JenerOS Privacy Policy to continue.'); return; }
@@ -148,7 +186,7 @@
       for (const id of ['username', 'password', 'passwordConfirm']) touched.add(id);
       if (!validateFields()) return;
     }
-    if (step === 0) { step = 1; show(); return; }
+    if (step === 0) { slide(1, () => { step = 1; show(); }); return; }
     const req = request();
     busy = true; show(false);
     if (req.network.mode === 'fixed') {
@@ -171,10 +209,13 @@
   });
   async function done() {
     if (finished) return;
+    // Celebrate only a setup that finished here, not a reopened old link.
+    const justFinished = busy || submitted;
     finished = true; busy = false; step = 2;
     $('password').value = ''; $('passwordConfirm').value = '';
     code = ''; history.replaceState(null, '', location.pathname);
-    $('phoneCard').hidden = true; $('connectionMessage').hidden = true; error(''); show();
+    $('phoneCard').hidden = true; $('connectionMessage').hidden = true; error('');
+    if (justFinished) slide(1, () => { show(); celebrate(); }); else show();
     $('boxScreenLink').hidden = !BoxUI.local;
     let ip = network?.addresses?.[0];
     try { const res = await fetch('/api/system', { cache: 'no-store' }); if (res.ok) ip = (await res.json()).addresses?.[0]; } catch { /* the chosen fixed address is also offered below */ }
