@@ -3,7 +3,7 @@
 // window says so instead of pretending.
 window.JenerStore = (() => {
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
-  const use = id => `<svg viewBox="0 0 28 28" aria-hidden="true"><use href="#${esc(id)}"/></svg>`;
+  const use = id => `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#${esc(id)}"/></svg>`;
   const CATEGORIES = [
     { id: 'media', name: 'Media', icon: 'i-tv', kind: 'movie and music' },
     { id: 'photos', name: 'Photos', icon: 'i-photos', kind: 'photo' },
@@ -36,7 +36,7 @@ window.JenerStore = (() => {
   const $ = sel => win.querySelector(sel);
 
   const iconFor = a => ICONS.has(a.icon) ? a.icon : ICONS.has(a.id) ? a.id : 'apps';
-  const appIcon = (a, cls = '') => `<span class="icon icon-${iconFor(a)} ${cls}"><svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-${iconFor(a)}"/></svg></span>`;
+  const appIcon = (a, cls = '') => `<span class="icon icon-${iconFor(a)} ${cls}"><svg class="doodle" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${iconFor(a)}"/></svg></span>`;
   const installed = a => a.status === 'running' || a.status === 'stopped';
   const category = id => CATEGORIES.find(c => c.id === id);
   const size = mb => !mb ? 'Not listed' : mb >= 1024 ? `${+(mb / 1024).toFixed(1)} GB` : `${mb} MB`;
@@ -48,13 +48,6 @@ window.JenerStore = (() => {
   function build() {
     if (win) return;
     document.body.insertAdjacentHTML('beforeend', `
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-store-compass" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><path d="m17.5 10.5-2 5-5 2 2-5Z"/></symbol>
-  <symbol id="i-store-grid" viewBox="0 0 28 28"><rect x="5" y="5" width="7.5" height="7.5" rx="2"/><rect x="15.5" y="5" width="7.5" height="7.5" rx="2"/><rect x="5" y="15.5" width="7.5" height="7.5" rx="2"/><rect x="15.5" y="15.5" width="7.5" height="7.5" rx="2"/></symbol>
-  <symbol id="i-store-spark" viewBox="0 0 28 28"><path d="M14 4c.8 5.2 4.8 9.2 10 10-5.2.8-9.2 4.8-10 10-.8-5.2-4.8-9.2-10-10 5.2-.8 9.2-4.8 10-10Z"/></symbol>
-  <symbol id="i-store-code" viewBox="0 0 28 28"><path d="m10 9-5 5 5 5m8-10 5 5-5 5m-2.5-12-3 14"/></symbol>
-  <symbol id="i-store-back" viewBox="0 0 28 28"><path d="M17 6 9 14l8 8"/></symbol>
-</svg>
 <dialog class="settings-window store-window" id="storeWindow" aria-labelledby="storeTitle">
   <aside class="settings-sidebar store-sidebar">
     <div class="settings-brand"><h2 id="storeTitle">App Store</h2></div>
@@ -72,7 +65,7 @@ window.JenerStore = (() => {
   <div class="settings-body">
     <header class="window-header">
       <div class="store-heading"><button class="icon-button" data-store-back aria-label="Back" hidden>${use('i-store-back')}</button><h3 id="storePageTitle" tabindex="-1">Discover</h3></div>
-      <button class="icon-button" data-store-close aria-label="Close App Store">×</button>
+      <button class="icon-button" data-store-close aria-label="Close App Store">${use('i-close')}</button>
     </header>
     <p class="window-feedback" id="storeNotice" role="status" hidden></p>
     <div class="settings-scroll store-scroll" id="storePage"></div>
@@ -80,7 +73,7 @@ window.JenerStore = (() => {
 </dialog>
 <dialog class="desktop-dialog store-sheet" id="storeCustom" aria-labelledby="storeCustomTitle" aria-describedby="storeCustomIntro">
   <form method="dialog" id="storeCustomForm" novalidate>
-    <header class="window-header"><h2 id="storeCustomTitle">Custom install</h2><button type="button" class="icon-button" data-sheet-close aria-label="Close custom install">×</button></header>
+    <header class="window-header"><h2 id="storeCustomTitle">Custom install</h2><button type="button" class="icon-button" data-sheet-close aria-label="Close custom install">${use('i-close')}</button></header>
     <p class="muted" id="storeCustomIntro">Bring an app that isn't in the store yet. Fill in the form, or paste your own YAML.</p>
     <fieldset class="store-toggle"><legend class="sr-only">How to describe the app</legend>
       <label><input type="radio" name="storeMode" value="form" checked><span>Form</span></label>
@@ -219,14 +212,14 @@ window.JenerStore = (() => {
 <section class="store-hero" aria-labelledby="storeHeroTitle">
   <div class="store-hero-text"><span class="tag">Featured</span><h4 id="storeHeroTitle">${esc(hero.name)}</h4><p>${esc(hero.tagline)}</p>
     <button class="pill pill-accent" data-store-app="${esc(hero.id)}">Take a look<span class="sr-only"> at ${esc(hero.name)}</span></button></div>
-  <div class="store-hero-art store-art store-art-${iconFor(hero)}" aria-hidden="true">${appIcon(hero, 'store-hero-icon')}<svg class="store-art-ghost" viewBox="0 0 28 28"><use href="#i-${iconFor(hero)}"/></svg><span class="store-art-dot"></span><span class="store-art-dot"></span></div>
+  <div class="store-hero-art store-art store-art-${iconFor(hero)}" aria-hidden="true">${appIcon(hero, 'store-hero-icon')}<svg class="store-art-ghost" viewBox="0 0 24 24"><use href="#i-${iconFor(hero)}"/></svg><span class="store-art-dot"></span><span class="store-art-dot"></span></div>
 </section>
 <section class="store-section" aria-labelledby="storePopular"><h4 id="storePopular">Popular</h4>
   <div class="store-cards">${popular().map(card).join('')}</div></section>
 <section class="store-section" aria-labelledby="storeNew"><h4 id="storeNew">New</h4>
   <ul class="store-list">${newest().slice(0, 6).map(row).join('')}</ul></section>`;
   }
-  const card = a => `<button class="store-card" data-store-app="${esc(a.id)}"><span class="store-card-art store-art store-art-${iconFor(a)}" aria-hidden="true">${appIcon(a)}<svg class="store-art-ghost" viewBox="0 0 28 28"><use href="#i-${iconFor(a)}"/></svg></span><span class="store-card-text"><strong>${esc(a.name)}</strong><span>${esc(a.tagline)}</span></span></button>`;
+  const card = a => `<button class="store-card" data-store-app="${esc(a.id)}"><span class="store-card-art store-art store-art-${iconFor(a)}" aria-hidden="true">${appIcon(a)}<svg class="store-art-ghost" viewBox="0 0 24 24"><use href="#i-${iconFor(a)}"/></svg></span><span class="store-card-text"><strong>${esc(a.name)}</strong><span>${esc(a.tagline)}</span></span></button>`;
   const row = a => `<li><button class="store-row" data-store-app="${esc(a.id)}">${appIcon(a)}<span class="store-row-text"><strong>${esc(a.name)}</strong><span>${esc(a.tagline)}</span></span><span class="store-row-meta">${installed(a) ? statusText(a) : esc(category(a.category)?.name || 'App')}</span></button></li>`;
 
   function categoryPage(cat) {

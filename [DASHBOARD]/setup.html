@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="no-referrer">
   <title>Set up your box · JenerOS</title>
   <link rel="icon" href="logo.svg" type="image/svg+xml">
   <script src="ui-compat.js" defer></script>
-  <script src="onboarding-shine.js" defer></script>
+  <script src="phone-layout.js" defer></script>
+  <script src="icons.js" defer></script>
   <script src="desktop-preferences.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="onboarding.css">
   <script src="vendor/qrcode.js" defer></script>
   <script src="box-ui.js" defer></script>
+  <script src="onboarding-shine.js" defer></script>
   <script src="setup-controls.js" defer></script>
   <script src="setup.js" defer></script>
 </head>
@@ -26,26 +28,25 @@
     <div class="setup-layout">
       <form id="wizard" class="setup-card" novalidate aria-busy="true">
         <section data-step="0" aria-labelledby="welcomeTitle">
-          <svg class="setup-logo" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg>
+          <img class="setup-logo" src="logo.svg" alt="" width="88" height="88">
           <h1 id="welcomeTitle" class="page-title" tabindex="-1">Welcome to<br>JenerOS</h1>
           <p class="lede">A little box. A place for everything you love.</p>
           <div class="welcome-bottom">
           <fieldset class="field language-choice"><legend>Language</legend><label class="language-pill"><input id="language" type="radio" name="language" value="en" checked><span>English</span></label><p class="field-help">More languages soon</p></fieldset>
-          <label class="privacy-choice"><span class="privacy-check"><input id="acceptedPrivacy" type="checkbox" required><span class="privacy-check-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span></span><span>I accept the <a id="privacyLink" href="#privacySheet" aria-haspopup="dialog">JenerOS Privacy Policy</a>.</span></label>
+          <label class="privacy-choice"><span class="privacy-check"><input id="acceptedPrivacy" type="checkbox" required><span class="privacy-check-box" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span></span><span>I accept the <a id="privacyLink" href="#privacySheet" aria-haspopup="dialog">JenerOS Privacy Policy</a>.</span></label>
           <div class="field" id="codeField" hidden><label for="setupCode">Code from your box's screen</label><input id="setupCode" inputmode="numeric" autocomplete="off" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="6 digits"><p class="field-help">This code lets you finish setup just once.</p></div></div>
         </section>
         <section data-step="1" hidden aria-labelledby="ownerTitle"><h1 id="ownerTitle" class="page-title" tabindex="-1">Create<br>your account</h1><p class="lede">These are your box's login details. Keep them somewhere safe.</p>
           <div class="account-fields"><div class="field"><label for="username">Username</label><input id="username" required maxlength="32" pattern="[a-z][a-z0-9_-]{0,31}" autocomplete="username" autocapitalize="none" spellcheck="false" aria-describedby="usernameHelp usernameError"><p class="field-help" id="usernameHelp">Start with a lowercase letter. Letters, numbers, underscores and dashes work.</p><p class="field-error" id="usernameError" aria-live="polite" hidden></p></div>
-          <div class="field"><label for="password">Password</label><input id="password" type="password" required autocomplete="new-password" aria-describedby="passwordHelp passwordError"><p class="field-help" id="passwordHelp">At least 8 characters. A few memorable words work well.</p><p class="field-error" id="passwordError" aria-live="polite" hidden></p></div>
-          <div class="field"><label for="passwordConfirm">Type your password again</label><input id="passwordConfirm" type="password" required autocomplete="new-password" aria-describedby="passwordConfirmError"><p class="field-error" id="passwordConfirmError" aria-live="polite" hidden></p></div>
-          <button type="button" class="pill" id="togglePassword" aria-pressed="false">Show passwords</button>
+          <div class="field"><label for="password">Password</label><div class="password-field"><input id="password" type="password" required autocomplete="new-password" aria-describedby="passwordHelp passwordError"><button id="passwordEye" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false" aria-controls="password"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye"/></svg><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye-off"/></svg></button></div><p class="field-help" id="passwordHelp">At least 8 characters. A few memorable words work well.</p><p class="field-error" id="passwordError" aria-live="polite" hidden></p></div>
+          <div class="field"><label for="passwordConfirm">Type your password again</label><div class="password-field"><input id="passwordConfirm" type="password" required autocomplete="new-password" aria-describedby="passwordConfirmError"><button id="passwordConfirmEye" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false" aria-controls="passwordConfirm"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye"/></svg><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye-off"/></svg></button></div><p class="field-error" id="passwordConfirmError" aria-live="polite" hidden></p></div>
           </div><p class="note">This account signs in to your dashboard and manages your box. SSH starts off.</p>
           <details class="box-options"><summary>Box settings</summary><p class="note">We picked a starting point. Change these if you need to.</p>        <div class="box-option"><h2 id="keyboardTitle" class="panel-title">Your keyboard</h2><p class="lede">Choose the layout printed on your keys.</p>
-          <div class="field"><span id="keymapLabel" class="field-label">Keyboard layout</span><input id="keymap" type="hidden" hidden><div class="setup-picker"><button id="keymapButton" aria-required="true" class="setup-picker-button" type="button" role="combobox" aria-labelledby="keymapLabel keymapText" aria-controls="keymapList" aria-haspopup="listbox" aria-expanded="false"><span id="keymapText">Loading choices&hellip;</span><span aria-hidden="true">&#8964;</span></button><div id="keymapList" class="setup-list setup-popover" role="listbox" aria-labelledby="keymapLabel" hidden></div></div><p class="field-help">Saved for your box's keyboard. Your phone keeps its own layout.</p></div>
+          <div class="field"><span id="keymapLabel" class="field-label">Keyboard layout</span><input id="keymap" type="hidden" hidden><div class="setup-picker"><button id="keymapButton" aria-required="true" class="setup-picker-button" type="button" role="combobox" aria-labelledby="keymapLabel keymapText" aria-controls="keymapList" aria-haspopup="listbox" aria-expanded="false"><span id="keymapText">Loading choices&hellip;</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg></button><div id="keymapList" class="setup-list setup-popover" role="listbox" aria-labelledby="keymapLabel" hidden></div></div><p class="field-help">Saved for your box's keyboard. Your phone keeps its own layout.</p></div>
         </div>
         <div class="box-option"><h2 id="timezoneTitle" class="panel-title">Where's home?</h2><p class="lede">We'll keep your box on local time.</p>
-          <div class="field"><label for="zoneSearch">Find your city or timezone</label><input id="zoneSearch" type="search" placeholder="Search, like New York" autocomplete="off" aria-controls="timezoneList"></div>
-          <div class="field"><span id="timezoneLabel" class="field-label">Timezone</span><input id="timezone" type="hidden" hidden><div id="timezoneList" class="setup-list" role="listbox" tabindex="0" aria-labelledby="timezoneLabel" aria-describedby="zoneHint" aria-required="true"></div><p class="field-help" id="zoneHint">Suggested from this browser.</p></div>
+          <button type="button" class="pill phone-picker-trigger" id="timezoneSheetButton" aria-haspopup="dialog" aria-controls="pickerSheet">Choose timezone</button><div id="timezoneFields"><div class="field"><label for="zoneSearch">Find your city or timezone</label><input id="zoneSearch" type="search" placeholder="Search, like New York" autocomplete="off" aria-controls="timezoneList"></div>
+          <div class="field"><span id="timezoneLabel" class="field-label">Timezone</span><input id="timezone" type="hidden" hidden><div id="timezoneList" class="setup-list" role="listbox" tabindex="0" aria-labelledby="timezoneLabel" aria-describedby="zoneHint" aria-required="true"></div><p class="field-help" id="zoneHint">Suggested from this browser.</p></div></div>
         </div>
         <div class="box-option"><h2 id="nameTitle" class="panel-title">Name your box</h2><p class="lede">Something short and easy to remember.</p>
           <div class="field"><label for="hostname">Box name</label><input id="hostname" required maxlength="63" pattern="[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?" placeholder="my-jener-box" autocomplete="off" autocapitalize="none" spellcheck="false"><p class="field-help">Lowercase letters, numbers and dashes. Start and end with a letter or number.</p></div>
@@ -57,7 +58,7 @@
           </fieldset>
           <div id="fixedFields" hidden>
             <p class="note">Use an unused address on your home network. Check your router's settings if you're unsure.</p>
-            <div class="field"><span id="interfaceLabel" class="field-label">Network connection</span><input id="interface" type="hidden" hidden><div class="setup-picker"><button id="interfaceButton" class="setup-picker-button" type="button" role="combobox" aria-labelledby="interfaceLabel interfaceText" aria-controls="interfaceList" aria-haspopup="listbox" aria-expanded="false"><span id="interfaceText">Loading choices&hellip;</span><span aria-hidden="true">&#8964;</span></button><div id="interfaceList" class="setup-list setup-popover" role="listbox" aria-labelledby="interfaceLabel" hidden></div></div></div>
+            <div class="field"><span id="interfaceLabel" class="field-label">Network connection</span><input id="interface" type="hidden" hidden><div class="setup-picker"><button id="interfaceButton" class="setup-picker-button" type="button" role="combobox" aria-labelledby="interfaceLabel interfaceText" aria-controls="interfaceList" aria-haspopup="listbox" aria-expanded="false"><span id="interfaceText">Loading choices&hellip;</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg></button><div id="interfaceList" class="setup-list setup-popover" role="listbox" aria-labelledby="interfaceLabel" hidden></div></div></div>
             <div class="field"><label for="address">Box address and prefix</label><input id="address" placeholder="192.168.1.20/24" autocomplete="off" spellcheck="false"><p class="field-help">The /24 part describes the network size. Copy it from your router's settings.</p></div>
             <div class="field"><label for="gateway">Router address (gateway)</label><input id="gateway" placeholder="192.168.1.1" autocomplete="off" spellcheck="false"></div>
             <div class="field"><label for="dns">DNS servers</label><input id="dns" placeholder="192.168.1.1" autocomplete="off" spellcheck="false"><p class="field-help">These look up website names. Use your router's address, or up to three addresses separated by commas.</p></div>
@@ -68,10 +69,10 @@
         <section data-step="2" hidden aria-labelledby="doneTitle">
           <h1 id="doneTitle" class="page-title" tabindex="-1">Introducing<br>JenerOS</h1>
           <div class="feature-tiles">
-            <article class="feature-tile"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="5" width="7" height="22" rx="2"/><rect x="13" y="5" width="7" height="22" rx="2"/><rect x="22" y="5" width="6" height="22" rx="2"/><path d="M7 22h1m8 0h1m8 0h1"/></svg><h2>Room to grow</h2><p>Your box, your disks. More storage choices are on the way.</p></article>
-            <article class="feature-tile"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 10h10l3 4h13v13H3zM3 10V6h11l3 4h12v4"/></svg><h2>Everything together</h2><p>A home for your files and memories. File browsing is coming soon.</p></article>
-            <article class="feature-tile"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l11 4v9c0 6-11 13-11 13S5 22 5 16V7zM11 16l3 3 7-7"/></svg><h2>A home of your own</h2><p>Sign in with your owner account. Your box stays on your home network.</p></article>
-            <article class="feature-tile"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="10" height="10" rx="2"/><rect x="18" y="4" width="10" height="10" rx="2"/><rect x="4" y="18" width="10" height="10" rx="2"/><rect x="18" y="18" width="10" height="10" rx="2"/></svg><h2>Make it yours</h2><p>Explore the App Store. App installation is coming in a later release.</p></article>
+            <article class="feature-tile"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-disk"/></svg><h2>Room to grow</h2><p>Your box, your disks. More storage choices are on the way.</p></article>
+            <article class="feature-tile"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-files"/></svg><h2>Everything together</h2><p>A home for your files and memories. File browsing is coming soon.</p></article>
+            <article class="feature-tile"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-relay"/></svg><h2>A home of your own</h2><p>Sign in with your owner account. Your box stays on your home network.</p></article>
+            <article class="feature-tile"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-apps"/></svg><h2>Make it yours</h2><p>Explore the App Store. App installation is coming in a later release.</p></article>
           </div>
           <p class="note">Your account is ready. Sign in to start exploring.</p>
           <a id="doneAddress" class="box-address" href="/login">Finding your address…</a>
@@ -81,11 +82,12 @@
         <div id="applying" class="setup-applying" hidden role="status"><span class="setup-pulse" aria-hidden="true"></span><h2 class="panel-title">Making your box yours</h2><p class="note" id="applyMessage">Keep your box switched on. This will only take a little while.</p><a id="newAddress" class="box-address" hidden></a></div>
         <p id="setupError" class="setup-error" role="alert" hidden></p>
         <p id="connectionMessage" class="note" role="status">Connecting to your box…</p>
-        <div id="actions" class="setup-actions"><button type="button" class="pill" id="back" hidden>Back</button><button type="submit" class="pill pill-accent" id="next" aria-label="Continue" aria-describedby="setupError"><span aria-hidden="true">→</span></button></div>
+        <div id="actions" class="setup-actions"><button type="button" class="pill" id="back" hidden>Back</button><button type="submit" class="pill pill-accent" id="next" aria-label="Continue" aria-describedby="setupError"><span class="continue-label">Continue</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button></div>
       </form>
       <button type="button" class="pill setup-phone-toggle" id="phoneCard" hidden aria-haspopup="dialog" aria-controls="phoneSheet">Use your phone instead</button>
     </div>
   </main>
+  <dialog id="pickerSheet" class="privacy-sheet" aria-labelledby="pickerTitle"><header class="privacy-sheet-header"><h2 id="pickerTitle" class="panel-title">Choose an option</h2></header><div id="pickerContent" class="privacy-sheet-content"></div><footer class="privacy-sheet-actions"><button id="pickerClose" type="button" class="pill pill-accent">Done</button></footer></dialog>
   <dialog id="phoneSheet" class="privacy-sheet setup-phone" aria-labelledby="phoneTitle">
     <header class="privacy-sheet-header"><h2 id="phoneTitle" class="panel-title">Use your phone instead</h2></header>
     <div class="privacy-sheet-content"><p class="note" id="phoneHint" role="status">Checking your box's network connection...</p><div id="phoneLinks" hidden><div class="box-qr" id="setupQR" role="img" aria-label="Setup link for your phone"></div><a class="box-address" id="phoneAddress"></a><a class="box-address" id="phoneLocalAddress"></a></div><p class="note" id="codeLabel"></p></div>
@@ -96,7 +98,6 @@
     <div id="privacyContent" class="privacy-sheet-content" tabindex="0" aria-busy="false"><p id="privacyStatus" role="status">Loading the policy&hellip;</p></div>
     <footer class="privacy-sheet-actions"><a id="privacyDownload" href="privacy.pdf" download hidden>Download PDF</a><button id="privacyRetry" class="pill" type="button" hidden>Try again</button><button id="privacyClose" class="pill pill-accent" type="button" autofocus>Close</button></footer>
   </dialog>
-  <svg width="0" height="0" aria-hidden="true" class="svg-defs"><defs><path id="j-mark" fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z M144 208H176V240H144Z"/></defs></svg>
   <img class="corner-mark" src="logo.svg" alt="" width="28" height="28">
   <noscript><p class="setup-card">Turn on JavaScript in your browser to set up this box.</p></noscript>
 </body>

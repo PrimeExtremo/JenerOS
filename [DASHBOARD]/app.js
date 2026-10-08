@@ -1,7 +1,7 @@
 // JenerOS desktop. No dependencies, CDNs or copied reference artwork.
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
-const doodle = id => `<svg class="doodle" viewBox="0 0 28 28" aria-hidden="true"><use href="#i-${esc(id)}"/></svg>`;
+const doodle = id => `<svg class="doodle" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${esc(id)}"/></svg>`;
 const icon = id => `<span class="icon icon-${esc(id)}">${doodle(id)}</span>`;
 const POST = { method: 'POST', headers: { 'X-JenerOS': '1' } };
 const preferences = DesktopPreferences.value;
@@ -13,7 +13,7 @@ const SAMPLE_STORE = [
   { id: 'relay', name: 'Relay', upstream: 'AdGuard Home', tagline: 'Blocks ads and trackers for every device on your network.', status: 'not-installed' },
 ];
 const BUILTIN_TILES = [
-  { id: 'files', name: 'Files', icon: 'drive', soon: 'Your folders, together in one place. File browsing is coming soon.' },
+  { id: 'files', name: 'Files', icon: 'files', soon: 'Your folders, together in one place. File browsing is coming soon.' },
   { id: 'catalog', name: 'App Store', icon: 'apps' },
   { id: 'settings', name: 'Settings', icon: 'system' },
   { id: 'photos', name: 'Photos', icon: 'photos', soon: 'A home for every memory. Photo browsing and backup are coming soon.' },
@@ -419,6 +419,8 @@ async function renderUpdate() {
   if (updateBusy) {
     const v = (u.status && u.status.version) || av.version;
     setUpdate(rollback.pending ? 'Starting the other installed version. Your box will restart.' : st === 'rebooting' ? `Restarting into JenerOS ${v}…` : st === 'installing' ? `Installing JenerOS ${v}. Your box restarts by itself.` : 'Starting the update…');
+  } else if (av.noRelease) {
+    setUpdate("You're on the newest version. No updates have been published yet.");
   } else if (av.error) {
     setUpdate("Can't reach the update server. Check that the box is online, then try again.");
   } else if (av.version) {

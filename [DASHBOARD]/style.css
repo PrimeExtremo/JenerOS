@@ -273,6 +273,13 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 .setup-layout { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 720px; margin: 0 auto; gap: 24px; }
 .setup-card { min-width: 0; padding: clamp(24px, 4vw, 44px); background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); }
 .setup-card .page-title { margin-top: 18px; }
+/* This status screen can stay on for years, including when opened remotely. */
+.screen-page, .screen-page *, .screen-page *::before, .screen-page *::after {
+  animation: none !important;
+}
+.screen-page .setup-card, .screen-page dialog {
+  background: var(--card); backdrop-filter: none; -webkit-backdrop-filter: none;
+}
 /* Headings receive focus for announcements, without a decorative orange edge. */
 .setup-card .page-title:focus { outline: none; }
 .setup-logo { display: block; width: 100px; height: 100px; margin: -12px 0 12px -12px; color: var(--accent); }
@@ -371,3 +378,13 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 dialog:not([open]) { display: none; }
 .modal-shade { position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, .6); }
 dialog.modal-fallback { position: fixed; top: 50%; left: 50%; right: auto; bottom: auto; transform: translate(-50%, -50%); margin: 0; z-index: 1001; max-height: calc(100vh - 28px); overflow: auto; animation: none !important; }
+/* Shared original 24-unit glyphs. All visual weight lives in the sprite. */
+.svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.ui-icon { width: 1.5rem; height: 1.5rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+.icon-files { background: var(--c-drive); }
+html { font-size: 100%; }
+@supports (font: -apple-system-body) { html { font: -apple-system-body; } }
+body { min-height: 100dvh; }
+input, textarea, select { min-width: 0; }
+button, a, p, h1, h2, h3, h4 { overflow-wrap: anywhere; }
+dialog.modal-fallback { max-height: calc(100dvh - 28px); }

@@ -12,10 +12,12 @@ function element(id) {
 const sections = [0, 1, 2].map(step => ({ dataset: { step: String(step) }, hidden: false, querySelectorAll: () => [], focus() {} }));
 const fixedRadio = { value: 'fixed' }, autoRadio = { value: 'automatic' };
 let mode = autoRadio, requests = [], replaced = [], address = 'http://192.168.1.20';
+let sweeps = 0;
 const context = vm.createContext({ document: { getElementById: element, createElement: () => ({ setAttribute() {} }), querySelectorAll: sel => sel === '[data-step]' ? sections : [],
   querySelector: sel => sel === '[name="networkMode"]:checked' ? mode : { focus() {}, querySelectorAll: () => [] } },
   location: { search: '?code=012345', pathname: '/setup.html', origin: address }, history: { replaceState(...args) { replaced.push(args); } },
   URLSearchParams, TextEncoder, BoxUI: { local: false, address: ip => 'http://' + ip },
+  window: { OnboardingShine: { stepChanged() { sweeps++; } } },
   fetch: async (url, options) => {
     requests.push({ url, options });
     return url === '/api/setup' ? { ok: true, status: 202 } : { ok: false, status: 401 };
@@ -32,10 +34,12 @@ const submit = () => element('wizard').handlers.submit({ preventDefault() {} });
   assert.equal(element('next').attributes['aria-disabled'], 'true');
   element('acceptedPrivacy').checked = true; element('language').value = 'en';
   await submit(); assert.equal(context.flow.step, 1); assert.equal(sections[1].hidden, false); assert.equal(sections[0].hidden, true);
+  assert.equal(sweeps, 1, 'Only the step change requests a border sweep');
   assert.equal(element('next').attributes['aria-disabled'], 'true');
   element('username').value = 'owner'; element('password').value = element('passwordConfirm').value = 'fake password';
   element('hostname').value = 'my-box'; element('timezone').value = 'UTC'; element('keymap').value = 'us';
   context.flow.show(false); assert.equal(element('next').attributes['aria-disabled'], 'false');
+  assert.equal(sweeps, 1, 'Rendering the same step does not restart lighting');
   mode = fixedRadio; element('interface').value = 'eth0'; element('address').value = '192.168.1.22/24';
   element('gateway').value = '192.168.1.1'; element('dns').value = '192.168.1.1';
   element('timezone').value = '';
@@ -50,6 +54,7 @@ const submit = () => element('wizard').handlers.submit({ preventDefault() {} });
   assert.equal(element('actions').hidden, true); assert.equal(element('applying').hidden, false);
   assert.equal(element('newAddress').href, 'http://192.168.1.22/setup.html?code=012345');
   await context.flow.done();
+  assert.equal(sweeps, 2, 'Introduction requests exactly one new sweep');
   assert.equal(context.flow.step, 2); assert.equal(sections[2].hidden, false); assert.equal(element('applying').hidden, true);
   assert.equal(element('phoneCard').hidden, true); assert.equal(element('boxScreenLink').hidden, true);
   assert.equal(element('filesLink').href, 'http://192.168.1.22/login?next=%2F%23%2Ffiles');
