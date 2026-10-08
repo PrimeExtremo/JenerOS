@@ -1,6 +1,6 @@
 /* The same warm wallpaper frames setup and owner sign-in. */
-.onboarding-page { min-height: 100dvh; isolation: isolate; }
-.onboarding-main, .setup-page .setup-main { display: grid; align-content: center; min-height: 100dvh; width: 100%; max-width: none; margin: 0; padding: 40px 24px; }
+.onboarding-page { min-height: 100vh; min-height: 100dvh; isolation: isolate; }
+.onboarding-main, .setup-page .setup-main { display: grid; align-content: center; min-height: 100vh; min-height: 100dvh; width: 100%; max-width: none; margin: 0; padding: 40px 24px; }
 .onboarding-card, .setup-page .setup-card { position: relative; width: 100%; min-height: 410px; padding: clamp(24px, 5vw, 40px); border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow-up); }
 .onboarding-card { max-width: 650px; margin: auto; }
 .setup-page .setup-layout { width: 100%; max-width: 720px; gap: 18px; }
@@ -22,8 +22,8 @@
 .onboarding-page .privacy-choice { font-size: .875rem; min-height: 44px; align-items: center; margin-top: 10px; }
 .box-options { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 12px; }
 .box-options summary { cursor: pointer; min-height: 44px; padding: 10px 0; font-weight: 600; font-size: .875rem; }
-.onboarding-page .setup-phone { padding: 18px 24px; border-radius: 18px; background: var(--card); }
-.setup-phone summary { cursor: pointer; min-height: 44px; font-weight: 600; }
+.onboarding-page .setup-phone { padding: 0; border-radius: 18px; background: var(--card); }
+.setup-phone-toggle { justify-self: center; }
 .onboarding-page .setup-phone .box-qr { width: 128px; height: 128px; padding: 8px; margin-top: 16px; }
 .onboarding-page .setup-phone .box-address { font-size: .9375rem; }
 .feature-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 30px; }
@@ -63,12 +63,12 @@
 .setup-picker-button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
 .setup-picker-button span:first-child { min-width: 0; overflow-wrap: anywhere; }
 .setup-list { max-height: 220px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 6px; scroll-padding: 6px; }
-.setup-popover { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 5; max-height: min(220px, 40dvh); background: var(--card); box-shadow: var(--shadow-up); }
+.setup-popover { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 5; max-height: 220px; max-height: min(220px, 40dvh); background: var(--card); box-shadow: var(--shadow-up); }
 .setup-list-option { min-height: 48px; padding: 12px; border: 2px solid transparent; border-radius: 6px; color: var(--ink); cursor: pointer; overflow-wrap: anywhere; }
 .setup-list-option[aria-selected="true"] { background: var(--card); border-color: var(--accent-ink); font-weight: 600; }
 .setup-list-option.is-active { outline: 2px solid var(--accent-ink); outline-offset: -4px; }
 .setup-list-option:hover { background: var(--card); }
-.privacy-sheet { width: min(720px, calc(100% - 28px)); max-width: none; max-height: calc(100dvh - 28px); margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); box-shadow: var(--shadow-up); }
+.privacy-sheet { width: min(720px, calc(100% - 28px)); max-width: none; max-height: calc(100vh - 28px); max-height: calc(100dvh - 28px); margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); box-shadow: var(--shadow-up); }
 .privacy-sheet[open] { display: flex; flex-direction: column; }
 .privacy-sheet::backdrop { background: rgb(0 0 0 / .6); }
 .privacy-sheet-header { flex: none; padding: 24px; border-bottom: 1px solid var(--line); }
@@ -82,3 +82,5 @@
   .privacy-sheet-header, .privacy-sheet-content { padding: 18px; }
   .privacy-sheet-actions { padding: 14px 18px; }
 }
+
+.setup-phone .privacy-sheet-actions { justify-content: flex-end; }

@@ -5,6 +5,16 @@
   let step = 0, info, network, busy = false, finished = false, submitted = false;
   let code = new URLSearchParams(location.search).get('code') || '';
   const touched = new Set();
+  function invalidUnicode(value) {
+    for (let i = 0; i < value.length; i++) {
+      const unit = value.charCodeAt(i);
+      if (unit >= 0xD800 && unit <= 0xDBFF) {
+        const next = value.charCodeAt(++i);
+        if (!(next >= 0xDC00 && next <= 0xDFFF)) return true;
+      } else if (unit >= 0xDC00 && unit <= 0xDFFF) return true;
+    }
+    return false;
+  }
   function ownerErrors() {
     const username = $('username').value, password = $('password').value;
     return {
@@ -12,22 +22,25 @@
         ? 'Start with a lowercase letter. Use up to 32 lowercase letters, numbers, - or _.'
         : info?.reservedUsernames?.includes(username) ? 'That name is reserved for the system. Choose your own.' : '',
       password: [...password].length < 8 ? 'Use at least 8 characters.'
-        : new TextEncoder().encode(password).length > 256 || /[\r\n\0]/.test(password) || /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/.test(password)
+        : [...password].reduce((bytes, char) => bytes + (char.codePointAt(0) < 0x80 ? 1 : char.codePointAt(0) < 0x800 ? 2 : char.codePointAt(0) < 0x10000 ? 3 : 4), 0) > 256 || /[\r\n\0]/.test(password) || invalidUnicode(password)
           ? 'Use up to 256 bytes, without line breaks.' : '',
       passwordConfirm: $('passwordConfirm').value !== password || !$('passwordConfirm').value ? 'Type the same password again.' : '',
     };
   }
   function validateFields() {
-    const errors = ownerErrors();
+    const errors = step === 1 ? ownerErrors() : {};
     for (const [id, message] of Object.entries(errors)) {
       const visible = touched.has(id) && !!message;
       $(id + 'Error').textContent = visible ? message : '';
       $(id + 'Error').hidden = !visible;
       $(id).setAttribute('aria-invalid', String(visible));
     }
-    $('next').disabled = !info || busy
+    const blocked = !info || busy
       || (step === 0 && (!$('acceptedPrivacy').checked || !/^\d{6}$/.test(code)))
       || (step === 1 && Object.values(errors).some(Boolean));
+    // Keep invalid steps clickable so an attempt can explain what is missing.
+    $('next').disabled = busy;
+    $('next').setAttribute('aria-disabled', String(blocked));
     return !Object.values(errors).some(Boolean);
   }
   $('wizard').addEventListener('input', e => {
@@ -43,20 +56,25 @@
 
   // Motion (.scratch/motion/BRIEF.md): the old card slides out, the new one in.
   // Without animation support (or with reduced motion) steps change at once or fade.
-  const token = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const token = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || 'ease';
   const moving = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
   let finishSlide = null;
   function slide(direction, update) {
     finishSlide?.();
     const card = $('wizard');
     if (typeof card.animate !== 'function' || typeof matchMedia !== 'function') { update(); return; }
-    if (!moving()) { update(); card.animate([{ opacity: 0 }, { opacity: 1 }], { duration: parseFloat(token('--t-quick')), easing: token('--ease') }); return; }
-    const out = card.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-24 * direction}px)` }], { duration: 200, easing: token('--ease-in'), fill: 'forwards' });
+    // A partial animation implementation must never block setup.
+    const animate = (frames, options) => {
+      try { return card.animate(frames, options); } catch { return null; }
+    };
+    if (!moving()) { update(); animate([{ opacity: 0 }, { opacity: 1 }], { duration: parseFloat(token('--t-quick')) || 120, easing: token('--ease') }); return; }
+    const out = animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-24 * direction}px)` }], { duration: 200, easing: token('--ease-in'), fill: 'forwards' });
+    if (!out) { update(); return; }
     let done = false;
     finishSlide = () => {
       if (done) return;
       done = true; finishSlide = null; out.cancel(); update();
-      card.animate([{ opacity: 0, transform: `translateX(${24 * direction}px)` }, { opacity: 1, transform: 'none' }], { duration: 300, easing: token('--ease-out') });
+      animate([{ opacity: 0, transform: `translateX(${24 * direction}px)` }, { opacity: 1, transform: 'none' }], { duration: 300, easing: token('--ease-out') });
     };
     out.onfinish = finishSlide;
   }
@@ -99,6 +117,9 @@
     const enabled = network?.addresses?.[0] && /^\d{6}$/.test(code) && !finished;
     $('phoneCard').hidden = finished || !info || !BoxUI.local;
     $('phoneLinks').hidden = !enabled;
+    $('codeLabel').textContent = /^\d{6}$/.test(code) && !finished
+      ? 'Your setup code: ' + code + '. Open either address, or enter this code if asked.'
+      : 'The setup code is not ready. Reopen setup from your box\'s screen.';
     $('phoneHint').textContent = !network
       ? "Checking your box's network connection..."
       : !network.addresses?.[0]
@@ -120,8 +141,13 @@
     $('phoneAddress').textContent = base;
     $('phoneLocalAddress').href = local + suffix;
     $('phoneLocalAddress').textContent = local;
-    $('codeLabel').textContent = 'Open either address, or enter code ' + code + ' if asked.';
   }
+  $('phoneCard').addEventListener('click', () => {
+    renderPhone(); JenerUI.open($('phoneSheet')); $('phoneClose').focus();
+  });
+  $('phoneClose').addEventListener('click', () => JenerUI.close($('phoneSheet')));
+  $('phoneSheet').addEventListener('cancel', e => { e.preventDefault(); JenerUI.close($('phoneSheet')); });
+  $('phoneSheet').addEventListener('close', () => $('phoneCard').focus());
   async function refreshNetwork() {
     if (!BoxUI.local) return;
     try {
@@ -147,17 +173,21 @@
   $('zoneSearch').addEventListener('input', () => {
     if (!info) return;
     const selected = $('timezone').value;
-    const query = $('zoneSearch').value.trim().toLowerCase().replaceAll(' ', '_');
+    const query = $('zoneSearch').value.trim().toLowerCase().replace(/ /g, '_');
     const zones = info.timezones.filter(z => z.toLowerCase().includes(query));
     choices($('timezone'), zones, selected, true);
     $('zoneHint').textContent = zones.length ? `${zones.length} timezones. Choose one below.` : 'No match. Try a nearby city.';
   });
-  document.querySelectorAll('[name="networkMode"]').forEach(radio => radio.addEventListener('change', () => {
-    const fixed = radio.value === 'fixed';
-    $('fixedFields').hidden = !fixed;
-    $('interfaceButton').setAttribute('aria-required', String(fixed));
-    for (const el of $('fixedFields').querySelectorAll('input, select')) el.required = fixed;
-  }));
+  document.querySelectorAll('[name="networkMode"]').forEach(radio => {
+    radio.closest('label').classList.toggle('is-selected', radio.checked);
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[name="networkMode"]').forEach(input => input.closest('label').classList.toggle('is-selected', input.checked));
+      const fixed = radio.value === 'fixed';
+      $('fixedFields').hidden = !fixed;
+      $('interfaceButton').setAttribute('aria-required', String(fixed));
+      for (const el of $('fixedFields').querySelectorAll('input, select')) el.required = fixed;
+    });
+  });
   $('togglePassword').addEventListener('click', () => {
     const visible = $('password').type === 'password';
     for (const id of ['password', 'passwordConfirm']) $(id).type = visible ? 'text' : 'password';
@@ -172,15 +202,19 @@
     e.preventDefault();
     // A click or key during a step slide finishes the slide instead.
     if (finishSlide) { finishSlide(); return; }
-    if (busy || !info) return;
+    if (busy) { error('Your box is applying setup. Keep it switched on while we finish.'); return; }
+    if (!info) { error('Setup choices have not loaded. Check your box\'s connection and try again in a moment.'); return; }
     error('');
     if (step === 0 && !$('acceptedPrivacy').checked) { error('Please accept the JenerOS Privacy Policy to continue.'); return; }
     if (step === 0 && !/^\d{6}$/.test(code)) { error('Enter the 6-digit code from your box, or scan its setup QR.'); $('setupCode').focus(); return; }
-    for (const input of document.querySelector(`[data-step="${step}"]`).querySelectorAll('input, select')) {
-      if (input.closest('[hidden]')) continue;
+    // Welcome has only consent and code gates. Account/optional settings cannot block it.
+    for (const input of step === 1 ? document.querySelector('[data-step="1"]').querySelectorAll('input, select') : []) {
+      if (input.type === 'hidden' || input.closest('[hidden]')) continue;
       if (!input.checkValidity()) {
         const details = input.closest('details'); if (details) details.open = true;
-        input.reportValidity(); return;
+        const label = input.labels?.[0]?.textContent.trim() || input.id;
+        error(label + ': ' + (input.validationMessage || 'Check this value before continuing.'));
+        input.focus(); return;
       }
     }
     if (step === 1) {
@@ -195,7 +229,10 @@
         }
       }
       for (const id of ['username', 'password', 'passwordConfirm']) touched.add(id);
-      if (!validateFields()) return;
+      if (!validateFields()) {
+        const errors = ownerErrors(), id = Object.keys(errors).find(key => errors[key]);
+        error(errors[id]); $(id).focus(); return;
+      }
     }
     if (step === 0) { slide(1, () => { step = 1; show(); }); return; }
     const req = request();
@@ -225,6 +262,7 @@
     finished = true; busy = false; step = 2;
     $('password').value = ''; $('passwordConfirm').value = '';
     code = ''; history.replaceState(null, '', location.pathname);
+    JenerUI.close($('phoneSheet'));
     $('phoneCard').hidden = true; $('connectionMessage').hidden = true; error('');
     if (justFinished) slide(1, () => { show(); celebrate(); }); else show();
     $('boxScreenLink').hidden = !BoxUI.local;

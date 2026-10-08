@@ -10,6 +10,7 @@ const context = vm.createContext({ window: {}, document: { createElement() { ret
 context.JenerSession = { fetch: (...args) => context.fetch(...args), loginURL: () => '/login?next=%2Fscreen.html' };
 let destination;
 context.location = { assign(url) { destination = url; } };
+context.JenerUI = { open: d => d.showModal(), close: d => d.open && d.close() };
 vm.runInContext(fs.readFileSync('[DASHBOARD]/rollback.js', 'utf8'), context);
 const rollback = context.window.JenerRollback.bind(button, message => messages.push(message));
 (async () => {
