@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="no-referrer">
   <title>Sign in · JenerOS</title>
   <link rel="icon" href="logo.svg" type="image/svg+xml">
   <script src="ui-compat.js" defer></script>
+  <script src="phone-layout.js" defer></script>
+  <script src="icons.js" defer></script>
+  <script src="box-ui.js" defer></script>
   <script src="onboarding-shine.js" defer></script>
   <script src="desktop-preferences.js"></script>
   <link rel="stylesheet" href="style.css">
@@ -26,12 +29,11 @@
       <p class="lede">Use the owner account you created for this box.</p>
       <div class="account-fields">
         <div class="field"><label for="loginUsername">Username</label><input id="loginUsername" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="32" required aria-describedby="loginError"></div>
-        <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required aria-describedby="loginError"></div>
-        <button id="showPassword" class="pill" type="button" aria-pressed="false">Show password</button>
+        <div class="field"><label for="loginPassword">Password</label><div class="password-field"><input id="loginPassword" name="password" type="password" autocomplete="current-password" required aria-describedby="loginError"><button id="showPassword" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye"/></svg><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-eye-off"/></svg></button></div></div>
       </div>
       <p id="loginError" class="field-error" role="alert" hidden></p>
       <p id="loginStatus" class="note" role="status" hidden></p>
-      <div class="setup-actions"><button id="signIn" class="pill pill-accent" type="submit">Sign in <span aria-hidden="true">→</span></button></div>
+      <div class="setup-actions"><button id="signIn" class="pill pill-accent" type="submit">Sign in <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button></div>
     </form>
   </main>
   <img class="corner-mark" src="logo.svg" alt="" width="28" height="28">

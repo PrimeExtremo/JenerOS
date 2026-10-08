@@ -13,7 +13,7 @@
   $('showPassword').addEventListener('click', () => {
     const show = $('loginPassword').type === 'password';
     $('loginPassword').type = show ? 'text' : 'password';
-    $('showPassword').textContent = show ? 'Hide password' : 'Show password';
+    $('showPassword').setAttribute('aria-label', show ? 'Hide password' : 'Show password');
     $('showPassword').setAttribute('aria-pressed', String(show));
   });
   $('loginForm').addEventListener('input', () => {

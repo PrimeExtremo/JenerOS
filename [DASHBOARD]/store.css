@@ -181,3 +181,21 @@
   .store-art-dot, .store-art-ghost { display: none; }
   .store-search { background: var(--card); }
 }
+/* Compact store controls keep the same reach and text sizing as setup. */
+@media (max-width: 680px), (max-height: 500px) and (max-width: 960px) {
+  .store-window[open] { grid-template-columns: 1fr; }
+  .store-hero { grid-template-columns: 1fr; }
+  .store-heading h3 { white-space: normal; overflow: visible; }
+  .store-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
+  .store-chips { grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr)); }
+  .store-field-row { grid-template-columns: 1fr; }
+  .store-app-head { grid-template-columns: minmax(0, 1fr); }
+  .store-install { width: 100%; justify-items: stretch; text-align: left; }
+  .store-toggle { display: flex; }
+  .store-toggle label { flex: 1; min-width: 0; }
+  .store-toggle span { min-width: 0; min-height: 48px; font-size: 1rem; }
+  .store-sheet-actions { position: sticky; bottom: 0; padding-top: 12px; background: var(--window); }
+  .keyboard-open .store-sheet-actions { position: static; }
+  .store-sheet input, .store-sheet textarea { scroll-margin-block: 24px; }
+  .store-row, .store-cell-app { flex-wrap: wrap; }
+}

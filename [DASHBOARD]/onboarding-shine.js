@@ -1,6 +1,9 @@
 // Small, optional lighting accents. The wallpaper and card stay stationary.
-// Sample paused Web Animations at <=30fps, including on software-rendered WPE.
+// Remote browsers sample paused Web Animations at <=30fps. Local WPE gets
+// only a finite border sweep: no wallpaper layer and no recurring JS clock.
 (() => {
+  const local = !!window.BoxUI?.local;
+  if (local) document.documentElement.classList.add('box-local');
   const wallpaper = document.querySelector('.onboarding-page .desktop-wallpaper');
   const card = document.querySelector('#wizard, #loginForm');
   if (!wallpaper || !card || typeof card.animate !== 'function' || typeof matchMedia !== 'function') return;
@@ -14,8 +17,36 @@
     clip.appendChild(light); parent.appendChild(clip); layers.push(clip);
     return light;
   }
-  const sweep = layer(wallpaper, 'wallpaper-shine');
+  const sweep = local ? null : layer(wallpaper, 'wallpaper-shine');
   const edge = layer(card, 'card-shine');
+  if (local) {
+    let active = null;
+    const stopSweep = () => {
+      if (active) { active.onfinish = null; active.cancel(); active = null; }
+    };
+    const playSweep = () => {
+      stopSweep();
+      if (document.hidden || preferences.some(query => query.matches)) return;
+      try {
+        active = edge.animate([
+          { transform: 'translateX(-128px)', opacity: 0 },
+          { transform: `translateX(${card.clientWidth * .4}px)`, opacity: .2, offset: .5 },
+          { transform: `translateX(${card.clientWidth}px)`, opacity: 0 }
+        ], { duration: 1800, iterations: 1, easing: 'ease-in-out' });
+        active.onfinish = stopSweep;
+      } catch { stopSweep(); }
+    };
+    // Returning to the page, resizing or changing preferences never starts a loop.
+    document.addEventListener('visibilitychange', stopSweep);
+    window.addEventListener('pagehide', stopSweep);
+    preferences.forEach(query => {
+      if (query.addEventListener) query.addEventListener('change', stopSweep);
+      else if (query.addListener) query.addListener(stopSweep);
+    });
+    window.OnboardingShine = { stepChanged: playSweep };
+    playSweep();
+    return;
+  }
   function stop() {
     clearTimeout(timer); timer = null;
   }

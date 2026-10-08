@@ -1,0 +1,14 @@
+const fs = require('fs');
+const assert = require('node:assert/strict');
+const read = name => fs.readFileSync('[DASHBOARD]/' + name, 'utf8');
+const index = read('index.html');
+const symbols = [...index.matchAll(/<symbol id="(i-[^"]+)"[^>]*>/g)];
+assert.ok(symbols.length >= 25);
+for (const [, id] of symbols) assert.equal(symbols.filter(m => m[1] === id).length, 1, 'Unique ' + id);
+for (const file of ['setup.html', 'login.html', 'store.js']) assert.doesNotMatch(read(file), /<symbol/, 'Only index owns icons');
+for (const name of ['files','apps','settings','photos','backup','machines','tv','drive','home','relay','disk','net','person','power','eye']) assert.ok(symbols.some(m => m[1] === 'i-' + name));
+for (const file of ['setup.html', 'login.html', 'index.html']) assert.match(read(file), /viewport-fit=cover/);
+for (const file of ['onboarding.css', 'desktop.css']) for (const edge of ['top','right','bottom','left']) assert.ok(read(file).includes('safe-area-inset-' + edge));
+console.log('Phone/icon source contract passed. Running rendered cases.');
+process.env.JENER_UI_FIXTURE = 'phone-polish';
+require('../setup/check-welcome-browser.cjs');

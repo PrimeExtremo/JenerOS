@@ -3,6 +3,7 @@
   const $ = id => document.getElementById(id);
   const labels = ['Welcome', 'Create account', 'Introducing JenerOS'];
   let step = 0, info, network, busy = false, finished = false, submitted = false;
+  let shownStep = 0;
   let code = new URLSearchParams(location.search).get('code') || '';
   const touched = new Set();
   function invalidUnicode(value) {
@@ -109,6 +110,10 @@
     $('applying').hidden = !busy;
     validateFields();
     if (focus && !busy) document.querySelector(`[data-step="${step}"] h1`).focus();
+    if (step !== shownStep) {
+      shownStep = step;
+      window.OnboardingShine?.stepChanged();
+    }
   }
   function choices(field, values, selected, preserve = false) {
     SetupChoices.set(field, values, selected, preserve);
@@ -193,12 +198,15 @@
       for (const el of $('fixedFields').querySelectorAll('input, select')) el.required = fixed;
     });
   });
-  $('togglePassword').addEventListener('click', () => {
-    const visible = $('password').type === 'password';
-    for (const id of ['password', 'passwordConfirm']) $(id).type = visible ? 'text' : 'password';
-    $('togglePassword').textContent = visible ? 'Hide passwords' : 'Show passwords';
-    $('togglePassword').setAttribute('aria-pressed', String(visible));
-  });
+  for (const id of ['password', 'passwordConfirm']) {
+    const eye = $(id + 'Eye');
+    eye.addEventListener('click', () => {
+      const visible = $(id).type === 'password';
+      $(id).type = visible ? 'text' : 'password';
+      eye.setAttribute('aria-pressed', String(visible));
+      eye.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+    });
+  }
   $('back').addEventListener('click', () => {
     if (finishSlide) { finishSlide(); return; }
     slide(-1, () => { step--; error(''); show(); });

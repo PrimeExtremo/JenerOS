@@ -51,6 +51,8 @@ jobs:
             .scratch/setup/check-welcome.cjs \
             .scratch/setup/check-click-shim.cjs \
             .scratch/setup/check-shine.cjs \
+            .scratch/setup/check-kiosk-shine.cjs \
+            .scratch/phone-polish/check-phone-polish.cjs \
             .scratch/setup/check-phone.cjs \
             .scratch/setup/check-qr.cjs \
             .scratch/setup/check-rollback.cjs \
@@ -58,6 +60,7 @@ jobs:
             .scratch/setup/check-kiosk-fallback.cjs \
             .scratch/setup/check-unit-ordering.cjs \
             .scratch/setup/check-validation.cjs \
+            .scratch/setup/check-icons-public.cjs \
             .scratch/zimaos/check-desktop.cjs \
             .scratch/zimaos/check-login.cjs \
             .scratch/zimaos/check-onboarding.cjs \
