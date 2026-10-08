@@ -292,7 +292,19 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 .field-error { margin-top: 8px; color: var(--accent-ink); font-size: 0.92rem; }
 .field [aria-invalid="true"] { border-color: var(--accent-ink); }
 .privacy-choice { display: flex; align-items: start; gap: 12px; margin-top: 24px; line-height: 1.6; cursor: pointer; }
-.privacy-choice input { flex: none; width: 24px; height: 24px; margin-top: 2px; }
+.privacy-check { display: grid; flex: none; width: 24px; height: 24px; }
+.privacy-check > input, .privacy-check-box { grid-area: 1 / 1; width: 24px; height: 24px; margin: 0; }
+.privacy-check > input { opacity: 0; cursor: pointer; z-index: 1; }
+.privacy-check-box { display: grid; place-items: center; border: 2px solid var(--soft); border-radius: 5px; background: var(--paper); pointer-events: none; }
+.privacy-check-box svg { display: block; width: 18px; height: 18px; fill: none; stroke: var(--on-accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
+.privacy-check > input:checked + .privacy-check-box { border-color: var(--accent-solid); background: var(--accent-solid); }
+.privacy-check > input:checked + .privacy-check-box svg { visibility: visible; }
+.privacy-check > input:focus + .privacy-check-box { outline: 3px solid var(--accent-ink); outline-offset: 4px; }
+@media (forced-colors: active) {
+  .privacy-check-box { forced-color-adjust: none; border-color: CanvasText; background: Canvas; }
+  .privacy-check > input:checked + .privacy-check-box { border-color: Highlight; background: Highlight; }
+  .privacy-check-box svg { stroke: HighlightText; }
+}
 .privacy-choice a, .privacy-policy a { color: var(--accent-ink); text-underline-offset: 3px; }
 .privacy-main { max-width: 980px; }
 .privacy-policy > p, .privacy-policy > ul { margin-top: 16px; line-height: 1.7; }
@@ -318,7 +330,7 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
 .setup-error { color: var(--accent-ink); border: 1px solid var(--accent); border-radius: 14px; padding: 14px; margin-top: 22px; }
 .network-options { margin: 24px 0 0; padding: 0; border: 0; display: grid; gap: 12px; }
 .setup-choice { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; cursor: pointer; }
-.setup-choice:has(input:checked) { border-color: var(--accent); background: var(--hover); }
+.setup-choice.is-selected { border-color: var(--accent); background: var(--hover); }
 .setup-choice input { flex: none; width: 22px; height: 22px; }
 .setup-choice small { display: block; margin-top: 4px; color: var(--soft); font-size: 0.95rem; }
 .setup-choice .tag { margin-left: 10px; }
@@ -353,3 +365,8 @@ main { max-width: 1140px; margin: 0 auto; padding: 52px 16px 120px; outline: non
   .screen-eyebrow { font-size: 0.88rem; }
   .screen-footer { flex-direction: column; gap: 4px; }
 }
+
+/* Page modals still work when HTMLDialogElement/showModal is missing. */
+dialog:not([open]) { display: none; }
+.modal-shade { position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, .6); }
+dialog.modal-fallback { position: fixed; top: 50%; left: 50%; right: auto; bottom: auto; transform: translate(-50%, -50%); margin: 0; z-index: 1001; max-height: calc(100vh - 28px); overflow: auto; animation: none !important; }

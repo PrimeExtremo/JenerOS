@@ -112,7 +112,7 @@
       picker.close();
       picker.prefix = ''; picker.typedAt = 0;
       picker.items = values.map((value, i) => {
-        const item = { value: value.id || value, name: value.name || value.replaceAll('_', ' ') };
+        const item = { value: value.id || value, name: value.name || value.replace(/_/g, ' ') };
         item.node = document.createElement('div');
         item.node.id = field.id + '-option-' + i;
         item.node.setAttribute('role', 'option');
@@ -166,13 +166,13 @@
   }
   $('privacyLink').addEventListener('click', e => {
     e.preventDefault(); e.stopPropagation();
-    sheet.showModal();
+    JenerUI.open(sheet);
     $('privacyClose').focus();
     loadPolicy();
   });
-  $('privacyClose').addEventListener('click', () => sheet.close());
+  $('privacyClose').addEventListener('click', () => JenerUI.close(sheet));
   $('privacyRetry').addEventListener('click', loadPolicy);
-  sheet.addEventListener('cancel', e => { e.preventDefault(); sheet.close(); });
+  sheet.addEventListener('cancel', e => { e.preventDefault(); JenerUI.close(sheet); });
   sheet.addEventListener('close', () => $('acceptedPrivacy').focus());
   // The modal owns directional navigation; box-ui may only visit this sheet.
   sheet.addEventListener('keydown', e => {

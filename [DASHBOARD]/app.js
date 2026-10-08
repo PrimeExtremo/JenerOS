@@ -58,19 +58,19 @@ const JenerMotion = window.JenerMotion = (() => {
   }
   function open(dialog) {
     dialog.closing?.cancel();
-    if (!dialog.open) dialog.showModal();
+    if (!dialog.open) JenerUI.open(dialog);
   }
   // Plays the close animation, then calls the real close(). Reopening cancels it.
   function close(dialog) {
     if (!dialog?.open || dialog.closing) return;
-    if (!can(dialog) || typeof dialog.getAnimations !== 'function') { dialog.close(); return; }
+    if (!can(dialog) || typeof dialog.getAnimations !== 'function') { JenerUI.close(dialog); return; }
     let cancelled = false;
     dialog.classList.add('is-closing');
     dialog.closing = { cancel() { cancelled = true; dialog.closing = null; dialog.classList.remove('is-closing'); } };
     const outro = dialog.getAnimations().filter(a => /j-(window|fade)-out/.test(a.animationName || ''));
     Promise.all(outro.map(a => a.finished)).then(() => {
       if (cancelled) return;
-      dialog.closing = null; dialog.classList.remove('is-closing'); dialog.close();
+      dialog.closing = null; dialog.classList.remove('is-closing'); JenerUI.close(dialog);
     }, () => {});
   }
   // Runs fn once a just-opened window has settled, unless focus already moved.
@@ -139,7 +139,7 @@ function toast(message) {
   toastTimer = setTimeout(() => $('toast').classList.remove('show'), 3500);
 }
 async function getJSON(path) {
-  const res = await JenerSession.fetch(path, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+  const res = await JenerSession.fetch(path, { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
   if (!res.ok) throw new Error(res.status);
   return res.json();
 }
@@ -282,13 +282,13 @@ function filterApps() {
   $('searchEmpty').hidden = tiles.some(tile => !tile.hidden);
 }
 function openCatalog() {
-  $('settingsWindow').close(); $('appWindow').close();
+  JenerUI.close($('settingsWindow')); JenerUI.close($('appWindow'));
   JenerStore.open();
 }
 function openApp(id) {
   if (id === 'settings') return openSettings('general');
   if (id === 'catalog') return openCatalog();
-  $('settingsWindow').close();
+  JenerUI.close($('settingsWindow'));
   const builtin = BUILTIN_TILES.find(t => t.id === id);
   const app = appCatalog.find(a => a.id === id);
   $('appWindowTitle').textContent = app?.name || builtin?.name || 'App';
@@ -301,7 +301,7 @@ function openApp(id) {
 function openSettings(page = 'general') {
   const titles = { general: 'General', storage: 'Storage', network: 'Network', apps: 'Apps', account: 'Account', power: 'Power' };
   if (!titles[page]) page = 'general';
-  $('appWindow').close();
+  JenerUI.close($('appWindow'));
   $('settingsFeedback').hidden = true;
   const win = $('settingsWindow'), opening = !win.open || !!win.closing;
   const panels = [...document.querySelectorAll('[data-settings-panel]')];
@@ -357,7 +357,7 @@ $('sshToggle').addEventListener('change', async () => {
   if (sshSubmitting || !sshInfo?.available || sshInfo.devMode) { renderSSH(); return; }
   sshError = ''; sshSubmitting = true; renderSSH();
   try {
-    const res = await JenerSession.fetch('/api/settings/ssh', { method: 'POST', headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ enabled }), signal: AbortSignal.timeout(8000) });
+    const res = await JenerSession.fetch('/api/settings/ssh', { method: 'POST', headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ enabled }), signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
     if (!res.ok) { const data = await res.json(); throw new Error(data.error || 'Could not change developer access.'); }
     sshInfo = { ...sshInfo, requested: true };
   } catch (err) { sshError = err.message || 'Could not reach your box. Please try again.'; }
@@ -487,7 +487,12 @@ for (const [id, key] of [['appearance', 'theme'], ['timezone', 'timezone'], ['ti
 }
 document.querySelectorAll('[name="wallpaper"]').forEach(input => {
   input.checked = input.value === preferences.wallpaper;
-  input.addEventListener('change', () => { preferences.wallpaper = input.value; savePreferences(); });
+  input.closest('label').classList.toggle('is-selected', input.checked);
+  input.addEventListener('change', () => {
+    preferences.wallpaper = input.value;
+    document.querySelectorAll('[name="wallpaper"]').forEach(radio => radio.closest('label').classList.toggle('is-selected', radio.checked));
+    savePreferences();
+  });
 });
 document.querySelectorAll('[data-widget-toggle]').forEach(input => input.addEventListener('change', () => {
   preferences.widgets[input.dataset.widgetToggle] = input.checked; savePreferences(); applyWidgets();
@@ -541,7 +546,7 @@ function autoNotice() {
 }
 function syncNotices() {
   const stops = noticeStops();
-  const max = stops.at(-1);
+  const max = stops[stops.length - 1];
   if ($('noticeDots').children.length !== stops.length) {
     $('noticeDots').innerHTML = stops.map((_, i) => `<button data-notice="${i}" aria-label="Notice page ${i + 1}"></button>`).join('');
   }
@@ -576,7 +581,7 @@ document.addEventListener('keydown', e => {
   if (!dir || editing || e.altKey || e.ctrlKey || e.metaKey) return;
   const here = document.activeElement;
   if (here === track && ['ArrowLeft', 'ArrowRight'].includes(e.key)) { e.preventDefault(); notice(noticeIndex + dir[0]); return; }
-  const scope = dialogs.at(-1) || document;
+  const scope = dialogs[dialogs.length - 1] || document;
   const items = [...scope.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), [tabindex="0"]')].filter(el => el !== here && el.getClientRects().length);
   if (!items.length) return;
   if (!here || here === document.body || here.matches('h3')) { e.preventDefault(); items[0].focus(); return; }

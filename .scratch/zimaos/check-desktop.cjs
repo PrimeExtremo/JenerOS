@@ -66,6 +66,7 @@ class Element {
   setAttribute(name, value) { this.attributes[name] = value; }
   removeAttribute(name) { delete this.attributes[name]; }
   querySelector(name) { if (name === '.tile-name') return { textContent: this.textContent }; return this.child ||= new Element(); }
+  closest() { return this; }
   focus() {}
   showModal() { this.open = true; }
   close() { this.open = false; }
@@ -92,6 +93,7 @@ const context = vm.createContext({ window: { addEventListener() {} }, document: 
   JenerRollback: { bind() { return { pending: false, render() {}, offline() {} }; } },
   fetch: async (url, options) => { requests.push({ url, options }); return { ok: true, json: async () => ({}) }; },
 });
+context.JenerUI = { open: d => d.showModal(), close: d => d.open && d.close() };
 context.JenerSession = { fetch: (...args) => context.fetch(...args) };
 vm.runInContext(source.slice(0, source.indexOf('// ---------- start ----------')), context);
 const run = code => vm.runInContext(code, context);

@@ -5,7 +5,7 @@
   // Wrong password: three firm ±8px shakes in 320ms. The error text says the same thing.
   function shake() {
     const fields = document.querySelector?.('.account-fields');
-    if (typeof fields?.animate !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof fields?.animate !== 'function' || typeof matchMedia !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ease = getComputedStyle(document.documentElement).getPropertyValue('--ease').trim();
     fields.animate([0, -8, 8, -8, 8, -8, 8, 0].map(x => ({ transform: `translateX(${x}px)`, easing: ease })), { duration: 320 });
   }
@@ -37,7 +37,7 @@
     try {
       const res = await fetch('/api/auth/login', { method: 'POST', cache: 'no-store',
         headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }), signal: AbortSignal.timeout(15000) });
+        body: JSON.stringify({ username, password }), signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(15000) : undefined });
       $('loginPassword').value = '';
       if (res.status === 429) {
         const seconds = Math.min(60, Math.max(1, Number(res.headers.get('Retry-After')) || 60));

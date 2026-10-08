@@ -24,7 +24,9 @@ document.addEventListener('keydown', (e) => {
   if (!dir || e.altKey || e.ctrlKey || e.metaKey) return;
   const here = document.activeElement;
   if (here?.matches('input, textarea, select')) return;
-  const items = [...document.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled)')].filter(el => el !== here && el.getClientRects().length);
+  const dialogs = [...document.querySelectorAll('dialog[open]')];
+  const scope = dialogs[dialogs.length - 1] || document;
+  const items = [...scope.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled)')].filter(el => el !== here && el.getClientRects().length);
   if (!items.length) return;
   if (!here || here === document.body || here.matches('h1')) { e.preventDefault(); items[0].focus(); return; }
   const from = here.getBoundingClientRect();
