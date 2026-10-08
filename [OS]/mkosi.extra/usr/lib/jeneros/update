@@ -24,6 +24,14 @@ status() { # state version
 # list only fails when the update source can't be read.
 if ! "$SYSUPDATE" list >/dev/null 2>&1; then
     rm -f /run/jeneros/update.request /run/jeneros/check.request
+    # A reachable server answering 404 means nothing is published yet, not an error.
+    url=$(sed -n 's/^Path=\(https\?:.*\)/\1/p' /usr/lib/sysupdate.d/*.transfer 2>/dev/null | head -n1)
+    code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 15 "${url%/}/SHA256SUMS" 2>/dev/null)
+    if [ "$code" = 404 ]; then
+        write available.json "{\"version\":\"\",\"noRelease\":true,\"checked\":\"$(date -Is)\"}"
+        [ "${1:-}" = apply ] && status uptodate ""
+        exit 0
+    fi
     write available.json "{\"error\":\"Can't reach the update server\",\"checked\":\"$(date -Is)\"}"
     [ "${1:-}" = apply ] && status failed ""
     exit 1

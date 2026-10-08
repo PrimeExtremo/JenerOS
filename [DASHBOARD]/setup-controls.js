@@ -4,6 +4,27 @@
   const $ = id => document.getElementById(id);
   const pickers = new Map();
   let opened;
+  const phoneSheet = $('pickerSheet');
+  const compact = () => typeof matchMedia === 'function' && matchMedia('(max-width: 680px), (max-height: 500px) and (max-width: 960px)').matches;
+  let phoneContent, phoneParent, phoneNext, phoneReturn;
+  function restorePhone() {
+    if (!phoneContent) return;
+    phoneParent.insertBefore(phoneContent, phoneNext);
+    const returnTo = phoneReturn;
+    phoneContent = phoneParent = phoneNext = phoneReturn = null;
+    returnTo.focus();
+  }
+  function closePhone() {
+    if (!phoneContent) return;
+    JenerUI.close(phoneSheet);
+    restorePhone();
+  }
+  function openPhone(content, trigger, title) {
+    phoneContent = content; phoneParent = content.parentNode; phoneNext = content.nextSibling; phoneReturn = trigger;
+    $('pickerTitle').textContent = title;
+    $('pickerContent').append(content);
+    JenerUI.open(phoneSheet);
+  }
   for (const id of ['keymap', 'interface', 'timezone']) {
     const field = $(id), list = $(id + 'List'), button = $(id + 'Button');
     const control = button || list;
@@ -18,6 +39,7 @@
       const item = picker.items[index];
       if (item && (!button || !list.hidden)) {
         control.setAttribute('aria-activedescendant', item.node.id);
+        if (button) list.setAttribute('aria-activedescendant', item.node.id);
         item.node.scrollIntoView({ block: 'nearest' });
       } else control.removeAttribute('aria-activedescendant');
     }
@@ -31,6 +53,7 @@
     }
     function close() {
       if (!button) return;
+      if (phoneContent === list) closePhone();
       list.hidden = true;
       button.setAttribute('aria-expanded', 'false');
       button.removeAttribute('aria-activedescendant');
@@ -42,12 +65,17 @@
       opened = picker;
       list.hidden = false;
       button.setAttribute('aria-expanded', 'true');
+      if (compact()) {
+        openPhone(list, button, $(id + 'Label').textContent);
+        list.tabIndex = 0;
+        list.focus();
+      }
       const selected = picker.items.findIndex(item => item.value === field.value);
       activate(selected < 0 ? 0 : selected);
     }
     Object.assign(picker, { activate, commit, close, open });
     button?.addEventListener('click', () => list.hidden ? open() : close());
-    control.addEventListener('keydown', e => {
+    function onKey(e) {
       // Stop box-ui.js's directional navigation from stealing list keys.
       if (e.altKey || e.ctrlKey || e.metaKey) return;
       const navigation = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
@@ -84,7 +112,9 @@
       }
       activate(index);
       if (!button) commit();
-    });
+    }
+    control.addEventListener('keydown', onKey);
+    if (button) list.addEventListener('keydown', onKey);
     list.addEventListener('click', e => {
       const index = picker.items.findIndex(item => item.node === e.target.closest('[role="option"]'));
       if (index < 0) return;
@@ -101,10 +131,10 @@
     if (picker.active < 0 && picker.items.length) picker.activate(0);
   });
   document.addEventListener('click', e => {
-    if (opened && !opened.button.parentElement.contains(e.target)) opened.close();
+    if (opened && !phoneContent && !opened.button.parentElement.contains(e.target)) opened.close();
   });
   document.addEventListener('focusin', e => {
-    if (opened && !opened.button.parentElement.contains(e.target)) opened.close();
+    if (opened && !phoneContent && !opened.button.parentElement.contains(e.target)) opened.close();
   });
   window.SetupChoices = {
     set(field, values, selected, preserve = false) {
@@ -134,6 +164,15 @@
       picker.activate(picker.items.findIndex(item => item.value === field.value));
     },
   };
+
+  $('timezoneSheetButton')?.addEventListener('click', () => {
+    openPhone($('timezoneFields'), $('timezoneSheetButton'), 'Timezone');
+    $('zoneSearch').focus();
+  });
+  const dismissPicker = () => { if (opened) opened.close(); else closePhone(); };
+  $('pickerClose')?.addEventListener('click', dismissPicker);
+  phoneSheet?.addEventListener('cancel', e => { e.preventDefault(); dismissPicker(); });
+  phoneSheet?.addEventListener('close', () => { if (!phoneSheet.open) { restorePhone(); if (opened) opened.close(); } });
 
   const sheet = $('privacySheet');
   let loaded = false, loading = false;

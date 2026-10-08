@@ -87,7 +87,9 @@ if [ -r "$available" ]; then
     bad=$(printf '%s' "$json" | sed -n 's/.*"rolledBack"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
     new=$(safe_version "$new")
     bad=$(safe_version "$bad")
-    if printf '%s' "$json" | grep -q '"error"[[:space:]]*:'; then
+    if printf '%s' "$json" | grep -q '"noRelease"[[:space:]]*:[[:space:]]*true'; then
+        updates="No updates published yet"
+    elif printf '%s' "$json" | grep -q '"error"[[:space:]]*:'; then
         updates="Can't reach the update server"
     elif [ -n "$bad" ]; then
         updates="$bad rolled back; you're on $version"
