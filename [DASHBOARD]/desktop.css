@@ -223,7 +223,9 @@ html[data-avatar] { color: var(--ink); }
   .clock-widget { display: flex; flex-direction: column; justify-content: center; }
   .widget-settings { grid-column: 1 / -1; }
   .widget { min-width: 0; padding-inline: 12px; }
-  .gauge { width: min(72px, 19vw); height: min(72px, 19vw); }
+  .gauges { gap: 6px; }
+  .gauge-group { flex: 1 1 0; min-width: 0; display: grid; justify-items: center; }
+  .gauge { width: 100%; max-width: 72px; height: auto; aspect-ratio: 1; }
   .gauge strong { font-size: 1rem; }
   .widget-meta { font-size: .6rem; }
   .network-rates { gap: 8px; font-size: .63rem; }
