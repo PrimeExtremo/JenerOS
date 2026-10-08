@@ -6,6 +6,12 @@ set -u
 SYSUPDATE=/usr/lib/systemd/systemd-sysupdate
 DIR=/run/jeneros-update
 mkdir -p "$DIR"
+# The same root-owned lock protects updates and manual slot switching.
+exec 9>"$DIR/action.lock"
+if ! flock -n 9; then
+    rm -f /run/jeneros/update.request /run/jeneros/check.request
+    exit 1
+fi
 
 write() { # file json
     printf "%s\n" "$2" > "$DIR/$1.tmp" && mv "$DIR/$1.tmp" "$DIR/$1"

@@ -1,0 +1,20 @@
+@font-face { font-family: "Bricolage"; src: url("bricolage-grotesque-700.woff2"); font-weight: 700; }
+@page {
+  size: A4; margin: 22mm 20mm 20mm;
+  background: #F6F1E7;
+  @bottom-left { content: "Jener, Inc. · jener.dev"; font: 8pt "DejaVu Sans", sans-serif; color: #6B5D4F; }
+  @bottom-right { content: counter(page) " / " counter(pages); font: 8pt "DejaVu Sans", sans-serif; color: #6B5D4F; }
+}
+body { font: 10pt/1.55 "DejaVu Sans", sans-serif; color: #1F1913; }
+.masthead { display: flex; align-items: center; gap: 8pt; margin-bottom: 18pt; }
+.masthead svg { width: 22pt; height: 22pt; }
+.masthead span { font: 700 13pt "Bricolage", sans-serif; }
+h1 { font: 700 26pt/1.1 "Bricolage", sans-serif; margin: 0 0 8pt; }
+h2 { font: 700 13pt "Bricolage", sans-serif; margin: 16pt 0 4pt; color: #B9562F; break-after: avoid; }
+.note { color: #6B5D4F; }
+ul { padding-left: 14pt; }
+table { width: 100%; border-collapse: collapse; margin: 6pt 0; font-size: 9pt; }
+th, td { text-align: left; vertical-align: top; padding: 5pt 6pt; border-bottom: 0.5pt solid #D9CDB8; }
+th { background: #FFFCF6; }
+tr { break-inside: avoid; }
+a { color: #B9562F; text-decoration: none; }

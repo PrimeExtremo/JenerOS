@@ -4,3 +4,9 @@
 [[]OS]/mkosi.tools/
 .impeccable/review/
 .impeccable/tmp/
+
+# Reference screenshots of other products: never publish
+.scratch/zimaos/shots/
+
+# Local agent worktrees
+.claude/worktrees/

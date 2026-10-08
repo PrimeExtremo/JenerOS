@@ -20,6 +20,7 @@ type Paths struct {
 	StatusDir string // /run/jeneros-update (written by the update script)
 	Request   string // /run/jeneros/update.request (watched by jeneros-update.path)
 	Check     string // /run/jeneros/check.request (watched by jeneros-update-check.path)
+	Rollback  string // /run/jeneros/rollback.request (root selects the other UKI)
 }
 
 var DefaultPaths = Paths{
@@ -27,13 +28,16 @@ var DefaultPaths = Paths{
 	StatusDir: "/run/jeneros-update",
 	Request:   "/run/jeneros/update.request",
 	Check:     "/run/jeneros/check.request",
+	Rollback:  "/run/jeneros/rollback.request",
 }
 
 type Info struct {
-	Current   string          `json:"current"`
-	Available json.RawMessage `json:"available,omitempty"`
-	Status    json.RawMessage `json:"status,omitempty"`
-	Requested bool            `json:"requested"`
+	Current           string          `json:"current"`
+	Available         json.RawMessage `json:"available,omitempty"`
+	Status            json.RawMessage `json:"status,omitempty"`
+	Requested         bool            `json:"requested"`
+	RollbackRequested bool            `json:"rollbackRequested"`
+	Rollback          json.RawMessage `json:"rollback,omitempty"`
 }
 
 func Read(p Paths) (Info, error) {
@@ -50,11 +54,19 @@ func Read(p Paths) (Info, error) {
 	}
 	_, err = os.Stat(p.Request)
 	info.Requested = err == nil
+	if info.Rollback, err = readJSON(filepath.Join(p.StatusDir, "rollback.json")); err != nil {
+		return Info{}, err
+	}
+	_, err = os.Stat(p.Rollback)
+	info.RollbackRequested = err == nil
 	return info, nil
 }
 
 // Request asks the system to download and install the newest version.
 func Request(p Paths) error {
+	if err := actionAvailable(p); err != nil {
+		return err
+	}
 	return os.WriteFile(p.Request, nil, 0o644)
 }
 

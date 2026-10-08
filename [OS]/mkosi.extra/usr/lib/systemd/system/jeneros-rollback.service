@@ -1,0 +1,7 @@
+[Unit]
+Description=Start the other installed JenerOS version
+After=jenerd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/jeneros/rollback

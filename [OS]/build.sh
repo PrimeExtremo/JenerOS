@@ -4,6 +4,7 @@
 #   VERSION=0.1.1 ./[OS]/build.sh         build a specific version
 #   VERSION=0.1.2 BROKEN=1 ./[OS]/build.sh   deliberately broken (jenerd won't start) to test rollback
 #   NO_VMDK=1 ./[OS]/build.sh             skip the VMware disk (update-only builds)
+#   RELEASE=1 TEST_SSH=1 ...              release image + build VM's root key, for VM tests only
 #   RELEASE=1 VERSION=0.3.0 ./[OS]/build.sh   public release: no dev SSH key, no console
 #                                         autologin, updates from GitHub Releases, plus a
 #                                         flashable jeneros_<ver>.img.xz in ~/jeneros-release/<ver>
@@ -17,6 +18,14 @@ OS="$ROOT/[OS]"
 STAGE="$OS/build/staging"
 VM_DIR="${VM_DIR:-$HOME/jeneros-out}"
 VERSION="${VERSION:-$(sed -n 's/^ImageVersion=//p' "$OS/mkosi.conf")}"
+if [[ ! "$VERSION" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+    echo 'VERSION must use letters, numbers, dots, underscores or dashes.' >&2
+    exit 1
+fi
+BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+if [ -n "${SOURCE_DATE_EPOCH:-}" ]; then
+    BUILD_DATE=$(date -u -d "@$SOURCE_DATE_EPOCH" +%Y-%m-%dT%H:%M:%SZ)
+fi
 if [ "${RELEASE:-}" = 1 ]; then
     UPDATES_DIR="${UPDATES_DIR:-$HOME/jeneros-release/$VERSION}"
     UPDATE_URL="${UPDATE_URL:-https://github.com/PrimeExtremo/JenerOS/releases/latest/download/}"
@@ -51,8 +60,10 @@ VERSION_ID=$VERSION
 VERSION_CODENAME=trixie
 IMAGE_ID=jeneros
 IMAGE_VERSION=$VERSION
+BUILD_DATE="$BUILD_DATE"
 HOME_URL="https://jener.dev/os"
 EOF
+sed "s/@VERSION@/$VERSION/g" "$OS/mkosi.extra/usr/lib/issue" > "$STAGE/usr/lib/issue"
 for f in "$OS"/sysupdate.d/*.transfer; do
     sed "s#@UPDATE_URL@#$UPDATE_URL#" "$f" > "$STAGE/usr/lib/sysupdate.d/$(basename "$f")"
 done
@@ -65,6 +76,11 @@ if [ -f "$SPLASH" ]; then
 fi
 
 if [ "${RELEASE:-}" != 1 ]; then
+    # This marker skips first-boot setup even when there is no dev SSH key.
+    # postinst masks the kiosk in /usr so mkosi's dev tty1 autologin still works.
+    mkdir -p "$STAGE/usr/lib/tmpfiles.d"
+    printf 'd /var/lib/jeneros 0755 root root -\nf /var/lib/jeneros/setup-done 0600 root root -\n' \
+        > "$STAGE/usr/lib/tmpfiles.d/jeneros-dev-setup.conf"
     # Dev builds: let the build VM's key log in as root so AIs can debug the test VM.
     KEY="${DEV_SSH_KEY:-$HOME/.ssh/authorized_keys}"
     if [ -f "$KEY" ]; then
@@ -75,6 +91,16 @@ if [ "${RELEASE:-}" != 1 ]; then
         printf 'd /root/.ssh 0700 root root -\nC /root/.ssh/authorized_keys 0600 root root - /usr/share/jeneros/dev/authorized_keys\n' \
             > "$STAGE/usr/lib/tmpfiles.d/jeneros-dev-ssh.conf"
     fi
+fi
+
+if [ "${RELEASE:-}" = 1 ] && [ "${TEST_SSH:-}" = 1 ]; then
+    # Release-like test image that the build VM's key can still log into, for
+    # debugging first boot in a VM. NEVER publish a TEST_SSH build.
+    echo "==> TEST_SSH: root SSH key included (do not publish this build)"
+    mkdir -p "$STAGE/usr/share/jeneros/dev" "$STAGE/usr/lib/tmpfiles.d"
+    cp "$HOME/.ssh/authorized_keys" "$STAGE/usr/share/jeneros/dev/authorized_keys"
+    printf 'd /root/.ssh 0700 root root -\nC /root/.ssh/authorized_keys 0600 root root - /usr/share/jeneros/dev/authorized_keys\n' \
+        > "$STAGE/usr/lib/tmpfiles.d/jeneros-dev-ssh.conf"
 fi
 
 if [ "${BROKEN:-}" = 1 ]; then

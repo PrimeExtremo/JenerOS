@@ -50,3 +50,16 @@ Then tell Claude the username and IP (not the password). Claude adds the `jenero
 | IP | `192.168.27.132` (VMware NAT DHCP; check `C:\ProgramData\VMware\vmnetdhcp.leases` if it changes) |
 | Sync repo → VM | `./[OS]/sync-to-vm.sh` (from Git Bash on Windows) |
 | Build | `ssh jeneros-build 'cd ~/jeneros && ./[OS]/build.sh'` |
+
+## Test first-boot setup with a phone
+
+On the **JenerOS test VM**, open VMware's **VM settings > Network Adapter**
+and choose **Bridged**, with **Connected** and **Connect at power on** checked.
+Bridge to the PC's active home-network adapter if Automatic picks the wrong one.
+The build VM can keep using NAT.
+
+VMware NAT addresses (such as `192.168.27.137`) are unreachable from phones.
+mDNS cannot make NAT reachable. Bridged gives the test box an address on your
+home LAN. Put the phone on the same Wi-Fi/network, avoiding guest isolation.
+Scan the IP QR, then also try `http://jeneros.local` (or the box's chosen name).
+If no address appears, connect the VM's adapter and check the router's DHCP.

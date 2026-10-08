@@ -1,0 +1,21 @@
+
+\e[38;2;217;119;87m  JJJJJ EEEEE N   N EEEEE RRRR   OOO   SSSS
+    J   E     NN  N E     R   R O   O S
+    J   EEEE  N N N EEEE  RRRR  O   O  SSS
+  J J   E     N  NN E     R  R  O   O     S
+   J    EEEEE N   N EEEEE R   R  OOO  SSSS\e[0m
+
+  \e[1mA little box. All yours.\e[0m
+
+  OS         JenerOS @VERSION@
+  Hostname   \n
+  Kernel     \r
+
+  \e[1mYour dashboard\e[0m
+  http://\4
+  http://\n.local
+  http://jeneros.local  (before naming your box)
+
+  SSH is off by default.
+  On the main screen (Ctrl+Alt+F1), press S to switch to
+  the other installed version and reboot, after confirmation.

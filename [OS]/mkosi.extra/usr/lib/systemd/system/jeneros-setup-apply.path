@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch for JenerOS first-boot choices
+After=jenerd.service
+
+[Path]
+PathExists=/run/jeneros/setup.request
+Unit=jeneros-setup-apply.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Your box · JenerOS</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/qrcode.js" defer></script>
+  <script src="box-ui.js" defer></script>
+  <script src="rollback.js" defer></script>
+  <script src="screen.js" defer></script>
+</head>
+<body class="screen-page">
+  <main class="screen-main">
+    <header class="screen-heading"><svg class="screen-logo" viewBox="0 0 512 512" aria-hidden="true"><use href="#j-mark"/></svg><div><h1 id="screenVersion" class="page-title">JenerOS</h1><p class="lede" id="screenState" role="status">Checking on your box…</p></div></header>
+    <section class="setup-card screen-info" aria-label="About your box">
+      <table class="box-facts"><tbody>
+        <tr><th scope="row">Manufacturer</th><td id="screenManufacturer">—</td></tr>
+        <tr><th scope="row">Model</th><td id="screenModel">—</td></tr>
+        <tr><th scope="row">OS</th><td id="screenOS">JenerOS</td></tr>
+        <tr><th scope="row">Build date</th><td id="screenBuildDate">—</td></tr>
+        <tr><th scope="row">Hostname</th><td id="boxName">—</td></tr>
+        <tr><th scope="row">Kernel</th><td id="screenKernel">—</td></tr>
+        <tr><th scope="row">Uptime</th><td id="screenUptime">—</td></tr>
+      </tbody></table>
+      <div class="screen-connect"><div><h2 class="panel-title">Make yourself at home</h2><p class="note" id="phonePrompt" role="status">Finding your dashboard address…</p><a class="box-address" id="screenAddress" hidden></a><a class="box-address" id="screenLocalAddress" hidden></a><p class="note">Scan with your phone's camera on the same home network.</p></div><div class="box-qr" id="screenQR" role="img" aria-label="Dashboard link for your phone" hidden></div></div>
+      <p class="note screen-ssh" id="screenSSH">Checking SSH status…</p>
+    </section>
+    <footer class="screen-footer"><div><button class="pill" id="rollbackBtn" disabled>Start previous version</button><p class="note">Press <kbd>S</kbd> to switch to the other installed version and reboot.</p><p class="note" id="rollbackMessage" role="status"></p></div><span>A little box. All yours.</span></footer>
+  </main>
+  <svg width="0" height="0" aria-hidden="true" class="svg-defs"><defs><path id="j-mark" fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z M144 208H176V240H144Z"/></defs></svg>
+  <noscript><p class="setup-card">Turn on JavaScript to see your box's address and details.</p></noscript>
+</body>
+</html>

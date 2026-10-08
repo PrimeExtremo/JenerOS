@@ -4,19 +4,41 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/PrimeExtremo/JenerOS/core/internal/access"
 	"github.com/PrimeExtremo/JenerOS/core/internal/api"
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
+	"github.com/PrimeExtremo/JenerOS/core/internal/setup"
 	"github.com/PrimeExtremo/JenerOS/core/internal/update"
 )
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "rollback-entry" {
+		entry, err := update.OtherEntry(os.Stdin)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(entry)
+		return
+	}
+	if len(os.Args) > 1 && os.Args[1] == "setup-apply" {
+		if len(os.Args) != 3 || os.Args[2] != setup.DefaultPaths.Request {
+			log.Fatal("usage: jenerd setup-apply /run/jeneros/setup.request")
+		}
+		if err := setup.Apply(setup.DefaultPaths); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
 	addr := flag.String("addr", ":8080", "listen address")
 	storeDir := flag.String("store", "../[STORE]/apps", "app catalog directory")
 	webDir := flag.String("web", "../[DASHBOARD]", "dashboard directory")
+	setupEnabled := flag.Bool("setup", true, "enable first-boot setup (use -setup=false for an unprivileged local preview)")
 	flag.Parse()
 
 	cat, err := catalog.Load(*storeDir)
@@ -28,11 +50,32 @@ func main() {
 	srv := api.New(cat, runtime.NewIncus(), update.DefaultPaths)
 	mux := http.NewServeMux()
 	srv.Register(mux)
+	api.RegisterSSH(mux, access.DefaultPaths)
+	var firstBoot *setup.Manager
+	if *setupEnabled {
+		firstBoot, err = setup.New(setup.DefaultPaths)
+		if err != nil {
+			log.Fatalf("initialize setup: %v", err)
+		}
+		api.RegisterSetup(mux, firstBoot)
+	}
 	web := http.FileServer(http.Dir(*webDir))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Image builds can give every version the same file times, so a cached
 		// dashboard could outlive an OS update. The files are small; skip caching.
 		w.Header().Set("Cache-Control", "no-store")
+		w.Header().Set("Referrer-Policy", "no-referrer")
+		if firstBoot != nil && (r.URL.Path == "/" || r.URL.Path == "/index.html") {
+			done, err := firstBoot.Done()
+			if err != nil {
+				http.Error(w, "Could not read setup state.", 500)
+				return
+			}
+			if !done {
+				http.Redirect(w, r, "/setup.html", http.StatusSeeOther)
+				return
+			}
+		}
 		web.ServeHTTP(w, r)
 	})
 

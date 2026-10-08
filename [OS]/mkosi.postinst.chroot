@@ -8,6 +8,18 @@ set -e
 # Windows transfers do not reliably preserve executable bits for extensionless
 # scripts. Set login-helper modes in the image before /usr becomes read-only.
 chmod 0755 /usr/lib/jeneros/hello /usr/lib/jeneros/hello-profile.sh
+chmod 0755 /usr/lib/jeneros/setup-apply /usr/lib/jeneros/kiosk
+chmod 0755 /usr/lib/jeneros/rollback
+chmod 0755 /usr/lib/jeneros/ssh-access
+# Keep the issue version correct regardless of ExtraTrees overlay ordering.
+version=$(sed -n 's/^IMAGE_VERSION=//p' /usr/lib/os-release | tr -d '"')
+case "$version" in ''|*[!A-Za-z0-9._-]*) echo 'Invalid issue version' >&2; exit 1 ;; esac
+sed -i "s/@VERSION@/$version/g" /usr/lib/issue
+# A conditioned-out service still participates in Conflicts= transactions.
+# Mask the kiosk in dev images so it cannot evict mkosi's tty1 autologin.
+if [ -f /usr/lib/tmpfiles.d/jeneros-dev-setup.conf ]; then
+    ln -sf /dev/null /usr/lib/systemd/system/jeneros-kiosk.service
+fi
 T=/usr/share/plymouth/themes
 mkdir -p "$T/jeneros"
 cp -rn "$T/spinner/." "$T/jeneros/"
@@ -28,9 +40,22 @@ sed -i 's#^Theme=.*#Theme=jeneros#' /usr/share/plymouth/plymouthd.defaults
 # stay disabled on every machine that was already installed.
 U=/usr/lib/systemd/system
 want() { mkdir -p "$U/$2"; ln -sf "../$1" "$U/$2/$1"; }
+want avahi-daemon.service multi-user.target.wants
+want avahi-daemon.socket sockets.target.wants
 want jenerd.service multi-user.target.wants
+want ssh.service multi-user.target.wants
 want jeneros-health.service multi-user.target.wants
 want jeneros-health.service boot-complete.target.requires
 want jeneros-update.path multi-user.target.wants
+want jeneros-rollback.path multi-user.target.wants
+want jeneros-ssh.path multi-user.target.wants
 want jeneros-update-check.path multi-user.target.wants
 want jeneros-update-check.timer timers.target.wants
+want jeneros-setup-apply.path multi-user.target.wants
+want jeneros-kiosk.service multi-user.target.wants
+want jeneros-kiosk.service jenerd.service.wants
+# tty1 belongs to the kiosk in releases; password logins stay available on tty2.
+for tty in 2 3 4 5 6; do
+    mkdir -p "$U/getty.target.wants"
+    ln -sf ../getty@.service "$U/getty.target.wants/getty@tty$tty.service"
+done
