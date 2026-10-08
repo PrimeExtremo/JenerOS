@@ -428,3 +428,12 @@ go test -race ./...
 **Checked**: all steps ran locally on this branch and passed. The first real GitHub run happens on this PR.
 
 **Not done**: branch protection on `main`. No tool in the cloud session can change repo settings, so Jener sets the ruleset by hand. Once this workflow has run once, its `go` and `dashboard` checks can be added as required.
+## 2026-10-08 - Claude - Phone gauges no longer push the page sideways
+
+**Changed**: [DASHBOARD]/desktop.css only, inside `@media (max-width: 680px)`. The CPU/RAM rings now size from their widget instead of the viewport: `.gauge-group` is `flex: 1 1 0; min-width: 0`, `.gauge` is `width: 100%; max-width: 72px; aspect-ratio: 1`, and the `.gauges` gap is 6px.
+
+**Why**: at 320px the old `min(72px, 19vw)` rings plus gap didn't fit in one column of the two-column widget grid. The RAM ring stuck out 3px and the whole page scrolled sideways.
+
+**Checked here**: local jenerd (`-addr 127.0.0.1:8099 -setup=false`) + Playwright Chromium, dark and light. `scrollWidth - innerWidth` is 0 at 320, 360 and 390px (was 3 at 320). Ring size: 54px at 320, 64px at 360, 72px at 390 (unchanged at 390). Numbers stay readable in a 320px screenshot. No widget control is under 44px (rings are not buttons). `node .scratch/zimaos/check-desktop.cjs` passes.
+
+**Untested / Codex should check**: real phones and the kiosk screen; other narrow widths between 300 and 680px by eye.
