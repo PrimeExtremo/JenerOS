@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strconv"
 	"sync"
 
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
@@ -27,6 +28,7 @@ func New(cat *catalog.Catalog, rt runtime.Runtime, updates update.Paths) *Server
 func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/system", s.system)
 	mux.HandleFunc("GET /api/store", s.store)
+	mux.HandleFunc("GET /api/store/{id}/screenshots/{n}", s.screenshot)
 	mux.HandleFunc("POST /api/apps/{id}/install", sameSite(s.install))
 	mux.HandleFunc("DELETE /api/apps/{id}", sameSite(s.remove))
 	mux.HandleFunc("GET /api/update", s.updateInfo)
@@ -66,6 +68,23 @@ func (s *Server) store(w http.ResponseWriter, r *http.Request) {
 		out[i] = storeApp{m, s.rt.Status(m.ID)}
 	}
 	writeJSON(w, http.StatusOK, out)
+}
+
+// screenshot serves an image named in the manifest. Only listed files inside
+// the app folder are reachable (catalog.Load validates the names).
+func (s *Server) screenshot(w http.ResponseWriter, r *http.Request) {
+	n, err := strconv.Atoi(r.PathValue("n"))
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	path, ok := s.cat.Screenshot(r.PathValue("id"), n)
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	http.ServeFile(w, r, path)
 }
 
 func (s *Server) install(w http.ResponseWriter, r *http.Request) {
