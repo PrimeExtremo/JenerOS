@@ -1,4 +1,10 @@
 [Unit]
+# Sockets normally start before basic.target, but this one must follow jenerd
+# (its DynamicUser owns the socket). Without this, boot has an ordering cycle
+# and systemd may drop jenerd.service.
+DefaultDependencies=no
+Before=shutdown.target
+Conflicts=shutdown.target
 Description=JenerOS private owner password check socket
 # Resolve SocketUser only after systemd has allocated jenerd's DynamicUser.
 After=jenerd.service
