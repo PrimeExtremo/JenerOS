@@ -5,6 +5,9 @@ BindsTo=jenerd.service
 PartOf=jenerd.service
 After=jenerd.service plymouth-quit-wait.service systemd-user-sessions.service systemd-logind.service
 Conflicts=getty@tty1.service
+StartLimitIntervalSec=120
+StartLimitBurst=3
+OnFailure=jeneros-kiosk-fallback.service
 
 [Service]
 User=jeneros-kiosk
@@ -15,7 +18,7 @@ StandardOutput=journal
 StandardError=journal
 TTYReset=yes
 TTYVHangup=yes
-TTYVTDisallocate=yes
+TTYVTDisallocate=no
 UtmpIdentifier=tty1
 UtmpMode=user
 RuntimeDirectory=jeneros-kiosk
@@ -25,7 +28,6 @@ Environment=XDG_RUNTIME_DIR=/run/jeneros-kiosk
 # EGL, and a setup/status page doesn't need a GPU. Without this the screen stays black.
 Environment=WLR_RENDERER=pixman LIBGL_ALWAYS_SOFTWARE=1
 EnvironmentFile=-/var/lib/jeneros/kiosk-keyboard
-ExecStartPre=-/usr/bin/plymouth quit
 ExecStart=/usr/lib/jeneros/kiosk
 Restart=always
 RestartSec=3
