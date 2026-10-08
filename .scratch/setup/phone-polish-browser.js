@@ -45,7 +45,9 @@ window.addEventListener('load', async () => {
       $('privacyLink').click(); await pause(50); sheet($('privacySheet'));
       $('privacyClose').click(); await pause(20);
       $('phoneCard').click(); sheet($('phoneSheet')); $('phoneClose').click(); await pause(20);
-      $('acceptedPrivacy').click(); $('next').click(); await pause(600);
+      $('acceptedPrivacy').click(); $('next').click();
+      // The step slides over with motion; wait for it rather than a fixed pause.
+      for (let t = 0; t < 30 && document.querySelector('[data-step="1"]').hidden; t++) await pause(100);
       assert(!document.querySelector('[data-step="1"]').hidden, 'Account step');
       document.querySelector('.box-options').open = true;
       $('keymapButton').click(); await pause(20);

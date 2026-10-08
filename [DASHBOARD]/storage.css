@@ -1,0 +1,100 @@
+/* Original disk drawings, shared warm palette and window motion tokens. */
+.storage-bays-card { display: grid; grid-template-columns: 100px minmax(0, 1fr); align-items: center; gap: 12px; }
+.storage-bays-card p { margin: 5px 0 0; }
+.storage-bays { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.storage-bay { display: grid; justify-items: center; gap: 5px; width: 66px; min-height: 94px; padding: 10px 4px; border: 1px dashed var(--soft); border-radius: 10px; color: var(--soft); font-size: .8rem; }
+.storage-bay.occupied { border-style: solid; border-color: var(--line); background: var(--hover); color: var(--ink); }
+.storage-bay small { color: var(--soft); }
+.storage-disk-icon { width: 34px; height: 34px; color: var(--accent-ink); }
+.empty-bay { width: 28px; height: 34px; border-radius: 4px; background: var(--track); }
+.storage-system-list .setting-row { gap: 12px; }
+.storage-system-list .setting-row > div { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.storage-create-card { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; min-height: 150px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.storage-create-card h4 { font-size: 1.55rem; }
+.storage-create-card p { max-width: 270px; color: var(--soft); }
+.storage-create-card > div:first-child { z-index: 1; }
+.storage-card-art { position: absolute; right: -32px; bottom: -32px; display: grid; gap: 12px; transform: rotate(-18deg); opacity: .13; z-index: -1; }
+.storage-card-art span { display: block; width: 200px; height: 54px; border: 10px solid var(--accent-ink); border-radius: 12px; }
+.desktop .storage-window { width: min(880px, calc(100% - 40px)); padding: 0; max-height: calc(100dvh - 64px); overflow: hidden; }
+.desktop .storage-window[open] { display: flex; flex-direction: column; }
+.storage-window .window-header { flex: none; margin: 0; padding: 18px 24px 12px; align-items: center; }
+.storage-window .window-header h2 { margin: 0; font: 650 1.35rem var(--display); }
+.storage-window .window-header h2:focus { outline: none; }
+.storage-pool .setting-row, .storage-system-list .setting-row { min-height: 28px; }
+.storage-pool .setting-help, .storage-system-list .setting-help { margin: 6px 0 0; }
+.storage-pool .meter-wide, .storage-system-list .meter-wide { margin: 10px 0 0; }
+.storage-eyebrow { color: var(--soft); font-size: .7rem; letter-spacing: .09em; margin: 0 0 6px; }
+.storage-content { padding: 12px 24px 24px; overflow: auto; min-height: 0; overscroll-behavior: contain; }
+.storage-content h3 { margin: 0; font: 650 1.15rem var(--display); }
+.storage-content p { line-height: 1.55; }
+.storage-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--line); flex: none; }
+.storage-window .pill, .storage-create-card .pill, #refreshStorage { min-height: 44px; }
+.storage-actions .pill { white-space: normal; }
+.storage-window input:focus-visible, .storage-table-scroll:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; }
+.storage-choices { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; }
+.storage-choice { position: relative; overflow: hidden; min-height: 300px; padding: 24px 24px 100px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: var(--card); text-align: left; cursor: pointer; transition: background-color var(--t-quick) var(--ease); }
+.storage-choice:hover { background: var(--hover); }
+.storage-choice h3 { font-size: 1.65rem; }
+.storage-choice p { color: var(--soft); }
+.storage-choice-arrow { display: grid; place-items: center; width: 40px; height: 40px; background: var(--accent-solid); color: white; border-radius: 50%; }
+.storage-choice-art { position: absolute; bottom: 16px; left: 24px; display: flex; gap: 10px; opacity: .45; }
+.storage-choice-art svg { width: 54px; height: 54px; }
+.storage-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+.storage-table { width: 100%; min-width: 750px; border-collapse: collapse; font-size: .8rem; }
+.storage-table th, .storage-table td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.storage-table thead { color: var(--soft); font-size: .75rem; }
+.storage-table tbody { background: var(--card); }
+.storage-table small { display: block; margin-top: 5px; font-weight: 400; color: var(--soft); }
+.storage-table label { display: flex; gap: 8px; align-items: center; min-height: 48px; cursor: pointer; }
+.storage-window input[type="radio"], .storage-window input[type="checkbox"] { flex: none; width: 22px; height: 22px; accent-color: var(--accent); }
+.storage-later { color: var(--soft); }
+.storage-speed { display: flex; gap: 3px; align-items: flex-end; height: 22px; }
+.storage-speed i { width: 6px; height: 10px; background: var(--track); border-radius: 2px; }
+.storage-speed i:nth-child(2) { height: 14px; }
+.storage-speed i:nth-child(3) { height: 18px; }
+.storage-speed i:nth-child(4) { height: 22px; }
+.storage-speed .filled { background: var(--sage); }
+.storage-pick-heading, .storage-capacity { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.storage-disk-list { display: grid; gap: 10px; border: 0; margin: 16px 0 24px; padding: 0; }
+.storage-disk { display: flex; gap: 14px; align-items: center; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 16px; cursor: pointer; }
+.storage-disk > span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.storage-disk small { display: block; color: var(--soft); margin-top: 5px; }
+.storage-disk.unavailable { cursor: default; background: transparent; }
+.storage-disk.unavailable input { opacity: .5; }
+.storage-capacity-bar { display: flex; height: 12px; margin-top: 16px; border-radius: 6px; background: var(--track); overflow: hidden; }
+.storage-capacity-bar i:first-child { background: var(--sage); }
+.storage-capacity-bar i:nth-child(2) { background: var(--accent-ink); }
+.storage-summary-card { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; background: var(--card); padding: 20px; border: 1px solid var(--line); border-radius: 12px; }
+.storage-name { display: grid; gap: 10px; margin-top: 22px; }
+.storage-name input { box-sizing: border-box; width: 100%; min-height: 48px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--card); color: var(--ink); }
+.storage-warning { padding: 20px; margin-top: 24px; border: 1px solid var(--accent-ink); border-radius: 12px; }
+.storage-warning ul { padding-left: 20px; overflow-wrap: anywhere; }
+.storage-warning li { margin: 8px 0; }
+.storage-consent { display: flex; align-items: center; gap: 12px; min-height: 48px; cursor: pointer; }
+.storage-error { margin: 0; padding: 12px 24px; color: var(--accent-ink); }
+.storage-progress-art { display: flex; justify-content: center; gap: 20px; padding: 36px 0; }
+.storage-progress-art svg { width: 70px; height: 70px; }
+#storageProgress { width: 100%; height: 12px; margin: 12px 0; accent-color: var(--sage); }
+@media (max-width: 680px), (max-height: 500px) and (max-width: 960px) {
+  .desktop .storage-window { padding: 0 0 max(12px, env(safe-area-inset-bottom)); max-height: min(90dvh, var(--visible-height, 90dvh)); width: 100%; border-radius: 20px 20px 0 0; }
+  .storage-window .window-header { padding: 12px 16px; }
+  .storage-bays-card { grid-template-columns: 1fr; }
+  .storage-content { padding: 8px max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left)); }
+  .storage-actions { padding: 12px 16px; }
+  .storage-choices { grid-template-columns: 1fr; gap: 12px; }
+  .storage-choice { min-height: 185px; padding: 20px 70px 20px 20px; }
+  .storage-choice p { max-width: 290px; }
+  .storage-choice-art { left: auto; right: 10px; bottom: 18px; flex-direction: column; opacity: .2; }
+  .storage-choice-art svg { width: 36px; height: 36px; }
+  .storage-disk { gap: 10px; padding: 12px; flex-wrap: wrap; }
+  .storage-disk > .storage-disk-icon { display: none; }
+  .storage-disk > strong { font-size: .8rem; }
+  .storage-warning { padding: 16px; }
+  .storage-summary-card { flex-direction: column; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .storage-choice { transition: none; } }
+@media (forced-colors: active) {
+  .storage-capacity-bar i, .storage-speed .filled { background: Highlight; }
+  .storage-capacity-bar i:nth-child(2) { background: CanvasText; }
+  .storage-choice-arrow { background: Highlight; color: HighlightText; }
+}
