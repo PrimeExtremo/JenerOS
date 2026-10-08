@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download JenerOS</title>
+<meta name="description" content="Get JenerOS, the free home server OS. What you need, how to flash it with balenaEtcher, and how to try it in a virtual machine.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1F1913" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://jener.dev/download">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JenerOS">
+<meta property="og:title" content="Download JenerOS">
+<meta property="og:description" content="Get JenerOS, the free home server OS. What you need, how to flash it with balenaEtcher, and how to try it in a virtual machine.">
+<meta property="og:url" content="https://jener.dev/download">
+<meta property="og:image" content="https://jener.dev/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The JENEROS wordmark over warm brown ribbons, with the line: Your stuff lives at home.">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="./">
+      <picture>
+        <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+        <img src="assets/logo/j-monogram.svg" width="30" height="30" alt="">
+      </picture>
+      <span>JenerOS</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="download.html" aria-current="page">Download</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="page-head" aria-labelledby="page-title">
+    <div class="wrap">
+      <span class="eyebrow">Download</span>
+      <h1 id="page-title">Download JenerOS</h1>
+      <p>Everything you need to turn a spare PC into your own little cloud.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="release-title">
+    <div class="wrap narrow">
+      <div class="callout" role="note">
+        <strong id="release-title">First preview release coming soon</strong>
+        <p>There is no download yet. When the first preview is ready, it will appear on the GitHub releases page. Until then, you can follow along or build it yourself from the code.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/PrimeExtremo/JenerOS/releases">Releases on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See the code</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="hardware" aria-labelledby="hardware-title">
+    <div class="wrap narrow">
+      <h2 id="hardware-title">What you need</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Part</th><th scope="col">What works</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Computer</th><td>A 64-bit (x86-64) PC with UEFI. Most PCs from 2012 on have it. Old desktops, mini PCs and laptops all work.</td></tr>
+            <tr><th scope="row">Secure Boot</th><td>Turned off in the PC's firmware settings.</td></tr>
+            <tr><th scope="row">Memory</th><td>4 GB or more.</td></tr>
+            <tr><th scope="row">Drive</th><td>A spare drive of 32 GB or more. A USB SSD works too. <strong>Installing erases this drive.</strong></td></tr>
+            <tr><th scope="row">Network</th><td>A cable to your router is easiest for the first start.</td></tr>
+            <tr><th scope="row">Your phone</th><td>Any phone with a camera, on the same home network, to finish setup.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="flash-title">
+    <div class="wrap narrow prose">
+      <h2 id="flash-title">Install on a PC</h2>
+      <p>The download is one file named like <code>jeneros_&lt;version&gt;.img.xz</code>. You don't need to unpack it.</p>
+      <ol>
+        <li>Download the <code>.img.xz</code> file from the <a href="https://github.com/PrimeExtremo/JenerOS/releases">releases page</a>.</li>
+        <li>Install <a href="https://etcher.balena.io">balenaEtcher</a> on your computer. It is free.</li>
+        <li>Connect the drive that the old PC will boot from. You can put it in a USB case for this step.</li>
+        <li>In balenaEtcher, choose <strong>Flash from file</strong> and pick the <code>.img.xz</code>. Then choose <strong>Select target</strong> and pick that drive. Check twice: everything on it will be erased.</li>
+        <li>Press <strong>Flash</strong> and wait until it says it is done.</li>
+        <li>Put the drive in the old PC. In its firmware settings, turn <strong>Secure Boot off</strong> and set it to boot from that drive.</li>
+        <li>Switch the PC on. When JenerOS is ready, the screen shows a QR code. Scan it with your phone and follow the steps.</li>
+      </ol>
+      <p>Prefer Rufus on Windows? It works too. Pick <strong>DD image</strong> mode when it asks.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vm-title">
+    <div class="wrap narrow prose">
+      <h2 id="vm-title">Try it in a virtual machine</h2>
+      <p>Want to look around before you use a real PC? JenerOS runs in VMware, Proxmox and VirtualBox. Unpack the image and convert it for your virtual machine app:</p>
+<pre><code>xz -d jeneros_&lt;version&gt;.img.xz
+qemu-img convert -f raw -O vmdk jeneros_&lt;version&gt;.img jeneros.vmdk     # VMware
+qemu-img convert -f raw -O qcow2 jeneros_&lt;version&gt;.img jeneros.qcow2   # Proxmox or QEMU</code></pre>
+      <ul>
+        <li>Use <strong>UEFI firmware</strong> with Secure Boot off.</li>
+        <li>Give it 2 CPUs and 4 GB of memory.</li>
+        <li>Grow the disk to 32 GB or more before the first start. JenerOS fills the extra space by itself.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="build-title">
+    <div class="wrap narrow prose">
+      <h2 id="build-title">Build it yourself</h2>
+      <p>JenerOS is open source. The build steps are in the <a href="https://github.com/PrimeExtremo/JenerOS#build-it-yourself">project README on GitHub</a>.</p>
+      <p>Found a problem? <a href="https://github.com/PrimeExtremo/JenerOS/issues">Tell us on GitHub</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="./">
+        <picture>
+          <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo/j-monogram.svg" width="26" height="26" alt="">
+        </picture>
+        <span>JenerOS</span>
+      </a>
+      <p>Your stuff lives at home.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS/blob/main/LICENSE">License: GPL-3.0</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <p class="legal">&copy; 2026 Jener, Inc. JenerOS is free software.</p>
+  </div>
+</footer>
+</body>
+</html>
