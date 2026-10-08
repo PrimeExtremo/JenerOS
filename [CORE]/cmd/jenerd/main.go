@@ -8,9 +8,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/PrimeExtremo/JenerOS/core/internal/access"
 	"github.com/PrimeExtremo/JenerOS/core/internal/api"
+	"github.com/PrimeExtremo/JenerOS/core/internal/auth"
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
 	"github.com/PrimeExtremo/JenerOS/core/internal/setup"
@@ -18,6 +20,12 @@ import (
 )
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "auth-helper" {
+		if err := auth.ServeHelper(); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
 	if len(os.Args) == 2 && os.Args[1] == "rollback-entry" {
 		entry, err := update.OtherEntry(os.Stdin)
 		if err != nil {
@@ -38,7 +46,7 @@ func main() {
 	addr := flag.String("addr", ":8080", "listen address")
 	storeDir := flag.String("store", "../[STORE]/apps", "app catalog directory")
 	webDir := flag.String("web", "../[DASHBOARD]", "dashboard directory")
-	setupEnabled := flag.Bool("setup", true, "enable first-boot setup (use -setup=false for an unprivileged local preview)")
+	setupEnabled := flag.Bool("setup", true, "enable first-boot setup (-setup=false skips setup; owner authentication is always required)")
 	flag.Parse()
 
 	cat, err := catalog.Load(*storeDir)
@@ -49,6 +57,8 @@ func main() {
 
 	srv := api.New(cat, runtime.NewIncus(), update.DefaultPaths)
 	mux := http.NewServeMux()
+	sessions := auth.New()
+	api.RegisterAuth(mux, sessions)
 	srv.Register(mux)
 	api.RegisterSSH(mux, access.DefaultPaths)
 	var firstBoot *setup.Manager
@@ -76,9 +86,21 @@ func main() {
 				return
 			}
 		}
+		_, signedIn := sessions.Owner(r)
+		if !signedIn && (r.URL.Path == "/" || r.URL.Path == "/index.html") {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
+		if r.URL.Path == "/login" {
+			r = r.Clone(r.Context())
+			r.URL.Path = "/login.html"
+		}
 		web.ServeHTTP(w, r)
 	})
 
 	log.Printf("JenerOS listening on %s", *addr)
-	log.Fatal(http.ListenAndServe(*addr, mux))
+	handler := api.OwnerOnly(sessions, mux)
+	server := &http.Server{Addr: *addr, Handler: handler, ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout: 15 * time.Second, WriteTimeout: 20 * time.Second, IdleTimeout: 60 * time.Second}
+	log.Fatal(server.ListenAndServe())
 }

@@ -1,0 +1,12 @@
+[Unit]
+Description=JenerOS private owner password check socket
+# Resolve SocketUser only after systemd has allocated jenerd's DynamicUser.
+After=jenerd.service
+BindsTo=jenerd.service
+
+[Socket]
+ListenStream=/run/jeneros-auth.sock
+SocketMode=0600
+SocketUser=jenerd
+RemoveOnStop=yes
+
