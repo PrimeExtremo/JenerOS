@@ -586,3 +586,8 @@ go test -race ./...
 - Phone: the corner J becomes a static footer under the page, so it never sits over cards (it was already click-through).
 - Shine: moved to shared `shine.css`; `onboarding-shine.js` now also runs on the dashboard in remote browsers only. The box screen never loads it (and the kiosk shows screen.html).
 - Hot-loaded onto the 0.3.8 test VM with a bind mount for Jener to try; next image build includes it.
+
+## 2026-10-08 · Claude · PC Settings layout fix
+- The phone grabber div was a grid child of the PC Settings window, pushing sidebar/body into the wrong cells. `.sheet-grabber` is now display:none outside the phone media query.
+- index.html loaded ui-compat.js with defer, so it ran after app.js; opening /#/settings directly threw "JenerUI is not defined". It now loads before app.js.
+- Seen in Chrome: before live data arrives, Settings briefly shows sample values (LAN 192.168.1.20). Should show neutral placeholders on a real box; small follow-up.
