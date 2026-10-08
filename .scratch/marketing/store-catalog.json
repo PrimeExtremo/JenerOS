@@ -1,0 +1,285 @@
+[
+ {
+  "manifest": 1,
+  "id": "drive",
+  "name": "Drive",
+  "upstream": "Nextcloud",
+  "developer": "Nextcloud",
+  "version": "0.1.0",
+  "added": "2026-10-07",
+  "category": "files",
+  "icon": "drive",
+  "tagline": "Your files, synced to every computer and phone.",
+  "description": "Drive gives every computer and phone in your home one shared place for files. Folders sync in the background, and you can share a link with family. It is built on Nextcloud, a long-running open-source project.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "arch": [
+   "amd64",
+   "arm64"
+  ],
+  "requirements": {
+   "memoryMB": 1024,
+   "diskGB": 10
+  },
+  "services": [
+   {
+    "name": "app",
+    "image": "docker.io/library/nextcloud:stable",
+    "env": {
+     "NEXTCLOUD_TRUSTED_DOMAINS": "drive.${jener.domain}",
+     "POSTGRES_DB": "nextcloud",
+     "POSTGRES_HOST": "${service.db.host}",
+     "POSTGRES_PASSWORD": "${secret.db}",
+     "POSTGRES_USER": "postgres"
+    },
+    "mounts": [
+     {
+      "pool": "files",
+      "path": "/var/www/html/data"
+     }
+    ]
+   },
+   {
+    "name": "db",
+    "image": "docker.io/library/postgres:17",
+    "env": {
+     "POSTGRES_DB": "nextcloud",
+     "POSTGRES_PASSWORD": "${secret.db}"
+    },
+    "mounts": [
+     {
+      "pool": "data",
+      "path": "/var/lib/postgresql/data"
+     }
+    ]
+   }
+  ],
+  "web": {
+   "service": "app",
+   "port": 80
+  },
+  "auth": {
+   "type": "oidc"
+  },
+  "status": "not-installed"
+ },
+ {
+  "manifest": 1,
+  "id": "home",
+  "name": "Home",
+  "upstream": "Home Assistant",
+  "developer": "Open Home Foundation",
+  "version": "0.1.0",
+  "added": "2026-10-07",
+  "category": "home",
+  "icon": "home",
+  "tagline": "Lights, locks, cameras and automations in one place.",
+  "description": "Home brings your lights, plugs, locks, cameras and sensors into one app, even when they come from different brands. Make simple routines like \"lights off at bedtime\". It is built on Home Assistant, a huge open-source community.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "arch": [
+   "amd64",
+   "arm64"
+  ],
+  "requirements": {
+   "memoryMB": 2048,
+   "diskGB": 8
+  },
+  "services": [
+   {
+    "name": "core",
+    "image": "ghcr.io/home-assistant/home-assistant:stable",
+    "mounts": [
+     {
+      "pool": "data",
+      "path": "/config"
+     }
+    ],
+    "devices": [
+     "usb"
+    ],
+    "network": "host"
+   }
+  ],
+  "web": {
+   "service": "core",
+   "port": 8123
+  },
+  "auth": {
+   "type": "header"
+  },
+  "status": "not-installed"
+ },
+ {
+  "manifest": 1,
+  "id": "photos",
+  "name": "Photos",
+  "upstream": "Immich",
+  "developer": "Immich team",
+  "version": "0.1.0",
+  "added": "2026-10-07",
+  "category": "photos",
+  "icon": "photos",
+  "tagline": "Every photo and video, backed up from every device.",
+  "description": "Photos keeps a private copy of every picture and video from your phones, with albums, faces, places and search. Your memories stay on your box, not someone else's cloud. It is built on Immich, a fast-moving open-source project.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "arch": [
+   "amd64",
+   "arm64"
+  ],
+  "requirements": {
+   "memoryMB": 4096,
+   "diskGB": 20
+  },
+  "services": [
+   {
+    "name": "server",
+    "image": "ghcr.io/immich-app/immich-server:release",
+    "env": {
+     "DB_HOSTNAME": "${service.db.host}",
+     "DB_PASSWORD": "${secret.db}",
+     "IMMICH_MACHINE_LEARNING_URL": "http://${service.ml.host}:3003",
+     "REDIS_HOSTNAME": "${service.redis.host}"
+    },
+    "mounts": [
+     {
+      "pool": "photos",
+      "path": "/usr/src/app/upload"
+     }
+    ]
+   },
+   {
+    "name": "ml",
+    "image": "ghcr.io/immich-app/immich-machine-learning:release"
+   },
+   {
+    "name": "redis",
+    "image": "docker.io/valkey/valkey:8"
+   },
+   {
+    "name": "db",
+    "image": "ghcr.io/immich-app/postgres:16-vectorchord0.4.3",
+    "env": {
+     "POSTGRES_DB": "immich",
+     "POSTGRES_PASSWORD": "${secret.db}"
+    },
+    "mounts": [
+     {
+      "pool": "data",
+      "path": "/var/lib/postgresql/data"
+     }
+    ]
+   }
+  ],
+  "web": {
+   "service": "server",
+   "port": 2283
+  },
+  "auth": {
+   "type": "oidc"
+  },
+  "status": "not-installed"
+ },
+ {
+  "manifest": 1,
+  "id": "relay",
+  "name": "Relay",
+  "upstream": "AdGuard Home",
+  "developer": "AdGuard",
+  "version": "0.1.0",
+  "added": "2026-10-07",
+  "category": "network",
+  "icon": "relay",
+  "tagline": "Blocks ads and trackers for every device on your network.",
+  "description": "Relay quietly filters ads and trackers for every device on your home network, including smart TVs and game consoles. Change one setting on your router and everything is covered. It is built on AdGuard Home, an open-source network filter.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "arch": [
+   "amd64",
+   "arm64"
+  ],
+  "requirements": {
+   "memoryMB": 256,
+   "diskGB": 1
+  },
+  "services": [
+   {
+    "name": "dns",
+    "image": "docker.io/adguard/adguardhome:latest",
+    "mounts": [
+     {
+      "pool": "data",
+      "path": "/opt/adguardhome/conf"
+     }
+    ],
+    "ports": [
+     {
+      "host": 53,
+      "container": 53,
+      "protocol": "udp"
+     },
+     {
+      "host": 53,
+      "container": 53,
+      "protocol": "tcp"
+     }
+    ]
+   }
+  ],
+  "web": {
+   "service": "dns",
+   "port": 3000
+  },
+  "auth": {
+   "type": "header"
+  },
+  "status": "not-installed"
+ },
+ {
+  "manifest": 1,
+  "id": "tv",
+  "name": "TV",
+  "upstream": "Jellyfin",
+  "developer": "Jellyfin team",
+  "version": "0.1.0",
+  "added": "2026-10-07",
+  "category": "media",
+  "icon": "tv",
+  "tagline": "Movies and shows streamed to your TVs, phones and Fire TVs.",
+  "description": "TV turns your movies and shows into a tidy library with posters and episode lists, then streams them to TVs, phones and Fire TV sticks. No accounts with outside services needed. It is built on Jellyfin, a free and open-source media server.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "arch": [
+   "amd64",
+   "arm64"
+  ],
+  "requirements": {
+   "memoryMB": 2048,
+   "diskGB": 5
+  },
+  "services": [
+   {
+    "name": "server",
+    "image": "docker.io/jellyfin/jellyfin:latest",
+    "mounts": [
+     {
+      "pool": "media",
+      "path": "/media",
+      "readOnly": true
+     },
+     {
+      "pool": "data",
+      "path": "/config"
+     }
+    ],
+    "devices": [
+     "gpu"
+    ]
+   }
+  ],
+  "web": {
+   "service": "server",
+   "port": 8096
+  },
+  "auth": {
+   "type": "oidc"
+  },
+  "status": "not-installed"
+ }
+]

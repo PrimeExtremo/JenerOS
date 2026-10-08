@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview: a closer look at JenerOS</title>
+<meta name="description" content="Take a tour of JenerOS with real screens: set up from your phone, updates that undo themselves, storage in a few taps and your own app store.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1F1913" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://jener.dev/preview">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/preview.css">
+<!-- Small and blocking on purpose: it picks the 3D story or the still grid before the first paint. -->
+<script src="assets/preview.js"></script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JenerOS">
+<meta property="og:title" content="A closer look at JenerOS">
+<meta property="og:description" content="Real screens from the JenerOS dashboard: phone setup, safe updates, storage and the app store.">
+<meta property="og:url" content="https://jener.dev/preview">
+<meta property="og:image" content="https://jener.dev/assets/video/jeneros-preview-poster.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="The JenerOS dashboard floating on glass over warm brown ribbons.">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="preview-page">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Liquid glass: Chromium bends what is behind small glass pieces with this filter. Other browsers get frosted glass. -->
+<svg class="glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".008 .013" numOctaves="2" seed="11" result="noise"/>
+    <feGaussianBlur in="noise" stdDeviation="3" result="soft"/>
+    <feDisplacementMap in="SourceGraphic" in2="soft" scale="38" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="backdrop" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="./">
+      <picture>
+        <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+        <img src="assets/logo/j-monogram.svg" width="30" height="30" alt="">
+      </picture>
+      <span>JenerOS</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="intro wrap" aria-labelledby="intro-title">
+    <p class="pill">Early preview</p>
+    <h1 id="intro-title">A closer look at JenerOS</h1>
+    <p class="lede">Real screens from the dashboard, the way your family will see them. Scroll to take the tour.</p>
+  </section>
+
+  <div class="story">
+
+    <section class="chapter" data-side="right" aria-labelledby="c1-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" fetchpriority="high" decoding="async" alt="The JenerOS dashboard. On the left: a clock, CPU and memory rings, system disk use and a live network graph. On the right: a search bar, notices about storage and remote access, and app tiles for Files, App Store, Settings, Photos, Backup and Machines.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">Your dashboard</span>
+          <h2 id="c1-title">Your whole box at a glance</h2>
+          <p>The time, how busy your box is, how much space is left and your apps, all on one calm screen.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" data-side="left" aria-labelledby="c2-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/setup-welcome.webp 1280w, assets/shots/setup-welcome@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/setup-welcome-light.webp" srcset="assets/shots/setup-welcome-light.webp 1280w, assets/shots/setup-welcome-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS setup welcome card over ribbon wallpaper. It says Welcome to JenerOS, offers English as the language, a box to accept the privacy policy, a field for the 6-digit code from your box's screen, and a button to use your phone instead.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+            <figure class="plane phone frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-setup.webp 390w, assets/shots/phone-setup@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw">
+                <img src="assets/shots/phone-setup-light.webp" srcset="assets/shots/phone-setup-light.webp 390w, assets/shots/phone-setup-light@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw" width="390" height="844" loading="lazy" decoding="async" alt="The same setup on a phone: Welcome to JenerOS, language, privacy policy, the code field and a big Continue button at the bottom.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">Setup</span>
+          <h2 id="c2-title">Set up from your phone</h2>
+          <p>Your box shows a QR code. Scan it, type the 6-digit code and finish on your phone. No keyboard, no command line.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" data-side="right" aria-labelledby="c3-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-general.webp 1280w, assets/shots/settings-general@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/settings-general-light.webp" srcset="assets/shots/settings-general-light.webp 1280w, assets/shots/settings-general-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="Settings, General page. The box name and address, then JenerOS 0.1.0 with the line: You're up to date, and two buttons: Check now and Start previous version. Below are appearance and wallpaper choices.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">Safe updates</span>
+          <h2 id="c3-title">Updates that undo themselves</h2>
+          <p>Your box keeps two copies of the system. If a new version can't start, it goes back by itself. You can also go back with one button.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" data-side="left" aria-labelledby="c4-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane back frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-storage.webp 1280w, assets/shots/settings-storage@2x.webp 2560w" sizes="(min-width: 900px) 60vw, 80vw">
+                <img src="assets/shots/settings-storage-light.webp" srcset="assets/shots/settings-storage-light.webp 1280w, assets/shots/settings-storage-light@2x.webp 2560w" sizes="(min-width: 900px) 60vw, 80vw" width="1280" height="800" loading="lazy" decoding="async" alt="Settings, Storage page. A row of bays shows the system disk and three 2 to 4 TB disks plus two empty slots, then Your storage, the system disk and a Create storage button.">
+              </picture>
+            </figure>
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/storage-table.webp 1280w, assets/shots/storage-table@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/storage-table-light.webp" srcset="assets/shots/storage-table-light.webp 1280w, assets/shots/storage-table-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="Create storage, step 2 of 4: Find your fit. A table compares Safe (mirror), Fast and safe (stripe plus mirror) and One disk by spare disks, minimum disks, speed, usable space and what each is best for.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">Storage</span>
+          <h2 id="c4-title">Storage in a few taps</h2>
+          <p>See every disk in your box. Pick Safe, Fast and safe or One disk, and each choice is explained in plain words before anything is erased.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" data-side="right" aria-labelledby="c5-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/store-discover.webp 1280w, assets/shots/store-discover@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/store-discover-light.webp" srcset="assets/shots/store-discover-light.webp 1280w, assets/shots/store-discover-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The App Store, Discover page. A featured Photos banner with a Take a look button, then popular apps: Photos, TV, Drive, Home and Relay. Categories run down the left side.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">App store</span>
+          <h2 id="c5-title">Your own app store</h2>
+          <p>Photos, movies, files and your smart home, one tap each. The store is here today, and the apps arrive one by one.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter finale" data-side="left" aria-labelledby="c6-title">
+      <div class="stage">
+        <div class="scene">
+          <div class="rig">
+            <figure class="plane main frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
+                <img src="assets/shots/dashboard.webp" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS dashboard in its other theme, with the same widgets and app tiles.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+            <figure class="plane phone frame">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-dashboard.webp 390w, assets/shots/phone-dashboard@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw">
+                <img src="assets/shots/phone-dashboard-light.webp" srcset="assets/shots/phone-dashboard-light.webp 390w, assets/shots/phone-dashboard-light@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw" width="390" height="844" loading="lazy" decoding="async" alt="The dashboard on a phone: clock, CPU and memory rings, storage and a live network graph in two columns, then the app search and a storage notice.">
+              </picture>
+              <span class="sheen" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+        <div class="caption glass">
+          <span class="eyebrow">Light or dark</span>
+          <h2 id="c6-title">Made for every screen</h2>
+          <p>Warm dark or cream light, on a big monitor or the phone in your pocket. It always feels like home.</p>
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="section" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta">
+        <h2 id="cta-title">Bring your stuff home</h2>
+        <p>The first preview release is coming soon. Follow along on GitHub to hear when it lands.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="download.html">Download</a>
+          <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See it on GitHub</a>
+        </div>
+      </div>
+      <p class="note">Every screen on this page is a real screenshot of the JenerOS dashboard, shown with sample disks and readings. Want it as a video? <a href="assets/video/jeneros-preview.mp4">Download the preview (MP4)</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="./">
+        <picture>
+          <source srcset="assets/logo/j-monogram-light.svg" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo/j-monogram.svg" width="26" height="26" alt="">
+        </picture>
+        <span>JenerOS</span>
+      </a>
+      <p>Your stuff lives at home.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS">GitHub</a></li>
+        <li><a href="https://github.com/PrimeExtremo/JenerOS/blob/main/LICENSE">License: GPL-3.0</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <p class="legal">&copy; 2026 Jener, Inc. JenerOS is free software.</p>
+  </div>
+</footer>
+</body>
+</html>
