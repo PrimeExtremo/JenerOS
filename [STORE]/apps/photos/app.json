@@ -3,10 +3,14 @@
   "id": "photos",
   "name": "Photos",
   "upstream": "Immich",
+  "developer": "Immich team",
   "version": "0.1.0",
-  "category": "media",
+  "added": "2026-10-07",
+  "category": "photos",
   "icon": "photos",
   "tagline": "Every photo and video, backed up from every device.",
+  "description": "Photos keeps a private copy of every picture and video from your phones, with albums, faces, places and search. Your memories stay on your box, not someone else's cloud. It is built on Immich, a fast-moving open-source project.",
+  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
   "arch": [
     "amd64",
     "arm64"
