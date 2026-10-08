@@ -24,6 +24,7 @@
     const protection = profile === 'single' ? 0 : usable;
     return { total, usable, protection, unused: total - usable - protection };
   }
+  const diskReason = d => d.system ? 'System disk' : /partition|data|filesystem/i.test(d.reason || '') ? 'Has data on it' : d.reason;
   const diskArt = () => '<svg class="storage-disk-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-disk"/></svg>';
   function overview() {
     if (!info) return;
@@ -63,7 +64,7 @@
         if ((!job || info.status?.id === job.id || (uncertain && info.status?.id !== previousJob)) && info.status?.state && (!uncertain || info.status.id !== previousJob)) { job = info.status; uncertain = false; }
         overview();
         if (step === 'progress' && win.open) progress();
-        if (step === 'disks' && win.open) render();
+        if (['disks', 'compare'].includes(step) && win.open) render();
         if (step === 'summary' && win.open && selected.size !== chosen().length) {
           erase = false; $('storageErase').checked = false; updateSummary();
           error('A selected disk changed. Go back and check your disks before continuing.');
@@ -96,9 +97,10 @@
     if (step === 'choice') {
       content.innerHTML = `<div class="storage-choices"><button class="storage-choice" data-storage-choice="raid1"><h3>Combine</h3><p>Bring several disks together. Keep an extra copy of your files across your disks.</p><span class="storage-choice-arrow" aria-hidden="true">→</span><span class="storage-choice-art" aria-hidden="true">${diskArt().repeat(4)}</span></button><button class="storage-choice" data-storage-choice="single"><h3>Use one disk</h3><p>Give one empty disk a fresh start. Simple extra space, without a second copy.</p><span class="storage-choice-arrow" aria-hidden="true">→</span><span class="storage-choice-art" aria-hidden="true">${diskArt()}</span></button></div>`;
     } else if (step === 'compare') {
-      content.innerHTML = `<p class="muted">Choose what matters most to you.</p><div class="storage-table-scroll" tabindex="0" role="region" aria-label="Storage layout comparison, scroll for more columns"><table class="storage-table"><caption class="sr-only">Storage layouts</caption><thead><tr><th scope="col">Layout</th><th scope="col">Spare disks</th><th scope="col">Min disks</th><th scope="col">Speed</th><th scope="col">Usable</th><th scope="col">Can grow</th><th scope="col">Best for</th></tr></thead><tbody>${Object.entries(profiles).map(([id, p]) => `<tr><th scope="row"><label><input type="radio" name="storageProfile" value="${id}" ${id === profile ? 'checked' : ''}><span><strong>${p.title}</strong><small>${p.label}</small></span></label></th><td>0 dedicated<small>${id === 'single' ? 'No protection' : '1 disk can fail'}</small></td><td>${p.min}${id === 'single' ? '' : '+'}</td><td><span class="storage-speed" role="img" aria-label="${id === 'raid10' ? 'Higher potential speed' : 'Everyday speed'}">${[1, 2, 3, 4].map(n => `<i class="${n <= p.speed ? 'filled' : ''}"></i>`).join('')}</span></td><td>${p.capacity}</td><td>Yes<small>Tools coming later</small></td><td>${p.best}</td></tr>`).join('')}<tr class="storage-later"><th scope="row">RAID5 / RAID6<small>Coming later</small></th><td colspan="6">Not available. These Btrfs layouts do not meet our safety bar.</td></tr></tbody></table></div><p class="setting-help">Protection uses space across your disks, not a dedicated spare. It helps with one disk failing; keep a separate backup too. Speed depends on your disks and workload. Growing a pool is not available in this wizard yet.</p>`;
+      content.innerHTML = `<p class="muted">Choose what matters most to you.</p><div class="storage-table-scroll" tabindex="0" role="region" aria-label="Storage layout comparison, scroll for more columns"><table class="storage-table"><caption class="sr-only">Storage layouts</caption><thead><tr><th scope="col">Layout</th><th scope="col">Spare disks</th><th scope="col">Min disks</th><th scope="col">Speed</th><th scope="col">Usable</th><th scope="col">Can grow</th><th scope="col">Best for</th></tr></thead><tbody>${Object.entries(profiles).map(([id, p]) => `<tr class="${eligible().length < p.min ? 'unavailable' : ''}"><th scope="row"><label><input type="radio" name="storageProfile" value="${id}" ${eligible().length < p.min ? 'disabled' : ''} ${id === profile ? 'checked' : ''}><span><strong>${p.title}</strong><small>${eligible().length < p.min ? `Needs ${p.min} disk${p.min === 1 ? '' : 's'}` : p.label}</small></span></label></th><td>0 dedicated<small>${id === 'single' ? 'No protection' : '1 disk can fail'}</small></td><td>${p.min}${id === 'single' ? '' : '+'}</td><td><span class="storage-speed" role="img" aria-label="${id === 'raid10' ? 'Higher potential speed' : 'Everyday speed'}">${[1, 2, 3, 4].map(n => `<i class="${n <= p.speed ? 'filled' : ''}"></i>`).join('')}</span></td><td>${p.capacity}</td><td>Yes<small>Tools coming later</small></td><td>${p.best}</td></tr>`).join('')}<tr class="storage-later"><th scope="row">RAID5 / RAID6<small>Coming later</small></th><td colspan="6">Not available. These Btrfs layouts do not meet our safety bar.</td></tr></tbody></table></div><p class="setting-help">Protection uses space across your disks, not a dedicated spare. It helps with one disk failing; keep a separate backup too. Speed depends on your disks and workload. Growing a pool is not available in this wizard yet.</p>`;
+      $('storageNext').disabled = eligible().length < profiles[profile].min;
     } else if (step === 'disks') {
-      content.innerHTML = `<div class="storage-pick-heading"><div><h3>${profiles[profile].title}</h3><p class="muted">Choose ${profile === 'single' ? 'one empty disk' : profiles[profile].min + ' or more empty disks'}.</p></div><button class="pill" data-storage-recommend>Use recommended</button></div><fieldset class="storage-disk-list"><legend class="sr-only">Choose disks to erase</legend>${(info?.disks || []).map(d => `<label class="storage-disk ${!d.eligible ? 'unavailable' : ''}"><input type="${profile === 'single' ? 'radio' : 'checkbox'}" name="storageDisk" value="${esc(d.path)}" ${!d.eligible ? 'disabled' : ''} ${selected.has(d.path) ? 'checked' : ''}>${diskArt()}<span><strong>${esc(d.model || 'Disk')}</strong><small>${esc(d.path)} · ${d.rotational ? 'Hard disk' : 'Solid state'}${d.transport ? ' · ' + esc(d.transport) : ''}${d.serial ? ' · ' + esc(d.serial) : ''}</small><small>${d.eligible ? 'Empty · ready to use' : esc(d.reason)}</small></span><strong>${size(d.size)}</strong></label>`).join('') || '<p>No disks found. Connect an empty disk, then refresh Storage.</p>'}</fieldset><div id="storageEstimate" aria-live="polite"></div>`;
+      content.innerHTML = `<div class="storage-pick-heading"><div><h3>${profiles[profile].title}</h3><p class="muted">Choose ${profile === 'single' ? 'one empty disk' : profiles[profile].min + ' or more empty disks'}.</p></div><button class="pill" data-storage-recommend>Use recommended</button></div><fieldset class="storage-disk-list"><legend class="sr-only">Choose disks to erase</legend>${(info?.disks || []).map(d => `<label class="storage-disk ${!d.eligible ? 'unavailable' : ''}"><input type="${profile === 'single' ? 'radio' : 'checkbox'}" name="storageDisk" value="${esc(d.path)}" ${!d.eligible ? 'disabled' : ''} ${selected.has(d.path) ? 'checked' : ''}>${diskArt()}<span><strong>${esc(d.model || 'Disk')}</strong><small>${esc(d.path)} · ${d.rotational ? 'Hard disk' : 'Solid state'}${d.transport ? ' · ' + esc(d.transport) : ''}${d.serial ? ' · ' + esc(d.serial) : ''}</small><small>${d.eligible ? 'Empty · ready to use' : esc(diskReason(d))}</small></span><strong>${size(d.size)}</strong></label>`).join('') || '<p>No disks found. Connect an empty disk, then refresh Storage.</p>'}</fieldset><div id="storageEstimate" aria-live="polite"></div>`;
       $('storageContent').querySelector('[data-storage-recommend]').disabled = eligible().length < profiles[profile].min;
       updateEstimate();
     } else if (step === 'summary') {
@@ -156,6 +158,7 @@
     if (step === 'progress') return close();
     if (step === 'summary') return create();
     if (step === 'disks' && !validCount()) return;
+    if (step === 'compare' && eligible().length < profiles[profile].min) return;
     step = step === 'compare' ? 'disks' : 'summary'; erase = false; render();
   });
   $('storageContent').addEventListener('click', event => {
@@ -170,7 +173,7 @@
   });
   $('storageContent').addEventListener('change', event => {
     const input = event.target;
-    if (input.name === 'storageProfile') { profile = input.value; selected.clear(); }
+    if (input.name === 'storageProfile' && !input.disabled) { profile = input.value; selected.clear(); $('storageNext').disabled = eligible().length < profiles[profile].min; }
     if (input.name === 'storageDisk') {
       if (profile === 'single') selected.clear();
       if (input.checked) selected.set(input.value, eligible().find(d => d.path === input.value)?.identity); else selected.delete(input.value);

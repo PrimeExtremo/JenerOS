@@ -15,8 +15,8 @@
 <link rel="preload" href="assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/preview.css">
-<!-- Small and blocking on purpose: it picks the 3D story or the still grid before the first paint. -->
-<script src="assets/preview.js"></script>
+<!-- The still grid is the default. Motion starts only after the story is ready. -->
+<script src="assets/preview.js" defer></script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="JenerOS">
 <meta property="og:title" content="A closer look at JenerOS">
@@ -31,17 +31,14 @@
 <body class="preview-page">
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- Liquid glass: Chromium bends what is behind small glass pieces with this filter. Other browsers get frosted glass. -->
-<svg class="glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
-  <filter id="glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency=".008 .013" numOctaves="2" seed="11" result="noise"/>
-    <feGaussianBlur in="noise" stdDeviation="3" result="soft"/>
-    <feDisplacementMap in="SourceGraphic" in2="soft" scale="38" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
-
-<div class="backdrop" aria-hidden="true"></div>
-
+<svg class="glass-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="glass" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".018 .025" numOctaves="1" seed="11" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/></filter><symbol id="i-files" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V6a2 2 0 0 1 2-2h5l3 3h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8h18"/></symbol>
+<symbol id="i-apps" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></symbol>
+<symbol id="i-photos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="15.5" cy="8" r="1.5"/><path d="m3 16 5-5 6 7 3-3 4 4"/></symbol>
+<symbol id="i-backup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a8 8 0 1 1 0 7M3 4v5h5M12 7v5l3 2"/></symbol>
+<symbol id="i-machines" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01M12 6.5h5M12 17.5h5"/></symbol>
+<symbol id="i-disk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><circle cx="12" cy="10" r="4"/><path d="m12 10 4-4M8 17h5m3 0h.01"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7 8h3m4 0h3M7 16h6m4 0h0"/><circle cx="12" cy="8" r="2"/><circle cx="15" cy="16" r="2"/></symbol></defs></svg>
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="./">
@@ -62,185 +59,15 @@
   </div>
 </header>
 
-<main id="main">
-
-  <section class="intro wrap" aria-labelledby="intro-title">
-    <p class="pill">Early preview</p>
-    <h1 id="intro-title">A closer look at JenerOS</h1>
-    <p class="lede">Real screens from the dashboard, the way your family will see them. Scroll to take the tour.</p>
-  </section>
-
-  <div class="story">
-
-    <section class="chapter" data-side="right" aria-labelledby="c1-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" fetchpriority="high" decoding="async" alt="The JenerOS dashboard. On the left: a clock, CPU and memory rings, system disk use and a live network graph. On the right: a search bar, notices about storage and remote access, and app tiles for Files, App Store, Settings, Photos, Backup and Machines.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">Your dashboard</span>
-          <h2 id="c1-title">Your whole box at a glance</h2>
-          <p>The time, how busy your box is, how much space is left and your apps, all on one calm screen.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" data-side="left" aria-labelledby="c2-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/setup-welcome.webp 1280w, assets/shots/setup-welcome@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/setup-welcome-light.webp" srcset="assets/shots/setup-welcome-light.webp 1280w, assets/shots/setup-welcome-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS setup welcome card over ribbon wallpaper. It says Welcome to JenerOS, offers English as the language, a box to accept the privacy policy, a field for the 6-digit code from your box's screen, and a button to use your phone instead.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-            <figure class="plane phone frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-setup.webp 390w, assets/shots/phone-setup@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw">
-                <img src="assets/shots/phone-setup-light.webp" srcset="assets/shots/phone-setup-light.webp 390w, assets/shots/phone-setup-light@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw" width="390" height="844" loading="lazy" decoding="async" alt="The same setup on a phone: Welcome to JenerOS, language, privacy policy, the code field and a big Continue button at the bottom.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">Setup</span>
-          <h2 id="c2-title">Set up from your phone</h2>
-          <p>Your box shows a QR code. Scan it, type the 6-digit code and finish on your phone. No keyboard, no command line.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" data-side="right" aria-labelledby="c3-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-general.webp 1280w, assets/shots/settings-general@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/settings-general-light.webp" srcset="assets/shots/settings-general-light.webp 1280w, assets/shots/settings-general-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="Settings, General page. The box name and address, then JenerOS 0.1.0 with the line: You're up to date, and two buttons: Check now and Start previous version. Below are appearance and wallpaper choices.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">Safe updates</span>
-          <h2 id="c3-title">Updates that undo themselves</h2>
-          <p>Your box keeps two copies of the system. If a new version can't start, it goes back by itself. You can also go back with one button.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" data-side="left" aria-labelledby="c4-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane back frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-storage.webp 1280w, assets/shots/settings-storage@2x.webp 2560w" sizes="(min-width: 900px) 60vw, 80vw">
-                <img src="assets/shots/settings-storage-light.webp" srcset="assets/shots/settings-storage-light.webp 1280w, assets/shots/settings-storage-light@2x.webp 2560w" sizes="(min-width: 900px) 60vw, 80vw" width="1280" height="800" loading="lazy" decoding="async" alt="Settings, Storage page. A row of bays shows the system disk and three 2 to 4 TB disks plus two empty slots, then Your storage, the system disk and a Create storage button.">
-              </picture>
-            </figure>
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/storage-table.webp 1280w, assets/shots/storage-table@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/storage-table-light.webp" srcset="assets/shots/storage-table-light.webp 1280w, assets/shots/storage-table-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="Create storage, step 2 of 4: Find your fit. A table compares Safe (mirror), Fast and safe (stripe plus mirror) and One disk by spare disks, minimum disks, speed, usable space and what each is best for.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">Storage</span>
-          <h2 id="c4-title">Storage in a few taps</h2>
-          <p>See every disk in your box. Pick Safe, Fast and safe or One disk, and each choice is explained in plain words before anything is erased.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" data-side="right" aria-labelledby="c5-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/store-discover.webp 1280w, assets/shots/store-discover@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/store-discover-light.webp" srcset="assets/shots/store-discover-light.webp 1280w, assets/shots/store-discover-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The App Store, Discover page. A featured Photos banner with a Take a look button, then popular apps: Photos, TV, Drive, Home and Relay. Categories run down the left side.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">App store</span>
-          <h2 id="c5-title">Your own app store</h2>
-          <p>Photos, movies, files and your smart home, one tap each. The store is here today, and the apps arrive one by one.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter finale" data-side="left" aria-labelledby="c6-title">
-      <div class="stage">
-        <div class="scene">
-          <div class="rig">
-            <figure class="plane main frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw">
-                <img src="assets/shots/dashboard.webp" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 900px) 72vw, 94vw" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS dashboard in its other theme, with the same widgets and app tiles.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-            <figure class="plane phone frame">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-dashboard.webp 390w, assets/shots/phone-dashboard@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw">
-                <img src="assets/shots/phone-dashboard-light.webp" srcset="assets/shots/phone-dashboard-light.webp 390w, assets/shots/phone-dashboard-light@2x.webp 780w" sizes="(min-width: 900px) 17vw, 30vw" width="390" height="844" loading="lazy" decoding="async" alt="The dashboard on a phone: clock, CPU and memory rings, storage and a live network graph in two columns, then the app search and a storage notice.">
-              </picture>
-              <span class="sheen" aria-hidden="true"></span>
-            </figure>
-          </div>
-        </div>
-        <div class="caption glass">
-          <span class="eyebrow">Light or dark</span>
-          <h2 id="c6-title">Made for every screen</h2>
-          <p>Warm dark or cream light, on a big monitor or the phone in your pocket. It always feels like home.</p>
-          <span class="sheen" aria-hidden="true"></span>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <section class="section" aria-labelledby="cta-title">
-    <div class="wrap">
-      <div class="cta">
-        <h2 id="cta-title">Bring your stuff home</h2>
-        <p>The first preview release is coming soon. Follow along on GitHub to hear when it lands.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="download.html">Download</a>
-          <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">See it on GitHub</a>
-        </div>
-      </div>
-      <p class="note">Every screen on this page is a real screenshot of the JenerOS dashboard, shown with sample disks and readings. Want it as a video? <a href="assets/video/jeneros-preview.mp4">Download the preview (MP4)</a>.</p>
-    </div>
-  </section>
-
-</main>
+<main id="main"><div class="tour-tools" hidden><button type="button" id="motion-toggle" aria-pressed="false">Still view</button><button type="button" id="trailer-pause" hidden>Pause trailer</button><a href="#finale">Skip to download</a><span id="trailer-status" role="status"></span></div><div class="story"><section class="chapter chapter-hero" id="hero" data-scene="hero" data-beats="8" aria-labelledby="hero-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><div class="hero-brand"><h1 class="sr-only">JenerOS</h1><svg class="wordmark" viewBox="0 0 1136 144" aria-hidden="true"><g class="letter"><path d="M0 0H120V112L88 144H0V96H32V112H72L88 96V32H0Z"/></g><g class="letter"><path transform="translate(160 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/></g><g class="letter"><path transform="translate(320 0)" d="M0 144V0H32L96 88V0H128V144H96L32 56V144Z"/></g><g class="letter"><path transform="translate(488 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/></g><g class="letter"><path transform="translate(648 0)" fill-rule="evenodd" d="M0 144V0H96L128 32V64L104 88L136 144H98L66 88H32V144ZM32 32V56H84L96 44L84 32Z"/></g><g class="letter"><path transform="translate(824 0)" fill-rule="evenodd" d="M32 0H112L144 32V112L112 144H32L0 112V32ZM44 32L32 44V100L44 112H100L112 100V44L100 32Z"/></g><g class="letter"><path transform="translate(1008 0)" d="M32 0H128V32H44L32 44V56H96L128 88V112L96 144H0V112H84L96 100V88H32L0 56V32Z"/></g></svg><p>Make yourself at home.</p></div><div class="hero-product"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async"  alt="JenerOS dashboard with clock, system readings, storage, network and apps."></picture><span class="specular" aria-hidden="true"></span></figure><div class="box" aria-hidden="true"><div class="box-top"></div><div class="box-front"><img src="assets/logo/j-monogram-light.svg" alt="" width="60" height="60"><i class="power-light"></i><span class="box-slot"></span></div><div class="box-side"></div></div><div class="boot-logo" aria-hidden="true"><img src="assets/logo/j-monogram-light.svg" alt="" width="96" height="96"></div></div><span class="scroll-hint">Scroll to explore <span aria-hidden="true">&darr;</span></span></div><div class="caption"><h2 id="hero-title"><span>Your stuff lives at home.</span></h2><p>A new life for your old PC. One home for the things you love.</p></div></div></section>
+<section class="chapter chapter-macro" id="macro" data-scene="macro" data-beats="4" aria-labelledby="macro-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><div class="bar-macro"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async"  alt="A closer look at the dashboard and its top bar."></picture><span class="specular" aria-hidden="true"></span></figure></div><div class="tile-shelf" aria-hidden="true"><div class="app-tile tile-files"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-files"/></svg><span>Files</span><i class="specular"></i></div><div class="app-tile tile-apps"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-apps"/></svg><span>App Store</span><i class="specular"></i></div><div class="app-tile tile-photos"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-photos"/></svg><span>Photos</span><i class="specular"></i></div><div class="app-tile tile-backup"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-backup"/></svg><span>Backup</span><i class="specular"></i></div><div class="app-tile tile-machines"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-machines"/></svg><span>Machines</span><i class="specular"></i></div></div></div><div class="caption"><h2 id="macro-title"><span>Everything, right here.</span></h2><p>Files, photos, backups and machines. A familiar place to begin.</p></div></div></section>
+<section class="chapter chapter-widget" id="widget" data-scene="widget" data-beats="8" aria-labelledby="widget-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><div class="widget-morph"><div class="widget-shape"></div><div class="widget-content"><span>Your box, at a glance</span><div class="cpu"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-track" cx="60" cy="60" r="50"/><circle class="ring-value" cx="60" cy="60" r="50" pathLength="100"/></svg><strong><span data-count="24">24</span><small>%</small></strong></div><p>CPU &middot; plenty of room</p><div class="widget-storage"><span>Storage</span><b>186 GB free</b></div></div><div class="widget-seed" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-machines"/></svg></div></div></div><div class="word-card" aria-hidden="true"><span>Your stuff.</span><span>Lives at home.</span></div><div class="caption"><h2 id="widget-title"><span>Your stuff. Lives at home.</span></h2><p>See how your box is doing, without digging through menus.</p></div></div></section>
+<section class="chapter chapter-phone" id="phone" data-scene="phone" data-beats="8" aria-labelledby="phone-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/setup-welcome.webp 1280w, assets/shots/setup-welcome@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/setup-welcome-light.webp" srcset="assets/shots/setup-welcome-light.webp 1280w, assets/shots/setup-welcome-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="The real welcome screen with language, privacy consent and setup code."></picture><span class="specular" aria-hidden="true"></span></figure><div class="box" aria-hidden="true"><div class="box-top"></div><div class="box-front"><img src="assets/logo/j-monogram-light.svg" alt="" width="60" height="60"><i class="power-light"></i><span class="box-slot"></span></div><div class="box-side"></div></div><figure class="screen phone"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-setup.webp 390w, assets/shots/phone-setup@2x.webp 780w" sizes="(min-width: 900px) 18vw, 30vw"><img src="assets/shots/phone-setup-light.webp" srcset="assets/shots/phone-setup-light.webp 390w, assets/shots/phone-setup-light@2x.webp 780w" sizes="(min-width: 900px) 18vw, 30vw" width="390" height="844" decoding="async" loading="lazy" alt="The same setup on a phone."></picture><span class="specular" aria-hidden="true"></span></figure><div class="qr-detail" aria-hidden="true"><img src="assets/preview-qr.svg" alt="" width="120" height="120"><span>Scan. You&apos;re home.</span></div><svg class="connection" viewBox="0 0 600 240" aria-hidden="true"><path d="M80 120C240 120 300 200 470 110" pathLength="1"/></svg><div class="chip connected"><span class="chip-glass" aria-hidden="true"></span><span class="chip-content"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-check"/></svg>Connected</span></div></div><div class="word-card" aria-hidden="true"><span>Set up</span><span>from your phone.</span></div><div class="caption"><h2 id="phone-title"><span>Set up from your phone.</span></h2><p>Scan the code on your box. Make it yours from the comfort of your phone.</p></div></div></section>
+<section class="chapter chapter-settings" id="settings" data-scene="settings" data-beats="4" aria-labelledby="settings-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><figure class="screen before"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async"  alt="Dashboard before opening Settings."></picture><span class="specular" aria-hidden="true"></span></figure><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-general.webp 1280w, assets/shots/settings-general@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/settings-general-light.webp" srcset="assets/shots/settings-general-light.webp 1280w, assets/shots/settings-general-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="Settings General: box information, appearance and preferences."></picture><span class="specular" aria-hidden="true"></span></figure><div class="sidebar-highlight" aria-hidden="true"></div></div><div class="caption"><h2 id="settings-title"><span>A place for every setting.</span></h2><p>Your box, your preferences. All together in one calm window.</p></div></div></section>
+<section class="chapter chapter-storage" id="storage" data-scene="storage" data-beats="12" aria-labelledby="storage-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-storage.webp 1280w, assets/shots/settings-storage@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/settings-storage-light.webp" srcset="assets/shots/settings-storage-light.webp 1280w, assets/shots/settings-storage-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="Storage settings with disk bays, the system disk and Create storage."></picture><span class="specular" aria-hidden="true"></span></figure><div class="storage-detail"><div class="disk-bays" aria-hidden="true"><div class="bay"><div class="disk"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-disk"/></svg><b>2 TB</b><span>Disk 1</span></div></div><div class="bay"><div class="disk"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-disk"/></svg><b>2 TB</b><span>Disk 2</span></div></div><div class="bay"><div class="disk"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-disk"/></svg><b>4 TB</b><span>Disk 3</span></div></div></div><div class="mirror"><span>Two disks. One safe place.</span><div class="mirror-track"><i></i></div><p><b data-count="100">100</b>% mirrored <span>Illustration</span></p></div><div class="chip storage-ready"><span class="chip-glass" aria-hidden="true"></span><span class="chip-content"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-check"/></svg>Your storage is ready</span></div></div></div><div class="word-card" aria-hidden="true"><span>Storage</span></div><div class="caption"><h2 id="storage-title"><span>Storage in a few taps.</span></h2><p>See your disks. Pick a mirror to keep a second copy. Every choice, explained before you erase.</p></div></div></section>
+<section class="chapter chapter-updates" id="updates" data-scene="updates" data-beats="8" aria-labelledby="updates-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-general.webp 1280w, assets/shots/settings-general@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/settings-general-light.webp" srcset="assets/shots/settings-general-light.webp 1280w, assets/shots/settings-general-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="The real system Settings screen."></picture><span class="specular" aria-hidden="true"></span></figure><div class="system-cards"><div class="system-card system-a"><span>Previous system</span><strong>Ready when you need it.</strong><small>Your files stay put.</small></div><div class="system-card system-b"><span>New system</span><strong>A fresh start.</strong><small>A second system keeps your place.</small></div><div class="chip update-safe"><span class="chip-glass" aria-hidden="true"></span><span class="chip-content"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-check"/></svg>Back to the working version</span></div></div></div><div class="word-card" aria-hidden="true"><span>Updates</span><span>that undo themselves.</span></div><div class="caption"><h2 id="updates-title"><span>Updates that undo themselves.</span></h2><p>If an update cannot start, your box goes back to the working version. Your files stay put.</p></div></div></section>
+<section class="chapter chapter-apps" id="apps" data-scene="apps" data-beats="8" aria-labelledby="apps-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><figure class="screen primary"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/store-discover.webp 1280w, assets/shots/store-discover@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/store-discover-light.webp" srcset="assets/shots/store-discover-light.webp 1280w, assets/shots/store-discover-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="App Store Discover with Photos, TV, Drive, Home and Relay."></picture><span class="specular" aria-hidden="true"></span></figure><div class="tile-shelf" aria-hidden="true"><div class="app-tile tile-files"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-files"/></svg><span>Files</span><i class="specular"></i></div><div class="app-tile tile-apps"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-apps"/></svg><span>App Store</span><i class="specular"></i></div><div class="app-tile tile-photos"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-photos"/></svg><span>Photos</span><i class="specular"></i></div><div class="app-tile tile-backup"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-backup"/></svg><span>Backup</span><i class="specular"></i></div><div class="app-tile tile-machines"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-machines"/></svg><span>Machines</span><i class="specular"></i></div></div></div><div class="word-card" aria-hidden="true"><span>Your own</span><span>app store.</span></div><div class="caption"><h2 id="apps-title"><span>Your own app store.</span></h2><p>Photos, movies, files and your smart home. The store is here; apps arrive one by one.</p></div></div></section>
+<section class="chapter chapter-finale" id="finale" data-scene="finale" data-beats="8" aria-labelledby="finale-title"><div class="stage"><div class="scene-glow" aria-hidden="true"></div><div class="ribbon ribbon-far" aria-hidden="true"></div><div class="ribbon ribbon-near" aria-hidden="true"></div><div class="camera"><div class="orbit"><figure class="screen orbit-screen"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-general.webp 1280w, assets/shots/settings-general@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/settings-general-light.webp" srcset="assets/shots/settings-general-light.webp 1280w, assets/shots/settings-general-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="Settings in the closing screen stack."></picture><span class="specular" aria-hidden="true"></span></figure><figure class="screen orbit-screen"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/settings-storage.webp 1280w, assets/shots/settings-storage@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/settings-storage-light.webp" srcset="assets/shots/settings-storage-light.webp 1280w, assets/shots/settings-storage-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="Storage in the closing screen stack."></picture><span class="specular" aria-hidden="true"></span></figure><figure class="screen orbit-screen"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/store-discover.webp 1280w, assets/shots/store-discover@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/store-discover-light.webp" srcset="assets/shots/store-discover-light.webp 1280w, assets/shots/store-discover-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async" loading="lazy" alt="App Store in the closing screen stack."></picture><span class="specular" aria-hidden="true"></span></figure><figure class="screen orbit-screen"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/dashboard.webp 1280w, assets/shots/dashboard@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw"><img src="assets/shots/dashboard-light.webp" srcset="assets/shots/dashboard-light.webp 1280w, assets/shots/dashboard-light@2x.webp 2560w" sizes="(min-width: 1800px) 1400px, 88vw" width="1280" height="800" decoding="async"  alt="Dashboard in the closing screen stack."></picture><span class="specular" aria-hidden="true"></span></figure><figure class="screen orbit-screen orbit-phone"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/phone-dashboard.webp 390w, assets/shots/phone-dashboard@2x.webp 780w" sizes="(min-width: 900px) 18vw, 30vw"><img src="assets/shots/phone-dashboard-light.webp" srcset="assets/shots/phone-dashboard-light.webp 390w, assets/shots/phone-dashboard-light@2x.webp 780w" sizes="(min-width: 900px) 18vw, 30vw" width="390" height="844" decoding="async" loading="lazy" alt="Dashboard on a phone."></picture><span class="specular" aria-hidden="true"></span></figure></div><div class="box" aria-hidden="true"><div class="box-top"></div><div class="box-front"><img src="assets/logo/j-monogram-light.svg" alt="" width="60" height="60"><i class="power-light"></i><span class="box-slot"></span></div><div class="box-side"></div></div><div class="final-brand"><svg class="wordmark" viewBox="0 0 1136 144" aria-hidden="true"><g class="letter"><path d="M0 0H120V112L88 144H0V96H32V112H72L88 96V32H0Z"/></g><g class="letter"><path transform="translate(160 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/></g><g class="letter"><path transform="translate(320 0)" d="M0 144V0H32L96 88V0H128V144H96L32 56V144Z"/></g><g class="letter"><path transform="translate(488 0)" d="M0 0H120V32H32V56H104V88H32V112H120V144H0Z"/></g><g class="letter"><path transform="translate(648 0)" fill-rule="evenodd" d="M0 144V0H96L128 32V64L104 88L136 144H98L66 88H32V144ZM32 32V56H84L96 44L84 32Z"/></g><g class="letter"><path transform="translate(824 0)" fill-rule="evenodd" d="M32 0H112L144 32V112L112 144H32L0 112V32ZM44 32L32 44V100L44 112H100L112 100V44L100 32Z"/></g><g class="letter"><path transform="translate(1008 0)" d="M32 0H128V32H44L32 44V56H96L128 88V112L96 144H0V112H84L96 100V88H32L0 56V32Z"/></g></svg><p>Free. Open source. Yours.</p><div class="actions"><a class="btn btn-primary" href="download.html">Download<span class="specular" aria-hidden="true"></span></a><a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">GitHub<span class="specular" aria-hidden="true"></span></a></div></div></div><div class="caption"><h2 id="finale-title"><span>Free. Open source. Yours.</span></h2><p>Bring your stuff home.</p></div></div></section></div><div class="wrap preview-note"><p>Early preview. Real JenerOS screens with sample readings. The connection, storage and update animations illustrate how it works. App installation is still on the way.</p><p><a href="assets/video/jeneros-preview.mp4">Earlier preview film (16:9)</a> &middot; <a href="assets/video/jeneros-preview-vertical.mp4">Earlier vertical film (9:16)</a></p></div></main>
 
 <footer class="site-footer">
   <div class="wrap foot">
