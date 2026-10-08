@@ -388,3 +388,15 @@ go build ./...
 Then validate the new path/service with systemd-analyze verify and check mode 0755 plus /usr activation on fresh/reboot/A/B images. In a disposable updated release, check initial SSH-off, setup guard, on/off and owner login, socket+service stopped, reboot persistence, duplicate/failure/retry and dev/TEST_SSH exemption. Match CPU/traffic against live tools, unplug/reconnect and reboot. Compare dashboard/settings to shots 11/12/18-21/26 at desktop, 800x600, 390px and 320px, both themes and offline fonts; verify touch/resize notice dots, search, keyboard/remote focus, nested rollback cancel/confirm, reduced motion and reload persistence. Preserve earlier setup/kiosk checks. Do not start style phase 2 until Jener asks.
 
 **Reference for counters**: [Linux kernel /proc documentation](https://www.kernel.org/doc/html/latest/filesystems/proc.html).
+
+## 2026-10-08 - Claude cloud - GitHub checks on every pull request
+
+**Changed**: new `.github/workflows/checks.yml` (branch `cloud/ci`). Jener asked for automated checks so `main` can require them before merging.
+
+**What runs**: two jobs, on every pull request and on pushes to `main`/`zimaos-style`. `go`: gofmt (fails if any file needs formatting), `go vet`, `go test`, `go build` in `[CORE]`, using the Go version from `go.mod`. `dashboard`: `node --check` on every `[DASHBOARD]/*.js`, then the eight local fixtures in `.scratch/setup/` and `.scratch/zimaos/`. No images are built, and no secrets are used (read-only token).
+
+**For any AI adding code**: new Go must be gofmt-clean, and new fixture scripts must be added to the list in the workflow. Browser checks that need a running jenerd (like `check-store.cjs` from the App Store PR) stay out of CI.
+
+**Checked**: all steps ran locally on this branch and passed. The first real GitHub run happens on this PR.
+
+**Not done**: branch protection on `main`. No tool in the cloud session can change repo settings, so Jener sets the ruleset by hand. Once this workflow has run once, its `go` and `dashboard` checks can be added as required.
