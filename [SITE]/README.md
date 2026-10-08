@@ -1,18 +1,23 @@
 # jener.dev website
 
-The public website for JenerOS. Plain HTML and CSS: no framework, no build step, no JavaScript,
-no trackers, no cookies, nothing loaded from other websites.
+The public website for JenerOS. Plain HTML and CSS: no framework, no build step, no trackers,
+no cookies, nothing loaded from other websites. The only JavaScript is `assets/preview.js` on the
+preview page, and `_headers` allows scripts on `/preview` only.
 
 ## What's here
 
 | File | What it is |
 |---|---|
 | `index.html` | Home |
+| `preview.html` | "A closer look": scroll-driven 3D tour of real screens on liquid glass |
 | `download.html` | Download, hardware needs, flashing, virtual machines |
 | `privacy.html` | Privacy policy (from `[DOCS]/PRIVACY.md`), links `privacy.pdf` |
 | `about.html` | Jener, Inc., why JenerOS exists, contact |
 | `404.html` | "Page not found" (uses `/` paths, since it can show at any address) |
 | `assets/site.css` | All styles. Colors are tokens at the top, light and dark |
+| `assets/preview.css`, `assets/preview.js` | The preview page only (glass, 3D story, still-grid fallback) |
+| `assets/shots/` | Real dashboard screenshots as WebP, light and dark, 1x and 2x. `src/` holds the PNG originals (not published) |
+| `assets/video/` | The preview as MP4: 1920x1080 and 1080x1920 (Shorts/Reels/TikTok), plus poster JPGs |
 | `assets/fonts/` | Bricolage Grotesque Bold + its OFL license (copied from `[DASHBOARD]/fonts/`) |
 | `assets/logo/` | J monogram and wordmark (copied from `[BRAND]/logo/`, unchanged) |
 | `assets/ribbons-*.svg` | Ribbon art for page headers (from `[DASHBOARD]/wallpaper-ribbon.svg`) |
@@ -21,7 +26,7 @@ no trackers, no cookies, nothing loaded from other websites.
 | `_headers` | Security headers (Cloudflare reads this; not served) |
 | `wrangler.jsonc`, `.assetsignore` | Cloudflare Workers config; these are not published |
 
-The header and footer are copied into every page. If you change one, change all five.
+The header and footer are copied into every page. If you change one, change all six.
 
 ## Preview on your PC
 
@@ -69,8 +74,6 @@ push to the chosen branch publishes the site.
 
 - Create the `privacy@jener.dev` mailbox (Cloudflare Email Routing can forward it), or change the address.
 - When the first release is out, update the "coming soon" box on `download.html` and the home page.
-- Replace the "Screenshot coming soon" boxes on the home page with real screenshots
-  (WebP, with `width` and `height` set).
 - If `[DOCS]/PRIVACY.md` changes, update `privacy.html` and `privacy.pdf` too.
 
 ## Remake the share image
@@ -78,3 +81,23 @@ push to the chosen branch publishes the site.
 `og-image.png` is `assets/og-image.svg` rendered at 1200 x 630. Open the SVG in Chromium or Edge
 from a local server, take a 1200 x 630 screenshot, and save it as `og-image.png`
 (keep it under about 150 KB).
+
+## The preview page, screenshots and videos
+
+`preview.html` tells a scroll story: each real screen floats in 3D over the ribbon wallpaper and
+settles flat while its caption appears on a piece of glass, with one soft light sweep as it lands.
+Chromium also bends the background behind the captions (an SVG filter used as a backdrop filter);
+other browsers get frosted glass with the same rim light.
+With reduced motion or JavaScript off, the same screens show as a calm, still grid.
+
+Everything the story shows depends only on the scroll position, so it can also be filmed frame by frame.
+To retake the screenshots or the videos after the dashboard changes (Linux or the build VM, needs
+Node with Playwright, Python with Pillow and ffmpeg), from the repo root:
+
+```bash
+node .scratch/marketing/capture-shots.cjs     # PNGs into [SITE]/assets/shots/src/
+python3 .scratch/marketing/make-webp.py       # WebP 1x and 2x into [SITE]/assets/shots/
+node .scratch/marketing/record-video.cjs      # MP4s and posters into [SITE]/assets/video/
+```
+
+More detail: `.scratch/marketing/README.md`.
