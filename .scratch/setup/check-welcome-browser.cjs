@@ -65,6 +65,8 @@ const server = http.createServer((req, res) => {
   // The remote shine suite runs on a loopback fixture server. Exercise the
   // non-local branch explicitly; kiosk-shine uses the actual BoxUI detection.
   if (suite === 'shine' && url.pathname === '/box-ui.js') source += '\nwindow.BoxUI.local = false;\n';
+  // The shared controller now also detects loopback without BoxUI (dashboard).
+  if (suite === 'shine' && url.pathname === '/onboarding-shine.js') source = source.toString().replace(/const local =[^;]+;/, 'const local = false;');
   if (url.pathname === '/setup.html' || ((suite.endsWith('shine') || suite === 'phone-polish') && url.pathname === '/login.html') || (suite === 'kiosk-shine' && url.pathname === '/screen.html') || (suite === 'phone-polish' && url.pathname === '/index.html')) {
     source = source.toString().replace('<head>', `<head><script>
       const mode = new URLSearchParams(location.search).get('mode');

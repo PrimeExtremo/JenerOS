@@ -2,7 +2,9 @@
 // Remote browsers sample paused Web Animations at <=30fps. Local WPE gets
 // only a finite border sweep: no wallpaper layer and no recurring JS clock.
 (() => {
-  const local = !!window.BoxUI?.local || (typeof location !== 'undefined' && ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname));
+  // Setup/login know their kiosk state (BoxUI); the dashboard falls back to the address.
+  const local = window.BoxUI ? !!window.BoxUI.local
+    : typeof location !== 'undefined' && ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname);
   if (local) document.documentElement.classList.add('box-local');
   const wallpaper = document.querySelector('.desktop-wallpaper');
   // The dashboard has no single card: it gets only the wallpaper light.
