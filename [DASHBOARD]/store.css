@@ -38,8 +38,10 @@
 .store-hero-icon.icon { width: 96px; height: 96px; border-radius: 28px; }
 .store-hero-icon .doodle { width: 54px; height: 54px; }
 .store-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
-.store-card { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); color: var(--ink); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s; }
-.store-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-up); }
+.store-card { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); color: var(--ink); text-align: left; cursor: pointer; transition: translate var(--t-quick) var(--ease), scale 200ms var(--ease), box-shadow var(--t-quick) var(--ease); }
+.store-card:hover { translate: 0 -2px; box-shadow: var(--shadow-up); }
+.store-card:active { scale: .97; box-shadow: none; transition-duration: var(--t-quick), 80ms, 80ms; }
+.store-card:focus-visible { translate: 0 -2px; transition-duration: 0s, 200ms, 0s; }
 .store-card-art { display: grid; place-items: center; height: 104px; }
 .store-card-art .icon { width: 56px; height: 56px; border-radius: 16px; }
 .store-card-art .doodle { width: 30px; height: 30px; }
@@ -48,7 +50,7 @@
 .store-card-text span, .store-row-text span { color: var(--soft); font-size: .74rem; line-height: 1.45; }
 .store-list { list-style: none; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
 .store-list > li + li { border-top: 1px solid var(--line); }
-.store-row { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 10px 14px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+.store-row { transition: background-color var(--t-quick) var(--ease); display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 10px 14px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
 .store-row:hover { background: var(--hover); }
 .store-row .icon, .store-cell-app .icon { width: 46px; height: 46px; border-radius: 13px; flex: none; }
 .store-row .doodle, .store-cell-app .doodle { width: 25px; height: 25px; }
@@ -67,15 +69,17 @@
 .store-app-title h4 { font-size: 1.6rem; letter-spacing: -.02em; }
 .store-app-title p { color: var(--soft); font-size: .86rem; margin-top: 4px; }
 .store-install { display: grid; justify-items: end; gap: 6px; max-width: 220px; text-align: right; }
-.desktop .store-install-button { gap: 8px; min-height: 46px; padding: 8px 18px 8px 10px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
+.desktop .store-install-button { position: relative; gap: 8px; min-height: 46px; padding: 8px 18px 8px 10px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
 .store-install-button[aria-disabled="true"] { cursor: default; background: var(--hover); color: var(--ink); border-color: var(--line); }
-.store-ring { width: 26px; height: 26px; transform: rotate(-90deg); }
+.store-ring { width: 26px; height: 26px; }
 .store-ring circle { fill: none; stroke-width: 3.5; }
 .store-ring-track { stroke: rgb(255 255 255 / 35%); }
 .store-install-button[aria-disabled="true"] .store-ring-track { stroke: var(--track); }
-.store-ring-fill { --progress: 0; stroke: currentColor; stroke-linecap: round; stroke-dasharray: calc(var(--progress) * .88) 88; transition: stroke-dasharray .4s; }
-.store-install-button.busy .store-ring { animation: store-spin 1s linear infinite; }
-@keyframes store-spin { to { transform: rotate(270deg); } }
+/* Progress is linear; while it waits for real numbers the ring breathes. */
+.store-ring-fill { --progress: 0; stroke: currentColor; stroke-linecap: round; stroke-dasharray: calc(var(--progress) * .88) 88; transition: stroke-dasharray var(--t-std) linear; }
+.store-ring-check { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+.store-install-button.busy .store-ring { animation: j-pulse 600ms var(--ease) infinite alternate; }
+.store-install-button .confetti { left: 23px; }
 .store-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; }
 .store-chip { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); min-width: 0; }
 .store-chip dt { color: var(--soft); font-size: .68rem; }
@@ -163,10 +167,14 @@
   .store-cards { grid-template-columns: 1fr; }
   .store-chips { grid-template-columns: 1fr; }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .store-install-button.pop .store-ring { animation: j-pop 300ms var(--ease-pop) both; }
+  .store-install-button.pop .store-ring-check { animation: j-draw 250ms var(--ease) 150ms both; }
+}
 @media (prefers-reduced-motion: reduce) {
   .store-install-button.busy .store-ring { animation: none; }
   .store-card, .store-ring-fill { transition: none; }
-  .store-card:hover { transform: none; }
+  .store-card:hover, .store-card:active, .store-card:focus-visible { translate: none !important; scale: none !important; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .store-window::backdrop, .store-sheet::backdrop { background: var(--paper); backdrop-filter: none; }
