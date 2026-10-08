@@ -168,7 +168,7 @@
 .wallpaper-picker { border: 0; padding: 10px 0 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .wallpaper-picker legend { font-size: .8rem; }
 .wallpaper-picker label { display: grid; position: relative; gap: 7px; padding: 6px; cursor: pointer; border: 1px solid transparent; border-radius: 9px; font-size: .65rem; color: var(--soft); }
-.wallpaper-picker label:has(input:checked) { border-color: var(--accent); color: var(--ink); }
+.wallpaper-picker label.is-selected { border-color: var(--accent); color: var(--ink); }
 .wallpaper-picker input { position: absolute; width: 18px; height: 18px; right: 8px; top: 8px; margin: 0; }
 .wallpaper-swatch { display: block; width: 100%; height: 65px; border: 1px solid var(--line); border-radius: 6px; background-color: var(--paper); background-size: cover; }
 .swatch-ribbon { background-image: url('wallpaper-ribbon.svg'); }

@@ -48,11 +48,13 @@ jobs:
           for f in \
             .scratch/setup/check-pages.cjs \
             .scratch/setup/check-controls.cjs \
+            .scratch/setup/check-welcome.cjs \
             .scratch/setup/check-phone.cjs \
             .scratch/setup/check-qr.cjs \
             .scratch/setup/check-rollback.cjs \
             .scratch/setup/check-screen.cjs \
             .scratch/setup/check-kiosk-fallback.cjs \
+            .scratch/setup/check-unit-ordering.cjs \
             .scratch/setup/check-validation.cjs \
             .scratch/zimaos/check-desktop.cjs \
             .scratch/zimaos/check-login.cjs \

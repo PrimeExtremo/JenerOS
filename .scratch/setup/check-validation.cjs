@@ -16,29 +16,29 @@ const context = vm.createContext({ document: { getElementById: element, querySel
 vm.runInContext(source, context);
 const test = context.test;
 test.init({ reservedUsernames });
-test.validate(); assert.equal(element('next').disabled, true);
-element('acceptedPrivacy').checked = true; test.validate(); assert.equal(element('next').disabled, false);
+test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'true');
+element('acceptedPrivacy').checked = true; test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'false');
 element('language').value = 'en';
 assert.equal(test.request().acceptedPrivacy, true); assert.equal(test.request().language, 'en');
-test.step(1); test.validate(); assert.equal(element('next').disabled, true);
+test.step(1); test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'true');
 element('password').value = element('passwordConfirm').value = '12345678';
 for (const value of ['a', 'jener_2', 'home-owner', 'a'.repeat(32)]) {
-  element('username').value = value; test.validate(); assert.equal(element('next').disabled, false, value);
+  element('username').value = value; test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'false', value);
 }
 for (const value of ['', '_owner', '2owner', 'Owner', 'a.b', 'a b', 'a'.repeat(33), ...reservedUsernames]) {
   element('username').value = value; test.touch('username'); test.validate();
-  assert.equal(element('next').disabled, true, value); assert.equal(element('usernameError').hidden, false, value);
+  assert.equal(element('next').attributes['aria-disabled'], 'true', value); assert.equal(element('usernameError').hidden, false, value);
 }
 element('username').value = 'jener';
-for (const value of ['12345678', 'é'.repeat(8), 'a'.repeat(256)]) {
-  element('password').value = element('passwordConfirm').value = value; test.validate(); assert.equal(element('next').disabled, false);
+for (const value of ['12345678', 'é'.repeat(8), 'a'.repeat(256), '??'.repeat(8)]) {
+  element('password').value = element('passwordConfirm').value = value; test.validate(); assert.equal(element('next').attributes['aria-disabled'], 'false');
 }
-for (const value of ['', '1234567', 'é'.repeat(4), 'a'.repeat(257), 'password\n', 'password\0', 'password\uD800']) {
+for (const value of ['', '1234567', 'é'.repeat(4), 'a'.repeat(257), 'password\n', 'password\0', 'password\uD800', 'password\uDC00', 'password\uD800x']) {
   element('password').value = element('passwordConfirm').value = value; test.touch('password'); test.validate();
-  assert.equal(element('next').disabled, true); assert.equal(element('passwordError').hidden, false);
+  assert.equal(element('next').attributes['aria-disabled'], 'true'); assert.equal(element('passwordError').hidden, false);
 }
 element('password').value = '12345678'; element('passwordConfirm').value = 'different'; test.touch('passwordConfirm'); test.validate();
-assert.equal(element('passwordConfirmError').hidden, false); assert.equal(element('next').disabled, true);
+assert.equal(element('passwordConfirmError').hidden, false); assert.equal(element('next').attributes['aria-disabled'], 'true');
 element('passwordConfirm').value = '12345678'; test.validate();
-assert.equal(element('passwordConfirmError').hidden, true); assert.equal(element('next').disabled, false);
+assert.equal(element('passwordConfirmError').hidden, true); assert.equal(element('next').attributes['aria-disabled'], 'false');
 console.log('Wizard checks passed: consent, reserved names, live field errors, password limits, Unicode and confirmation.');

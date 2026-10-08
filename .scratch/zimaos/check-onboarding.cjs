@@ -20,6 +20,7 @@ const context = vm.createContext({ document: { getElementById: element, createEl
     requests.push({ url, options });
     return url === '/api/setup' ? { ok: true, status: 202 } : { ok: false, status: 401 };
   } });
+context.JenerUI = { open: d => d.showModal(), close: d => d.open && d.close() };
 let source = fs.readFileSync('[DASHBOARD]/setup.js', 'utf8');
 source = source.replace('show(false); refreshNetwork(); load().then(() => { if (!finished) poll(); });',
   'globalThis.flow = { init(i) { info = i; }, show, done, get step() { return step; } };');
@@ -28,13 +29,13 @@ context.flow.init({ reservedUsernames: [], timezones: ['UTC'], keymaps: [{ id: '
 const submit = () => element('wizard').handlers.submit({ preventDefault() {} });
 (async () => {
   context.flow.show(false);
-  assert.equal(element('next').disabled, true);
+  assert.equal(element('next').attributes['aria-disabled'], 'true');
   element('acceptedPrivacy').checked = true; element('language').value = 'en';
   await submit(); assert.equal(context.flow.step, 1); assert.equal(sections[1].hidden, false); assert.equal(sections[0].hidden, true);
-  assert.equal(element('next').disabled, true);
+  assert.equal(element('next').attributes['aria-disabled'], 'true');
   element('username').value = 'owner'; element('password').value = element('passwordConfirm').value = 'fake password';
   element('hostname').value = 'my-box'; element('timezone').value = 'UTC'; element('keymap').value = 'us';
-  context.flow.show(false); assert.equal(element('next').disabled, false);
+  context.flow.show(false); assert.equal(element('next').attributes['aria-disabled'], 'false');
   mode = fixedRadio; element('interface').value = 'eth0'; element('address').value = '192.168.1.22/24';
   element('gateway').value = '192.168.1.1'; element('dns').value = '192.168.1.1';
   element('timezone').value = '';

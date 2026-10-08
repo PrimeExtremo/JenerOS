@@ -3,7 +3,7 @@ const fs = require('fs');
 const vm = require('vm');
 const assert = require('assert/strict');
 const source = fs.readFileSync('[DASHBOARD]/login.js', 'utf8');
-function fixture() {
+function fixture(legacy = false) {
   const elements = new Map();
   function element(id) {
     if (!elements.has(id)) elements.set(id, { value: '', type: id === 'loginPassword' ? 'password' : 'text', hidden: true, attributes: {}, handlers: {},
@@ -13,7 +13,7 @@ function fixture() {
   let requests = [], destination, now = 1000, response = { status: 401, ok: false, json: async () => ({ error: 'Check your username and password, then try again.' }) };
   const location = { search: '', pathname: '/login', hash: '', replace(url) { destination = url; } };
   const context = vm.createContext({ window: {}, document: { getElementById: element }, location, URLSearchParams,
-    AbortSignal, Date: { now: () => now }, setTimeout() {}, fetch: async (url, options) => {
+    AbortSignal: legacy ? undefined : AbortSignal, Date: { now: () => now }, setTimeout() {}, fetch: async (url, options) => {
       if (url === '/api/auth/session') return { ok: false, status: 401 };
       requests.push({ url, options }); return response;
     } });
@@ -53,5 +53,10 @@ function fixture() {
   assert.doesNotMatch(html, /<select|Read the policy as a webpage/);
   assert.match(html, /id="filesLink"[^>]+next=%2F%23%2Ffiles/);
   assert.match(html, /id="storeLink"[^>]+next=%2F%23%2Fapps/);
+  const legacy = fixture(true);
+  legacy.element('loginUsername').value = 'owner'; legacy.element('loginPassword').value = 'fake password';
+  await legacy.submit();
+  assert.equal(legacy.requests.length, 1, 'Login still sends the request without AbortSignal.timeout/matchMedia');
+  assert.equal(legacy.requests[0].options.signal, undefined);
   console.log('Login checks passed: inline failure, cleared passwords, CSRF, rate-limit retry, safe destinations, expired-session redirect and three setup cards.');
 })().catch(err => { console.error(err); process.exitCode = 1; });
