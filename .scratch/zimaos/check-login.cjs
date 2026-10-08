@@ -48,8 +48,9 @@ function fixture() {
   const html = fs.readFileSync('[DASHBOARD]/setup.html', 'utf8');
   assert.deepEqual([...html.matchAll(/data-step="(\d)"/g)].map(m => m[1]), ['0', '1', '2']);
   assert.equal((html.match(/class="feature-tile"/g) || []).length, 4);
-  assert.match(html, /href="privacy.pdf" target="_blank" rel="noopener"/);
-  assert.match(html, /href="privacy.html" target="_blank" rel="noopener"/);
+  assert.match(html, /href="privacy.pdf" download hidden/);
+  assert.match(html, /id="privacyLink" href="#privacySheet"/);
+  assert.doesNotMatch(html, /<select|Read the policy as a webpage/);
   assert.match(html, /id="filesLink"[^>]+next=%2F%23%2Ffiles/);
   assert.match(html, /id="storeLink"[^>]+next=%2F%23%2Fapps/);
   console.log('Login checks passed: inline failure, cleared passwords, CSRF, rate-limit retry, safe destinations, expired-session redirect and three setup cards.');
