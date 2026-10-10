@@ -1,0 +1,30 @@
+#!/usr/sbin/nft -f
+# JenerOS inbound firewall: drop everything except what the box serves.
+# Only this table is replaced on reload; app runtimes keep their own tables.
+table inet jeneros
+delete table inet jeneros
+
+table inet jeneros {
+    chain input {
+        type filter hook input priority filter; policy drop;
+
+        ct state established,related accept
+        ct state invalid drop
+        iifname "lo" accept
+        # App containers talk to the host bridge for DHCP/DNS.
+        iifname "incusbr*" accept
+
+        # Ping and IPv6 neighbour discovery, rate-limited.
+        ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded } limit rate 10/second accept
+        ip6 nexthdr icmpv6 icmpv6 type { echo-request, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept
+
+        # DHCP replies.
+        udp dport 68 accept
+        udp dport 546 accept
+
+        # Dashboard (HTTP, HTTPS), .local name (mDNS), SSH only answers when the owner turned it on.
+        tcp dport { 80, 443 } accept
+        udp dport 5353 accept
+        tcp dport 22 ct state new limit rate 6/minute accept
+    }
+}
