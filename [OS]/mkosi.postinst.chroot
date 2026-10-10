@@ -45,6 +45,7 @@ want() { mkdir -p "$U/$2"; ln -sf "../$1" "$U/$2/$1"; }
 want avahi-daemon.service multi-user.target.wants
 want avahi-daemon.socket sockets.target.wants
 want jenerd.service multi-user.target.wants
+want jeneros-firewall.service sysinit.target.wants
 want ssh.service multi-user.target.wants
 want jeneros-health.service multi-user.target.wants
 want jeneros-health.service boot-complete.target.requires
