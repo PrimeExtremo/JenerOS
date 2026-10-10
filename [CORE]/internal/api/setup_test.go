@@ -189,3 +189,17 @@ func TestSetupQueuesOnceAndReportsProgress(t *testing.T) {
 		t.Fatal("incorrect or unsafe progress response")
 	}
 }
+
+func TestSetupCodeGuessesAreLimited(t *testing.T) {
+	mux, _, req := setupFixture(t)
+	req.Code = "000000"
+	for i := 1; i <= 5; i++ {
+		if res := setupPost(t, mux, req, true); res.Code != http.StatusForbidden {
+			t.Fatalf("guess %d: got %d, want 403", i, res.Code)
+		}
+	}
+	res := setupPost(t, mux, req, true)
+	if res.Code != http.StatusTooManyRequests || res.Header().Get("Retry-After") != "60" {
+		t.Fatalf("sixth guess: got %d (Retry-After %q), want 429", res.Code, res.Header().Get("Retry-After"))
+	}
+}

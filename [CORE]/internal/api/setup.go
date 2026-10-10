@@ -2,12 +2,23 @@ package api
 
 import (
 	"errors"
+	"net"
 	"net/http"
+	"time"
 
+	"github.com/PrimeExtremo/JenerOS/core/internal/auth"
 	"github.com/PrimeExtremo/JenerOS/core/internal/setup"
 )
 
 func RegisterSetup(mux *http.ServeMux, m *setup.Manager) {
+	registerSetup(mux, m, time.Now)
+}
+
+func registerSetup(mux *http.ServeMux, m *setup.Manager, now func() time.Time) {
+	// The six-digit code is the only secret before an owner exists: cap guesses
+	// per address and overall so the code cannot be brute-forced from the LAN.
+	perIP := &auth.Limiter{Max: 5, Window: time.Minute}
+	global := &auth.Limiter{Max: 20, Window: time.Minute}
 	guard := func(h http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Cache-Control", "no-store")
@@ -40,6 +51,16 @@ func RegisterSetup(mux *http.ServeMux, m *setup.Manager) {
 		writeJSON(w, 200, status)
 	}))
 	mux.HandleFunc("POST /api/setup", guard(sameSite(func(w http.ResponseWriter, r *http.Request) {
+		ip, _, err := net.SplitHostPort(r.RemoteAddr)
+		if err != nil {
+			ip = r.RemoteAddr
+		}
+		t := now()
+		if !perIP.Allow(ip, t) || !global.Allow("setup", t) {
+			w.Header().Set("Retry-After", "60")
+			writeError(w, http.StatusTooManyRequests, errors.New("Too many tries. Wait a minute, then try again."))
+			return
+		}
 		req, err := setup.Decode(http.MaxBytesReader(w, r.Body, 8192))
 		if err != nil {
 			writeError(w, 400, err)
