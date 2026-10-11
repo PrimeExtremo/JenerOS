@@ -8,10 +8,10 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
-  "workers_dev": true
-  // Turn on when you're ready to go live on jener.dev (Cloudflare adds the DNS record on deploy):
-  // ,"routes": [
-  //   { "pattern": "jener.dev", "custom_domain": true },
-  //   { "pattern": "www.jener.dev", "custom_domain": true }
-  // ]
+  "workers_dev": true,
+  // Live on jener.dev. Cloudflare adds the DNS records on deploy (jener.dev is on this account).
+  "routes": [
+    { "pattern": "jener.dev", "custom_domain": true },
+    { "pattern": "www.jener.dev", "custom_domain": true }
+  ]
 }

@@ -51,19 +51,18 @@ You run these steps yourself. Nothing has been deployed.
 
 1. Install Node.js 20 or newer, if you don't have it.
 2. Log in once: `npx wrangler login` (opens the browser, pick your Cloudflare account).
-3. First deploy, to a test address:
+3. Deploy:
 
    ```bash
    cd "[SITE]"
    npx wrangler deploy
    ```
 
-   Wrangler prints a `https://jener-dev.<your-subdomain>.workers.dev` link. Check every page there.
-4. Go live on jener.dev: in `wrangler.jsonc`, remove the `//` in front of the `routes` lines
-   (keep the comma before `"routes"`), then run `npx wrangler deploy` again.
-   Because jener.dev is already on your Cloudflare account, Wrangler adds the domain and its DNS
-   record by itself. Do this only when you're ready for the site to be public.
-   (Dashboard way instead: Workers & Pages, `jener-dev`, Settings, Domains & Routes, Add, Custom domain.)
+   The `routes` in `wrangler.jsonc` are on, so this puts the site live on https://jener.dev and
+   https://www.jener.dev. Because jener.dev is already on your Cloudflare account, Wrangler adds the
+   domains and their DNS records by itself (give it a few minutes for the certificate). It also
+   prints a `https://jener-dev.<your-subdomain>.workers.dev` test link.
+4. Check every page on jener.dev in a phone and a computer, light and dark.
 5. Updates later: change files, run `npx wrangler deploy` again.
 
 Optional: connect the GitHub repo in the Cloudflare dashboard (Workers & Pages, `jener-dev`,
