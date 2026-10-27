@@ -29,6 +29,7 @@ jobs:
           if [ -n "$unformatted" ]; then echo "Run gofmt -w on:"; echo "$unformatted"; exit 1; fi
       - run: go vet ./...
       - run: go test ./...
+      - run: go test -race ./internal/runtime ./internal/catalog ./internal/api ./internal/auth ./internal/setup ./internal/transport
       - run: go build ./...
 
   dashboard:
@@ -46,6 +47,8 @@ jobs:
       - name: Fixtures
         run: |
           for f in \
+            .scratch/security/check-security.cjs \
+            .scratch/security/check-release-build.cjs \
             .scratch/setup/check-pages.cjs \
             .scratch/setup/check-controls.cjs \
             .scratch/setup/check-welcome.cjs \
@@ -59,6 +62,7 @@ jobs:
             .scratch/setup/check-screen.cjs \
             .scratch/setup/check-kiosk-fallback.cjs \
             .scratch/setup/check-unit-ordering.cjs \
+            .scratch/apps/check-apps.cjs \
             .scratch/setup/check-validation.cjs \
             .scratch/setup/check-icons-public.cjs \
             .scratch/zimaos/check-desktop.cjs \

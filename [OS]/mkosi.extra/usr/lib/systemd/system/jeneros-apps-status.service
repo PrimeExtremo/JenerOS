@@ -1,0 +1,11 @@
+[Unit]
+Description=Read JenerOS app status
+After=jeneros-apps-init.service
+Requires=jeneros-apps-init.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/jenerd apps-status
+TimeoutStartSec=2min
+UMask=0077
+LimitCORE=0

@@ -1,7 +1,7 @@
 # JenerOS — Handoff
 
 Written by Claude for whoever picks this up next (Claude, ChatGPT, Codex, or Jener).
-Last updated 2026-10-08. Read this file first, then [AGENTS.md](AGENTS.md).
+Last updated 2026-10-10. Read this file first, then [AGENTS.md](AGENTS.md).
 
 ## 1. Goal
 
@@ -27,7 +27,13 @@ Cloudflare Registrar, bought 2026-10-07; site intentionally offline for now).
 Code is public (early preview) at **github.com/PrimeExtremo/JenerOS** under GPL-3.0-or-later; installed systems update from its Releases.
 Company socials planned as **@jener_inc**. Jener's personal accounts are NOT changing.
 
-## 3. Current state (2026-10-08)
+## 3. Current state (2026-10-10)
+
+**App runtime (Codex, 2026-10-10):** resumed `.scratch/apps/PROMPT-runtime.md`, preserving the interrupted run's Incus image hook/preseed, root worker, owner API, four pinned manifests, store controls and VM checklist. Completed review fixes for stale readings, long storage names, queued requests, persistent health errors, dashboard error states and Incus subordinate-ID setup after A/B upgrades. The App Store's 32 Edge browser cases, desktop and unit-ordering checks pass. Go/gofmt are absent locally; no real image pull, app boot, photo upload or persistence test ran. See `.scratch/apps/REVIEW.md` and `VM-CHECKS.md` for validation and exact remaining commands. Files only; no installs, image builds, commits or pushes. Phase 1 acceptance boxes remain open.
+
+**Blender trailer, PROMPT-5 (Codex, 2026-10-09):** resumed the interrupted v3 run and preserved the completed VO analysis, all 14 chapters / 28 shots, six-second ending and saved motion-blur fix. The placeholder edit is 63.5 seconds. Extended cut checks pass all 3,810 frames and 276 fractional samples, including inactive lights; 81 refreshed boundary stills and all 28 shot stills were visually reviewed. The existing one-frame silent 2560x1440/60 probe passes metadata checks. Updated the live page, README and `REVIEW-v3.md`. `music/falling-apart.mp3` / `.wav` are absent, so no song re-time ran. No full v3 videos rendered; Claude handles full playback/export to S: and fine VO/music sync. Details: `.scratch/trailer-blender/REVIEW-v3.md`.
+
+**Blender trailer, PROMPT-2 (Codex, 2026-10-08):** `.scratch/trailer-blender/trailer.blend` has clearer transitions and spacing, dark warm glass, a quiet brown background, packed Bricolage headlines, two physical drive faces with a full mirror bar and ready pill, eased entrances and a 3% camera push per shot. Atomic live saves preserved. Cut stills and nine refreshed scene stills are under `live/`; no videos rendered. Render configuration was repaired for Blender 5.2 and checked for draft/final/vertical without encoding. See the local README for editing, packed beat timing and render commands.
 
 Storage polish (Codex, 2026-10-08): unavailable disks and layouts are faded with plain reasons; the system disk card explains data space and the two JenerOS copies for safe updates. Files only.
 
@@ -118,6 +124,10 @@ Storage polish (Codex, 2026-10-08): unavailable disks and layouts are faded with
 
 ## 6. Next steps (in order)
 
+App runtime: Claude should first run gofmt, vet, unit/race tests and build in the build VM, then follow `.scratch/apps/VM-CHECKS.md` on a disposable test box. Verify Incus 7.0 OCI compatibility, fresh and pre-Incus A/B upgrades, real Immich photo upload, dependency health, bind-mount ownership, missing disks, stop/start, reboot/A/B persistence and uninstall/reinstall with retained data. No real-app acceptance is claimed by the local browser fixtures. Remaining browser results are in `.scratch/apps/REVIEW.md`.
+
+Blender trailer PROMPT-5: supply `music/falling-apart.mp3` or `.wav`, rebuild to analyze/retime, and rerun the cut review. Claude renders and watches the draft, then final/vertical/per-shot exports with `--render draft|final|vertical|shots`. Use `--output-dir 'S:/[VMs]/[JENEROS-TRAILER]/v3'` for full video output. The current 63.5-second edit uses placeholder beats; full-motion review, actual-song retiming, fine VO sync and long-file/per-shot encoding remain. Mix audio in Premiere. See `.scratch/trailer-blender/README.md` and `REVIEW-v3.md`.
+
 Storage polish follow-up: review unavailable rows and the system disk space explanation on the next live box check.
 
 Storage phase 4 follow-up: Claude should run the Go formatting/vet/test/race/build commands in `.scratch/zimaos/PHASE-4-REVIEW.md` before any image build. Then test discovery under DynamicUser and creation on spare disks only, including system/data-disk rejection, changed identities, signatures, duplicate requests, failures, background progress and reboot persistence. Verify both Btrfs profiles, plain folders, UUID mount units and A/B delivery of the root path unit. Phase 1 storage boxes remain open until their full VM acceptance checks pass.
@@ -140,7 +150,7 @@ Owner-login / phase 2 follow-up: Claude should run gofmt, vet, tests and race te
 
 Site preview follow-up: review the new scroll tour and `?trailer=1&beats=assets/video/beats.json` on a laptop, phone and ultrawide. Confirm real 60fps, Safari/Firefox glass and keyboard/screen-reader behavior. Jener supplies a cleared audio track; use `.scratch/marketing/beats.py`, then run the 60 fps recorder where ffmpeg is available. Both MP4s/posters remain the earlier 30 fps tour, explicitly labelled as earlier previews; remove that label only after both cuts are regenerated and reviewed. Read `.scratch/marketing/MOTION-REVIEW.md` and README for measured checks and untested encoding/audio steps. No deploy is authorized by this work.
 
-App Store follow-up: Jener reviews the store window on desktop and phone. Real install/start/stop needs the Incus runtime (Phase 2); then wire the Install ring to real progress and fill My Apps uptime/memory/CPU. Add real screenshots per app when available. Jener requested Storage phase 4; its implementation and remaining VM checks are recorded above.
+App Store follow-up: the runtime, progress ring and My Apps readings are now implemented in files; use the new app-runtime checklist above for acceptance. Jener reviews the store on desktop and phone after VM checks. Add real screenshots per app when available. Storage phase 4's remaining VM checks are recorded above.
 
 
 Box/setup follow-up: Claude should run gofmt, vet/test/build on the build VM, then verify consent persistence, strict owner validation, tty2–6 issue expansion at 80×25, kiosk facts/QR/SSH status, dashboard and S-key confirmation, other-UKI selection and failure without reboot on a one-slot system. Verify root unit links arrive through `/usr` on A/B updates. Releases keep SSH off until opt-in: the new dashboard switch is available after setup, and local opt-in with `sudo touch /var/lib/jeneros/ssh-enabled` and `sudo systemctl start ssh.service` remains a recovery option. Owner creation does not automatically allow SSH. Dev/TEST_SSH key access remains exempt. Review `.scratch/installer/BRIEF.md` before M4 implementation; it contains no code. Preserve the earlier box/setup checks in AI-UPDATES as well as the newest desktop checklist.

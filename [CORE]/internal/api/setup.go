@@ -56,9 +56,10 @@ func registerSetup(mux *http.ServeMux, m *setup.Manager, now func() time.Time) {
 			ip = r.RemoteAddr
 		}
 		t := now()
-		if !perIP.Allow(ip, t) || !global.Allow("setup", t) {
-			w.Header().Set("Retry-After", "60")
-			writeError(w, http.StatusTooManyRequests, errors.New("Too many tries. Wait a minute, then try again."))
+		ipAllowed, globalAllowed := perIP.Allow(ip, t), global.Allow("setup", t)
+		if !ipAllowed || !globalAllowed {
+			w.Header().Set("Retry-After", retrySeconds(perIP.RetryAfter(ip, t), global.RetryAfter("setup", t)))
+			writeError(w, http.StatusTooManyRequests, errors.New("Too many tries. Wait a few minutes, then use the current code on your box."))
 			return
 		}
 		req, err := setup.Decode(http.MaxBytesReader(w, r.Body, 8192))

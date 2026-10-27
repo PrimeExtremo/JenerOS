@@ -20,6 +20,15 @@ import (
 
 const Socket = "/run/jeneros-auth.sock"
 const CookieName = "jeneros_session"
+const SecureCookieName = "__Host-jeneros_session"
+
+func cookieName(r *http.Request) string {
+	if r.TLS != nil {
+		return SecureCookieName
+	}
+	return CookieName
+}
+
 const Lifetime = 8 * time.Hour
 
 var ErrCredentials = errors.New("Check your username and password, then try again.")
@@ -78,8 +87,10 @@ type Limiter struct {
 }
 
 type attempts struct {
-	n     int
-	until time.Time
+	n      int
+	until  time.Time
+	level  int
+	forget time.Time
 }
 
 func (l *Limiter) Allow(key string, now time.Time) bool {
@@ -89,18 +100,25 @@ func (l *Limiter) Allow(key string, now time.Time) bool {
 		l.entries = make(map[string]attempts)
 	}
 	for k, v := range l.entries {
-		if !now.Before(v.until) {
+		if !now.Before(v.forget) {
 			delete(l.entries, k)
 		}
 	}
 	v := l.entries[key]
-	if v.n >= l.Max || len(l.entries) >= 1024 && v.n == 0 {
+	if v.n >= l.Max && now.Before(v.until) || len(l.entries) >= 1024 && v.n == 0 {
 		return false
 	}
+	if !now.Before(v.until) {
+		v.n = 0
+	}
 	if v.n == 0 {
-		v.until = now.Add(l.Window)
+		v.until = now.Add(l.Window * time.Duration(1<<v.level))
 	}
 	v.n++
+	if v.n == l.Max && v.level < 4 {
+		v.level++
+	}
+	v.forget = v.until.Add(30 * time.Minute)
 	l.entries[key] = v
 	return true
 }
@@ -109,6 +127,17 @@ func (l *Limiter) Reset(key string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	delete(l.entries, key)
+}
+
+// RetryAfter reports the actual backoff without extending it on blocked calls.
+func (l *Limiter) RetryAfter(key string, now time.Time) time.Duration {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	v := l.entries[key]
+	if v.n >= l.Max && now.Before(v.until) {
+		return v.until.Sub(now)
+	}
+	return 0
 }
 
 type session struct {
@@ -144,7 +173,7 @@ func (m *Manager) Issue(w http.ResponseWriter, r *http.Request, username string)
 		}
 	}
 	// A fresh login replaces this browser's previous session.
-	if old, err := r.Cookie(CookieName); err == nil {
+	if old, err := r.Cookie(cookieName(r)); err == nil {
 		delete(m.sessions, sha256.Sum256([]byte(old.Value)))
 	}
 	if len(m.sessions) >= 128 {
@@ -153,13 +182,13 @@ func (m *Manager) Issue(w http.ResponseWriter, r *http.Request, username string)
 	}
 	m.sessions[sha256.Sum256([]byte(token))] = session{username, now.Add(Lifetime)}
 	m.mu.Unlock()
-	http.SetCookie(w, &http.Cookie{Name: CookieName, Value: token, Path: "/", HttpOnly: true,
+	http.SetCookie(w, &http.Cookie{Name: cookieName(r), Value: token, Path: "/", HttpOnly: true,
 		SameSite: http.SameSiteStrictMode, Secure: r.TLS != nil, MaxAge: int(Lifetime.Seconds())})
 	return nil
 }
 
 func (m *Manager) Owner(r *http.Request) (string, bool) {
-	c, err := r.Cookie(CookieName)
+	c, err := r.Cookie(cookieName(r))
 	if err != nil || len(c.Value) != 64 {
 		return "", false
 	}
@@ -176,10 +205,10 @@ func (m *Manager) Owner(r *http.Request) (string, bool) {
 
 func (m *Manager) Logout(w http.ResponseWriter, r *http.Request) {
 	m.mu.Lock()
-	if c, err := r.Cookie(CookieName); err == nil {
+	if c, err := r.Cookie(cookieName(r)); err == nil {
 		delete(m.sessions, sha256.Sum256([]byte(c.Value)))
 	}
 	m.mu.Unlock()
-	http.SetCookie(w, &http.Cookie{Name: CookieName, Path: "/", HttpOnly: true,
+	http.SetCookie(w, &http.Cookie{Name: cookieName(r), Path: "/", HttpOnly: true,
 		SameSite: http.SameSiteStrictMode, Secure: r.TLS != nil, MaxAge: -1})
 }

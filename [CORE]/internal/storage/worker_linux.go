@@ -89,6 +89,9 @@ func readPools(p Paths) ([]Pool, error) {
 	return pools, nil
 }
 
+// Pools returns recorded pools with their current mount state for app workers.
+func Pools(p Paths) ([]Pool, error) { return readPools(p) }
+
 // Apply is called only by the root oneshot, outside jenerd's mount namespace.
 // Requests stay present until a terminal status is published. A root-owned flock
 // serializes workers; O_EXCL pool reservations survive a crash/reboot and prevent

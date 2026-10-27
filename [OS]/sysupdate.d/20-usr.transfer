@@ -1,6 +1,6 @@
 [Transfer]
 ProtectVersion=%A
-Verify=no
+Verify=yes
 
 [Source]
 Type=url-file

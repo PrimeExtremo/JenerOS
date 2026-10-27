@@ -32,6 +32,7 @@
           <img class="setup-logo" src="logo.svg" alt="" width="88" height="88">
           <h1 id="welcomeTitle" class="page-title" tabindex="-1">Welcome to<br>JenerOS</h1>
           <p class="lede">A little box. A place for everything you love.</p>
+          <details class="certificate-help"><summary>About the browser warning</summary><p class="note">Your box makes its own HTTPS certificate, so your browser may say the connection is not trusted. Before continuing, open the browser's certificate details and compare its SHA-256 fingerprint with the one on your box's screen. Continue only if they match. Changing your box's name or network address creates a new certificate.</p><p class="note">On the box, choose Use your phone instead to see the fingerprint.</p></details>
           <div class="welcome-bottom">
           <fieldset class="field language-choice"><legend>Language</legend><label class="language-pill"><input id="language" type="radio" name="language" value="en" checked><span>English</span></label><p class="field-help">More languages soon</p></fieldset>
           <label class="privacy-choice"><span class="privacy-check"><input id="acceptedPrivacy" type="checkbox" required><span class="privacy-check-box" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span></span><span>I accept the <a id="privacyLink" href="#privacySheet" aria-haspopup="dialog">JenerOS Privacy Policy</a>.</span></label>
@@ -92,6 +93,7 @@
   <dialog id="phoneSheet" class="privacy-sheet setup-phone" aria-labelledby="phoneTitle">
     <header class="privacy-sheet-header"><h2 id="phoneTitle" class="panel-title">Use your phone instead</h2></header>
     <div class="privacy-sheet-content"><p class="note" id="phoneHint" role="status">Checking your box's network connection...</p><div id="phoneLinks" hidden><div class="box-qr" id="setupQR" role="img" aria-label="Setup link for your phone"></div><a class="box-address" id="phoneAddress"></a><a class="box-address" id="phoneLocalAddress"></a></div><p class="note" id="codeLabel"></p></div>
+    <div class="privacy-sheet-content"><p class="note">Certificate SHA-256: compare this with your browser's certificate details before continuing past its warning.</p><p id="setupFingerprint" class="certificate-fingerprint">Checking...</p></div>
     <footer class="privacy-sheet-actions"><button id="phoneClose" class="pill pill-accent" type="button">Close</button></footer>
   </dialog>
   <dialog id="privacySheet" class="privacy-sheet" aria-labelledby="privacyTitle">

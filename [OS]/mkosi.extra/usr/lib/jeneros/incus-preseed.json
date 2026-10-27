@@ -1,0 +1,15 @@
+{
+  "config": {},
+  "networks": [
+    { "name": "incusbr0", "type": "bridge", "config": { "ipv4.address": "auto", "ipv4.nat": "true", "ipv6.address": "none" } }
+  ],
+  "storage_pools": [
+    { "name": "jeneros", "driver": "dir", "config": {} }
+  ],
+  "profiles": [
+    { "name": "default", "devices": {
+      "root": { "type": "disk", "path": "/", "pool": "jeneros" },
+      "eth0": { "type": "nic", "network": "incusbr0", "name": "eth0" }
+    } }
+  ]
+}

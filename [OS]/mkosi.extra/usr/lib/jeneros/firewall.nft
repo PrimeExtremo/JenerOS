@@ -12,7 +12,8 @@ table inet jeneros {
         ct state invalid drop
         iifname "lo" accept
         # App containers talk to the host bridge for DHCP/DNS.
-        iifname "incusbr*" accept
+        iifname { "incusbr*", "ja-*" } udp dport { 53, 67 } accept
+        iifname { "incusbr*", "ja-*" } tcp dport 53 accept
 
         # Ping and IPv6 neighbour discovery, rate-limited.
         ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded } limit rate 10/second accept
@@ -24,6 +25,8 @@ table inet jeneros {
 
         # Dashboard (HTTP, HTTPS), .local name (mDNS), SSH only answers when the owner turned it on.
         tcp dport { 80, 443 } accept
+        # Pinned catalog web ports; listeners exist only for installed apps.
+        tcp dport { 2283, 8081, 8096, 8123 } accept
         udp dport 5353 accept
         tcp dport 22 ct state new limit rate 6/minute accept
     }

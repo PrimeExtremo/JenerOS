@@ -1,0 +1,14 @@
+[Unit]
+Description=Start saved JenerOS apps
+After=jeneros-apps-init.service local-fs.target
+Requires=jeneros-apps-init.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/jenerd apps-restore
+TimeoutStartSec=35min
+UMask=0077
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

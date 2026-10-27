@@ -1,6 +1,5 @@
 // JenerOS App Store window. Plain JS, no dependencies. The catalog comes from
-// jenerd's /api/store; installs, start and stop are not in jenerd yet, so the
-// window says so instead of pretending.
+// jenerd's /api/store; app changes and readings come from the root worker.
 window.JenerStore = (() => {
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
   const use = id => `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#${esc(id)}"/></svg>`;
@@ -33,14 +32,20 @@ window.JenerStore = (() => {
   let win, sheet, apps = [], sample = false, loaded = false, loading;
   let view = { page: 'discover' }, back = [], query = '';
   const installs = {};
+  let snapshot = null, pollTimer = null, manage = null, submitting = false, offline = false;
+  const apiFetch = (url, options) => window.JenerSession ? JenerSession.fetch(url, options) : fetch(url, options);
+  const pending = () => submitting || snapshot?.progress && !['', 'done', 'failed'].includes(snapshot.progress.stage);
   const $ = sel => win.querySelector(sel);
 
   const iconFor = a => ICONS.has(a.icon) ? a.icon : ICONS.has(a.id) ? a.id : 'apps';
   const appIcon = (a, cls = '') => `<span class="icon icon-${iconFor(a)} ${cls}"><svg class="doodle" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${iconFor(a)}"/></svg></span>`;
-  const installed = a => a.status === 'running' || a.status === 'stopped';
+  const installed = a => a.runtime ? !a.runtime.dataKept : a.status === 'running' || a.status === 'stopped';
   const category = id => CATEGORIES.find(c => c.id === id);
   const size = mb => !mb ? 'Not listed' : mb >= 1024 ? `${+(mb / 1024).toFixed(1)} GB` : `${mb} MB`;
-  const statusText = a => a.status === 'running' ? 'Running' : a.status === 'stopped' ? 'Stopped' : 'Not installed';
+  const statusText = a => ({ running: 'Running', stopped: 'Stopped', error: 'Needs attention', unknown: 'Unavailable' }[a.status] || 'Not installed');
+  const safeURL = value => {
+    try { const u = new URL(value); return u.protocol === 'http:' && !u.username && !u.password ? u.href : ''; } catch { return ''; }
+  };
   const popular = () => [...POPULAR.map(id => apps.find(a => a.id === id)).filter(Boolean), ...apps.filter(a => !POPULAR.includes(a.id))];
   const newest = () => [...apps].sort((a, b) => String(b.added || '').localeCompare(String(a.added || '')) || a.name.localeCompare(b.name));
 
@@ -111,6 +116,7 @@ window.JenerStore = (() => {
     win.addEventListener('input', e => { if (e.target.id === 'storeSearch') { query = e.target.value; renderResults(); } });
     win.addEventListener('submit', e => e.preventDefault());
     win.addEventListener('close', () => sheet.open && JenerUI.close(sheet));
+    win.addEventListener('close', () => { clearTimeout(pollTimer); if (manage?.open) JenerUI.close(manage); });
     bindSheet();
   }
 
@@ -128,16 +134,34 @@ window.JenerStore = (() => {
     if (loading) return loading;
     loading = (async () => {
       try {
-        const res = await fetch('/api/store', { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
-        if (!res.ok) throw new Error(res.status);
+        const res = await apiFetch('/api/store', { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
+        if (!res.ok) { const error = new Error('Could not read the app catalog.'); error.status = res.status; throw error; }
         const data = await res.json();
         if (!Array.isArray(data)) throw new Error('bad catalog');
-        apps = data; sample = false;
-      } catch {
-        if (!loaded || sample) { apps = SAMPLE; sample = true; }
+        apps = data; sample = false; offline = false;
+        const readings = await apiFetch('/api/apps', { cache: 'no-store', signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
+        if (!readings.ok) throw new Error('Could not read app status.');
+        snapshot = await readings.json();
+        if (!Array.isArray(snapshot.apps)) throw new Error('Invalid app status.');
+        for (const a of apps) {
+          const reading = snapshot.apps.find(r => r.id === a.id);
+          if (reading) { a.runtime = reading; a.status = reading.state; }
+          else { delete a.runtime; a.status = 'not-installed'; }
+          delete installs[a.id];
+        }
+        const p = snapshot.progress;
+        if (p?.app) installs[p.app] = { state: p.stage === 'failed' ? 'error' : p.stage === 'done' ? 'done' : 'installing', progress: Math.max(0, Math.min(100, Number(p.percent) || 0)), message: p.message };
+        if (!snapshot.available) notice('App management is not ready. Readings may be out of date.');
+        document.dispatchEvent(new CustomEvent('jener:apps', { detail: apps }));
+      } catch (error) {
+        offline = true;
+        if (!loaded && (error instanceof TypeError || error.status === 404)) { apps = SAMPLE; sample = true; }
+        else notice(error.message || 'Could not reach your box. Try again in a moment.');
       }
       loaded = true; loading = null;
       if (win.open) render(false);
+      clearTimeout(pollTimer);
+      if (win.open && !document.hidden) pollTimer = setTimeout(load, 3000);
     })();
     return loading;
   }
@@ -158,7 +182,8 @@ window.JenerStore = (() => {
     else if (d.storeNav) { const [page, id] = d.storeNav.split(':'); go(id ? { page, id } : { page }); }
     else if (d.storeApp) go({ page: 'app', id: d.storeApp });
     else if (d.storeInstall) install(d.storeInstall);
-    else if (d.storePower) notice(`${d.storePower === 'start' ? 'Starting' : 'Stopping'} apps ${SOON}`);
+    else if (d.storePower) changeApp(d.appId, d.storePower);
+    else if (d.storeRemove) manageApp(d.storeRemove, 'uninstall');
     else if (d.storeCustom !== undefined) openSheet();
   }
   function notice(text) {
@@ -179,7 +204,13 @@ window.JenerStore = (() => {
     });
     $('[data-store-back]').hidden = view.page !== 'app';
     $('#storePageTitle').textContent = app ? app.name : cat ? cat.name : titles[view.page] || 'Discover';
-    notice(sample ? 'Sample catalog. Open this page from your box to see its real app list.' : '');
+    if (sample) notice('Sample catalog. Open this page from your box to see its real app list.');
+    else if (offline) notice('Could not refresh your apps. Readings may be out of date.');
+    else if (snapshot && !snapshot.available) notice('App management is not ready. Check the app service on your box.');
+    else if (snapshot?.progress?.stage === 'failed') notice(snapshot.progress.message);
+    else if (pending()) notice(snapshot?.progress?.message || 'Asking your box...');
+    else if (Object.values(installs).some(s => s.state === 'error')) notice(Object.values(installs).find(s => s.state === 'error').message);
+    else notice('');
     const page = $('#storePage'), active = document.activeElement, scroll = page.scrollTop;
     const attr = page.contains(active) && [...active.attributes].find(x => x.name === 'id' || x.name.startsWith('data-store-'));
     const keep = attr && `[${attr.name}="${CSS.escape(attr.value)}"]`;
@@ -242,8 +273,8 @@ window.JenerStore = (() => {
   function installButton(a) {
     const st = installs[a.id] || {};
     const busy = st.state === 'busy' || st.state === 'installing';
-    const label = installed(a) ? 'Installed' : st.state === 'installing' ? 'Installing…' : busy ? 'Asking your box…' : st.state === 'soon' ? 'Coming soon' : 'Install';
-    const off = installed(a) || busy || st.state === 'soon';
+    const label = busy ? (st.progress ? `${st.progress}%` : 'Waiting...') : installed(a) ? 'Installed' : !a.available || st.state === 'soon' ? 'Coming soon' : 'Install';
+    const off = installed(a) || busy || st.state === 'soon' || !a.available || pending() || offline || !snapshot?.available;
     return `<div class="store-install">
   <button class="pill pill-accent store-install-button${busy ? ' busy' : ''}" data-store-install="${esc(a.id)}" aria-describedby="storeInstallNote"${off ? ' aria-disabled="true"' : ''}${busy ? ' aria-busy="true"' : ''}>
     <svg class="store-ring" viewBox="0 0 36 36" aria-hidden="true"><g transform="rotate(-90 18 18)"><circle class="store-ring-track" cx="18" cy="18" r="14"/>${installed(a) || st.progress ? `<circle class="store-ring-fill" cx="18" cy="18" r="14" style="--progress:${installed(a) ? 100 : st.progress}"/>` : ''}</g>${installed(a) ? '<path class="store-ring-check" d="M12.5 18.5l3.5 3.5 7.5-8" pathLength="1"/>' : ''}</svg>
@@ -252,24 +283,9 @@ window.JenerStore = (() => {
   }
   async function install(id) {
     const a = apps.find(x => x.id === id);
-    if (!a || installed(a) || ['busy', 'installing', 'soon'].includes(installs[id]?.state)) return;
+    if (!a || installed(a) || pending() || !a.available || offline || !snapshot?.available || ['busy', 'installing', 'soon'].includes(installs[id]?.state)) return;
     if (sample) { installs[id] = { state: 'soon', message: 'This is a sample catalog. Open this page from your box to install apps.' }; return rerenderInstall(a); }
-    installs[id] = { state: 'busy' }; rerenderInstall(a);
-    try {
-      const res = await fetch(`/api/apps/${encodeURIComponent(id)}/install`, { method: 'POST', headers: { 'X-JenerOS': '1' }, signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined });
-      if (res.status === 501) installs[id] = { state: 'soon', message: `Installing apps ${SOON}` };
-      else if (res.ok) { installs[id] = { state: 'installing', message: `${a.name} is installing. This can take a few minutes.` }; watch(id); }
-      else { const data = await res.json().catch(() => ({})); installs[id] = { state: 'error', message: data.error ? `Your box said: ${data.error}` : 'Your box could not start the install. Please try again.' }; }
-    } catch { installs[id] = { state: 'error', message: 'Could not reach your box. Please try again.' }; }
-    rerenderInstall(a);
-  }
-  // Follows a real install once jenerd supports it: the store status flips.
-  async function watch(id) {
-    await new Promise(done => setTimeout(done, 3000));
-    if (!win.open) return;
-    await load();
-    const a = apps.find(x => x.id === id);
-    if (a && installed(a)) { delete installs[id]; rerenderInstall(a, true); } else if (a) watch(id);
+    return manageApp(id, 'install');
   }
   function rerenderInstall(a, celebrate = false) {
     const box = view.page === 'app' && view.id === a.id && $('.store-install');
@@ -290,27 +306,112 @@ window.JenerStore = (() => {
   <div class="store-app-title"><h4>${esc(a.name)}</h4><p>${esc(a.tagline)}</p>${a.upstream ? `<p class="store-help">Built on ${esc(a.upstream)}</p>` : ''}</div>
   ${installButton(a)}
 </section>
+${installed(a) ? `<div class="store-app-actions">${actions(a)}</div>` : ''}
 <dl class="store-chips">${chips.map(([k, v]) => `<div class="store-chip"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
 <section class="store-section" aria-labelledby="storeShots"><h4 id="storeShots">Screenshots</h4>
   ${shots.length ? `<div class="store-shots" tabindex="0" role="group" aria-label="${esc(a.name)} screenshots, scroll sideways">${shots.map((_, i) => `<img src="/api/store/${encodeURIComponent(a.id)}/screenshots/${i}" alt="${esc(a.name)} screenshot ${i + 1} of ${shots.length}" loading="lazy">`).join('')}</div>`
     : `<div class="store-shots-empty store-art store-art-${iconFor(a)}">${appIcon(a)}<p>Screenshots are on their way. Until then, here's the gist: ${esc(a.tagline)}</p></div>`}</section>
-<section class="store-section store-text" aria-labelledby="storeWhatsNew"><h4 id="storeWhatsNew">What's new</h4><p class="store-help">Version ${esc(a.version || '—')}</p><p>${esc(a.whatsNew || 'No notes for this version yet.')}</p></section>
+<section class="store-section store-text" aria-labelledby="storeWhatsNew"><h4 id="storeWhatsNew">What's new</h4><p class="store-help">Version ${esc(a.version || 'not listed')}</p><p>${esc(a.whatsNew || 'No notes for this version yet.')}</p></section>
 <section class="store-section store-text" aria-labelledby="storeAbout"><h4 id="storeAbout">About</h4>${String(a.description || a.tagline).split(/\n{2,}/).map(p => `<p>${esc(p)}</p>`).join('')}
-  ${a.web?.port ? `<p class="store-help">Opens on port ${esc(a.web.port)} inside your box.</p>` : ''}</section>`;
+  ${a.web?.host ? `<p class="store-help">Opens on port ${esc(a.web.host)} on your home network. Each app has its own sign-in.</p>` : ''}</section>`;
   }
 
   function myAppsPage() {
     const mine = apps.filter(installed);
-    const dash = '<span aria-hidden="true">—</span><span class="sr-only">Not measured yet</span>';
+    const dash = '<span class="store-help">Not measured</span>';
     const rows = mine.map(a => `<tr><th scope="row"><span class="store-cell-app">${appIcon(a)}${esc(a.name)}</span></th>
   <td data-label="Status"><span class="store-status store-status-${a.status === 'running' ? 'on' : 'off'}">${statusText(a)}</span></td>
-  <td data-label="Port">${esc(a.web?.port || '—')}</td><td data-label="Uptime">${dash}</td><td data-label="Memory">${dash}</td><td data-label="CPU">${dash}</td>
-  <td data-label="Actions"><button class="pill" data-store-power="${a.status === 'running' ? 'stop' : 'start'}" aria-disabled="true">${a.status === 'running' ? 'Stop' : 'Start'}<span class="sr-only"> ${esc(a.name)}, coming soon</span></button></td></tr>`).join('');
-    return `<p class="section-caption">Apps on this box. Live memory, CPU and start/stop controls arrive with app management.</p>
+  <td data-label="Port">${esc(a.runtime?.port || a.web?.host || 'Unavailable')}</td><td data-label="Uptime">${a.status === 'running' && a.runtime?.uptimeSec ? `${Math.floor(a.runtime.uptimeSec / 60)} min` : dash}</td><td data-label="Memory">${a.status === 'running' ? size(Math.round((a.runtime?.memoryBytes || 0) / 1048576)) : dash}</td><td data-label="CPU">${a.status === 'running' && Number.isFinite(a.runtime?.cpuPercent) ? `${a.runtime.cpuPercent.toFixed(1)}%` : dash}</td>
+  <td data-label="Actions">${actions(a)}${a.runtime?.message ? `<p class="store-help">${esc(a.runtime.message)}</p>` : ''}</td></tr>`).join('');
+    return `<p class="section-caption">Apps on this box. CPU shows usage across all cores. Uninstall keeps your files unless you choose to delete them.</p>
 <div class="store-table-wrap"><table class="store-table"><caption class="sr-only">Installed apps</caption>
 <thead><tr><th scope="col">App</th><th scope="col">Status</th><th scope="col">Port</th><th scope="col">Uptime</th><th scope="col">Memory</th><th scope="col">CPU</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
 <tbody>${rows || `<tr class="store-table-empty"><td colspan="7"><strong>No apps yet</strong><p class="muted">Apps you install show up here with their status and port.</p><button class="pill" data-store-nav="discover">Find an app</button></td></tr>`}</tbody></table></div>`;
   }
+
+  function actions(a) {
+    const url = a.status === 'running' && safeURL(a.runtime?.url);
+    const disabled = pending() || offline || !snapshot?.available ? ' disabled' : '';
+    return `${url ? `<a class="pill" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open<span class="sr-only"> ${esc(a.name)}</span></a>` : ''}
+<button class="pill" data-store-power="${a.status === 'running' ? 'stop' : 'start'}" data-app-id="${esc(a.id)}"${disabled}>${a.status === 'running' ? 'Stop' : 'Start'}<span class="sr-only"> ${esc(a.name)}</span></button>
+<button class="pill" data-store-remove="${esc(a.id)}"${disabled}>Uninstall<span class="sr-only"> ${esc(a.name)}</span></button>`;
+  }
+
+  async function changeApp(id, action, options = {}) {
+    if (pending() || sample || offline || !snapshot?.available) return false;
+    submitting = true;
+    installs[id] = { state: 'busy', message: 'Asking your box...' };
+    render(false);
+    try {
+      const res = await apiFetch(`/api/apps/${encodeURIComponent(id)}${action === 'uninstall' ? '' : '/' + action}`, {
+        method: action === 'uninstall' ? 'DELETE' : 'POST', headers: { 'X-JenerOS': '1', 'Content-Type': 'application/json' }, body: JSON.stringify(options),
+        signal: typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' ? AbortSignal.timeout(8000) : undefined,
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || 'Your box could not begin this change.');
+      snapshot.progress = { id: body.id, app: id, action, stage: 'queued', percent: 0, message: 'Waiting to begin.' };
+      installs[id] = { state: 'installing', message: 'Waiting to begin.' };
+      notice('Your box is working on it. You can close this window.');
+      if (manage?.open) JenerUI.close(manage);
+      return true;
+    } catch (error) {
+      installs[id] = { state: 'error', message: error.message || 'Could not reach your box. Check My Apps before trying again.' };
+      notice(installs[id].message);
+      if (manage?.open) manage.querySelector('[data-manage-status]').textContent = installs[id].message;
+      return false;
+    } finally {
+      submitting = false;
+      render(false);
+      clearTimeout(pollTimer);
+      pollTimer = setTimeout(load, 1000);
+    }
+  }
+
+  async function manageApp(id, action) {
+    const a = apps.find(x => x.id === id);
+    if (!a || pending() || offline || !snapshot?.available) return;
+    if (!manage) {
+      document.body.insertAdjacentHTML('beforeend', '<dialog class="desktop-dialog store-sheet" id="storeManage" aria-labelledby="storeManageTitle"></dialog>');
+      manage = document.getElementById('storeManage');
+    }
+    manage.innerHTML = `<form novalidate><h2 id="storeManageTitle">${action === 'install' ? 'Install' : 'Uninstall'} ${esc(a.name)}</h2>
+${action === 'install' ? '<p>Choose where this app keeps its files.</p><label for="appPool">Storage</label><select id="appPool" name="pool"><option value="">Checking storage...</option></select>' : `<p>Your files stay on this box so you can install this app again.</p><label class="store-delete-choice"><input type="checkbox" name="deleteData"> Delete this app's files too</label><label for="appConfirm">To delete files, type ${esc(id)}</label><input id="appConfirm" name="confirm" autocomplete="off" disabled>`}
+<p role="status" data-manage-status></p><div class="row"><button type="button" class="pill" data-manage-cancel>Cancel</button><button type="submit" class="pill pill-accent"${action === 'install' ? ' disabled' : ''}>${action === 'install' ? 'Install' : 'Uninstall'}</button></div></form>`;
+    manage.querySelector('[data-manage-cancel]').onclick = () => JenerUI.close(manage);
+    const form = manage.querySelector('form');
+    form.onchange = () => {
+      if (action === 'uninstall') form.elements.confirm.disabled = !form.elements.deleteData.checked;
+    };
+    form.onsubmit = async event => {
+      event.preventDefault();
+      const options = action === 'install' ? { pool: form.elements.pool.value } : { deleteData: form.elements.deleteData.checked };
+      if (options.deleteData) {
+        options.confirm = form.elements.confirm.value;
+        if (options.confirm !== id) { manage.querySelector('[data-manage-status]').textContent = `Type ${id} to confirm deleting its files.`; form.elements.confirm.focus(); return; }
+      }
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      try { await changeApp(id, action, options); } finally { submit.disabled = false; }
+    };
+    motion().open(manage);
+    if (action === 'install') {
+      try {
+        const res = await apiFetch('/api/storage', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Could not check storage. Close this sheet and try again.');
+        const data = await res.json();
+        const pools = (data.pools || []).filter(p => p.mounted && p.state === 'ready');
+        form.elements.pool.innerHTML = [...pools.map(p => `<option value="${esc(p.name)}">${esc(p.name)}</option>`), '<option value="@system">System disk</option>'].join('');
+        if (a.runtime?.dataKept) { form.elements.pool.value = a.runtime.pool; form.elements.pool.disabled = true; }
+        form.querySelector('[type="submit"]').disabled = a.runtime?.dataKept && !form.elements.pool.value;
+        if (a.runtime?.dataKept) manage.querySelector('[data-manage-status]').textContent = form.elements.pool.value ? 'Your saved files will be used again.' : 'Reconnect the storage holding your saved files.';
+      } catch (error) { manage.querySelector('[data-manage-status]').textContent = error.message; }
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(pollTimer);
+    if (!document.hidden && win?.open) load();
+  });
 
   // ---------- custom install ----------
   let yamlEdited = false;
@@ -375,5 +476,5 @@ window.JenerStore = (() => {
     });
   }
 
-  return { open, close };
+  return { open, close, refresh: load };
 })();

@@ -1,0 +1,62 @@
+JenerOS launch v3 — silent picture; VO and music mixed in Premiere.
+60 fps. Music: 96 BPM PLACEHOLDER.
+Song in-point 0.000s. VO at 00:00.000.
+Cuts snap to beats; fine word cues are envelope estimates. Check by ear.
+End card: six-second in-scene recreation; optionally replace with logo-intro MP4.
+
+01 | 000.000-003.750s | frames 1-225 | beat 1 | Closet opens
+    VO 0.000s: Okay... look in your closet. That old PC? It's not junk. It's your new cloud!
+02 | 003.750-005.000s | frames 226-300 | beat 7 | It's not junk.
+    VO 3.940s: Okay... look in your closet. That old PC? It's not junk. It's your new cloud!
+03 | 005.000-006.250s | frames 301-375 | beat 9 | Your new cloud.
+    VO 5.060s: Okay... look in your closet. That old PC? It's not junk. It's your new cloud!
+04 | 006.250-007.500s | frames 376-450 | beat 11 | Your photos
+    VO 6.430s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+05 | 007.500-008.125s | frames 451-488 | beat 13 | Your files
+    VO 7.290s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+06 | 008.125-009.375s | frames 489-562 | beat 14 | Your movies
+    VO 8.280s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+07 | 009.375-010.625s | frames 563-638 | beat 16 | The photo comes home
+    VO 9.380s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+08 | 010.625-011.875s | frames 639-712 | beat 18 | Dashboard screen-to-room
+    VO 10.625s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+09 | 011.875-013.125s | frames 713-788 | beat 20 | Glossy app icon macro
+    VO 11.875s: Your photos... your files... your movies... all living at home. Not on someone else's computer.
+10 | 013.125-015.625s | frames 789-938 | beat 22 | USB insertion
+    VO 12.960s: Setting it up? Plug in a USB stick, turn it on... and just scan the code with your phone!
+11 | 015.625-016.250s | frames 939-975 | beat 26 | Power LED and J splash
+    VO 15.440s: Setting it up? Plug in a USB stick, turn it on... and just scan the code with your phone!
+12 | 016.250-018.750s | frames 976-1125 | beat 27 | QR to phone whip
+    VO 16.550s: Setting it up? Plug in a USB stick, turn it on... and just scan the code with your phone!
+13 | 018.750-020.000s | frames 1126-1200 | beat 31 | No keyboard.
+    VO 18.840s: No keyboard. No commands. No account.
+14 | 020.000-021.250s | frames 1201-1275 | beat 33 | No commands.
+    VO 20.070s: No keyboard. No commands. No account.
+15 | 021.250-022.500s | frames 1276-1350 | beat 35 | No account.
+    VO 20.940s: No keyboard. No commands. No account.
+16 | 022.500-027.500s | frames 1351-1650 | beat 37 | Two drives, two copies
+    VO 22.600s: Add two drives, and JenerOS keeps two copies of everything. Lose a drive? Nothing's lost.
+17 | 027.500-030.625s | frames 1651-1838 | beat 45 | Lose a drive? Nothing's lost.
+    VO 27.280s: Add two drives, and JenerOS keeps two copies of everything. Lose a drive? Nothing's lost.
+18 | 030.625-035.000s | frames 1839-2100 | beat 50 | System A and system B
+    VO 30.560s: Updates go onto a second copy of the system. If one ever fails... it just rolls back.
+19 | 035.000-036.250s | frames 2101-2175 | beat 57 | Rollback speed ramp
+    VO 34.720s: Updates go onto a second copy of the system. If one ever fails... it just rolls back.
+20 | 036.250-038.750s | frames 2176-2325 | beat 59 | App Store on the way
+    VO 36.220s: And your own app store is on the way!
+21 | 038.750-040.625s | frames 2326-2438 | beat 63 | The best part?
+    VO 38.620s: Oh, and the best part? No paid tier. No disk limits. No user limits.
+22 | 040.625-042.500s | frames 2439-2550 | beat 66 | No paid tier.
+    VO 40.510s: Oh, and the best part? No paid tier. No disk limits. No user limits.
+23 | 042.500-043.750s | frames 2551-2625 | beat 69 | No disk limits.
+    VO 42.500s: Oh, and the best part? No paid tier. No disk limits. No user limits.
+24 | 043.750-045.000s | frames 2626-2700 | beat 71 | No user limits.
+    VO 43.640s: Oh, and the best part? No paid tier. No disk limits. No user limits.
+25 | 045.000-048.125s | frames 2701-2888 | beat 73 | A second life
+    VO 45.290s: It runs on the PC you already have. That's one less computer in a landfill.
+26 | 048.125-050.625s | frames 2889-3038 | beat 78 | One less computer in a landfill
+    VO 48.300s: It runs on the PC you already have. That's one less computer in a landfill.
+27 | 050.625-057.500s | frames 3039-3450 | beat 82 | Everything, at home
+    VO 50.625s: It runs on the PC you already have. That's one less computer in a landfill.
+28 | 057.500-063.500s | frames 3451-3810 | beat 93 | JenerOS end card
+    VO 57.500s: JenerOS. Free. Open source. Yours.

@@ -5,6 +5,7 @@ package setup
 import (
 	"bufio"
 	"crypto/rand"
+	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/json"
 	"errors"
@@ -99,9 +100,10 @@ type ValidationError struct {
 }
 
 type Manager struct {
-	paths Paths
-	code  string
-	mu    sync.Mutex
+	paths    Paths
+	code     string
+	mu       sync.Mutex
+	failures int
 }
 
 func New(p Paths) (*Manager, error) {
@@ -110,15 +112,39 @@ func New(p Paths) (*Manager, error) {
 	if err != nil || done {
 		return m, err
 	}
+	return m, m.rotateCode()
+}
+
+func (m *Manager) rotateCode() error {
 	n, err := rand.Int(rand.Reader, big.NewInt(1000000))
 	if err != nil {
-		return nil, err
+		return err
 	}
-	m.code = fmt.Sprintf("%06d", n.Int64())
-	if err := atomicWrite(p.Code, []byte(m.code+"\n"), 0o644); err != nil {
-		return nil, err
+	code := fmt.Sprintf("%06d", n.Int64())
+	if code == m.code {
+		return m.rotateCode()
 	}
-	return m, nil
+	if err := atomicWrite(m.paths.Code, []byte(code+"\n"), 0o644); err != nil {
+		m.code = ""
+		return err
+	}
+	m.code, m.failures = code, 0
+	return nil
+}
+
+// LocalCode is exposed only to the loopback kiosk, never a LAN browser.
+func (m *Manager) LocalCode() (string, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	done, err := m.Done()
+	if err != nil {
+		return "", err
+	}
+	if done {
+		m.code = ""
+		return "", nil
+	}
+	return m.code, nil
 }
 
 func (m *Manager) Done() (bool, error) {
@@ -335,7 +361,14 @@ func (m *Manager) Submit(req Request) error {
 	if done {
 		return ErrDone
 	}
-	if m.code == "" || subtle.ConstantTimeCompare([]byte(req.Code), []byte(m.code)) != 1 {
+	want, got := sha256.Sum256([]byte(m.code)), sha256.Sum256([]byte(req.Code))
+	if m.code == "" || subtle.ConstantTimeCompare(got[:], want[:]) != 1 {
+		m.failures++
+		if m.failures >= 10 {
+			if err := m.rotateCode(); err != nil {
+				return err
+			}
+		}
 		return ErrCode
 	}
 	busy, err := exists(m.paths.Request)

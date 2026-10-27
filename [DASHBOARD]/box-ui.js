@@ -3,7 +3,8 @@ window.BoxUI = {
   local: ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname),
   address(ip) {
     const host = ip.includes(':') ? `[${ip}]` : ip;
-    return `http://${host}${location.port && location.port !== '80' ? ':' + location.port : ''}`;
+    const preview = location.port && !['80', '443'].includes(location.port);
+    return `${preview ? (location.protocol || 'http:') : 'https:'}//${host}${preview ? ':' + location.port : ''}`;
   },
   localAddress(hostname) {
     const host = (hostname || 'jeneros').toLowerCase().replace(/\.local\.?$/, '').split('.')[0];

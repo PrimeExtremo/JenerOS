@@ -6,9 +6,12 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PrimeExtremo/JenerOS/core/internal/auth"
+	"github.com/PrimeExtremo/JenerOS/core/internal/transport"
 )
 
 func RegisterAuth(mux *http.ServeMux, m *auth.Manager) {
@@ -19,9 +22,10 @@ func RegisterAuth(mux *http.ServeMux, m *auth.Manager) {
 		}
 		// Ignore forwarding headers: only the direct peer is trusted.
 		now := m.Now()
-		if !m.IP.Allow(ip, now) || !m.Global.Allow("owner", now) {
-			w.Header().Set("Retry-After", "60")
-			writeError(w, 429, errors.New("Too many tries. Wait a minute, then try again."))
+		ipAllowed, globalAllowed := m.IP.Allow(ip, now), m.Global.Allow("owner", now)
+		if !ipAllowed || !globalAllowed {
+			w.Header().Set("Retry-After", retrySeconds(m.IP.RetryAfter(ip, now), m.Global.RetryAfter("owner", now)))
+			writeError(w, 429, errors.New("Too many tries. Wait a few minutes, then try again."))
 			return
 		}
 		var c auth.Credentials
@@ -64,13 +68,18 @@ func RegisterAuth(mux *http.ServeMux, m *auth.Manager) {
 	}))
 }
 
-func loopback(r *http.Request) bool {
-	host, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return false
+func retrySeconds(a, b time.Duration) string {
+	if b > a {
+		a = b
 	}
-	ip := net.ParseIP(host)
-	return ip != nil && ip.IsLoopback()
+	if a <= 0 {
+		a = time.Minute
+	}
+	return strconv.Itoa(int((a + time.Second - 1) / time.Second))
+}
+
+func loopback(r *http.Request) bool {
+	return transport.Local(r)
 }
 
 // OwnerOnly protects the whole mux, including future APIs. First-boot setup has

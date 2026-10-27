@@ -13,6 +13,10 @@ chmod 0755 /usr/lib/jeneros/kiosk-fallback
 chmod 0755 /usr/lib/jeneros/rollback
 chmod 0755 /usr/lib/jeneros/ssh-access
 chmod 0755 /usr/lib/jeneros/storage-create
+# Apply the test-only root-key exception after all image overlays are combined.
+if [ -f /usr/share/jeneros/dev/authorized_keys ]; then
+    sed -i 's/^PermitRootLogin no$/PermitRootLogin prohibit-password/' /usr/lib/jeneros/sshd_config
+fi
 # Keep the issue version correct regardless of ExtraTrees overlay ordering.
 version=$(sed -n 's/^IMAGE_VERSION=//p' /usr/lib/os-release | tr -d '"')
 case "$version" in ''|*[!A-Za-z0-9._-]*) echo 'Invalid issue version' >&2; exit 1 ;; esac
@@ -53,6 +57,14 @@ want jeneros-update.path multi-user.target.wants
 want jeneros-rollback.path multi-user.target.wants
 want jeneros-ssh.path multi-user.target.wants
 want jeneros-storage-create.path multi-user.target.wants
+want incus.service multi-user.target.wants
+want incus-startup.service multi-user.target.wants
+want incus-lxcfs.service multi-user.target.wants
+want incus.socket sockets.target.wants
+want jeneros-apps-init.service multi-user.target.wants
+want jeneros-apps-restore.service multi-user.target.wants
+want jeneros-apps.path multi-user.target.wants
+want jeneros-apps-status.timer timers.target.wants
 want jeneros-update-check.path multi-user.target.wants
 want jeneros-update-check.timer timers.target.wants
 want jeneros-setup-apply.path multi-user.target.wants

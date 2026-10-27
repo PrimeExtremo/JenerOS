@@ -2,7 +2,7 @@
 # New entries get 3 tries; if they never boot cleanly, systemd-boot falls back.
 [Transfer]
 ProtectVersion=%A
-Verify=no
+Verify=yes
 
 [Source]
 Type=url-file

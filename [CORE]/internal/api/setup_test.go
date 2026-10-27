@@ -192,7 +192,7 @@ func TestSetupQueuesOnceAndReportsProgress(t *testing.T) {
 
 func TestSetupCodeGuessesAreLimited(t *testing.T) {
 	mux, _, req := setupFixture(t)
-	req.Code = "000000"
+	req.Code = "invalid"
 	for i := 1; i <= 5; i++ {
 		if res := setupPost(t, mux, req, true); res.Code != http.StatusForbidden {
 			t.Fatalf("guess %d: got %d, want 403", i, res.Code)

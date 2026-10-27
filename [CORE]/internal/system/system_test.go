@@ -37,7 +37,7 @@ func TestHomeInterfaces(t *testing.T) {
 			t.Errorf("home interface %q was excluded", name)
 		}
 	}
-	for _, name := range []string{"docker0", "br-123abc", "veth123", "virbr0", "incusbr0", "lxcbr0", "lxdbr0", "cni0", "flannel.1", "podman0"} {
+	for _, name := range []string{"docker0", "br-123abc", "ja-photos", "veth123", "virbr0", "incusbr0", "lxcbr0", "lxdbr0", "cni0", "flannel.1", "podman0"} {
 		if homeInterface(net.Interface{Name: name, Flags: net.FlagUp}) {
 			t.Errorf("container interface %q was included", name)
 		}

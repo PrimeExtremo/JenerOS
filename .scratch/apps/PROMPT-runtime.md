@@ -1,0 +1,14 @@
+JenerOS, branch zimaos-style. Goal: the App Store installs and runs REAL apps. This is the biggest gap versus umbrelOS (300+ one-click apps). Start with Immich (photos), then Jellyfin, Nextcloud and Home Assistant.
+
+Read first: AGENTS.md, handoff.md sections 3, 4 and 6, `[DOCS]/PHASE-1.md` Milestone 3, `[SPEC]/app-manifest.md`, `[DOCS]/ARCHITECTURE.md`, and the existing `[CORE]/internal/runtime`, `catalog` and `storage` packages plus the store UI (`[DASHBOARD]/store.*`, app.js). Follow the decisions already made (Incus 7.0 LTS from the Zabbly repo, OCI app containers, no Docker daemon, privilege split through root .path workers, defaults in /usr, stdlib-only jenerd).
+
+Build:
+1. Image: Incus 7.0 LTS in the mkosi image, with a preseed (storage pool on the data pool when one exists, otherwise /var/lib/jeneros, plus a bridge) applied on first boot by a oneshot unit. Units are enabled via `want()` in mkosi.postinst.chroot. Respect the boot-order rule (.path/.socket/.timer with After=jenerd need DefaultDependencies=no) and keep the CI guard green.
+2. Root app worker (same pattern as the storage worker): install, start, stop, uninstall and status for a manifest. Multi-container apps (Immich needs server + ML + Postgres + Redis) run as OCI containers on a per-app network, with volumes under the chosen storage pool (`/var/lib/jeneros/pools/<name>/Apps/<app>`) and secrets generated on install and stored root-only. Validate every manifest field; never pass user strings to a shell.
+3. jenerd API: install with progress (pulling, creating, starting, health), list installed apps with state/uptime/CPU/memory, open URL (LAN address:port), stop/start/uninstall (keep data unless "delete data" is confirmed). Owner session + CSRF header as for the other actions.
+4. Catalog: real manifests for Immich, Jellyfin, Nextcloud and Home Assistant with pinned image digests or versions, ports, volumes, env and health checks. Everything else stays "Coming soon".
+5. UI: wire the Install ring to real progress, My Apps with live stats, Open/Stop/Uninstall, and honest error states. The kiosk (box screen) stays light: no heavy animation.
+6. Tests: Go unit tests for manifest validation, the worker request parsing and the API; node fixtures for the UI; add them to `.github/workflows/checks.yml`. gofmt everything (Go isn't installed on Windows; write correct gofmt style; Claude runs gofmt/vet/test on the build VM).
+
+Codex can't reach the VMs: write `.scratch/apps/VM-CHECKS.md` with exact commands for Claude to build and verify on the test VM (install Immich, upload a photo through Immich's web UI, reboot persistence, A/B update keeps apps, uninstall keeps data).
+Log in `[DOCS]/AI-UPDATES.md` and update handoff sections 3 and 6. Files only, no commits. Plain words in the UI, no em dashes, never "Arvey".

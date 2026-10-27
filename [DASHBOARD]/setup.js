@@ -164,6 +164,12 @@
       const res = await fetch('/api/system', { cache: 'no-store' });
       if (!res.ok) throw new Error('Disconnected');
       network = await res.json();
+      if (network.setupCode && network.setupCode !== code) {
+        code = network.setupCode;
+        $('setupCode').value = code;
+        validateFields();
+      }
+      if ($('setupFingerprint')) $('setupFingerprint').textContent = network.certificateFingerprint || 'Not available';
     } catch { network = null; }
     if (!finished) { renderPhone(); setTimeout(refreshNetwork, 3000); }
   }

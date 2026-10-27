@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "expected_bpm": 96,
+  "bpm": 95.703125,
+  "expected_drop": 60.25,
+  "drop": 60.16290249433106,
+  "section_start": 20.038820861678,
+  "note": "Synthetic onset/RMS fixture only; actual Falling Apart track is absent."
+}

@@ -9,12 +9,29 @@ const { spawn, execFileSync } = require('node:child_process');
 const root = path.resolve('[DASHBOARD]');
 const baseline = process.argv.includes('--baseline');
 const suite = process.env.JENER_UI_FIXTURE || 'welcome';
-if (!['welcome', 'click-shim', 'shine', 'kiosk-shine', 'phone-polish', 'storage'].includes(suite)) throw Error('Unknown browser fixture');
+if (!['welcome', 'click-shim', 'shine', 'kiosk-shine', 'phone-polish', 'storage', 'apps'].includes(suite)) throw Error('Unknown browser fixture');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
-const checks = fs.readFileSync(path.join(__dirname, suite === 'storage' ? '../zimaos/storage-browser.js' : suite + '-browser.js'), 'utf8');
+const checks = fs.readFileSync(path.join(__dirname, suite === 'apps' ? '../apps/apps-browser.js' : suite === 'storage' ? '../zimaos/storage-browser.js' : suite + '-browser.js'), 'utf8');
 let browser, timer;
+const fixtureScripts = new Map();
+// Exercise the production script/style/resource policy. Frames are allowed only
+// in this layout harness; the production frame-ancestors 'none' is tested in Go.
+const policy = fs.readFileSync('[CORE]/internal/transport/http.go', 'utf8').match(/const CSP = "([^"]+)"/)[1].replace("frame-ancestors 'none'", "frame-ancestors 'self'") + "; frame-src 'self'";
+function html(res, source) {
+  source = source.toString().replace(/<script>([\s\S]*?)<\/script>/g, (_, code) => {
+    const url = '/fixture-script-' + fixtureScripts.size + '.js';
+    fixtureScripts.set(url, code);
+    return '<script src="' + url + '"></script>';
+  });
+  res.setHeader('Content-Security-Policy', policy);
+  res.end(source);
+}
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://fixture');
+  if (fixtureScripts.has(url.pathname)) {
+    res.setHeader('Content-Type', 'text/javascript');
+    res.end(fixtureScripts.get(url.pathname)); return;
+  }
   if (url.pathname === '/result') {
     let body = ''; req.on('data', chunk => body += chunk);
     req.on('end', () => {
@@ -25,11 +42,11 @@ const server = http.createServer((req, res) => {
   }
   if (url.pathname === '/fixture.html') {
     res.setHeader('Content-Type', 'text/html');
-    res.end(`<html><body><script>
+    html(res, `<html><body><script>
       (async () => {
         const errors = [], passed = [];
-        for (const page of ${JSON.stringify(suite === 'storage' ? ['index'] : suite === 'phone-polish' ? ['setup', 'login', 'index'] : suite === 'kiosk-shine' ? ['setup', 'login', 'screen'] : suite === 'shine' ? ['setup', 'login'] : ['setup'])})
-        for (const theme of ['dark', 'light']) for (const [width, height] of ${JSON.stringify(suite === 'storage' ? [[360,780],[390,844],[780,360],[1280,800]] : suite === 'phone-polish' ? [[360,780],[390,844],[430,932],[780,360],[932,430],[1280,800]] : [[1280,800],[390,800]])}) for (const mode of ${JSON.stringify(suite === 'storage' ? ['native', 'missing', 'reduced-motion', 'large-text'] : suite === 'phone-polish' ? ['native', 'large-text', 'missing'] : suite === 'welcome' ? ['native', 'missing', 'throwing', 'noop', 'qr-failure'] : suite.endsWith('shine') ? ['native', 'reduced-motion', 'reduced-transparency'] : ['native'])}) {
+        for (const page of ${JSON.stringify(['storage', 'apps'].includes(suite) ? ['index'] : suite === 'phone-polish' ? ['setup', 'login', 'index'] : suite === 'kiosk-shine' ? ['setup', 'login', 'screen'] : suite === 'shine' ? ['setup', 'login'] : ['setup'])})
+        for (const theme of ['dark', 'light']) for (const [width, height] of ${JSON.stringify(['storage', 'apps'].includes(suite) ? [[360,780],[390,844],[780,360],[1280,800]] : suite === 'phone-polish' ? [[360,780],[390,844],[430,932],[780,360],[932,430],[1280,800]] : [[1280,800],[390,800]])}) for (const mode of ${JSON.stringify(['storage', 'apps'].includes(suite) ? ['native', 'missing', 'reduced-motion', 'large-text'] : suite === 'phone-polish' ? ['native', 'large-text', 'missing'] : suite === 'welcome' ? ['native', 'missing', 'throwing', 'noop', 'qr-failure'] : suite.endsWith('shine') ? ['native', 'reduced-motion', 'reduced-transparency'] : ['native'])}) {
           const frame = document.createElement('iframe'); frame.width = width; frame.height = height;
           frame.style.border = '0'; document.body.append(frame);
           const result = await new Promise(resolve => {
@@ -49,10 +66,10 @@ const server = http.createServer((req, res) => {
   if (url.pathname.startsWith('/api/')) {
     res.setHeader('Content-Type', 'application/json');
     if (url.pathname === '/api/auth/session') {
-      const dashboard = ['phone-polish', 'storage'].includes(suite) && /index.html/.test(req.headers.referer || '');
+      const dashboard = ['phone-polish', 'storage', 'apps'].includes(suite) && /index.html/.test(req.headers.referer || '');
       res.writeHead(dashboard ? 200 : 401); res.end('{"username":"Owner"}'); return;
     }
-    if (['phone-polish', 'storage'].includes(suite) && !['/api/system', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
+    if (['phone-polish', 'storage', 'apps'].includes(suite) && !['/api/system', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
     res.end(JSON.stringify(url.pathname === '/api/system' ? { hostname: 'jeneros', addresses: ['192.168.1.20'] }
       : url.pathname === '/api/setup/status' ? { state: 'waiting' }
       : { keymaps: [{ id: 'us', name: 'English (US)' }], timezones: ['UTC'], interfaces: ['eth0'], hostname: 'jeneros', reservedUsernames: [] })); return;
@@ -67,15 +84,16 @@ const server = http.createServer((req, res) => {
   if (suite === 'shine' && url.pathname === '/box-ui.js') source += '\nwindow.BoxUI.local = false;\n';
   // The shared controller now also detects loopback without BoxUI (dashboard).
   if (suite === 'shine' && url.pathname === '/onboarding-shine.js') source = source.toString().replace(/const local =[^;]+;/, 'const local = false;');
-  if (url.pathname === '/setup.html' || ((suite.endsWith('shine') || suite === 'phone-polish') && url.pathname === '/login.html') || (suite === 'kiosk-shine' && url.pathname === '/screen.html') || (['phone-polish', 'storage'].includes(suite) && url.pathname === '/index.html')) {
+  if (url.pathname === '/setup.html' || ((suite.endsWith('shine') || suite === 'phone-polish') && url.pathname === '/login.html') || (suite === 'kiosk-shine' && url.pathname === '/screen.html') || (['phone-polish', 'storage', 'apps'].includes(suite) && url.pathname === '/index.html')) {
     source = source.toString().replace('<head>', `<head><script>
+      document.addEventListener('securitypolicyviolation', e => parent.postMessage({error:'CSP blocked ' + e.violatedDirective + ': ' + e.blockedURI}, '*'));
       const mode = new URLSearchParams(location.search).get('mode');
       localStorage.setItem('jeneros.desktop', JSON.stringify({theme:new URLSearchParams(location.search).get('theme')}));
       if (mode === 'missing') HTMLDialogElement.prototype.showModal = undefined;
       if (mode === 'throwing') HTMLDialogElement.prototype.showModal = function(){throw Error('fixture showModal failure')};
       if (mode === 'noop') HTMLDialogElement.prototype.showModal = function(){};
       if (mode === 'qr-failure') window.TextEncoder = undefined;
-      ${(suite.endsWith('shine') || suite === 'storage') ? `
+      ${(suite.endsWith('shine') || ['storage', 'apps'].includes(suite)) ? `
       window.fixturePreferences = {};
       const realMatchMedia = window.matchMedia.bind(window);
       window.matchMedia = query => {
@@ -89,7 +107,7 @@ const server = http.createServer((req, res) => {
       ` : ''}
     </script>`).replace('</body>', `<script>${checks}</script></body>`);
   }
-  res.end(source);
+  if (path.extname(file) === '.html') html(res, source); else res.end(source);
 });
 server.listen(0, '127.0.0.1', () => {
   const exe = process.env.WELCOME_BROWSER || 'google-chrome';
@@ -101,5 +119,5 @@ server.listen(0, '127.0.0.1', () => {
   let stderr = ''; browser.stderr.on('data', data => stderr += data);
   browser.on('exit', code => { if (server.listening) { console.error('Browser exited before results: ' + code + '\n' + stderr.slice(-1500)); process.exitCode = 1; clearTimeout(timer); server.close(); } });
   browser.on('error', error => { clearTimeout(timer); console.error(error.message); process.exitCode = 1; server.close(); });
-  timer = setTimeout(() => { console.error('Browser fixture timed out. ' + stderr.slice(-1500)); process.exitCode = 1; browser.kill(); server.close(); }, ['kiosk-shine', 'phone-polish', 'storage'].includes(suite) ? 240000 : 45000);
+  timer = setTimeout(() => { console.error('Browser fixture timed out. ' + stderr.slice(-1500)); process.exitCode = 1; browser.kill(); server.close(); }, ['kiosk-shine', 'phone-polish', 'storage', 'apps'].includes(suite) ? 240000 : 45000);
 });

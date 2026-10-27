@@ -1,0 +1,19 @@
+[Unit]
+Description=Prepare the JenerOS app engine
+After=local-fs.target network-online.target incus.service
+Requires=incus.service
+Wants=network-online.target
+Before=jeneros-apps-restore.service jeneros-apps.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/jenerd apps-init
+RemainAfterExit=yes
+RuntimeDirectory=jeneros-apps
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+TimeoutStartSec=4min
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

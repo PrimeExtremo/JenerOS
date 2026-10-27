@@ -4,25 +4,52 @@
   "name": "Home",
   "upstream": "Home Assistant",
   "developer": "Open Home Foundation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "added": "2026-10-07",
   "category": "home",
   "icon": "home",
   "tagline": "Lights, locks, cameras and automations in one place.",
-  "description": "Home brings your lights, plugs, locks, cameras and sensors into one app, even when they come from different brands. Make simple routines like \"lights off at bedtime\". It is built on Home Assistant, a huge open-source community.",
-  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
-  "arch": ["amd64", "arm64"],
-  "requirements": { "memoryMB": 2048, "diskGB": 8 },
+  "description": "Home brings your lights, plugs, locks, cameras and sensors into one app, even when they come from different brands. Make simple routines like \"lights off at bedtime\". It is built on Home Assistant, a huge open-source community. This package supports devices reached by their network address. Automatic network discovery, USB radios and add-ons are not included.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 2048,
+    "diskGB": 8
+  },
   "services": [
     {
       "name": "core",
-      "image": "ghcr.io/home-assistant/home-assistant:stable",
-      "network": "host",
-      "mounts": [{ "pool": "data", "path": "/config" }],
-      "devices": ["usb"]
+      "image": "ghcr.io/home-assistant/home-assistant:2026.3.0",
+      "env": {
+        "TZ": "UTC"
+      },
+      "mounts": [
+        {
+          "pool": "config",
+          "path": "/config"
+        }
+      ],
+      "health": {
+        "port": 8123,
+        "path": "/"
+      }
     }
   ],
-  "web": { "service": "core", "port": 8123 },
-  "auth": { "type": "header" },
-  "backup": { "services": ["core"] }
+  "web": {
+    "service": "core",
+    "port": 8123,
+    "host": 8123
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "services": [
+      "core"
+    ]
+  },
+  "available": true
 }

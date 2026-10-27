@@ -78,7 +78,12 @@
 /* Progress is linear; while it waits for real numbers the ring breathes. */
 .store-ring-fill { --progress: 0; stroke: currentColor; stroke-linecap: round; stroke-dasharray: calc(var(--progress) * .88) 88; transition: stroke-dasharray var(--t-std) linear; }
 .store-ring-check { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
-.store-install-button.busy .store-ring { animation: j-pulse 600ms var(--ease) infinite alternate; }
+.store-install-button.busy .store-ring { animation: none; }
+.store-app-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 12px; }
+.store-delete-choice { display: flex; align-items: center; gap: 12px; margin-block: 20px; }
+.store-delete-choice input { width: 24px; height: 24px; }
+#storeManage form { display: grid; gap: 12px; }
+#storeManage input, #storeManage select { max-width: 100%; }
 .store-install-button .confetti { left: 23px; }
 .store-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; }
 .store-chip { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); min-width: 0; }

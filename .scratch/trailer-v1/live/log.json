@@ -1,0 +1,53 @@
+{
+  "step": "Estimate and render final versions",
+  "logs": [
+    {
+      "time": "00:46:41",
+      "text": "Vertical animation ready.",
+      "error": false
+    },
+    {
+      "time": "00:24:35",
+      "text": "Rendering vertical: 2580 frames, silent H.264.",
+      "error": false
+    },
+    {
+      "time": "00:23:10",
+      "text": "Vertical animation ready.",
+      "error": false
+    },
+    {
+      "time": "00:03:44",
+      "text": "Rendering vertical: 2580 frames, silent H.264.",
+      "error": false
+    },
+    {
+      "time": "21:01:04",
+      "text": "Final animation ready.",
+      "error": false
+    },
+    {
+      "time": "20:07:58",
+      "text": "Rendering final: 2580 frames, silent H.264.",
+      "error": false
+    },
+    {
+      "time": "19:34:05",
+      "text": "Final animation ready.",
+      "error": false
+    },
+    {
+      "time": "19:16:25",
+      "text": "Rendering final: 2580 frames, silent H.264.",
+      "error": false
+    }
+  ],
+  "images": [],
+  "videos": [
+    "out/jeneros-trailer.mp4",
+    "out/jeneros-trailer-vertical.mp4"
+  ],
+  "completed": [
+    "Create live page and progress helper"
+  ]
+}

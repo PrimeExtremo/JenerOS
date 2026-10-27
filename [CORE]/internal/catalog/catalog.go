@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -34,6 +35,12 @@ type Service struct {
 	Ports   []Port            `json:"ports,omitempty"`
 	Devices []string          `json:"devices,omitempty"`
 	Network string            `json:"network,omitempty"`
+	Health  Health            `json:"health"`
+}
+
+type Health struct {
+	Port int    `json:"port"`
+	Path string `json:"path,omitempty"`
 }
 
 type Requirements struct {
@@ -44,6 +51,7 @@ type Requirements struct {
 type Web struct {
 	Service string `json:"service"`
 	Port    int    `json:"port"`
+	Host    int    `json:"host,omitempty"`
 }
 
 type Auth struct {
@@ -51,6 +59,7 @@ type Auth struct {
 }
 
 type Manifest struct {
+	Available    bool         `json:"available"`
 	Manifest     int          `json:"manifest"`
 	ID           string       `json:"id"`
 	Name         string       `json:"name"`
@@ -69,6 +78,12 @@ type Manifest struct {
 	Services     []Service    `json:"services"`
 	Web          Web          `json:"web"`
 	Auth         Auth         `json:"auth"`
+	Backup       Backup       `json:"backup"`
+}
+
+type Backup struct {
+	Pools    []string `json:"pools,omitempty"`
+	Services []string `json:"services,omitempty"`
 }
 
 // Categories are the store sidebar groups. An empty category is allowed and
@@ -108,14 +123,24 @@ func Load(dir string) (*Catalog, error) {
 			return nil, err
 		}
 		var m Manifest
-		if err := json.Unmarshal(b, &m); err != nil {
+		decoder := json.NewDecoder(strings.NewReader(string(b)))
+		decoder.DisallowUnknownFields()
+		if err := decoder.Decode(&m); err != nil {
 			return nil, fmt.Errorf("%s: %w", f, err)
+		}
+		if decoder.Decode(new(any)) != io.EOF {
+			return nil, fmt.Errorf("%s: unexpected trailing data", f)
 		}
 		if m.ID == "" || len(m.Services) == 0 {
 			return nil, fmt.Errorf("%s: id and services are required", f)
 		}
 		if err := check(m); err != nil {
 			return nil, fmt.Errorf("%s: %w", f, err)
+		}
+		if m.Available {
+			if err := ValidateRuntime(m); err != nil {
+				return nil, fmt.Errorf("%s: %w", f, err)
+			}
 		}
 		if _, dup := c.apps[m.ID]; dup {
 			return nil, fmt.Errorf("%s: duplicate app id %q", f, m.ID)

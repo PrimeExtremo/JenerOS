@@ -3,8 +3,8 @@
 <service-group>
   <name replace-wildcards="yes">JenerOS on %h</name>
   <service>
-    <type>_http._tcp</type>
-    <port>80</port>
+    <type>_https._tcp</type>
+    <port>443</port>
     <txt-record>path=/</txt-record>
   </service>
 </service-group>

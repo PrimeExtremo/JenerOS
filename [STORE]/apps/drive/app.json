@@ -4,13 +4,13 @@
   "name": "Drive",
   "upstream": "Nextcloud",
   "developer": "Nextcloud",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "added": "2026-10-07",
   "category": "files",
   "icon": "drive",
   "tagline": "Your files, synced to every computer and phone.",
   "description": "Drive gives every computer and phone in your home one shared place for files. Folders sync in the background, and you can share a link with family. It is built on Nextcloud, a long-running open-source project.",
-  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
   "arch": [
     "amd64",
     "arm64"
@@ -21,50 +21,60 @@
   },
   "services": [
     {
-      "name": "app",
-      "image": "docker.io/library/nextcloud:stable",
+      "name": "db",
+      "image": "docker.io/library/postgres:17.9",
       "env": {
-        "POSTGRES_HOST": "${service.db.host}",
         "POSTGRES_PASSWORD": "${secret.db}",
-        "NEXTCLOUD_TRUSTED_DOMAINS": "drive.${jener.domain}",
         "POSTGRES_DB": "nextcloud",
         "POSTGRES_USER": "postgres"
       },
       "mounts": [
         {
-          "pool": "files",
-          "path": "/var/www/html/data"
+          "pool": "database",
+          "path": "/var/lib/postgresql/data"
         }
-      ]
+      ],
+      "health": {
+        "port": 5432
+      }
     },
     {
-      "name": "db",
-      "image": "docker.io/library/postgres:17",
+      "name": "app",
+      "image": "docker.io/library/nextcloud:32.0.6-apache",
       "env": {
+        "POSTGRES_HOST": "${service.db.host}",
         "POSTGRES_PASSWORD": "${secret.db}",
-        "POSTGRES_DB": "nextcloud"
+        "POSTGRES_DB": "nextcloud",
+        "POSTGRES_USER": "postgres"
       },
       "mounts": [
         {
-          "pool": "data",
-          "path": "/var/lib/postgresql/data"
+          "pool": "html",
+          "path": "/var/www/html"
         }
-      ]
+      ],
+      "health": {
+        "port": 80,
+        "path": "/status.php"
+      }
     }
   ],
   "web": {
     "service": "app",
-    "port": 80
+    "port": 80,
+    "host": 8081
   },
   "auth": {
-    "type": "oidc"
+    "type": "none"
   },
   "backup": {
     "pools": [
-      "files"
+      "html",
+      "database"
     ],
     "services": [
       "db"
     ]
-  }
+  },
+  "available": true
 }

@@ -11,14 +11,17 @@ import (
 	"github.com/PrimeExtremo/JenerOS/core/internal/catalog"
 	"github.com/PrimeExtremo/JenerOS/core/internal/runtime"
 	"github.com/PrimeExtremo/JenerOS/core/internal/system"
+	"github.com/PrimeExtremo/JenerOS/core/internal/transport"
 	"github.com/PrimeExtremo/JenerOS/core/internal/update"
 )
 
 type Server struct {
-	cat      *catalog.Catalog
-	rt       runtime.Runtime
-	updates  update.Paths
-	actionMu sync.Mutex
+	Fingerprint func() string
+	SetupCode   func() (string, error)
+	cat         *catalog.Catalog
+	rt          runtime.Runtime
+	updates     update.Paths
+	actionMu    sync.Mutex
 }
 
 func New(cat *catalog.Catalog, rt runtime.Runtime, updates update.Paths) *Server {
@@ -31,6 +34,9 @@ func (s *Server) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/store/{id}/screenshots/{n}", s.screenshot)
 	mux.HandleFunc("POST /api/apps/{id}/install", sameSite(s.install))
 	mux.HandleFunc("DELETE /api/apps/{id}", sameSite(s.remove))
+	mux.HandleFunc("GET /api/apps", s.apps)
+	mux.HandleFunc("POST /api/apps/{id}/start", sameSite(s.appStart))
+	mux.HandleFunc("POST /api/apps/{id}/stop", sameSite(s.appStop))
 	mux.HandleFunc("GET /api/update", s.updateInfo)
 	mux.HandleFunc("POST /api/update", sameSite(s.updateStart))
 	mux.HandleFunc("POST /api/update/check", sameSite(s.updateCheck))
@@ -53,18 +59,41 @@ func sameSite(h http.HandlerFunc) http.HandlerFunc {
 
 type storeApp struct {
 	catalog.Manifest
-	Status runtime.Status `json:"status"`
+	Status  runtime.Status `json:"status"`
+	Runtime *runtime.App   `json:"runtime,omitempty"`
 }
 
 func (s *Server) system(w http.ResponseWriter, r *http.Request) {
-	writeJSON(w, http.StatusOK, system.Read())
+	info := system.Read()
+	if s.Fingerprint != nil {
+		info.CertificateFingerprint = s.Fingerprint()
+	}
+	if s.SetupCode != nil && transport.Local(r) {
+		var err error
+		info.SetupCode, err = s.SetupCode()
+		if err != nil {
+			writeError(w, 500, errors.New("Could not read setup code."))
+			return
+		}
+	}
+	writeJSON(w, http.StatusOK, info)
 }
 
 func (s *Server) store(w http.ResponseWriter, r *http.Request) {
+	snapshot, err := s.rt.Read()
+	if err != nil {
+		writeError(w, http.StatusServiceUnavailable, err)
+		return
+	}
 	apps := s.cat.Apps()
 	out := make([]storeApp, len(apps))
 	for i, m := range apps {
-		out[i] = storeApp{m, s.rt.Status(m.ID)}
+		out[i] = storeApp{Manifest: m, Status: runtime.NotInstalled}
+		for j := range snapshot.Apps {
+			if snapshot.Apps[j].ID == m.ID {
+				out[i].Status, out[i].Runtime = snapshot.Apps[j].State, &snapshot.Apps[j]
+			}
+		}
 	}
 	writeJSON(w, http.StatusOK, out)
 }
@@ -87,24 +116,11 @@ func (s *Server) screenshot(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) install(w http.ResponseWriter, r *http.Request) {
-	m, ok := s.cat.Get(r.PathValue("id"))
-	if !ok {
-		writeError(w, http.StatusNotFound, errors.New("unknown app"))
-		return
-	}
-	if err := s.rt.Install(m); err != nil {
-		writeError(w, statusFor(err), err)
-		return
-	}
-	w.WriteHeader(http.StatusAccepted)
+	s.appAction(w, r, "install")
 }
 
 func (s *Server) remove(w http.ResponseWriter, r *http.Request) {
-	if err := s.rt.Remove(r.PathValue("id")); err != nil {
-		writeError(w, statusFor(err), err)
-		return
-	}
-	w.WriteHeader(http.StatusNoContent)
+	s.appAction(w, r, "uninstall")
 }
 
 func (s *Server) updateInfo(w http.ResponseWriter, r *http.Request) {
@@ -155,6 +171,15 @@ func (s *Server) updateCheck(w http.ResponseWriter, r *http.Request) {
 func statusFor(err error) int {
 	if errors.Is(err, runtime.ErrNotImplemented) {
 		return http.StatusNotImplemented
+	}
+	if errors.Is(err, runtime.ErrBusy) {
+		return http.StatusConflict
+	}
+	if errors.Is(err, runtime.ErrUnavailable) {
+		return http.StatusServiceUnavailable
+	}
+	if errors.Is(err, runtime.ErrInvalid) {
+		return http.StatusBadRequest
 	}
 	return http.StatusInternalServerError
 }

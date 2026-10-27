@@ -1,7 +1,7 @@
 # @UPDATE_URL@ is filled in by build.sh.
 [Transfer]
 ProtectVersion=%A
-Verify=no
+Verify=yes
 
 [Source]
 Type=url-file

@@ -58,7 +58,7 @@ func TestSessions(t *testing.T) {
 	if err := m.Issue(w3, secure, "owner"); err != nil {
 		t.Fatal(err)
 	}
-	if !w3.Result().Cookies()[0].Secure {
+	if c := w3.Result().Cookies()[0]; !c.Secure || c.Name != SecureCookieName || c.Domain != "" {
 		t.Fatal("HTTPS cookie lacks Secure")
 	}
 	secure.AddCookie(w3.Result().Cookies()[0])
@@ -109,11 +109,18 @@ func TestOwnerVerification(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	for _, bad := range []Credentials{{"root", c.Password}, {"someone", c.Password}, {"-owner", c.Password}, {"jener", "password\x00extra"}, {"jener", strings.Repeat("x", 257)}, {"jener", "\xff"}} {
+	for _, bad := range []Credentials{{"-owner", c.Password}, {"jener", "password\x00extra"}, {"jener", strings.Repeat("x", 257)}, {"jener", "\xff"}} {
 		if err := verifyOwner(context.Background(), bad, p, check); !errors.Is(err, ErrCredentials) || calls != 0 {
 			t.Fatalf("unsafe/non-owner credentials reached checker: %q", bad.Username)
 		}
 	}
+	for _, name := range []string{"root", "someone"} {
+		before := calls
+		if err := verifyOwner(context.Background(), Credentials{name, c.Password}, p, check); !errors.Is(err, ErrCredentials) || calls != before+1 {
+			t.Fatal("unknown user skipped the owner password check")
+		}
+	}
+	calls = 0
 	if err := verifyOwner(context.Background(), c, p, check); err != nil || calls != 1 {
 		t.Fatal("owner refused")
 	}

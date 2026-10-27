@@ -1,0 +1,12 @@
+[Unit]
+Description=Apply a JenerOS app request
+After=jeneros-apps-init.service jeneros-apps-restore.service
+# Consume and reject requests even when initialization fails.
+Wants=jeneros-apps-init.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/jenerd apps-apply
+TimeoutStartSec=45min
+UMask=0077
+LimitCORE=0

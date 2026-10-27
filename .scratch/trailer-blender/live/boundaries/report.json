@@ -1,0 +1,623 @@
+[
+  {
+    "cut": 31,
+    "offset": -12,
+    "frame": 19,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0031--12.png"
+  },
+  {
+    "cut": 31,
+    "offset": 0,
+    "frame": 31,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0031-+00.png"
+  },
+  {
+    "cut": 31,
+    "offset": 20,
+    "frame": 51,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0031-+20.png"
+  },
+  {
+    "cut": 181,
+    "offset": -12,
+    "frame": 169,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0181--12.png"
+  },
+  {
+    "cut": 181,
+    "offset": 0,
+    "frame": 181,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0181-+00.png"
+  },
+  {
+    "cut": 181,
+    "offset": 20,
+    "frame": 201,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0181-+20.png"
+  },
+  {
+    "cut": 331,
+    "offset": -12,
+    "frame": 319,
+    "collections": [
+      "01 Second life"
+    ],
+    "file": "cut-0331--12.png"
+  },
+  {
+    "cut": 331,
+    "offset": 0,
+    "frame": 331,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0331-+00.png"
+  },
+  {
+    "cut": 331,
+    "offset": 20,
+    "frame": 351,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0331-+20.png"
+  },
+  {
+    "cut": 443,
+    "offset": -12,
+    "frame": 431,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0443--12.png"
+  },
+  {
+    "cut": 443,
+    "offset": 0,
+    "frame": 443,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0443-+00.png"
+  },
+  {
+    "cut": 443,
+    "offset": 20,
+    "frame": 463,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0443-+20.png"
+  },
+  {
+    "cut": 481,
+    "offset": -12,
+    "frame": 469,
+    "collections": [
+      "02 Your stuff"
+    ],
+    "file": "cut-0481--12.png"
+  },
+  {
+    "cut": 481,
+    "offset": 0,
+    "frame": 481,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0481-+00.png"
+  },
+  {
+    "cut": 481,
+    "offset": 20,
+    "frame": 501,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0481-+20.png"
+  },
+  {
+    "cut": 706,
+    "offset": -12,
+    "frame": 694,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0706--12.png"
+  },
+  {
+    "cut": 706,
+    "offset": 0,
+    "frame": 706,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0706-+00.png"
+  },
+  {
+    "cut": 706,
+    "offset": 20,
+    "frame": 726,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0706-+20.png"
+  },
+  {
+    "cut": 770,
+    "offset": -12,
+    "frame": 758,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0770--12.png"
+  },
+  {
+    "cut": 770,
+    "offset": 0,
+    "frame": 770,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0770-+00.png"
+  },
+  {
+    "cut": 770,
+    "offset": 20,
+    "frame": 790,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0770-+20.png"
+  },
+  {
+    "cut": 781,
+    "offset": -12,
+    "frame": 769,
+    "collections": [
+      "03 Lives at home"
+    ],
+    "file": "cut-0781--12.png"
+  },
+  {
+    "cut": 781,
+    "offset": 0,
+    "frame": 781,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0781-+00.png"
+  },
+  {
+    "cut": 781,
+    "offset": 20,
+    "frame": 801,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0781-+20.png"
+  },
+  {
+    "cut": 856,
+    "offset": -12,
+    "frame": 844,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0856--12.png"
+  },
+  {
+    "cut": 856,
+    "offset": 0,
+    "frame": 856,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0856-+00.png"
+  },
+  {
+    "cut": 856,
+    "offset": 20,
+    "frame": 876,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-0856-+20.png"
+  },
+  {
+    "cut": 1006,
+    "offset": -12,
+    "frame": 994,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-1006--12.png"
+  },
+  {
+    "cut": 1006,
+    "offset": 0,
+    "frame": 1006,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-1006-+00.png"
+  },
+  {
+    "cut": 1006,
+    "offset": 20,
+    "frame": 1026,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-1006-+20.png"
+  },
+  {
+    "cut": 1081,
+    "offset": -12,
+    "frame": 1069,
+    "collections": [
+      "04 Set up from your phone"
+    ],
+    "file": "cut-1081--12.png"
+  },
+  {
+    "cut": 1081,
+    "offset": 0,
+    "frame": 1081,
+    "collections": [
+      "05 Make it yours"
+    ],
+    "file": "cut-1081-+00.png"
+  },
+  {
+    "cut": 1081,
+    "offset": 20,
+    "frame": 1101,
+    "collections": [
+      "05 Make it yours"
+    ],
+    "file": "cut-1081-+20.png"
+  },
+  {
+    "cut": 1231,
+    "offset": -12,
+    "frame": 1219,
+    "collections": [
+      "05 Make it yours"
+    ],
+    "file": "cut-1231--12.png"
+  },
+  {
+    "cut": 1231,
+    "offset": 0,
+    "frame": 1231,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1231-+00.png"
+  },
+  {
+    "cut": 1231,
+    "offset": 20,
+    "frame": 1251,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1231-+20.png"
+  },
+  {
+    "cut": 1306,
+    "offset": -12,
+    "frame": 1294,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1306--12.png"
+  },
+  {
+    "cut": 1306,
+    "offset": 0,
+    "frame": 1306,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1306-+00.png"
+  },
+  {
+    "cut": 1306,
+    "offset": 20,
+    "frame": 1326,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1306-+20.png"
+  },
+  {
+    "cut": 1465,
+    "offset": -12,
+    "frame": 1453,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1465--12.png"
+  },
+  {
+    "cut": 1465,
+    "offset": 0,
+    "frame": 1465,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1465-+00.png"
+  },
+  {
+    "cut": 1465,
+    "offset": 20,
+    "frame": 1485,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1465-+20.png"
+  },
+  {
+    "cut": 1606,
+    "offset": -12,
+    "frame": 1594,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1606--12.png"
+  },
+  {
+    "cut": 1606,
+    "offset": 0,
+    "frame": 1606,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1606-+00.png"
+  },
+  {
+    "cut": 1606,
+    "offset": 20,
+    "frame": 1626,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1606-+20.png"
+  },
+  {
+    "cut": 1681,
+    "offset": -12,
+    "frame": 1669,
+    "collections": [
+      "06 Storage"
+    ],
+    "file": "cut-1681--12.png"
+  },
+  {
+    "cut": 1681,
+    "offset": 0,
+    "frame": 1681,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1681-+00.png"
+  },
+  {
+    "cut": 1681,
+    "offset": 20,
+    "frame": 1701,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1681-+20.png"
+  },
+  {
+    "cut": 1756,
+    "offset": -12,
+    "frame": 1744,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1756--12.png"
+  },
+  {
+    "cut": 1756,
+    "offset": 0,
+    "frame": 1756,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1756-+00.png"
+  },
+  {
+    "cut": 1756,
+    "offset": 20,
+    "frame": 1776,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1756-+20.png"
+  },
+  {
+    "cut": 1831,
+    "offset": -12,
+    "frame": 1819,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1831--12.png"
+  },
+  {
+    "cut": 1831,
+    "offset": 0,
+    "frame": 1831,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1831-+00.png"
+  },
+  {
+    "cut": 1831,
+    "offset": 20,
+    "frame": 1851,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1831-+20.png"
+  },
+  {
+    "cut": 1981,
+    "offset": -12,
+    "frame": 1969,
+    "collections": [
+      "07 Updates that undo themselves"
+    ],
+    "file": "cut-1981--12.png"
+  },
+  {
+    "cut": 1981,
+    "offset": 0,
+    "frame": 1981,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-1981-+00.png"
+  },
+  {
+    "cut": 1981,
+    "offset": 20,
+    "frame": 2001,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-1981-+20.png"
+  },
+  {
+    "cut": 2056,
+    "offset": -12,
+    "frame": 2044,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2056--12.png"
+  },
+  {
+    "cut": 2056,
+    "offset": 0,
+    "frame": 2056,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2056-+00.png"
+  },
+  {
+    "cut": 2056,
+    "offset": 20,
+    "frame": 2076,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2056-+20.png"
+  },
+  {
+    "cut": 2131,
+    "offset": -12,
+    "frame": 2119,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2131--12.png"
+  },
+  {
+    "cut": 2131,
+    "offset": 0,
+    "frame": 2131,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2131-+00.png"
+  },
+  {
+    "cut": 2131,
+    "offset": 20,
+    "frame": 2151,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2131-+20.png"
+  },
+  {
+    "cut": 2281,
+    "offset": -12,
+    "frame": 2269,
+    "collections": [
+      "08 Your own app store"
+    ],
+    "file": "cut-2281--12.png"
+  },
+  {
+    "cut": 2281,
+    "offset": 0,
+    "frame": 2281,
+    "collections": [
+      "09 Yours"
+    ],
+    "file": "cut-2281-+00.png"
+  },
+  {
+    "cut": 2281,
+    "offset": 20,
+    "frame": 2301,
+    "collections": [
+      "09 Yours"
+    ],
+    "file": "cut-2281-+20.png"
+  },
+  {
+    "cut": 2431,
+    "offset": -12,
+    "frame": 2419,
+    "collections": [
+      "09 Yours"
+    ],
+    "file": "cut-2431--12.png"
+  },
+  {
+    "cut": 2431,
+    "offset": 0,
+    "frame": 2431,
+    "collections": [
+      "09 Yours"
+    ],
+    "file": "cut-2431-+00.png"
+  },
+  {
+    "cut": 2431,
+    "offset": 20,
+    "frame": 2451,
+    "collections": [
+      "09 Yours"
+    ],
+    "file": "cut-2431-+20.png"
+  }
+]

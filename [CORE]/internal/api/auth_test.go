@@ -21,6 +21,7 @@ import (
 func authRequest(h http.Handler, method, path, body, peer string, cookie *http.Cookie, csrf bool) *httptest.ResponseRecorder {
 	r := httptest.NewRequest(method, path, strings.NewReader(body))
 	r.RemoteAddr = peer
+	r.Host = "127.0.0.1"
 	if cookie != nil {
 		r.AddCookie(cookie)
 	}

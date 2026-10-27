@@ -1,0 +1,337 @@
+{
+  "source": "jeneros-vo-v3.mp3",
+  "duration": 57.68,
+  "method": "10ms RMS; silence >=250ms; threshold 3.5% of p95 RMS",
+  "threshold": 0.007156590595841408,
+  "silences": [
+    {
+      "start": 0.85,
+      "end": 1.19
+    },
+    {
+      "start": 2.12,
+      "end": 2.45
+    },
+    {
+      "start": 3.36,
+      "end": 3.94
+    },
+    {
+      "start": 6.1000000000000005,
+      "end": 6.43
+    },
+    {
+      "start": 12.36,
+      "end": 12.96
+    },
+    {
+      "start": 13.65,
+      "end": 13.99
+    },
+    {
+      "start": 18.45,
+      "end": 18.84
+    },
+    {
+      "start": 21.88,
+      "end": 22.6
+    },
+    {
+      "start": 26.59,
+      "end": 27.28
+    },
+    {
+      "start": 28.57,
+      "end": 28.830000000000002
+    },
+    {
+      "start": 29.94,
+      "end": 30.560000000000002
+    },
+    {
+      "start": 34.34,
+      "end": 34.72
+    },
+    {
+      "start": 35.71,
+      "end": 36.22
+    },
+    {
+      "start": 38.22,
+      "end": 38.62
+    },
+    {
+      "start": 39.85,
+      "end": 40.51
+    },
+    {
+      "start": 41.78,
+      "end": 42.5
+    },
+    {
+      "start": 44.980000000000004,
+      "end": 45.29
+    },
+    {
+      "start": 47.730000000000004,
+      "end": 48.300000000000004
+    },
+    {
+      "start": 50.38,
+      "end": 51.39
+    },
+    {
+      "start": 52.08,
+      "end": 53.18
+    },
+    {
+      "start": 53.53,
+      "end": 54.68
+    },
+    {
+      "start": 55.4,
+      "end": 56.94
+    },
+    {
+      "start": 57.38,
+      "end": 57.68
+    }
+  ],
+  "regions": [
+    {
+      "start": 0.09,
+      "end": 0.85
+    },
+    {
+      "start": 1.19,
+      "end": 2.12
+    },
+    {
+      "start": 2.45,
+      "end": 3.36
+    },
+    {
+      "start": 3.94,
+      "end": 6.1
+    },
+    {
+      "start": 6.43,
+      "end": 12.36
+    },
+    {
+      "start": 12.96,
+      "end": 13.65
+    },
+    {
+      "start": 13.99,
+      "end": 18.45
+    },
+    {
+      "start": 18.84,
+      "end": 21.88
+    },
+    {
+      "start": 22.6,
+      "end": 26.59
+    },
+    {
+      "start": 27.28,
+      "end": 28.57
+    },
+    {
+      "start": 28.83,
+      "end": 29.94
+    },
+    {
+      "start": 30.56,
+      "end": 34.34
+    },
+    {
+      "start": 34.72,
+      "end": 35.71
+    },
+    {
+      "start": 36.22,
+      "end": 38.22
+    },
+    {
+      "start": 38.62,
+      "end": 39.85
+    },
+    {
+      "start": 40.51,
+      "end": 41.78
+    },
+    {
+      "start": 42.5,
+      "end": 44.98
+    },
+    {
+      "start": 45.29,
+      "end": 47.73
+    },
+    {
+      "start": 48.3,
+      "end": 50.38
+    },
+    {
+      "start": 51.39,
+      "end": 52.08
+    },
+    {
+      "start": 53.18,
+      "end": 53.53
+    },
+    {
+      "start": 54.68,
+      "end": 55.4
+    },
+    {
+      "start": 56.94,
+      "end": 57.38
+    }
+  ],
+  "lines": [
+    {
+      "id": 1,
+      "text": "Okay... look in your closet. That old PC? It's not junk. It's your new cloud!",
+      "start": 0.09,
+      "end": 6.1,
+      "regions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Your photos... your files... your movies... all living at home. Not on someone else's computer.",
+      "start": 6.43,
+      "end": 12.36,
+      "regions": [
+        4
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Setting it up? Plug in a USB stick, turn it on... and just scan the code with your phone!",
+      "start": 12.96,
+      "end": 18.45,
+      "regions": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": 4,
+      "text": "No keyboard. No commands. No account.",
+      "start": 18.84,
+      "end": 21.88,
+      "regions": [
+        7
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Add two drives, and JenerOS keeps two copies of everything. Lose a drive? Nothing's lost.",
+      "start": 22.6,
+      "end": 29.94,
+      "regions": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Updates go onto a second copy of the system. If one ever fails... it just rolls back.",
+      "start": 30.56,
+      "end": 35.71,
+      "regions": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": 7,
+      "text": "And your own app store is on the way!",
+      "start": 36.22,
+      "end": 38.22,
+      "regions": [
+        13
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Oh, and the best part? No paid tier. No disk limits. No user limits.",
+      "start": 38.62,
+      "end": 44.98,
+      "regions": [
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": 9,
+      "text": "It runs on the PC you already have. That's one less computer in a landfill.",
+      "start": 45.29,
+      "end": 50.38,
+      "regions": [
+        17,
+        18
+      ]
+    },
+    {
+      "id": 10,
+      "text": "JenerOS. Free. Open source. Yours.",
+      "start": 51.39,
+      "end": 57.38,
+      "regions": [
+        19,
+        20,
+        21,
+        22
+      ]
+    }
+  ],
+  "cues": {
+    "closet": 1.19,
+    "old_pc": 2.45,
+    "not_junk": 3.94,
+    "new_cloud": 5.06,
+    "photos": 6.43,
+    "files": 7.29,
+    "movies": 8.28,
+    "at_home": 9.38,
+    "elsewhere": 10.55,
+    "setup": 12.96,
+    "usb": 13.99,
+    "power": 15.44,
+    "scan": 16.55,
+    "no_keyboard": 18.84,
+    "no_commands": 20.07,
+    "no_account": 20.94,
+    "drives": 22.6,
+    "two_copies": 24.39,
+    "lose_drive": 27.28,
+    "nothing_lost": 28.83,
+    "updates": 30.56,
+    "second_system": 31.6,
+    "fails": 33.18,
+    "rolls_back": 34.72,
+    "store": 36.22,
+    "best_part": 38.62,
+    "no_paid": 40.51,
+    "no_disks": 42.5,
+    "no_users": 43.64,
+    "old_hardware": 45.29,
+    "landfill": 48.3,
+    "brand": 51.39,
+    "free": 53.18,
+    "open_source": 54.68,
+    "yours": 56.94
+  },
+  "cue_method": "Paragraph starts from >=250ms pauses; short interior cues from >=60ms envelope minima near script estimates. Review fine word sync in Premiere."
+}

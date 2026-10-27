@@ -15,6 +15,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OS="$ROOT/[OS]"
+# New hooks copied from Windows must be executable for mkosi to run them.
+chmod 0755 "$OS/mkosi.prepare.chroot" "$OS/mkosi.postinst.chroot"
 STAGE="$OS/build/staging"
 VM_DIR="${VM_DIR:-$HOME/jeneros-out}"
 VERSION="${VERSION:-$(sed -n 's/^ImageVersion=//p' "$OS/mkosi.conf")}"
@@ -36,6 +38,20 @@ else
     MKOSI_EXTRA=""
 fi
 OUT="$OS/out"
+# Signing is deliberately provisioned by the maintainer, never by a build.
+# Missing keys must stop a release instead of silently creating a new identity.
+VERIFY=no
+if [ "${RELEASE:-}" = 1 ]; then
+    VERIFY=yes
+    SIGNING_HOME="$HOME/.jeneros-signing"
+    SIGNING_KEY=$(cat "$SIGNING_HOME/signing-key")
+    if [[ ! "$SIGNING_KEY" =~ ^[A-Fa-f0-9]{40}$ ]]; then
+        echo 'Expected a full release key fingerprint in ~/.jeneros-signing/signing-key.' >&2
+        exit 1
+    fi
+    gpg --homedir "$SIGNING_HOME" --batch --list-secret-keys "$SIGNING_KEY" >/dev/null
+    [ -s "$SIGNING_HOME/trusted-keys.gpg" ] || { echo 'Missing release trust keyring.' >&2; exit 1; }
+fi
 
 echo "==> JenerOS $VERSION"
 rm -rf "$STAGE"
@@ -65,8 +81,16 @@ HOME_URL="https://jener.dev/os"
 EOF
 sed "s/@VERSION@/$VERSION/g" "$OS/mkosi.extra/usr/lib/issue" > "$STAGE/usr/lib/issue"
 for f in "$OS"/sysupdate.d/*.transfer; do
-    sed "s#@UPDATE_URL@#$UPDATE_URL#" "$f" > "$STAGE/usr/lib/sysupdate.d/$(basename "$f")"
+    sed -e "s#@UPDATE_URL@#$UPDATE_URL#" -e "s/^Verify=yes$/Verify=$VERIFY/" "$f" > "$STAGE/usr/lib/sysupdate.d/$(basename "$f")"
 done
+if [ "$VERIFY" = yes ]; then
+    install -Dm0644 "$SIGNING_HOME/trusted-keys.gpg" "$STAGE/usr/lib/systemd/import-pubring.gpg"
+    # Preflight both the secret key and the exact public keyring being shipped.
+    printf 'JenerOS signing preflight\n' > "$STAGE/signing-check"
+    gpg --homedir "$SIGNING_HOME" --batch --yes --local-user "$SIGNING_KEY" --digest-algo SHA256 --detach-sign --output "$STAGE/signing-check.gpg" "$STAGE/signing-check"
+    gpgv --homedir "$SIGNING_HOME" --keyring "$STAGE/usr/lib/systemd/import-pubring.gpg" "$STAGE/signing-check.gpg" "$STAGE/signing-check"
+    rm "$STAGE/signing-check" "$STAGE/signing-check.gpg"
+fi
 
 SPLASH="$ROOT/[BRAND]/logo/splash-512.svg"
 if [ -f "$SPLASH" ]; then
@@ -103,6 +127,13 @@ if [ "${RELEASE:-}" = 1 ] && [ "${TEST_SSH:-}" = 1 ]; then
         > "$STAGE/usr/lib/tmpfiles.d/jeneros-dev-ssh.conf"
 fi
 
+if [ -f "$STAGE/usr/share/jeneros/dev/authorized_keys" ]; then
+    # Test-only root access remains key-only. The public image never includes it.
+    mkdir -p "$STAGE/usr/lib/jeneros"
+    sed 's/^PermitRootLogin no$/PermitRootLogin prohibit-password/' \
+        "$OS/mkosi.extra/usr/lib/jeneros/sshd_config" > "$STAGE/usr/lib/jeneros/sshd_config"
+fi
+
 if [ "${BROKEN:-}" = 1 ]; then
     echo "==> BROKEN build: jenerd will fail to start (rollback test)"
     mkdir -p "$STAGE/usr/lib/systemd/system/jenerd.service.d"
@@ -126,6 +157,14 @@ if [ "${RELEASE:-}" = 1 ]; then
     xz -T0 -6 -c "$RAW" > "$UPDATES_DIR/jeneros_${VERSION}.img.xz"
 fi
 (cd "$UPDATES_DIR" && sha256sum jeneros_* > SHA256SUMS)
+if [ "$VERIFY" = yes ]; then
+    gpg --homedir "$SIGNING_HOME" --batch --yes --local-user "$SIGNING_KEY" --digest-algo SHA256 \
+        --detach-sign --output "$UPDATES_DIR/SHA256SUMS.gpg" "$UPDATES_DIR/SHA256SUMS"
+    gpgv --homedir "$SIGNING_HOME" --keyring "$STAGE/usr/lib/systemd/import-pubring.gpg" \
+        "$UPDATES_DIR/SHA256SUMS.gpg" "$UPDATES_DIR/SHA256SUMS"
+else
+    rm -f "$UPDATES_DIR/SHA256SUMS.gpg"
+fi
 
 if [ "${NO_VMDK:-}" != 1 ]; then
     echo "==> VMware disk -> $VM_DIR"

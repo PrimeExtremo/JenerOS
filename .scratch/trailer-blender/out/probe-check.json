@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "bytes": 168100,
+  "tracks": [
+    {
+      "width": 2560.0,
+      "height": 1440.0,
+      "duration": 0.016666666666666666,
+      "handler": "vide"
+    }
+  ],
+  "frames": 1,
+  "audio_tracks": 0
+}

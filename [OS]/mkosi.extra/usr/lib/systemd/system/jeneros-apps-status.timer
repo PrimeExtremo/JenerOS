@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh JenerOS app readings
+
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=10s
+AccuracySec=1s
+Unit=jeneros-apps-status.service
+
+[Install]
+WantedBy=timers.target

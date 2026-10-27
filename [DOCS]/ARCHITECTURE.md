@@ -69,6 +69,11 @@ Think "iCloud + Apple TV + Proxmox + TrueNAS + Pi-hole", self-hosted.
 
 ## App model
 
+The first executable runtime is described in [APP-RUNTIME.md](APP-RUNTIME.md).
+It uses a root path worker, per-app projects/networks and private app folders on
+the chosen pool. Apps open on a LAN port and use their own account setup. The
+SSO, reverse-proxy and backup integration below remains the longer-term design.
+
 Every store app is a manifest (`[SPEC]/app-manifest.md`). jenerd reads it and:
 
 1. Checks arch + RAM fit the machine.

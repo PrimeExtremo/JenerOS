@@ -4,27 +4,77 @@
   "name": "Photos",
   "upstream": "Immich",
   "developer": "Immich team",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "added": "2026-10-07",
   "category": "photos",
   "icon": "photos",
   "tagline": "Every photo and video, backed up from every device.",
   "description": "Photos keeps a private copy of every picture and video from your phones, with albums, faces, places and search. Your memories stay on your box, not someone else's cloud. It is built on Immich, a fast-moving open-source project.",
-  "whatsNew": "First JenerOS package. Installing from the App Store arrives with app management.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
   "arch": [
     "amd64",
     "arm64"
   ],
   "requirements": {
-    "memoryMB": 4096,
+    "memoryMB": 6144,
     "diskGB": 20
   },
   "services": [
     {
+      "name": "db",
+      "image": "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23",
+      "env": {
+        "POSTGRES_PASSWORD": "${secret.db}",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_DB": "immich",
+        "POSTGRES_INITDB_ARGS": "--data-checksums"
+      },
+      "mounts": [
+        {
+          "pool": "database",
+          "path": "/var/lib/postgresql/data"
+        }
+      ],
+      "health": {
+        "port": 5432
+      }
+    },
+    {
+      "name": "redis",
+      "image": "docker.io/valkey/valkey:9@sha256:546304417feac0874c3dd576e0952c6bb8f06bb4093ea0c9ca303c73cf458f63",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "redis",
+          "path": "/data"
+        }
+      ],
+      "health": {
+        "port": 6379
+      }
+    },
+    {
+      "name": "ml",
+      "image": "ghcr.io/immich-app/immich-machine-learning:v2.5.6",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "models",
+          "path": "/cache"
+        }
+      ],
+      "health": {
+        "port": 3003,
+        "path": "/ping"
+      }
+    },
+    {
       "name": "server",
-      "image": "ghcr.io/immich-app/immich-server:release",
+      "image": "ghcr.io/immich-app/immich-server:v2.5.6",
       "env": {
         "DB_HOSTNAME": "${service.db.host}",
+        "DB_USERNAME": "postgres",
+        "DB_DATABASE_NAME": "immich",
         "DB_PASSWORD": "${secret.db}",
         "REDIS_HOSTNAME": "${service.redis.host}",
         "IMMICH_MACHINE_LEARNING_URL": "http://${service.ml.host}:3003"
@@ -32,46 +82,31 @@
       "mounts": [
         {
           "pool": "photos",
-          "path": "/usr/src/app/upload"
+          "path": "/data"
         }
-      ]
-    },
-    {
-      "name": "ml",
-      "image": "ghcr.io/immich-app/immich-machine-learning:release"
-    },
-    {
-      "name": "redis",
-      "image": "docker.io/valkey/valkey:8"
-    },
-    {
-      "name": "db",
-      "image": "ghcr.io/immich-app/postgres:16-vectorchord0.4.3",
-      "env": {
-        "POSTGRES_PASSWORD": "${secret.db}",
-        "POSTGRES_DB": "immich"
-      },
-      "mounts": [
-        {
-          "pool": "data",
-          "path": "/var/lib/postgresql/data"
-        }
-      ]
+      ],
+      "health": {
+        "port": 2283,
+        "path": "/api/server/ping"
+      }
     }
   ],
   "web": {
     "service": "server",
-    "port": 2283
+    "port": 2283,
+    "host": 2283
   },
   "auth": {
-    "type": "oidc"
+    "type": "none"
   },
   "backup": {
     "pools": [
-      "photos"
+      "photos",
+      "database"
     ],
     "services": [
       "db"
     ]
-  }
+  },
+  "available": true
 }

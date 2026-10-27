@@ -2,6 +2,8 @@ package auth
 
 import (
 	"context"
+	"crypto/sha256"
+	"crypto/subtle"
 	"encoding/json"
 	"errors"
 	"io"
@@ -50,10 +52,18 @@ func verifyOwner(ctx context.Context, c Credentials, p setup.Paths, check checkP
 	if err != nil {
 		return ErrUnavailable
 	}
-	if strings.TrimSpace(string(owner)) != c.Username {
+	name := strings.TrimSpace(string(owner))
+	if !Valid(Credentials{Username: name, Password: "check"}) {
+		return ErrUnavailable
+	}
+	want, got := sha256.Sum256([]byte(name)), sha256.Sum256([]byte(c.Username))
+	// Always perform the same owner password check, including for unknown names.
+	// Hash verification is delegated to Debian's crypt implementation.
+	err = check(ctx, name, c.Password)
+	if subtle.ConstantTimeCompare(want[:], got[:]) != 1 {
 		return ErrCredentials
 	}
-	return check(ctx, c.Username, c.Password)
+	return err
 }
 
 // ServeHelper is a fixed-purpose root service using systemd's inherited socket.

@@ -1,0 +1,117 @@
+[
+  {
+    "file": ".scratch/security/check-security.cjs",
+    "status": 0,
+    "output": "Security source/config guards and build shell syntax passed. Live OS checks remain in VM-CHECKS.md.\n"
+  },
+  {
+    "file": ".scratch/setup/check-pages.cjs",
+    "status": 0,
+    "output": "Page checks passed: IDs/assets, exact policy text, 21-line banner (max 78 columns), tty2–6 and code encodings.\n"
+  },
+  {
+    "file": ".scratch/setup/check-controls.cjs",
+    "status": 0,
+    "output": "Setup controls passed: keyboard/type-ahead/click/Tab/Escape, selected values, filtered timezone, empty network, sheet load/retry/close/focus and kiosk download/contact guard.\n"
+  },
+  {
+    "file": ".scratch/setup/check-welcome.cjs",
+    "status": 1,
+    "output": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'https://192.168.1.20/setup.html?code=012345'\n- 'http://192.168.1.20/setup.html?code=012345'\n\n    at C:\\Users\\jener\\jeneros\\.scratch\\setup\\check-welcome.cjs:150:12 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'https://192.168.1.20/setup.html?code=012345',\n  expected: 'http://192.168.1.20/setup.html?code=012345',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n"
+  },
+  {
+    "file": ".scratch/setup/check-click-shim.cjs",
+    "status": 0,
+    "output": "Delayed trusted click guard passed (modeled event trust).\n{\n  \"passed\": [\n    \"setup/dark/1280x800/native\",\n    \"setup/dark/390x800/native\",\n    \"setup/light/1280x800/native\",\n    \"setup/light/390x800/native\"\n  ],\n  \"errors\": []\n}\n"
+  },
+  {
+    "file": ".scratch/setup/check-shine.cjs",
+    "status": 0,
+    "output": "{\n  \"passed\": [\n    \"setup/dark/1280x800/native\",\n    \"setup/dark/1280x800/reduced-motion\",\n    \"setup/dark/1280x800/reduced-transparency\",\n    \"setup/dark/390x800/native\",\n    \"setup/dark/390x800/reduced-motion\",\n    \"setup/dark/390x800/reduced-transparency\",\n    \"setup/light/1280x800/native\",\n    \"setup/light/1280x800/reduced-motion\",\n    \"setup/light/1280x800/reduced-transparency\",\n    \"setup/light/390x800/native\",\n    \"setup/light/390x800/reduced-motion\",\n    \"setup/light/390x800/reduced-transparency\",\n    \"login/dark/1280x800/native\",\n    \"login/dark/1280x800/reduced-motion\",\n    \"login/dark/1280x800/reduced-transparency\",\n    \"login/dark/390x800/native\",\n    \"login/dark/390x800/reduced-motion\",\n    \"login/dark/390x800/reduced-transparency\",\n    \"login/light/1280x800/native\",\n    \"login/light/1280x800/reduced-motion\",\n    \"login/light/1280x800/reduced-transparency\",\n    \"login/light/390x800/native\",\n    \"login/light/390x800/reduced-motion\",\n    \"login/light/390x800/reduced-transparency\"\n  ],\n  \"errors\": []\n}\n"
+  },
+  {
+    "file": ".scratch/setup/check-kiosk-shine.cjs",
+    "status": 0,
+    "output": "Kiosk controller checks passed: local addresses, no wallpaper layer/timers, finite effects and cleanup.\n{\n  \"passed\": [\n    \"setup/dark/1280x800/native\",\n    \"setup/dark/1280x800/reduced-motion\",\n    \"setup/dark/1280x800/reduced-transparency\",\n    \"setup/dark/390x800/native\",\n    \"setup/dark/390x800/reduced-motion\",\n    \"setup/dark/390x800/reduced-transparency\",\n    \"setup/light/1280x800/native\",\n    \"setup/light/1280x800/reduced-motion\",\n    \"setup/light/1280x800/reduced-transparency\",\n    \"setup/light/390x800/native\",\n    \"setup/light/390x800/reduced-motion\",\n    \"setup/light/390x800/reduced-transparency\",\n    \"login/dark/1280x800/native\",\n    \"login/dark/1280x800/reduced-motion\",\n    \"login/dark/1280x800/reduced-transparency\",\n    \"login/dark/390x800/native\",\n    \"login/dark/390x800/reduced-motion\",\n    \"login/dark/390x800/reduced-transparency\",\n    \"login/light/1280x800/native\",\n    \"login/light/1280x800/reduced-motion\",\n    \"login/light/1280x800/reduced-transparency\",\n    \"login/light/390x800/native\",\n    \"login/light/390x800/reduced-motion\",\n    \"login/light/390x800/reduced-transparency\",\n    \"screen/dark/1280x800/native\",\n    \"screen/dark/1280x800/reduced-motion\",\n    \"screen/dark/1280x800/reduced-transparency\",\n    \"screen/dark/390x800/native\",\n    \"screen/dark/390x800/reduced-motion\",\n    \"screen/dark/390x800/reduced-transparency\",\n    \"screen/light/1280x800/native\",\n    \"screen/light/1280x800/reduced-motion\",\n    \"screen/light/1280x800/reduced-transparency\",\n    \"screen/light/390x800/native\",\n    \"screen/light/390x800/reduced-motion\",\n    \"screen/light/390x800/reduced-transparency\"\n  ],\n  \"errors\": []\n}\n"
+  },
+  {
+    "file": ".scratch/phone-polish/check-phone-polish.cjs",
+    "status": 1,
+    "output": "Phone/icon source contract passed. Running rendered cases.\nBrowser fixture timed out. ssword_manager\\core\\browser\\password_store\\login_database_async_helper.cc:229] Encryption is not available.\r\n[39756:76120:1010/193644.334:ERROR:components\\password_manager\\core\\browser\\password_store\\login_database_async_helper.cc:229] Encryption is not available.\r\n[39756:42764:1010/193644.385:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{BE59E8FD-089A-411B-A3B0-051D9E417818} to set usagestats; result: 5\r\n[39756:36308:1010/193644.385:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[39756:36308:1010/193644.468:ERROR:chrome\\browser\\component_updater\\edge_optimization_guide_models_manifest_installer.cc:264] Edge LLM: catalog update failed: 5\r\n[39756:36308:1010/193644.482:ERROR:chrome\\browser\\component_updater\\edge_language_detection_model_installer.cc:97] Edge Language Detection Model: On-demand update failed with error: 5\r\n[39756:36236:1010/193646.392:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Access is denied. (0x80070005)\r\n[39756:53504:1010/193646.481:ERROR:chrome\\browser\\edge_aadc\\user_age_utils_win.cc:163] couldn't get user2.\r\n[39756:53504:1010/193646.481:ERROR:chrome\\browser\\edge_aadc\\user_age_utils_win.cc:310] couldn't get windows user age group.\r\n[39756:53504:1010/193646.481:ERROR:chrome\\browser\\edge_aadc\\user_age_utils_win.cc:156] callback wasn't called.\r\n\n"
+  },
+  {
+    "file": ".scratch/setup/check-phone.cjs",
+    "status": 0,
+    "output": "Phone checks passed: no network, recovery, address change, hostname, code, IPv6, port and completion.\n"
+  },
+  {
+    "file": ".scratch/setup/check-qr.cjs",
+    "status": 0,
+    "output": "QR checks passed: 4 upstream matrix fixtures, quiet zone, overflow.\n"
+  },
+  {
+    "file": ".scratch/setup/check-rollback.cjs",
+    "status": 0,
+    "output": "Rollback UI checks passed: confirm, cancel, CSRF, double submit, busy, stale failure and retry.\n"
+  },
+  {
+    "file": ".scratch/setup/check-screen.cjs",
+    "status": 0,
+    "output": "Screen checks passed: facts, version, SSH, hostname, IPv6, QR and stale-address cleanup.\n"
+  },
+  {
+    "file": ".scratch/setup/check-kiosk-fallback.cjs",
+    "status": 0,
+    "output": "Kiosk fallback passed: rate limit, failure/boot wiring, retained splash, banner, LAN URLs, code, offline and completed setup. No real services or tty were used.\n"
+  },
+  {
+    "file": ".scratch/setup/check-unit-ordering.cjs",
+    "status": 0,
+    "output": "Unit ordering checks passed: 11 path/socket/timer units and their drop-ins.\n"
+  },
+  {
+    "file": ".scratch/apps/check-apps.cjs",
+    "status": 1,
+    "output": "node:fs:484\r\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\r\n                   ^\r\n\r\nError: EISDIR: illegal operation on a directory, read\r\n    at Object.readFileSync (node:fs:484:20)\r\n    at read (C:\\Users\\jener\\jeneros\\.scratch\\apps\\check-apps.cjs:4:22)\r\n    at Object.<anonymous> (C:\\Users\\jener\\jeneros\\.scratch\\apps\\check-apps.cjs:7:14)\r\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  errno: -4068,\r\n  code: 'EISDIR',\r\n  syscall: 'read'\r\n}\r\n\r\nNode.js v24.19.0\r\n"
+  },
+  {
+    "file": ".scratch/setup/check-validation.cjs",
+    "status": 0,
+    "output": "Wizard checks passed: consent, reserved names, live field errors, password limits, Unicode and confirmation.\n"
+  },
+  {
+    "file": ".scratch/setup/check-icons-public.cjs",
+    "status": 0,
+    "output": "Public icon sprite matches index.html.\n"
+  },
+  {
+    "file": ".scratch/zimaos/check-desktop.cjs",
+    "status": 0,
+    "output": "Desktop fixtures passed: assets/IDs, counters/reset/offline, saved preferences, search/windows, escaping, SSH submission and observed state, update offline state.\n"
+  },
+  {
+    "file": ".scratch/zimaos/check-storage.cjs",
+    "status": 0,
+    "output": "{\n  \"passed\": [\n    \"index/dark/360x780/native\",\n    \"index/dark/360x780/missing\",\n    \"index/dark/360x780/reduced-motion\",\n    \"index/dark/360x780/large-text\",\n    \"index/dark/390x844/native\",\n    \"index/dark/390x844/missing\",\n    \"index/dark/390x844/reduced-motion\",\n    \"index/dark/390x844/large-text\",\n    \"index/dark/780x360/native\",\n    \"index/dark/780x360/missing\",\n    \"index/dark/780x360/reduced-motion\",\n    \"index/dark/780x360/large-text\",\n    \"index/dark/1280x800/native\",\n    \"index/dark/1280x800/missing\",\n    \"index/dark/1280x800/reduced-motion\",\n    \"index/dark/1280x800/large-text\",\n    \"index/light/360x780/native\",\n    \"index/light/360x780/missing\",\n    \"index/light/360x780/reduced-motion\",\n    \"index/light/360x780/large-text\",\n    \"index/light/390x844/native\",\n    \"index/light/390x844/missing\",\n    \"index/light/390x844/reduced-motion\",\n    \"index/light/390x844/large-text\",\n    \"index/light/780x360/native\",\n    \"index/light/780x360/missing\",\n    \"index/light/780x360/reduced-motion\",\n    \"index/light/780x360/large-text\",\n    \"index/light/1280x800/native\",\n    \"index/light/1280x800/missing\",\n    \"index/light/1280x800/reduced-motion\",\n    \"index/light/1280x800/large-text\"\n  ],\n  \"errors\": []\n}\n"
+  },
+  {
+    "file": ".scratch/zimaos/check-login.cjs",
+    "status": 0,
+    "output": "Login checks passed: inline failure, cleared passwords, CSRF, rate-limit retry, safe destinations, expired-session redirect and three setup cards.\n"
+  },
+  {
+    "file": ".scratch/zimaos/check-onboarding.cjs",
+    "status": 0,
+    "output": "Onboarding checks passed: consent gate, welcome/account/apply/introduction, CSRF, request shape, cleared passwords/code and fixed-address sign-in links.\n"
+  },
+  {
+    "file": ".scratch/zimaos/check-ssh-helper.cjs",
+    "status": 0,
+    "output": "SSH helper fixtures passed: enable, disable/socket stop, malformed request, setup/dev guards, failed start flag rollback and failed stop preservation. Only fake systemctl/flock ran.\n"
+  },
+  {
+    "file": ".scratch/setup/check-welcome-browser.cjs",
+    "status": 0,
+    "output": "{\n  \"passed\": [\n    \"setup/dark/1280x800/native\",\n    \"setup/dark/1280x800/missing\",\n    \"setup/dark/1280x800/throwing\",\n    \"setup/dark/1280x800/noop\",\n    \"setup/dark/1280x800/qr-failure\",\n    \"setup/dark/390x800/native\",\n    \"setup/dark/390x800/missing\",\n    \"setup/dark/390x800/throwing\",\n    \"setup/dark/390x800/noop\",\n    \"setup/dark/390x800/qr-failure\",\n    \"setup/light/1280x800/native\",\n    \"setup/light/1280x800/missing\",\n    \"setup/light/1280x800/throwing\",\n    \"setup/light/1280x800/noop\",\n    \"setup/light/1280x800/qr-failure\",\n    \"setup/light/390x800/native\",\n    \"setup/light/390x800/missing\",\n    \"setup/light/390x800/throwing\",\n    \"setup/light/390x800/noop\",\n    \"setup/light/390x800/qr-failure\"\n  ],\n  \"errors\": []\n}\n"
+  }
+]

@@ -16,7 +16,7 @@
       const s = await res.json();
       const version = `JenerOS ${s.osVersion || ''}`.trim();
       $('screenVersion').textContent = version; $('screenOS').textContent = version;
-      for (const [id, value] of Object.entries({ boxName: s.hostname, screenManufacturer: s.manufacturer, screenModel: s.model, screenBuildDate: s.buildDate, screenKernel: s.kernel })) $(id).textContent = value || 'Not available';
+      for (const [id, value] of Object.entries({ boxName: s.hostname, screenManufacturer: s.manufacturer, screenModel: s.model, screenBuildDate: s.buildDate, screenKernel: s.kernel, screenFingerprint: s.certificateFingerprint })) $(id).textContent = value || 'Not available';
       $('screenState').textContent = 'Up and running. All yours.';
       $('screenSSH').textContent = s.sshStatus === 'on' ? 'SSH is on. Use your owner account to connect.' : s.sshStatus === 'off' ? 'SSH is off by default. Local login is available on Ctrl+Alt+F2.' : 'SSH status is unavailable right now.';
       const minutes = Math.floor((s.uptimeSec || 0) / 60), hours = Math.floor(minutes / 60), days = Math.floor(hours / 24);

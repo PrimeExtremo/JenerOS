@@ -1,0 +1,14 @@
+# First values win. /usr delivers these defaults with each A/B update.
+PermitRootLogin no
+MaxAuthTries 3
+LoginGraceTime 30
+KexAlgorithms sntrup761x25519-sha512,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
+DebianBanner no
+VersionAddendum none
+Banner /usr/lib/jeneros/ssh-banner
+X11Forwarding no
+AllowAgentForwarding no
+PermitEmptyPasswords no
+Include /etc/ssh/sshd_config

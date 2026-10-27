@@ -1,0 +1,4301 @@
+{
+  "step": "PROMPT-5: Still review complete; ready for Claude",
+  "logs": [
+    {
+      "time": "15:22:14",
+      "text": "Cut review passed: 3810 frames, 276 subframe samples, 81 boundary stills. Song absent; full exports remain for Claude.",
+      "error": false
+    },
+    {
+      "time": "15:21:00",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "15:20:59",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "15:20:58",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "15:20:58",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "15:20:57",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "15:20:56",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "15:20:55",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "15:20:55",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "15:20:54",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "15:20:53",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "15:20:53",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "15:20:52",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "15:20:51",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:51",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:50",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:50",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:49",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:48",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "15:20:47",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "15:20:47",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "15:20:46",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "15:20:45",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "15:20:45",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "15:20:44",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "15:20:43",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "15:20:43",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "15:20:42",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "15:20:41",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "15:20:41",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "15:20:40",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "15:20:39",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "15:20:39",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "15:20:38",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "15:20:37",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "15:20:37",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "15:20:36",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "15:20:35",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "15:20:35",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "15:20:34",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "15:20:34",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "15:20:33",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "15:20:32",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "15:20:32",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "15:20:31",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "15:20:30",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "15:20:30",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "15:20:29",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "15:20:29",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "15:20:26",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "15:20:25",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "15:20:24",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "15:20:24",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "15:20:23",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "15:20:22",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "15:20:22",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "15:20:21",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "15:20:21",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "15:20:20",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "15:20:19",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "15:20:17",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "15:20:16",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "15:20:16",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "15:20:15",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "15:20:14",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "15:20:14",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "15:20:13",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "15:20:12",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "15:20:11",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "15:20:11",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "15:20:10",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "15:20:10",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "15:20:09",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "15:20:08",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "15:20:08",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "15:20:07",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "15:20:06",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "15:20:06",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "15:20:05",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "15:20:04",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "15:20:04",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "15:20:03",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:45:55",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:45:54",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:45:54",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:45:53",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:45:52",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:45:52",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:45:51",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:45:50",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:45:49",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:45:49",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:45:48",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:45:47",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:45:46",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:45:46",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:45:45",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:45:44",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:45:43",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:45:41",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:45:40",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:45:39",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:45:36",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:45:35",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:45:34",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:45:33",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:45:33",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:45:31",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:45:30",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:45:30",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:44:57",
+      "text": "V3 visual review fixes: readable splash, sunlit caption, phone clearance and storage macro",
+      "error": false
+    },
+    {
+      "time": "10:44:33",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:44:33",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:44:32",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:44:32",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:44:31",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:44:31",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:44:30",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:44:30",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:44:29",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:44:28",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:44:28",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:44:27",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:44:27",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:26",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:26",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:25",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:25",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:24",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:44:24",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:44:23",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:44:23",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:44:22",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:44:22",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:44:21",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:44:21",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:44:20",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:44:20",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:44:19",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:44:19",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:44:18",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:44:18",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:44:17",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:44:17",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:44:16",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:44:15",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:44:15",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:44:14",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:44:13",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:44:13",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:44:12",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:44:12",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:44:11",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:44:11",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:44:10",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:44:10",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:44:09",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:44:09",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:44:08",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:44:06",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:44:06",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:44:05",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:44:05",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:44:04",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:44:03",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:44:03",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:44:02",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:44:02",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:44:01",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:44:00",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:43:58",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:43:57",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:43:56",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:43:56",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:43:55",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:43:54",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:43:54",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:43:53",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:43:52",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:43:52",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:43:51",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:43:51",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:43:50",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:43:49",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:43:49",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:43:48",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:43:47",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:43:47",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:43:46",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:43:46",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:43:45",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:43:44",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:43:21",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:42:35",
+      "text": "V3 visual review fixes: readable splash, sunlit caption, phone clearance and storage macro",
+      "error": false
+    },
+    {
+      "time": "10:41:58",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:41:57",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:41:56",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:41:56",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:41:55",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:41:54",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:41:54",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:41:53",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:41:52",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:41:52",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:41:51",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:41:50",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:41:50",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:41:49",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:41:48",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:41:48",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:41:47",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:41:45",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:41:44",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:41:43",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:41:40",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:41:40",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:41:39",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:41:38",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:41:38",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:41:37",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:41:36",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:41:35",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:41:01",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:41:01",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:41:00",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:41:00",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:40:59",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:40:59",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:40:58",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:40:57",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:40:57",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:40:56",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:40:55",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:40:54",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:40:54",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:53",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:53",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:52",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:51",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:51",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:40:50",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:40:50",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:40:49",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:40:49",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:40:48",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:40:47",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:40:47",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:40:46",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:40:46",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:40:45",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:40:44",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:40:44",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:40:43",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:40:42",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:40:42",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:40:41",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:40:41",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:40:40",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:40:39",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:40:39",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:40:38",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:40:38",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:40:37",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:40:37",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:40:36",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:40:35",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:40:35",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:40:34",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:40:34",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:40:33",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:40:31",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:40:30",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:40:30",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:40:29",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:40:29",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:40:28",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:40:27",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:40:27",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:40:26",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:40:26",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:40:25",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:40:22",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:40:22",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:40:21",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:40:20",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:40:20",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:40:19",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:40:18",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:40:18",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:40:17",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:40:16",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:40:16",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:40:15",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:40:15",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:40:14",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:40:13",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:40:12",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:40:12",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:40:11",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:40:10",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:40:10",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:40:09",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:40:08",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:38:43",
+      "text": "V3 visual review fixes: readable splash, sunlit caption, phone clearance and storage macro",
+      "error": false
+    },
+    {
+      "time": "10:35:27",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:35:27",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:35:26",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:35:25",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:35:25",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:35:24",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:35:23",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:35:23",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:35:22",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:35:21",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:35:21",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:35:20",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:35:20",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:35:19",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:35:18",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:35:18",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:35:17",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:35:16",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:35:15",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:35:15",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:35:14",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:35:13",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:35:13",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:35:12",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:35:11",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:35:11",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:35:10",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:35:09",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:35:09",
+      "text": "PROMPT-5 built; ready for cut review",
+      "error": false
+    },
+    {
+      "time": "10:35:09",
+      "text": "Story built: 14 chapters on voiceover clock",
+      "error": false
+    },
+    {
+      "time": "10:35:08",
+      "text": "V3 shot 26: One less computer in a landfill",
+      "error": false
+    },
+    {
+      "time": "10:35:08",
+      "text": "Shot 26: One less computer in a landfill ready",
+      "error": false
+    },
+    {
+      "time": "10:34:50",
+      "text": "V3 shot 25: A second life",
+      "error": false
+    },
+    {
+      "time": "10:34:49",
+      "text": "Shot 25: A second life ready",
+      "error": false
+    },
+    {
+      "time": "10:34:25",
+      "text": "V3 shot 20: App Store on the way",
+      "error": false
+    },
+    {
+      "time": "10:34:24",
+      "text": "Shot 20: App Store on the way ready",
+      "error": false
+    },
+    {
+      "time": "10:34:24",
+      "text": "V3 shot 27: Everything, at home",
+      "error": false
+    },
+    {
+      "time": "10:34:23",
+      "text": "Shot 27: Everything, at home ready",
+      "error": false
+    },
+    {
+      "time": "10:34:22",
+      "text": "V3 shot 24: No user limits.",
+      "error": false
+    },
+    {
+      "time": "10:34:21",
+      "text": "Shot 24: No user limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:34:21",
+      "text": "V3 shot 23: No disk limits.",
+      "error": false
+    },
+    {
+      "time": "10:34:20",
+      "text": "Shot 23: No disk limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:34:19",
+      "text": "V3 shot 22: No paid tier.",
+      "error": false
+    },
+    {
+      "time": "10:34:19",
+      "text": "Shot 22: No paid tier. ready",
+      "error": false
+    },
+    {
+      "time": "10:34:18",
+      "text": "V3 shot 21: The best part?",
+      "error": false
+    },
+    {
+      "time": "10:34:18",
+      "text": "Shot 21: The best part? ready",
+      "error": false
+    },
+    {
+      "time": "10:34:17",
+      "text": "V3 shot 19: Rollback speed ramp",
+      "error": false
+    },
+    {
+      "time": "10:34:16",
+      "text": "Shot 19: Rollback speed ramp ready",
+      "error": false
+    },
+    {
+      "time": "10:34:15",
+      "text": "V3 shot 18: System A and system B",
+      "error": false
+    },
+    {
+      "time": "10:34:15",
+      "text": "Shot 18: System A and system B ready",
+      "error": false
+    },
+    {
+      "time": "10:34:14",
+      "text": "V3 shot 17: Lose a drive? Nothing's lost.",
+      "error": false
+    },
+    {
+      "time": "10:34:13",
+      "text": "Shot 17: Lose a drive? Nothing's lost. ready",
+      "error": false
+    },
+    {
+      "time": "10:34:07",
+      "text": "V3 shot 16: Two drives, two copies",
+      "error": false
+    },
+    {
+      "time": "10:34:07",
+      "text": "Shot 16: Two drives, two copies ready",
+      "error": false
+    },
+    {
+      "time": "10:34:02",
+      "text": "V3 shot 28: JenerOS end card",
+      "error": false
+    },
+    {
+      "time": "10:34:01",
+      "text": "Shot 28: JenerOS end card ready",
+      "error": false
+    },
+    {
+      "time": "10:34:01",
+      "text": "V3 shot 09: Glossy app icon macro",
+      "error": false
+    },
+    {
+      "time": "10:34:00",
+      "text": "Shot 09: Glossy app icon macro ready",
+      "error": false
+    },
+    {
+      "time": "10:34:00",
+      "text": "V3 shot 08: Dashboard screen-to-room",
+      "error": false
+    },
+    {
+      "time": "10:33:59",
+      "text": "Shot 08: Dashboard screen-to-room ready",
+      "error": false
+    },
+    {
+      "time": "10:33:50",
+      "text": "V3 shot 15: No account.",
+      "error": false
+    },
+    {
+      "time": "10:33:49",
+      "text": "Shot 15: No account. ready",
+      "error": false
+    },
+    {
+      "time": "10:33:49",
+      "text": "V3 shot 14: No commands.",
+      "error": false
+    },
+    {
+      "time": "10:33:49",
+      "text": "Shot 14: No commands. ready",
+      "error": false
+    },
+    {
+      "time": "10:33:48",
+      "text": "V3 shot 13: No keyboard.",
+      "error": false
+    },
+    {
+      "time": "10:33:48",
+      "text": "Shot 13: No keyboard. ready",
+      "error": false
+    },
+    {
+      "time": "10:33:47",
+      "text": "V3 shot 12: QR to phone whip",
+      "error": false
+    },
+    {
+      "time": "10:33:44",
+      "text": "Shot 12: QR to phone whip ready",
+      "error": false
+    },
+    {
+      "time": "10:33:43",
+      "text": "V3 shot 11: Power LED and J splash",
+      "error": false
+    },
+    {
+      "time": "10:33:41",
+      "text": "Shot 11: Power LED and J splash ready",
+      "error": false
+    },
+    {
+      "time": "10:33:41",
+      "text": "V3 shot 10: USB insertion",
+      "error": false
+    },
+    {
+      "time": "10:33:40",
+      "text": "Shot 10: USB insertion ready",
+      "error": false
+    },
+    {
+      "time": "10:33:36",
+      "text": "V3 shot 07: The photo comes home",
+      "error": false
+    },
+    {
+      "time": "10:33:35",
+      "text": "Shot 07: The photo comes home ready",
+      "error": false
+    },
+    {
+      "time": "10:33:31",
+      "text": "V3 shot 06: Your movies",
+      "error": false
+    },
+    {
+      "time": "10:33:31",
+      "text": "Shot 06: Your movies ready",
+      "error": false
+    },
+    {
+      "time": "10:33:30",
+      "text": "V3 shot 05: Your files",
+      "error": false
+    },
+    {
+      "time": "10:33:30",
+      "text": "Shot 05: Your files ready",
+      "error": false
+    },
+    {
+      "time": "10:33:29",
+      "text": "V3 shot 04: Your photos",
+      "error": false
+    },
+    {
+      "time": "10:33:29",
+      "text": "Shot 04: Your photos ready",
+      "error": false
+    },
+    {
+      "time": "10:33:28",
+      "text": "V3 shot 03: Your new cloud.",
+      "error": false
+    },
+    {
+      "time": "10:33:28",
+      "text": "Shot 03: Your new cloud. ready",
+      "error": false
+    },
+    {
+      "time": "10:33:28",
+      "text": "V3 shot 02: It's not junk.",
+      "error": false
+    },
+    {
+      "time": "10:33:27",
+      "text": "Shot 02: It's not junk. ready",
+      "error": false
+    },
+    {
+      "time": "10:33:27",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:33:27",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:33:08",
+      "text": "Shot 01: Closet opens ready",
+      "error": false
+    },
+    {
+      "time": "10:32:43",
+      "text": "PROMPT-5 built; ready for cut review",
+      "error": false
+    },
+    {
+      "time": "10:32:43",
+      "text": "Story built: 14 chapters on voiceover clock",
+      "error": false
+    },
+    {
+      "time": "10:32:42",
+      "text": "Shot 26: One less computer in a landfill ready",
+      "error": false
+    },
+    {
+      "time": "10:32:26",
+      "text": "Shot 25: A second life ready",
+      "error": false
+    },
+    {
+      "time": "10:32:04",
+      "text": "Shot 20: App Store on the way ready",
+      "error": false
+    },
+    {
+      "time": "10:32:03",
+      "text": "Shot 27: Everything, at home ready",
+      "error": false
+    },
+    {
+      "time": "10:32:02",
+      "text": "Shot 24: No user limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:32:01",
+      "text": "Shot 23: No disk limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:32:00",
+      "text": "Shot 22: No paid tier. ready",
+      "error": false
+    },
+    {
+      "time": "10:32:00",
+      "text": "Shot 21: The best part? ready",
+      "error": false
+    },
+    {
+      "time": "10:31:59",
+      "text": "Shot 19: Rollback speed ramp ready",
+      "error": false
+    },
+    {
+      "time": "10:31:58",
+      "text": "Shot 18: System A and system B ready",
+      "error": false
+    },
+    {
+      "time": "10:31:57",
+      "text": "Shot 17: Lose a drive? Nothing's lost. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:52",
+      "text": "Shot 16: Two drives, two copies ready",
+      "error": false
+    },
+    {
+      "time": "10:31:47",
+      "text": "Shot 28: JenerOS end card ready",
+      "error": false
+    },
+    {
+      "time": "10:31:47",
+      "text": "Shot 09: Glossy app icon macro ready",
+      "error": false
+    },
+    {
+      "time": "10:31:47",
+      "text": "Shot 08: Dashboard screen-to-room ready",
+      "error": false
+    },
+    {
+      "time": "10:31:38",
+      "text": "Shot 15: No account. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:37",
+      "text": "Shot 14: No commands. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:36",
+      "text": "Shot 13: No keyboard. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:36",
+      "text": "Shot 12: QR to phone whip ready",
+      "error": false
+    },
+    {
+      "time": "10:31:35",
+      "text": "Shot 11: Power LED and J splash ready",
+      "error": false
+    },
+    {
+      "time": "10:31:35",
+      "text": "Shot 10: USB insertion ready",
+      "error": false
+    },
+    {
+      "time": "10:31:31",
+      "text": "Shot 07: The photo comes home ready",
+      "error": false
+    },
+    {
+      "time": "10:31:27",
+      "text": "Shot 06: Your movies ready",
+      "error": false
+    },
+    {
+      "time": "10:31:26",
+      "text": "Shot 05: Your files ready",
+      "error": false
+    },
+    {
+      "time": "10:31:26",
+      "text": "Shot 04: Your photos ready",
+      "error": false
+    },
+    {
+      "time": "10:31:25",
+      "text": "Shot 03: Your new cloud. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:25",
+      "text": "Shot 02: It's not junk. ready",
+      "error": false
+    },
+    {
+      "time": "10:31:25",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:31:08",
+      "text": "Shot 01: Closet opens ready",
+      "error": false
+    },
+    {
+      "time": "10:30:07",
+      "text": "PROMPT-5 built; ready for cut review",
+      "error": false
+    },
+    {
+      "time": "10:30:07",
+      "text": "Story built: 14 chapters on voiceover clock",
+      "error": false
+    },
+    {
+      "time": "10:30:06",
+      "text": "Shot 26: One less computer in a landfill ready",
+      "error": false
+    },
+    {
+      "time": "10:29:48",
+      "text": "Shot 25: A second life ready",
+      "error": false
+    },
+    {
+      "time": "10:29:22",
+      "text": "Shot 20: App Store on the way ready",
+      "error": false
+    },
+    {
+      "time": "10:29:22",
+      "text": "Shot 27: Everything, at home ready",
+      "error": false
+    },
+    {
+      "time": "10:29:20",
+      "text": "Shot 24: No user limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:29:19",
+      "text": "Shot 23: No disk limits. ready",
+      "error": false
+    },
+    {
+      "time": "10:29:19",
+      "text": "Shot 22: No paid tier. ready",
+      "error": false
+    },
+    {
+      "time": "10:29:18",
+      "text": "Shot 21: The best part? ready",
+      "error": false
+    },
+    {
+      "time": "10:29:17",
+      "text": "Shot 19: Rollback speed ramp ready",
+      "error": false
+    },
+    {
+      "time": "10:29:16",
+      "text": "Shot 18: System A and system B ready",
+      "error": false
+    },
+    {
+      "time": "10:29:15",
+      "text": "Shot 17: Lose a drive? Nothing's lost. ready",
+      "error": false
+    },
+    {
+      "time": "10:29:10",
+      "text": "Shot 16: Two drives, two copies ready",
+      "error": false
+    },
+    {
+      "time": "10:29:05",
+      "text": "Shot 28: JenerOS end card ready",
+      "error": false
+    },
+    {
+      "time": "10:29:05",
+      "text": "Shot 09: Glossy app icon macro ready",
+      "error": false
+    },
+    {
+      "time": "10:29:05",
+      "text": "Shot 08: Dashboard screen-to-room ready",
+      "error": false
+    },
+    {
+      "time": "10:28:55",
+      "text": "Shot 15: No account. ready",
+      "error": false
+    },
+    {
+      "time": "10:28:55",
+      "text": "Shot 14: No commands. ready",
+      "error": false
+    },
+    {
+      "time": "10:28:55",
+      "text": "Shot 13: No keyboard. ready",
+      "error": false
+    },
+    {
+      "time": "10:28:54",
+      "text": "Shot 12: QR to phone whip ready",
+      "error": false
+    },
+    {
+      "time": "10:28:53",
+      "text": "Shot 11: Power LED and J splash ready",
+      "error": false
+    },
+    {
+      "time": "10:28:53",
+      "text": "Shot 10: USB insertion ready",
+      "error": false
+    },
+    {
+      "time": "10:28:48",
+      "text": "Shot 07: The photo comes home ready",
+      "error": false
+    },
+    {
+      "time": "10:28:44",
+      "text": "Shot 06: Your movies ready",
+      "error": false
+    },
+    {
+      "time": "10:28:44",
+      "text": "Shot 05: Your files ready",
+      "error": false
+    },
+    {
+      "time": "10:28:43",
+      "text": "Shot 04: Your photos ready",
+      "error": false
+    },
+    {
+      "time": "10:28:43",
+      "text": "Shot 03: Your new cloud. ready",
+      "error": false
+    },
+    {
+      "time": "10:28:42",
+      "text": "Shot 02: It's not junk. ready",
+      "error": false
+    },
+    {
+      "time": "10:28:42",
+      "text": "V3 shot 01: Closet opens",
+      "error": false
+    },
+    {
+      "time": "10:28:24",
+      "text": "Shot 01: Closet opens ready",
+      "error": false
+    },
+    {
+      "time": "08:07:08",
+      "text": "Scene 1: Second life. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "08:07:06",
+      "text": "Scene 1: Second life. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "08:07:01",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "08:07:00",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "08:06:59",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "08:06:57",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "08:06:57",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "08:06:56",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "08:06:56",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "08:06:54",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "08:06:51",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "22:14:53",
+      "text": "Final animation ready.",
+      "error": false
+    },
+    {
+      "time": "21:01:06",
+      "text": "Rendering final: 2580 frames, silent H.264.",
+      "error": false
+    },
+    {
+      "time": "19:35:54",
+      "text": "Rendering final: 2580 frames, silent H.264.",
+      "error": false
+    },
+    {
+      "time": "19:31:00",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "19:30:58",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:30:56",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:30:52",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:30:52",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:30:50",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:30:49",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "19:30:47",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "19:30:42",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "19:30:03",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "19:21:50",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "19:21:48",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:21:47",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:21:43",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:21:43",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:21:41",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:21:40",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "19:21:38",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "19:21:33",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "19:15:54",
+      "text": "PROMPT-2 complete: nine stills reviewed, 60 boundary stills checked, videos left for Claude.",
+      "error": false
+    },
+    {
+      "time": "19:14:54",
+      "text": "Scene 7: Updates that undo themselves. Preview ready for inspection (11.3s).",
+      "error": false
+    },
+    {
+      "time": "19:14:18",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:13:44",
+      "text": "Scene 9: Yours. Preview ready for inspection (10.8s).",
+      "error": false
+    },
+    {
+      "time": "19:13:32",
+      "text": "Scene 8: Your own app store. Preview ready for inspection (11.1s).",
+      "error": false
+    },
+    {
+      "time": "19:13:19",
+      "text": "Scene 7: Updates that undo themselves. Preview ready for inspection (11.5s).",
+      "error": false
+    },
+    {
+      "time": "19:13:05",
+      "text": "Scene 6: Storage. Preview ready for inspection (11.7s).",
+      "error": false
+    },
+    {
+      "time": "19:12:52",
+      "text": "Scene 5: Make it yours. Preview ready for inspection (11.2s).",
+      "error": false
+    },
+    {
+      "time": "19:12:39",
+      "text": "Scene 4: Set up from your phone. Preview ready for inspection (10.9s).",
+      "error": false
+    },
+    {
+      "time": "19:12:26",
+      "text": "Scene 3: Lives at home. Preview ready for inspection (11.8s).",
+      "error": false
+    },
+    {
+      "time": "19:12:12",
+      "text": "Scene 2: Your stuff. Preview ready for inspection (10.8s).",
+      "error": false
+    },
+    {
+      "time": "19:11:59",
+      "text": "Scene 1: Second life. Preview ready for inspection (10.4s).",
+      "error": false
+    },
+    {
+      "time": "19:11:25",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:11:22",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:11:20",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:08:26",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:08:24",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:06:39",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "19:06:38",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:06:37",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:06:35",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:06:34",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:06:33",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:06:33",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "19:06:32",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "19:06:32",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "19:05:03",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "19:05:02",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:05:01",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:05:00",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:05:00",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:04:59",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:04:58",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "19:04:58",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "19:04:57",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "19:03:58",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:00:52",
+      "text": "Scene 9: Yours. Preview ready for inspection (0.9s).",
+      "error": false
+    },
+    {
+      "time": "19:00:50",
+      "text": "Scene 8: Your own app store. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "19:00:47",
+      "text": "Scene 7: Updates that undo themselves. Preview ready for inspection (0.7s).",
+      "error": false
+    },
+    {
+      "time": "19:00:45",
+      "text": "Scene 6: Storage. Preview ready for inspection (0.7s).",
+      "error": false
+    },
+    {
+      "time": "19:00:42",
+      "text": "Scene 5: Make it yours. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "19:00:40",
+      "text": "Scene 4: Set up from your phone. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "19:00:37",
+      "text": "Scene 3: Lives at home. Preview ready for inspection (0.7s).",
+      "error": false
+    },
+    {
+      "time": "19:00:35",
+      "text": "Scene 2: Your stuff. Preview ready for inspection (0.8s).",
+      "error": false
+    },
+    {
+      "time": "19:00:32",
+      "text": "Scene 1: Second life. Preview ready for inspection (8.9s).",
+      "error": false
+    },
+    {
+      "time": "19:00:13",
+      "text": "Building scene 9: Yours",
+      "error": false
+    },
+    {
+      "time": "19:00:13",
+      "text": "Building scene 8: Your own app store",
+      "error": false
+    },
+    {
+      "time": "19:00:12",
+      "text": "Building scene 7: Updates that undo themselves",
+      "error": false
+    },
+    {
+      "time": "19:00:11",
+      "text": "Building scene 6: Storage",
+      "error": false
+    },
+    {
+      "time": "19:00:11",
+      "text": "Building scene 5: Make it yours",
+      "error": false
+    },
+    {
+      "time": "19:00:11",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "19:00:10",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "19:00:10",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "19:00:09",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "18:59:37",
+      "text": "Building scene 4: Set up from your phone",
+      "error": false
+    },
+    {
+      "time": "18:59:37",
+      "text": "Building scene 3: Lives at home",
+      "error": false
+    },
+    {
+      "time": "18:59:37",
+      "text": "Building scene 2: Your stuff",
+      "error": false
+    },
+    {
+      "time": "18:59:35",
+      "text": "Building scene 1: Second life",
+      "error": false
+    },
+    {
+      "time": "18:54:23",
+      "text": "First trailer.blend saved atomically. Blender watcher can now reload it.",
+      "error": false
+    }
+  ],
+  "images": [
+    {
+      "path": "live/v3/boundaries/cut-28-+12.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28-+00.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28--01.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+12.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+00.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27--01.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+12.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+00.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26--01.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+12.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+00.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25--01.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+12.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+00.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24--01.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+12.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+00.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23--01.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+12.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+00.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22--01.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+12.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+00.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21--01.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+12.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+00.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20--01.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+12.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+00.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19--01.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+12.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+00.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18--01.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+12.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+00.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17--01.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+12.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+00.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16--01.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+12.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+00.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15--01.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+12.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+00.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14--01.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+12.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+00.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13--01.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+00.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12--01.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+12.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+00.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11--01.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+12.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+00.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10--01.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+12.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+00.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09--01.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+12.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+00.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08--01.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+12.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+00.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07--01.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+12.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+00.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06--01.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+12.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+00.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05--01.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+12.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+00.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04--01.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+12.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+00.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03--01.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+12.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+00.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02--01.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-28.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/shot-27.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/shot-26.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/shot-25.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/shot-24.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/shot-23.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/shot-22.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/shot-21.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/shot-20.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/shot-19.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/shot-18.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/shot-17.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/shot-16.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/shot-15.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/shot-14.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/shot-13.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/shot-12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/shot-11.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/shot-10.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/shot-09.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/shot-08.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/shot-07.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/shot-06.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/shot-05.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/shot-04.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/shot-03.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/shot-02.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-01.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28-+12.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28-+00.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28--01.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+12.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+00.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27--01.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+12.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+00.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26--01.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+12.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+00.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25--01.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+12.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+00.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24--01.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+12.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+00.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23--01.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+12.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+00.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22--01.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+12.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+00.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21--01.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+12.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+00.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20--01.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+12.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+00.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19--01.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+12.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+00.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18--01.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+12.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+00.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17--01.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+12.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+00.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16--01.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+12.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+00.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15--01.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+12.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+00.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14--01.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+12.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+00.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13--01.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+00.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12--01.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+12.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+00.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11--01.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+12.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+00.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10--01.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+12.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+00.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09--01.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+12.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+00.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08--01.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+12.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+00.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07--01.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+12.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+00.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06--01.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+12.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+00.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05--01.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+12.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+00.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04--01.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+12.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+00.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03--01.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+12.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+00.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02--01.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-03.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/shot-28.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/shot-27.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/shot-26.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/shot-25.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/shot-24.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/shot-23.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/shot-22.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/shot-21.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/shot-20.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/shot-19.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/shot-18.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/shot-17.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/shot-16.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/shot-15.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/shot-14.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/shot-13.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/shot-12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/shot-11.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/shot-10.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/shot-09.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/shot-08.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/shot-07.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/shot-06.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/shot-05.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/shot-04.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/shot-03.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/shot-02.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-01.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28-+12.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28-+00.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-28--01.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+12.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27-+00.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-27--01.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+12.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26-+00.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-26--01.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+12.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25-+00.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-25--01.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+12.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24-+00.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-24--01.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+12.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23-+00.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-23--01.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+12.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22-+00.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-22--01.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+12.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21-+00.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-21--01.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+12.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20-+00.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-20--01.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+12.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19-+00.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-19--01.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+12.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18-+00.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-18--01.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+12.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17-+00.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-17--01.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+12.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16-+00.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-16--01.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+12.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15-+00.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-15--01.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+12.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14-+00.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-14--01.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+12.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13-+00.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-13--01.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12-+00.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-12--01.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+12.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11-+00.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-11--01.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+12.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10-+00.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-10--01.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+12.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09-+00.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-09--01.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+12.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08-+00.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-08--01.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+12.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07-+00.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-07--01.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+12.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06-+00.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-06--01.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+12.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05-+00.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-05--01.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+12.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04-+00.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-04--01.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+12.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03-+00.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-03--01.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+12.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02-+00.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/boundaries/cut-02--01.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-28.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/shot-27.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/shot-26.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/shot-25.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/shot-24.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/shot-23.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/shot-22.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/shot-21.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/shot-20.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/shot-19.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/shot-18.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/shot-17.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/shot-16.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/shot-15.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/shot-14.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/shot-13.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/shot-12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/shot-11.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/shot-10.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/shot-09.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/shot-08.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/shot-07.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/shot-06.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/shot-05.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/shot-04.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/shot-03.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/shot-02.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-01.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/shot-26.png",
+      "caption": "V3 shot 26: One less computer in a landfill"
+    },
+    {
+      "path": "live/v3/shot-25.png",
+      "caption": "V3 shot 25: A second life"
+    },
+    {
+      "path": "live/v3/shot-20.png",
+      "caption": "V3 shot 20: App Store on the way"
+    },
+    {
+      "path": "live/v3/shot-27.png",
+      "caption": "V3 shot 27: Everything, at home"
+    },
+    {
+      "path": "live/v3/shot-24.png",
+      "caption": "V3 shot 24: No user limits."
+    },
+    {
+      "path": "live/v3/shot-23.png",
+      "caption": "V3 shot 23: No disk limits."
+    },
+    {
+      "path": "live/v3/shot-22.png",
+      "caption": "V3 shot 22: No paid tier."
+    },
+    {
+      "path": "live/v3/shot-21.png",
+      "caption": "V3 shot 21: The best part?"
+    },
+    {
+      "path": "live/v3/shot-19.png",
+      "caption": "V3 shot 19: Rollback speed ramp"
+    },
+    {
+      "path": "live/v3/shot-18.png",
+      "caption": "V3 shot 18: System A and system B"
+    },
+    {
+      "path": "live/v3/shot-17.png",
+      "caption": "V3 shot 17: Lose a drive? Nothing's lost."
+    },
+    {
+      "path": "live/v3/shot-16.png",
+      "caption": "V3 shot 16: Two drives, two copies"
+    },
+    {
+      "path": "live/v3/shot-28.png",
+      "caption": "V3 shot 28: JenerOS end card"
+    },
+    {
+      "path": "live/v3/shot-09.png",
+      "caption": "V3 shot 09: Glossy app icon macro"
+    },
+    {
+      "path": "live/v3/shot-08.png",
+      "caption": "V3 shot 08: Dashboard screen-to-room"
+    },
+    {
+      "path": "live/v3/shot-15.png",
+      "caption": "V3 shot 15: No account."
+    },
+    {
+      "path": "live/v3/shot-14.png",
+      "caption": "V3 shot 14: No commands."
+    },
+    {
+      "path": "live/v3/shot-13.png",
+      "caption": "V3 shot 13: No keyboard."
+    },
+    {
+      "path": "live/v3/shot-12.png",
+      "caption": "V3 shot 12: QR to phone whip"
+    },
+    {
+      "path": "live/v3/shot-11.png",
+      "caption": "V3 shot 11: Power LED and J splash"
+    },
+    {
+      "path": "live/v3/shot-10.png",
+      "caption": "V3 shot 10: USB insertion"
+    },
+    {
+      "path": "live/v3/shot-07.png",
+      "caption": "V3 shot 07: The photo comes home"
+    },
+    {
+      "path": "live/v3/shot-06.png",
+      "caption": "V3 shot 06: Your movies"
+    },
+    {
+      "path": "live/v3/shot-05.png",
+      "caption": "V3 shot 05: Your files"
+    },
+    {
+      "path": "live/v3/shot-04.png",
+      "caption": "V3 shot 04: Your photos"
+    },
+    {
+      "path": "live/v3/shot-03.png",
+      "caption": "V3 shot 03: Your new cloud."
+    },
+    {
+      "path": "live/v3/shot-02.png",
+      "caption": "V3 shot 02: It's not junk."
+    },
+    {
+      "path": "live/v3/shot-01.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/home-photo.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/home-photo.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/v3/home-photo.png",
+      "caption": "V3 shot 01: Closet opens"
+    },
+    {
+      "path": "live/scene-01.png",
+      "caption": "Scene 1: Second life. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-01.png",
+      "caption": "Scene 1: Second life. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-07.png",
+      "caption": "Scene 7: Updates that undo themselves. Preview ready for inspection (11.3s)."
+    },
+    {
+      "path": "live/scene-09.png",
+      "caption": "Scene 9: Yours. Preview ready for inspection (10.8s)."
+    },
+    {
+      "path": "live/scene-08.png",
+      "caption": "Scene 8: Your own app store. Preview ready for inspection (11.1s)."
+    },
+    {
+      "path": "live/scene-07.png",
+      "caption": "Scene 7: Updates that undo themselves. Preview ready for inspection (11.5s)."
+    },
+    {
+      "path": "live/scene-06.png",
+      "caption": "Scene 6: Storage. Preview ready for inspection (11.7s)."
+    },
+    {
+      "path": "live/scene-05.png",
+      "caption": "Scene 5: Make it yours. Preview ready for inspection (11.2s)."
+    },
+    {
+      "path": "live/scene-04.png",
+      "caption": "Scene 4: Set up from your phone. Preview ready for inspection (10.9s)."
+    },
+    {
+      "path": "live/scene-03.png",
+      "caption": "Scene 3: Lives at home. Preview ready for inspection (11.8s)."
+    },
+    {
+      "path": "live/scene-02.png",
+      "caption": "Scene 2: Your stuff. Preview ready for inspection (10.8s)."
+    },
+    {
+      "path": "live/scene-01.png",
+      "caption": "Scene 1: Second life. Preview ready for inspection (10.4s)."
+    },
+    {
+      "path": "live/scene-09.png",
+      "caption": "Scene 9: Yours. Preview ready for inspection (0.9s)."
+    },
+    {
+      "path": "live/scene-08.png",
+      "caption": "Scene 8: Your own app store. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-07.png",
+      "caption": "Scene 7: Updates that undo themselves. Preview ready for inspection (0.7s)."
+    },
+    {
+      "path": "live/scene-06.png",
+      "caption": "Scene 6: Storage. Preview ready for inspection (0.7s)."
+    },
+    {
+      "path": "live/scene-05.png",
+      "caption": "Scene 5: Make it yours. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-04.png",
+      "caption": "Scene 4: Set up from your phone. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-03.png",
+      "caption": "Scene 3: Lives at home. Preview ready for inspection (0.7s)."
+    },
+    {
+      "path": "live/scene-02.png",
+      "caption": "Scene 2: Your stuff. Preview ready for inspection (0.8s)."
+    },
+    {
+      "path": "live/scene-01.png",
+      "caption": "Scene 1: Second life. Preview ready for inspection (8.9s)."
+    }
+  ],
+  "videos": [
+    "out/jeneros-trailer.mp4"
+  ],
+  "completed": [
+    "Create live page and progress helper",
+    "Verify Blender and assets",
+    "Build and inspect scene 1 of 9",
+    "Build and inspect scene 2 of 9",
+    "Build and inspect scene 3 of 9",
+    "Build and inspect scene 4 of 9",
+    "Build and inspect scene 5 of 9",
+    "Build and inspect scene 6 of 9",
+    "Build and inspect scene 7 of 9",
+    "Build and inspect scene 8 of 9",
+    "Build and inspect scene 9 of 9",
+    "Still review complete; video renders for Claude",
+    "Estimate and render final versions",
+    "PROMPT-5: Shot 01: Closet opens ready",
+    "PROMPT-5: Shot 02: It's not junk. ready",
+    "PROMPT-5: Shot 03: Your new cloud. ready",
+    "PROMPT-5: Shot 04: Your photos ready",
+    "PROMPT-5: Shot 05: Your files ready",
+    "PROMPT-5: Shot 06: Your movies ready",
+    "PROMPT-5: Shot 07: The photo comes home ready",
+    "PROMPT-5: Shot 10: USB insertion ready",
+    "PROMPT-5: Shot 11: Power LED and J splash ready",
+    "PROMPT-5: Shot 12: QR to phone whip ready",
+    "PROMPT-5: Shot 13: No keyboard. ready",
+    "PROMPT-5: Shot 14: No commands. ready",
+    "PROMPT-5: Shot 15: No account. ready",
+    "PROMPT-5: Shot 08: Dashboard screen-to-room ready",
+    "PROMPT-5: Shot 09: Glossy app icon macro ready",
+    "PROMPT-5: Shot 28: JenerOS end card ready",
+    "PROMPT-5: Shot 16: Two drives, two copies ready",
+    "PROMPT-5: Shot 17: Lose a drive? Nothing's lost. ready",
+    "PROMPT-5: Shot 18: System A and system B ready",
+    "PROMPT-5: Shot 19: Rollback speed ramp ready",
+    "PROMPT-5: Shot 21: The best part? ready",
+    "PROMPT-5: Shot 22: No paid tier. ready",
+    "PROMPT-5: Shot 23: No disk limits. ready",
+    "PROMPT-5: Shot 24: No user limits. ready",
+    "PROMPT-5: Shot 27: Everything, at home ready",
+    "PROMPT-5: Shot 20: App Store on the way ready",
+    "PROMPT-5: Shot 25: A second life ready",
+    "PROMPT-5: Shot 26: One less computer in a landfill ready",
+    "PROMPT-5: Story built: 14 chapters on voiceover clock",
+    "PROMPT-5: PROMPT-5 built; ready for cut review",
+    "PROMPT-5: V3 visual review fixes: readable splash, sunlit caption, phone clearance and storage macro"
+  ]
+}

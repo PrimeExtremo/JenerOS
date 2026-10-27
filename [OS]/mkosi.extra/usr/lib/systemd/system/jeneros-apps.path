@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for JenerOS app requests
+
+[Path]
+PathExists=/run/jeneros/apps.request
+Unit=jeneros-apps.service
+
+[Install]
+WantedBy=multi-user.target

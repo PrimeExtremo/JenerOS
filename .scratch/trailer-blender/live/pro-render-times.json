@@ -1,0 +1,90 @@
+{
+  "scene-01": {
+    "frame": 166,
+    "seconds": 14.86
+  },
+  "scene-02": {
+    "frame": 436,
+    "seconds": 1.52
+  },
+  "scene-06": {
+    "frame": 1493,
+    "seconds": 0.45
+  },
+  "scene-07": {
+    "frame": 1943,
+    "seconds": 0.33
+  },
+  "scene-08": {
+    "frame": 2073,
+    "seconds": 0.64
+  },
+  "scene-03": {
+    "frame": 631,
+    "seconds": 2.61
+  },
+  "scene-04": {
+    "frame": 991,
+    "seconds": 0.41
+  },
+  "scene-05": {
+    "frame": 1156,
+    "seconds": 0.39
+  },
+  "scene-09": {
+    "frame": 2487,
+    "seconds": 0.31
+  },
+  "pro-01-void": {
+    "frame": 12,
+    "seconds": 0.41
+  },
+  "pro-02-voxel-macro": {
+    "frame": 57,
+    "seconds": 0.42
+  },
+  "pro-03-room": {
+    "frame": 256,
+    "seconds": 0.4
+  },
+  "pro-04-topbar-macro": {
+    "frame": 335,
+    "seconds": 0.39
+  },
+  "pro-05-screen-reveal": {
+    "frame": 391,
+    "seconds": 0.33
+  },
+  "pro-06-cpu-morph": {
+    "frame": 775,
+    "seconds": 0.45
+  },
+  "pro-07-qr-macro": {
+    "frame": 875,
+    "seconds": 0.35
+  },
+  "pro-08-phone": {
+    "frame": 923,
+    "seconds": 0.34
+  },
+  "pro-09-storage-morph": {
+    "frame": 1300,
+    "seconds": 0.36
+  },
+  "pro-10-swap-crossing": {
+    "frame": 1902,
+    "seconds": 0.37
+  },
+  "pro-11-icons-land": {
+    "frame": 2125,
+    "seconds": 0.42
+  },
+  "pro-12-warm-flash": {
+    "frame": 1681,
+    "seconds": 0.52
+  },
+  "pro-13-cream-words": {
+    "frame": 1786,
+    "seconds": 0.37
+  }
+}

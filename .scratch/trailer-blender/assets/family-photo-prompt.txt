@@ -1,0 +1,4 @@
+Original asset generated with the built-in image_gen tool, 2026-10-09.
+File: family-photo.png. Packed into trailer.blend. Not a real customer photo.
+
+Use case: photorealistic-natural. Asset: original personal photo inside a flying photo card in a JenerOS home-cloud Blender trailer. Create a natural candid photograph of two adult family members laughing together at a wooden kitchen table in a cozy ordinary home at golden hour, houseplant nearby, warm amber sunlight and cream wall. Warm brown, terracotta and cream palette. Square composition, faces safely centered with breathing room, real skin texture, informal snapshot, soft natural depth of field, no posing for an advertisement. No text, no border, no UI, no logos, no watermarks. This is original artwork, do not copy any provided reference video imagery.

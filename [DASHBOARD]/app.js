@@ -246,7 +246,7 @@ function renderSystem(s) {
   $('deviceIP').textContent = s.addresses?.join(' · ') || 'No address yet';
   if (!sshInfo) renderSSH();
   const facts = [['Name', s.hostname], ['Manufacturer', s.manufacturer], ['Model', s.model], ['Address', s.addresses?.join(', ')],
-    ['Processor', `${s.cpus} cores · ${s.arch}`], ['Memory', s.memTotalMB ? `${(s.memTotalMB / 1024).toFixed(1)} GB` : ''], ['Kernel', s.kernel], ['Build date', s.buildDate], ['Awake for', ago(s.uptimeSec)]];
+    ['Processor', `${s.cpus} cores · ${s.arch}`], ['Memory', s.memTotalMB ? `${(s.memTotalMB / 1024).toFixed(1)} GB` : ''], ['Kernel', s.kernel], ['Build date', s.buildDate], ['Awake for', ago(s.uptimeSec)], ['Certificate SHA-256', s.certificateFingerprint]];
   $('facts').innerHTML = facts.map(([key, value]) => `<dt>${esc(key)}</dt><dd>${esc(value || 'Not available')}</dd>`).join('');
   renderNetwork(s);
   previousSystem = s;
@@ -298,12 +298,13 @@ async function pollSystem() {
 }
 function renderApps(apps) {
   appCatalog = Array.isArray(apps) ? apps : [];
-  const installed = appCatalog.filter(a => a.status === 'running' || a.status === 'stopped');
+  const installed = appCatalog.filter(a => a.runtime ? !a.runtime.dataKept : a.status === 'running' || a.status === 'stopped');
   const tiles = BUILTIN_TILES.filter(t => !installed.some(a => a.id === t.id));
   $('homeTiles').innerHTML = [...tiles, ...installed.map(a => ({ id: a.id, name: a.name, icon: ['photos', 'drive', 'home', 'tv', 'relay'].includes(a.id) ? a.id : 'apps', status: a.status }))].map(t =>
-    `<button class="desktop-tile" data-app="${esc(t.id)}">${icon(t.icon)}<span class="tile-name">${esc(t.name)}</span>${t.soon ? '<span class="tile-status">Coming soon</span>' : t.status ? `<span class="tile-status">${esc(t.status === 'running' ? 'Running' : 'Stopped')}</span>` : ''}</button>`).join('');
+    `<button class="desktop-tile" data-app="${esc(t.id)}">${icon(t.icon)}<span class="tile-name">${esc(t.name)}</span>${t.soon ? '<span class="tile-status">Coming soon</span>' : t.status ? `<span class="tile-status">${esc({ running: 'Running', stopped: 'Stopped', error: 'Needs attention', unknown: 'Unavailable' }[t.status] || 'Unavailable')}</span>` : ''}</button>`).join('');
   filterApps();
 }
+document.addEventListener('jener:apps', event => renderApps(event.detail));
 function filterApps() {
   const query = $('appSearch').value.trim().toLocaleLowerCase();
   const tiles = [...$('homeTiles').children];
@@ -320,6 +321,7 @@ function openApp(id) {
   JenerUI.close($('settingsWindow'));
   const builtin = BUILTIN_TILES.find(t => t.id === id);
   const app = appCatalog.find(a => a.id === id);
+  if (app) { JenerStore.open('myapps'); return; }
   $('appWindowTitle').textContent = app?.name || builtin?.name || 'App';
   $('appWindowNote').textContent = app?.status === 'running' || app?.status === 'stopped'
     ? `${app.name} is ${app.status}. Launch and management controls are coming with app management.`

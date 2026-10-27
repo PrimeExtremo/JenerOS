@@ -12,25 +12,27 @@ import (
 )
 
 type Info struct {
-	Manufacturer string        `json:"manufacturer"`
-	Model        string        `json:"model"`
-	Kernel       string        `json:"kernel"`
-	OSVersion    string        `json:"osVersion"`
-	BuildDate    string        `json:"buildDate"`
-	SSHStatus    string        `json:"sshStatus"`
-	Hostname     string        `json:"hostname"`
-	OS           string        `json:"os"`
-	Arch         string        `json:"arch"`
-	CPUs         int           `json:"cpus"`
-	MemTotalMB   int           `json:"memTotalMB"`
-	MemFreeMB    int           `json:"memFreeMB"`
-	UptimeSec    float64       `json:"uptimeSec"`
-	Load1        float64       `json:"load1"`
-	DiskTotalB   uint64        `json:"diskTotalB"`
-	DiskFreeB    uint64        `json:"diskFreeB"`
-	Addresses    []string      `json:"addresses"`
-	CPUCounters  *CPUTime      `json:"cpuCounters,omitempty"`
-	Network      []NetworkInfo `json:"network,omitempty"`
+	CertificateFingerprint string        `json:"certificateFingerprint,omitempty"`
+	SetupCode              string        `json:"setupCode,omitempty"`
+	Manufacturer           string        `json:"manufacturer"`
+	Model                  string        `json:"model"`
+	Kernel                 string        `json:"kernel"`
+	OSVersion              string        `json:"osVersion"`
+	BuildDate              string        `json:"buildDate"`
+	SSHStatus              string        `json:"sshStatus"`
+	Hostname               string        `json:"hostname"`
+	OS                     string        `json:"os"`
+	Arch                   string        `json:"arch"`
+	CPUs                   int           `json:"cpus"`
+	MemTotalMB             int           `json:"memTotalMB"`
+	MemFreeMB              int           `json:"memFreeMB"`
+	UptimeSec              float64       `json:"uptimeSec"`
+	Load1                  float64       `json:"load1"`
+	DiskTotalB             uint64        `json:"diskTotalB"`
+	DiskFreeB              uint64        `json:"diskFreeB"`
+	Addresses              []string      `json:"addresses"`
+	CPUCounters            *CPUTime      `json:"cpuCounters,omitempty"`
+	Network                []NetworkInfo `json:"network,omitempty"`
 }
 
 func Read() Info {
@@ -100,7 +102,7 @@ func homeInterface(iface net.Interface) bool {
 	if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 {
 		return false
 	}
-	for _, prefix := range []string{"docker", "br-", "veth", "virbr", "incus", "lxc", "lxd", "cni", "flannel", "podman"} {
+	for _, prefix := range []string{"docker", "br-", "ja-", "veth", "virbr", "incus", "lxc", "lxd", "cni", "flannel", "podman"} {
 		if strings.HasPrefix(iface.Name, prefix) {
 			return false
 		}
