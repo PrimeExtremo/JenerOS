@@ -663,3 +663,102 @@ Checked every frame (2,580) for exclusive render/viewport shot visibility. Rende
 **Checked:** App Store 32/32 in installed Edge 154, across both themes, phone/landscape/desktop sizes, native/fallback dialogs, reduced motion and large text. Covers pool choice (including a real pool named system), progress, reopening, start/stop, retained/default uninstall, typed deletion, offline/rejected requests, safe URLs, recovery notices and failed/stale dashboard tiles. Desktop and the 11-unit path/socket/timer ordering guard pass. Dashboard JavaScript syntax, three build-hook shell syntax checks and git diff whitespace pass. Full workflow: 21/22 fixture runners pass, including Storage's 32 cases and Welcome; phone-polish's source checks passed but its browser run timed out at 240 seconds. No new HEAD baseline comparison ran. Zen's app run also timed out without results. Details: `.scratch/apps/REVIEW.md`.
 
 **Untested / Claude should check:** Go/gofmt are absent on Windows, so new Go formatting, compilation, vet, unit tests and race tests have not run. Follow `.scratch/apps/VM-CHECKS.md` before image building, then verify Incus OCI image pulls/boot, actual Immich photo upload, all four native apps, dependency health, bind-mount ownership, failed/interrupted work, missing disks, fresh/pre-Incus upgrades and subordinate IDs, reboot/A/B persistence, retained data/secrets/subnets, and confirmed deletion. Local fixtures do not establish these acceptance results. Real Cog performance, Firefox compatibility and physical touch/screen-reader review remain pending. Phase 1 boxes unchanged. No admin actions on Jener's PC, installs, VM operations, image builds, commits or pushes. Unrelated changes were preserved.
+
+## 2026-10-27 - Claude - Save Codex pass, start redesign
+
+Committed the unfinished Codex security/app-runtime work to `zimaos-style` as `63eacc9` (not pushed), at Jener's request. Trailer MP4s and `.blend` files were left untracked (about 125 MB; copies are on S:). The commit includes some `__pycache__` files and boundary PNGs from `.scratch/`. The repo root holds about 40 files with garbled names that git ignores; they look like debris from a broken script and were left alone.
+
+Added `[DOCS]/REDESIGN.md`: plan to run JenerOS on the Home Assistant Green, other ARM64 machines and x86-64, in five phases (ARM64 build, Green boot from SD, finish the untested parts, new look, installers). Nothing built or tested. No installs, image builds or pushes.
+
+## 2026-10-27 - Claude - Visual direction mockup
+
+Jener's direction for the new look: UmbrelOS-like, animated splash, rounded shapes, iOS-26-style frosted glass with blur, fine grain texture; on the Green the home screen is the smart home (Home Assistant shown as JenerOS glass cards, full HA one tap away). Recorded in `[DOCS]/REDESIGN.md` phase 4. Mockup canvas (home + boot splash): https://claude.ai/artifact/HTJpucMUNrvZptTyVptxPr. Mockup only; no dashboard code changed. The "J" mark in the mockup is a placeholder, not the `[BRAND]` logo.
+
+## 2026-10-27 - Claude - Liquid glass dashboard, first real pass
+
+Mockup iterated with Jener up to version 44 (same link). The mockup now uses the real `[BRAND]` J, Settings, an App Store window, editable widgets and a paint theme switch. Started porting it into the real dashboard without rewriting it. Added `[DASHBOARD]/glass.css` (loaded last) and `[DASHBOARD]/glass.js` (after `app.js`); `index.html` only gained those two tags. All box API wiring, login/setup redirects, the sample mode and the existing settings, store and storage flows are unchanged.
+
+What it adds, all browser-only:
+- Liquid glass surfaces and 26px rounding. An SVG refraction lens is enabled on Chromium only. Reduced-transparency and high-contrast modes keep solid surfaces.
+- The wallpaper drifts slowly. App icons get a glow and a reflection.
+- A once-per-session boot splash draws the J; clicking skips it.
+- The theme change paints brush strokes, then switches the theme.
+- An Edit button wiggles the widgets. Remove reuses the existing widget toggles; Move and Size are saved in `localStorage` `jeneros.glass`. FLIP animations run for all of these.
+- Reduced motion turns off the animations.
+
+Tested: Chromium in the built-in browser, served with jenerd's exact CSP header, in sample mode. No CSP or script errors; dark, light, edit, remove, move and paint all work. Not tested: against live jenerd (Go isn't installed here), Firefox/Safari/Cog, phone widths.
+
+Left out on purpose (no API yet):
+- Home Assistant room/climate/energy widgets. They need a server-side HA proxy with token storage, which is a security decision for Jener.
+- Per-app limits/logs/backup/restart.
+- The mockup's extra store apps. The real catalog is still drive/home/photos/relay/tv.
+
+No commits, builds or device writes. Nothing is on the Green yet: phases 1–2 (ARM64 image, SD boot) come first.
+
+## 2026-10-27 - Claude - Dashboard rebuilt as the "JenerOS Glass" design
+
+The user wanted the real dashboard to match the mockup itself, not have glass layered on top.
+
+- `[DASHBOARD]/index.html`: the home page now uses the mockup's layout:
+  - greeting with the owner's name
+  - Edit, Search and Settings buttons at the top right
+  - a 4-column glass widget grid: Clock, This box, Storage, Network
+  - floating glass app tiles
+  - a status pill with real storage, CPU and update state
+  - a J mark in the corner
+  - the Widget settings dialog became the "Add a widget" sheet
+- Every element `app.js`, `store.js`, `storage.js` and `rollback.js` read is kept, so the API code didn't change. The notice cards are kept, hidden, for the same reason.
+- `[DASHBOARD]/home.css` and `home.js` replace `glass.css` and `glass.js`, which were removed. They cover:
+  - edit mode: remove, move and resize widgets with FLIP animations, stored in localStorage `jeneros.glass` as `{order, wide}`
+  - the theme paint, the boot splash and the refraction lens
+  - glass Settings, App Store and dialogs
+  - a 4/2/1-column responsive layout
+  - fallbacks for reduced motion and reduced transparency
+- Tested in Chromium with the box's CSP against a fixture API (`/api/system`, auth session, store, apps, update, ssh, storage) at 1440×900 and 375×812:
+  - no script or CSP errors
+  - no horizontal scroll on phones
+- Not built, because there's no API behind them yet:
+  - Home Assistant room, climate and energy widgets
+  - the 52-app catalog and third-party logos
+  - per-app limits, logs and backup
+- Not tested against live jenerd, because Go isn't installed here.
+
+## 2026-10-27 - Claude - Dashboard is now an exact copy of the "JenerOS Glass" mockup
+
+The user asked for the exact mockup, with sample data where the box has no API yet.
+
+- `[DASHBOARD]/index.html` now runs the four mockup boards: Home, Settings, App Store and Boot splash. It uses the mockup's own templates and logic, so behaviour matches 1:1.
+  - The mockup source files are in `glass/design/`.
+  - `glass/port.py` regenerates `glass/components.js` and `glass/glass.css` from them. Run: `python glass/port.py glass/design .`
+- `glass/dc-runtime.js` is a small template engine: `{{path}}`, `sc-for`, `sc-if`, `dc-import`, and handlers set as properties. It works under the box CSP with no inline scripts.
+- `glass/boot.js` does three things:
+  - scales the 1440×900 board to fit the screen
+  - shows the splash once per session
+  - sends signed-out visitors to login through `session.js`
+- `glass-assets/` holds the mockup's app icons and wallpapers, copied from the artifact assets.
+- The previous working dashboard is kept as `classic.html`. It still has real updates, rollback, SSH, the storage wizard and app installs.
+- Everything on the new home page is the mockup's sample data. No buttons call the box API.
+- Tested in Chromium with the box CSP:
+  - home, splash, Settings (9 sections and the app manager), the App Store with all 52 apps, edit mode with widget removal, and the light-theme paint
+  - no console errors
+
+## 2026-10-27 - Claude - Cinematic motion on every screen; boot splash v2
+
+The user asked for cinematic motion on all screens and a splash that is "blowing away" more.
+
+- **Splash:**
+  - 300px type with a chromatic split and extrusion; the letters fly through the camera
+  - a white flash with three shockwave rings and a 56-particle burst
+  - the J is extruded in 14 depth layers and spins twice before landing
+  - an anamorphic lens flare and a wider camera orbit
+- **Home:**
+  - the camera tilts with the pointer
+  - opening Settings, the App Store or Add widget pushes the home scene back in 3D with blur and dimming
+  - each window flies in from depth
+  - the widget grid and the app row rise in from depth
+- **Settings:** each section swings in on a 3D hinge.
+- **Store:** cards cascade out of depth.
+- **Reduced motion:** turns all of this off.
+- **`glass/dc-runtime.js`:** elements from different `sc-if` branches no longer patch into each other, so switching a section remounts it and its entrance plays.
+- **Files:** design sources are in `glass/design/`, regenerated with `glass/port.py`. The mockup artifact is updated too.
+- **Tested** in Chromium with the box CSP, with no console errors.

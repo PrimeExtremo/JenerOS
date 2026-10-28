@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS boot splash</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+/* One 10-second shot, looping. The camera never cuts:
+   spark -> line -> "PRIVATE." -> "YOURS." flies out of depth -> line folds into a ring -> ring becomes the 3D glass J tile
+   -> camera orbits the tile -> wordmark assembles -> progress -> pull back. */
+.cm-cam{position:absolute;inset:0;perspective:1400px;perspective-origin:50% 46%}
+.cm-world{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;animation:cm-camera 10s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes cm-camera{
+  0%{transform:translateZ(-900px) rotateX(16deg) rotateY(-22deg)}
+  22%{transform:translateZ(-120px) rotateX(4deg) rotateY(-6deg)}
+  44%{transform:translateZ(0) rotateX(0) rotateY(0)}
+  58%{transform:translateZ(480px) rotateX(-10deg) rotateY(32deg)}
+  72%{transform:translateZ(300px) rotateX(12deg) rotateY(-38deg)}
+  86%{transform:translateZ(0) rotateX(0) rotateY(0)}
+  100%{transform:translateZ(-700px) rotateX(-10deg) rotateY(14deg)}}
+.cm-layer{position:absolute;left:0;top:0;transform-style:preserve-3d}
+
+/* the morphing shape */
+.cm-morph{position:absolute;left:0;top:0;transform-style:preserve-3d;animation:cm-morph 10s cubic-bezier(.7,0,.25,1) infinite}
+@keyframes cm-morph{
+  0%{width:0;height:0;margin:0;border-radius:50%;opacity:0;background:#fff;border:0 solid transparent;transform:rotate(0)}
+  4%{width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;opacity:1;background:#fff;box-shadow:0 0 40px 14px rgba(255,214,190,.9),0 0 120px 40px rgba(217,119,87,.6)}
+  10%{width:720px;height:2px;margin:-1px 0 0 -360px;border-radius:2px;background:#fff;box-shadow:0 0 22px rgba(255,214,190,.9)}
+  40%{width:1100px;height:2px;margin:-1px 0 0 -550px;border-radius:2px;background:rgba(255,255,255,.35);box-shadow:none;transform:translateY(150px)}
+  48%{width:180px;height:180px;margin:-90px 0 0 -90px;border-radius:50%;background:transparent;border:2px solid rgba(255,214,190,.9);box-shadow:0 0 30px rgba(217,119,87,.6),inset 0 0 30px rgba(217,119,87,.4);transform:rotate(180deg)}
+  54%{width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:46px;border:2px solid rgba(255,255,255,.6);transform:rotate(360deg)}
+  57%,100%{width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:46px;border:2px solid rgba(255,255,255,0);opacity:0;transform:rotate(360deg)}}
+
+/* kinetic type: each letter flips up out of the floor, then dissolves forward */
+.cm-word{position:absolute;left:0;top:0;transform:translate(-50%,-50%);display:flex;transform-style:preserve-3d;font-size:300px;font-weight:800;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+.cm-ch{display:inline-block;transform-origin:50% 100%;opacity:0;backface-visibility:hidden}
+.cm-w1 .cm-ch{animation:cm-flip 10s cubic-bezier(.2,.9,.2,1) infinite;animation-delay:var(--d)}
+@keyframes cm-flip{
+  0%,10%{opacity:0;transform:translateY(40px) rotateX(-95deg);filter:blur(10px)}
+  16%,25%{opacity:1;transform:none;filter:blur(0)}
+  31%,100%{opacity:0;transform:translateZ(1550px);filter:blur(8px)}}
+.cm-w2 .cm-ch{animation:cm-depth 10s cubic-bezier(.16,1,.3,1) infinite;animation-delay:var(--d)}
+@keyframes cm-depth{
+  0%,27%{opacity:0;transform:translateZ(-1600px) rotateY(var(--r));filter:blur(14px)}
+  35%,42%{opacity:1;transform:none;filter:blur(0)}
+  49%,100%{opacity:0;transform:translateZ(1600px);filter:blur(8px)}}
+.cm-w1 .cm-ch:nth-child(odd){color:#ffd9c4}
+.cm-w2 .cm-ch{color:#fff}
+
+/* the 3D glass J tile: a stack of slices gives it real thickness */
+.cm-tile{position:absolute;left:-72px;top:-72px;width:144px;height:144px;transform-style:preserve-3d;animation:cm-tile 10s cubic-bezier(.3,1.3,.4,1) infinite}
+@keyframes cm-tile{0%,51%{opacity:0;transform:scale(.2) rotateY(-720deg) rotateX(40deg)}61%{opacity:1;transform:scale(1.18) rotateY(18deg) rotateX(-6deg)}66%,90%{opacity:1;transform:scale(1) rotateY(0)}96%,100%{opacity:0;transform:scale(.9) translateZ(-300px)}}
+.cm-slice{position:absolute;inset:0;border-radius:44px;background:linear-gradient(150deg,rgba(255,255,255,.05),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.12);transform:translateZ(var(--z))}
+.cm-face{position:absolute;inset:0;border-radius:44px;display:flex;align-items:center;justify-content:center;transform:translateZ(18px);overflow:hidden;background:rgba(255,255,255,.07);backdrop-filter:blur(8px) saturate(170%);-webkit-backdrop-filter:blur(8px) saturate(170%);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.9),inset 0 0 22px rgba(255,255,255,.12),0 40px 80px rgba(0,0,0,.5)}
+.cm-face::after{content:'';position:absolute;top:-30%;bottom:-30%;width:45%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0));animation:cm-sweep 10s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes cm-sweep{0%,64%{transform:translateX(-260%) skewX(-20deg)}74%,100%{transform:translateX(330%) skewX(-20deg)}}
+.cm-j{position:relative;width:78px;height:78px;overflow:visible}
+.cm-draw{fill:none;stroke:#fff;stroke-width:12;stroke-linejoin:round;stroke-dasharray:1;animation:cm-draw 10s cubic-bezier(.6,0,.2,1) infinite}
+@keyframes cm-draw{0%,56%{stroke-dashoffset:1;opacity:0}57%{opacity:1}66%{stroke-dashoffset:0;opacity:1}72%,100%{stroke-dashoffset:0;opacity:0}}
+.cm-jfill{animation:cm-jfill 10s ease infinite}
+@keyframes cm-jfill{0%,64%{opacity:0}70%,92%{opacity:1}100%{opacity:0}}
+
+/* floating glass shards in depth */
+.cm-shard{position:absolute;left:0;top:0;border-radius:14px;background:linear-gradient(140deg,rgba(255,255,255,.22),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);animation:cm-float var(--t) ease-in-out var(--d) infinite alternate}
+@keyframes cm-float{from{transform:translate3d(var(--x),var(--y),var(--z)) rotateX(var(--rx)) rotateY(var(--ry))}to{transform:translate3d(calc(var(--x) * 1.1),calc(var(--y) - 60px),calc(var(--z) + 120px)) rotateX(calc(var(--rx) + 70deg)) rotateY(calc(var(--ry) - 50deg))}}
+
+/* wordmark assembles letter by letter, then progress */
+.cm-mark{position:absolute;left:0;top:118px;transform:translateX(-50%);display:flex;font-size:52px;font-weight:800;letter-spacing:-.03em;transform-style:preserve-3d}
+.cm-mark .cm-ch{animation:cm-mark 10s cubic-bezier(.2,.9,.2,1) infinite;animation-delay:var(--d)}
+@keyframes cm-mark{0%,68%{opacity:0;transform:translateZ(400px) rotateY(80deg);filter:blur(12px)}76%,92%{opacity:1;transform:none;filter:blur(0)}98%,100%{opacity:0;transform:translateY(-20px)}}
+.cm-ui{position:absolute;left:-150px;top:204px;width:300px;display:flex;flex-direction:column;align-items:center;gap:14px;animation:cm-ui 10s ease infinite}
+@keyframes cm-ui{0%,74%{opacity:0;transform:translateY(14px)}80%,94%{opacity:1;transform:none}100%{opacity:0}}
+.cm-track{position:relative;width:280px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
+.cm-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,#b9562f,#d97757,#ffd9c4);box-shadow:0 0 14px rgba(217,119,87,.8);animation:cm-bar 10s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes cm-bar{0%,76%{width:0}84%{width:46%}90%{width:78%}95%,100%{width:100%}}
+
+/* backdrop */
+.cm-wall{position:absolute;inset:-6%;background:url(/_blob/a660d335a6a1a88e203551e9f8742a06) center / cover no-repeat;animation:cm-wall 10s ease-in-out infinite}
+@keyframes cm-wall{0%,40%{opacity:0;transform:scale(1.3);filter:blur(30px) brightness(.4)}62%,90%{opacity:.7;transform:scale(1.04);filter:blur(0) brightness(1)}100%{opacity:0;transform:scale(1.15);filter:blur(16px)}}
+.cm-aurora{position:absolute;left:50%;top:50%;width:1400px;height:1400px;margin:-700px 0 0 -700px;border-radius:50%;background:conic-gradient(from 0deg,rgba(217,119,87,.34),rgba(124,80,53,.1),rgba(229,178,139,.3),rgba(217,119,87,.34));filter:blur(160px);mix-blend-mode:screen;animation:cm-spin 24s linear infinite}
+@keyframes cm-spin{to{transform:rotate(360deg)}}
+.cm-floor{position:absolute;left:-1200px;top:150px;width:2400px;height:2400px;transform:rotateX(90deg);transform-origin:50% 0;background-image:linear-gradient(rgba(255,214,190,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,190,.08) 1px,transparent 1px);background-size:80px 80px;-webkit-mask-image:radial-gradient(closest-side,#000,transparent);mask-image:radial-gradient(closest-side,#000,transparent);animation:cm-floor 10s ease infinite}
+@keyframes cm-floor{0%,6%{opacity:0}14%,46%{opacity:1}56%,100%{opacity:.25}}
+.cm-grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) .6px,transparent .8px);background-size:3px 3px;pointer-events:none}
+.cm-bars::before,.cm-bars::after{content:'';position:absolute;left:0;right:0;height:64px;background:#000;z-index:5;animation:cm-letterbox 10s ease infinite}
+.cm-bars::before{top:0}.cm-bars::after{bottom:0}
+@keyframes cm-letterbox{0%,60%{transform:scaleY(1)}70%,100%{transform:scaleY(0)}}
+
+
+/* v2: fly-through type, flash, shockwaves, particle burst, anamorphic flare, extruded J */
+.cm-word .cm-ch{text-shadow:-5px 0 rgba(255,70,60,.45),5px 0 rgba(70,170,255,.45),0 1px 0 #d9b3a0,0 2px 0 #c9a089,0 3px 0 #b8907a,0 4px 0 #a6806b,0 5px 0 #946f5c,0 6px 0 #825f4e,0 7px 0 #6f4f40,0 8px 0 #5c3f32,0 22px 40px rgba(0,0,0,.65)}
+.cm-flash{position:absolute;inset:0;z-index:4;pointer-events:none;mix-blend-mode:screen;opacity:0;background:radial-gradient(circle at 50% 50%,#fff,rgba(255,220,200,.7) 25%,rgba(217,119,87,0) 70%);animation:cm-flash 10s ease-out infinite}
+@keyframes cm-flash{0%,49%{opacity:0}50.5%{opacity:1}58%,100%{opacity:0}}
+.cm-shock{position:absolute;left:-100px;top:-100px;width:200px;height:200px;border-radius:50%;border:3px solid rgba(255,230,210,.95);box-shadow:0 0 50px rgba(217,119,87,.9),inset 0 0 50px rgba(217,119,87,.7);opacity:0;animation:cm-shock 10s cubic-bezier(.1,.8,.2,1) infinite;animation-delay:var(--d)}
+@keyframes cm-shock{0%,50%{opacity:0;transform:rotateX(72deg) scale(.2)}51%{opacity:1}66%,100%{opacity:0;transform:rotateX(72deg) scale(10)}}
+.cm-burst{position:absolute;left:0;top:0;width:6px;height:6px;margin:-3px;border-radius:50%;background:#ffe3d1;box-shadow:0 0 14px 4px rgba(255,170,130,.9);opacity:0;animation:cm-burst 10s cubic-bezier(.05,.9,.2,1) infinite}
+@keyframes cm-burst{0%,50%{opacity:0;transform:translate3d(0,0,0)}51%{opacity:1}68%,100%{opacity:0;transform:translate3d(var(--x),var(--y),var(--z)) scale(.3)}}
+.cm-flare{position:absolute;left:-1000px;top:-2px;width:2000px;height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(110,170,255,.5) 25%,#fff 50%,rgba(110,170,255,.5) 75%,transparent);box-shadow:0 0 40px 10px rgba(255,190,150,.55);opacity:0;animation:cm-flare 10s ease infinite}
+@keyframes cm-flare{0%,60%{opacity:0;transform:scaleX(.05)}64%{opacity:1;transform:scaleX(1)}76%,100%{opacity:0;transform:scaleX(1.5)}}
+.cm-jx{position:absolute;left:33px;top:33px;width:78px;height:78px;overflow:visible;opacity:0;animation:cm-jfill 10s ease infinite}
+@media (prefers-reduced-motion: reduce){
+  .cm-flash,.cm-shock,.cm-burst,.cm-flare{display:none}
+  .cm-world,.cm-morph,.cm-w1 .cm-ch,.cm-w2 .cm-ch,.cm-shard,.cm-aurora,.cm-floor,.cm-bars::before,.cm-bars::after,.cm-draw,.cm-face::after{animation:none}
+  .cm-morph,.cm-word,.cm-draw,.cm-bars::before,.cm-bars::after{display:none}
+  .cm-tile,.cm-mark .cm-ch,.cm-ui,.cm-jfill,.cm-wall{animation:none;opacity:1}
+  .cm-bar{animation:none;width:60%}
+}
+</style>
+</helmet>
+<div class="cm-bars" style="position: relative; width: 1440px; height: 900px; overflow: hidden; border-radius: 28px; background: #0d0907; font-family: 'Bricolage Grotesque', system-ui, sans-serif; color: #f6f1e7">
+  <div class="cm-wall"></div>
+  <div class="cm-aurora"></div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(60% 60% at 50% 46%, rgba(13,9,7,0), rgba(13,9,7,.8))"></div>
+  <div class="cm-cam">
+    <div class="cm-world">
+      <div class="cm-floor"></div>
+      <sc-for list="{{shards}}" as="s" hint-placeholder-count="10">
+        <span class="cm-shard" style="{{s}}"></span>
+      </sc-for>
+      <div class="cm-morph"></div>
+      <div class="cm-flare"></div>
+      <sc-for list="{{shocks}}" as="k" hint-placeholder-count="3"><span class="cm-shock" style="{{k}}"></span></sc-for>
+      <sc-for list="{{bursts}}" as="b" hint-placeholder-count="20"><span class="cm-burst" style="{{b}}"></span></sc-for>
+      <div class="cm-word cm-w1" aria-hidden="true">
+        <sc-for list="{{w1}}" as="c" hint-placeholder-count="8"><span class="cm-ch" style="{{c.style}}">{{c.ch}}</span></sc-for>
+      </div>
+      <div class="cm-word cm-w2" aria-hidden="true">
+        <sc-for list="{{w2}}" as="c" hint-placeholder-count="6"><span class="cm-ch" style="{{c.style}}">{{c.ch}}</span></sc-for>
+      </div>
+      <div class="cm-tile">
+        <sc-for list="{{slices}}" as="z" hint-placeholder-count="6"><span class="cm-slice" style="{{z}}"></span></sc-for>
+        <sc-for list="{{jdepth}}" as="j" hint-placeholder-count="14"><svg class="cm-jx" viewBox="0 0 512 512" aria-hidden="true" style="{{j}}"><path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"></path><path fill="currentColor" d="M144 208H176V240H144Z"></path></svg></sc-for>
+        <div class="cm-face">
+          <svg class="cm-j" viewBox="0 0 512 512" aria-hidden="true">
+            <path class="cm-draw" pathLength="1" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z" style="filter: drop-shadow(0 0 10px rgba(255,214,190,.9))"></path>
+            <path class="cm-draw" pathLength="1" d="M144 208H176V240H144Z"></path>
+            <g class="cm-jfill" style="display: none"><path fill="#F7F7F9" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"></path><path fill="#F7F7F9" d="M144 208H176V240H144Z"></path></g>
+          </svg>
+        </div>
+      </div>
+      <div class="cm-mark" role="img" aria-label="JenerOS">
+        <sc-for list="{{mark}}" as="c" hint-placeholder-count="7"><span class="cm-ch" aria-hidden="true" style="{{c.style}}">{{c.ch}}</span></sc-for>
+      </div>
+      <div class="cm-ui">
+        <div class="cm-track"><div class="cm-bar"></div></div>
+        <div role="status" style="font-size: 14px; font-weight: 600; opacity: .75; min-height: 20px">{{status}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="cm-flash"></div>
+  <div class="cm-grain"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+const STEPS = ['Waking up', 'Checking the system', 'Starting your apps', 'Connecting Home Assistant', 'Almost home'];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { step: 0 }; }
+  componentDidMount() { this.t = setInterval(() => this.setState({ step: (this.state.step + 1) % STEPS.length }), 2000); }
+  componentWillUnmount() { clearInterval(this.t); }
+  renderVals() {
+    const letters = (word, gap, rot) => [...word].map((ch, i) => ({ ch, style: '--d: ' + (i * gap).toFixed(2) + 's; --r: ' + ((i - word.length / 2) * rot) + 'deg;' }));
+    const shards = Array.from({ length: 12 }, (_, i) => {
+      const a = i * 2.4, r = 380 + (i % 4) * 140;
+      const w = 40 + (i * 37) % 90, h = 30 + (i * 53) % 110;
+      return 'width: ' + w + 'px; height: ' + h + 'px; margin: ' + (-h / 2) + 'px 0 0 ' + (-w / 2) + 'px; --x: ' + Math.round(Math.cos(a) * r) + 'px; --y: ' + Math.round(Math.sin(a) * r * .55) + 'px; --z: ' + (-200 - (i * 97) % 700) + 'px; --rx: ' + ((i * 47) % 90) + 'deg; --ry: ' + ((i * 71) % 120 - 60) + 'deg; --t: ' + (5 + (i % 4)) + 's; --d: ' + (-(i * .7)).toFixed(1) + 's; opacity: ' + (.35 + (i % 3) * .2).toFixed(2) + ';';
+    });
+    const slices = [-18, -12, -6, 0, 6, 12].map((z) => '--z: ' + z + 'px;');
+    const bursts = Array.from({ length: 56 }, (_, i) => { const a = i * 2.39996, r = 520 + (i * 131) % 700; return '--x: ' + Math.round(Math.cos(a) * r) + 'px; --y: ' + Math.round(Math.sin(a) * r * .7) + 'px; --z: ' + ((i * 173) % 1200 - 400) + 'px; animation-delay: ' + (-(i % 5) * .01).toFixed(2) + 's;'; });
+    const shocks = [0, .12, .26].map((d) => '--d: ' + d + 's;');
+    const jdepth = Array.from({ length: 14 }, (_, i) => { const t = i / 13; const c = (a, b) => Math.round(a + (b - a) * t); return 'transform: translateZ(' + (20 + i * 2.2).toFixed(1) + 'px); color: rgb(' + c(110, 247) + ',' + c(70, 247) + ',' + c(52, 249) + ');' + (i === 13 ? ' filter: drop-shadow(0 0 12px rgba(255,214,190,.8));' : ''); });
+    return { bursts, shocks, jdepth, w1: letters('PRIVATE.', .045, 0), w2: letters('YOURS.', .06, 40), mark: letters('JenerOS', .05, 0), shards, slices, status: STEPS[this.state.step] + '…' };
+  }
+}
+</script>
+</body>
+</html>

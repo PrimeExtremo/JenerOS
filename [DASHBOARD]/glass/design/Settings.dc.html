@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;overflow:hidden}
+.noscroll::-webkit-scrollbar{display:none}
+@keyframes st-in{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes st-fade{from{opacity:0;transform:perspective(1100px) translateZ(-160px) rotateY(-18deg);transform-origin:0 50%;filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+.st-win{animation:st-in .32s cubic-bezier(.2,.8,.2,1) both}
+.st-page{animation:st-fade .7s cubic-bezier(.16,1,.3,1) both}
+@media (prefers-reduced-motion: reduce){.st-page{animation:none}}
+.st-btn{font:inherit;color:inherit;cursor:pointer;border:none;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .2s}
+.st-btn:active{transform:scale(.95);transition:transform .06s}
+.st-card{border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.st-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px}
+.st-help{margin:0;font-size:13px;line-height:1.45;opacity:.72}
+.st-sel{font:inherit;font-size:14px;color:inherit;border-radius:12px;padding:8px 12px;min-height:40px;border:1px solid rgba(127,127,127,.35);background:transparent}
+.st-sel option{color:#1f1913}
+</style>
+</helmet>
+<div style="{{stageStyle}}">
+<div class="st-win" style="{{winStyle}}">
+  <nav aria-label="Settings sections" style="{{sideStyle}}">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 4px 8px 14px">
+      <div style="{{avatarStyle}}">{{initial}}</div>
+      <div style="display: flex; flex-direction: column">
+        <span style="font-size: 15px; font-weight: 800">{{ownerName}}</span>
+        <span style="font-size: 12px; opacity: .65">Owner</span>
+      </div>
+    </div>
+    <sc-for list="{{sections}}" as="s" hint-placeholder-count="10">
+      <button class="st-btn" onClick="{{s.go}}" aria-current="{{s.current}}" style="{{s.style}}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.icon}}"></path></svg>
+        <span>{{s.label}}</span>
+      </button>
+    </sc-for>
+  </nav>
+
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 22px 28px 12px">
+      <h2 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em">{{title}}</h2>
+      <button class="st-btn" aria-label="Close settings" onClick="{{close}}" style="{{iconBtn}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+    </header>
+    <sc-if value="{{notice}}" hint-placeholder-val="{{false}}">
+      <p role="status" style="{{noticeStyle}}">{{notice}}</p>
+    </sc-if>
+    <div class="noscroll" style="flex: 1; overflow-y: auto; scrollbar-width: none; padding: 4px 28px 28px">
+
+      <sc-if value="{{is.general}}" hint-placeholder-val="{{true}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row">
+              <label for="st-name" style="font-weight: 700">Box name</label>
+              <input id="st-name" class="st-sel" value="{{boxName}}" onInput="{{setBoxName}}" style="width: 220px">
+            </div>
+            <p class="st-help">Home Assistant Green · reachable at {{hostname}} on your home network.</p>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><label for="st-lang">Language</label><select id="st-lang" class="st-sel" disabled><option>English</option></select></div>
+            <div class="st-row"><label for="st-tz">Time zone</label>
+              <select id="st-tz" class="st-sel" value="{{tz}}" onChange="{{setTz}}">
+                <option value="local">This browser</option><option value="UTC">UTC</option><option value="America/New_York">America / New York</option><option value="America/Chicago">America / Chicago</option><option value="America/Los_Angeles">America / Los Angeles</option><option value="Europe/London">Europe / London</option><option value="Europe/Paris">Europe / Paris</option><option value="Asia/Tokyo">Asia / Tokyo</option>
+              </select>
+            </div>
+            <div class="st-row"><span>Time format</span>
+              <div role="group" aria-label="Time format" style="{{segWrap}}">
+                <button class="st-btn" aria-pressed="{{h24.on}}" onClick="{{h24.pick}}" style="{{h24.style}}">24-hour</button>
+                <button class="st-btn" aria-pressed="{{h12.on}}" onClick="{{h12.pick}}" style="{{h12.style}}">12-hour</button>
+              </div>
+            </div>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span>Disk standby</span><button class="st-btn" role="switch" aria-checked="{{t.standby.on}}" aria-label="Disk standby" onClick="{{t.standby.flip}}" style="{{t.standby.track}}"><span style="{{t.standby.knob}}"></span></button></div>
+            <div class="st-row"><span>Battery backup (UPS)</span><button class="st-btn" role="switch" aria-checked="{{t.ups.on}}" aria-label="Battery backup" onClick="{{t.ups.flip}}" style="{{t.ups.track}}"><span style="{{t.ups.knob}}"></span></button></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.appearance}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Appearance</span>
+              <div role="group" aria-label="Appearance" style="{{segWrap}}">
+                <button class="st-btn" aria-pressed="{{lightSeg.on}}" onClick="{{lightSeg.pick}}" style="{{lightSeg.style}}">Light</button>
+                <button class="st-btn" aria-pressed="{{darkSeg.on}}" onClick="{{darkSeg.pick}}" style="{{darkSeg.style}}">Dark</button>
+              </div>
+            </div>
+            <span style="font-weight: 700">Wallpaper</span>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+              <sc-for list="{{walls}}" as="w" hint-placeholder-count="3">
+                <button class="st-btn" aria-pressed="{{w.on}}" onClick="{{w.pick}}" style="{{w.style}}">
+                  <span style="{{w.swatch}}"></span>
+                  <span style="font-size: 13px; font-weight: 600">{{w.label}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row">
+              <label for="st-glass" style="font-weight: 700">Glass</label>
+              <div style="display: flex; align-items: center; gap: 10px; width: 300px">
+                <span style="font-size: 12px; opacity: .7">Liquid</span>
+                <input id="st-glass" type="range" min="0" max="100" value="{{frost}}" onInput="{{setFrost}}" style="flex: 1; accent-color: #d97757; min-height: 28px">
+                <span style="font-size: 12px; opacity: .7">Blurred</span>
+              </div>
+            </div>
+            <p class="st-help">Liquid glass bends the wallpaper behind it and uses more processing power. On the Green, keep it toward Blurred if the screen feels slow.</p>
+            <div class="st-row"><span>Reduce motion</span><button class="st-btn" role="switch" aria-checked="{{t.motion.on}}" aria-label="Reduce motion" onClick="{{t.motion.flip}}" style="{{t.motion.track}}"><span style="{{t.motion.knob}}"></span></button></div>
+          </div>
+        </div>
+      </sc-if>
+
+
+      <sc-if value="{{is.storage}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <sc-for list="{{disks}}" as="d" hint-placeholder-count="2">
+            <div class="st-card" style="{{card}}">
+              <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">{{d.name}}</span><span style="font-size: 13px; opacity: .7">{{d.kind}}</span></div><strong>{{d.used}}</strong></div>
+              <span style="{{meterTrack}}"><span style="{{d.bar}}"></span></span>
+              <p class="st-help">{{d.note}}</p>
+            </div>
+          </sc-for>
+          <div style="display: flex; gap: 10px">
+            <button class="st-btn" onClick="{{createStorage}}" style="{{pillAccent}}">Create storage</button>
+            <button class="st-btn" onClick="{{refreshDisks}}" style="{{pill}}">Refresh disks</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.network}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Ethernet</span><span style="{{okTag}}">Connected</span></div>
+            <div class="st-row"><span>Address</span><span style="opacity: .75">[box IP]</span></div>
+            <div class="st-row"><span>Name on your network</span><span style="opacity: .75">{{hostname}}</span></div>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Access away from home</span><button class="st-btn" role="switch" aria-checked="{{t.remote.on}}" aria-label="Access away from home" onClick="{{t.remote.flip}}" style="{{t.remote.track}}"><span style="{{t.remote.knob}}"></span></button></div>
+            <p class="st-help">A private, encrypted tunnel to your box. Nothing is opened on your router.</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.apps}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <sc-for list="{{apps}}" as="a" hint-placeholder-count="4">
+              <div class="st-row">
+                <button class="st-btn" aria-expanded="{{a.expanded}}" aria-label="{{a.manageLabel}}" onClick="{{a.expand}}" style="display: flex; align-items: center; gap: 12px; flex: 1; background: none; border: none; padding: 0; text-align: left">
+                  <img src="{{a.img}}" alt="" style="width: 32px; height: 32px; object-fit: contain">
+                  <span style="display: flex; flex-direction: column"><span style="font-weight: 700">{{a.name}}</span><span style="font-size: 13px; opacity: .7">{{a.status}} · {{a.version}}</span></span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="{{a.chev}}"><path d="M9 6l6 6-6 6"></path></svg>
+                </button>
+                <button class="st-btn" onClick="{{a.toggle}}" style="{{pill}}">{{a.action}}</button>
+              </div>
+              <sc-if value="{{a.open}}" hint-placeholder-val="{{false}}">
+                <div class="st-app" style="{{a.panel}}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                    <button class="st-btn" onClick="{{a.openApp}}" style="{{pillAccent}}">Open</button>
+                    <button class="st-btn" onClick="{{a.restart}}" style="{{pill}}">Restart</button>
+                    <button class="st-btn" onClick="{{a.update}}" style="{{pill}}">{{a.updateLabel}}</button>
+                    <button class="st-btn" onClick="{{a.backup}}" style="{{pill}}">Back up now</button>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+                    <div style="{{statBox}}"><span style="font-size: 12px; opacity: .65">Memory</span><strong>{{a.mem}}</strong></div>
+                    <div style="{{statBox}}"><span style="font-size: 12px; opacity: .65">Storage</span><strong>{{a.disk}}</strong></div>
+                    <div style="{{statBox}}"><span style="font-size: 12px; opacity: .65">Address</span><strong>{{a.addr}}</strong></div>
+                  </div>
+                  <div class="st-row"><span>Start when JenerOS starts</span><button class="st-btn" role="switch" aria-checked="{{a.autoOn}}" aria-label="Start automatically" onClick="{{a.autoFlip}}" style="{{a.autoTrack}}"><span style="{{a.autoKnob}}"></span></button></div>
+                  <div class="st-row"><span>Update automatically</span><button class="st-btn" role="switch" aria-checked="{{a.updOn}}" aria-label="Update automatically" onClick="{{a.updFlip}}" style="{{a.updTrack}}"><span style="{{a.updKnob}}"></span></button></div>
+                  <div class="st-row"><span>Reach it from outside home</span><button class="st-btn" role="switch" aria-checked="{{a.remoteOn}}" aria-label="Remote access" onClick="{{a.remoteFlip}}" style="{{a.remoteTrack}}"><span style="{{a.remoteKnob}}"></span></button></div>
+                  <label style="display: flex; flex-direction: column; gap: 8px">
+                    <span style="display: flex; justify-content: space-between"><span>Memory limit</span><strong>{{a.limit}} MB</strong></span>
+                    <input type="range" min="256" max="4096" step="256" value="{{a.limit}}" onInput="{{a.setLimit}}" style="width: 100%; accent-color: #d97757">
+                  </label>
+                  <label style="display: flex; flex-direction: column; gap: 6px">
+                    <span>Port</span>
+                    <input class="st-in" type="number" value="{{a.port}}" onInput="{{a.setPort}}" style="{{inputStyle}}">
+                  </label>
+                  <div style="display: flex; flex-direction: column; gap: 6px">
+                    <span>Recent log</span>
+                    <pre style="{{logStyle}}">{{a.log}}</pre>
+                  </div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; border-top: 1px solid rgba(127,127,127,.2)">
+                    <button class="st-btn" onClick="{{a.reset}}" style="{{pill}}">{{a.resetLabel}}</button>
+                    <button class="st-btn" onClick="{{a.removeKeep}}" style="{{a.dangerKeep}}">{{a.removeKeepLabel}}</button>
+                    <button class="st-btn" onClick="{{a.removeAll}}" style="{{a.dangerAll}}">{{a.removeAllLabel}}</button>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-for>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span>Update apps automatically</span><button class="st-btn" role="switch" aria-checked="{{t.appUpdates.on}}" aria-label="Update apps automatically" onClick="{{t.appUpdates.flip}}" style="{{t.appUpdates.track}}"><span style="{{t.appUpdates.knob}}"></span></button></div>
+            <p class="st-help">Removing an app keeps its data unless you choose to delete it.</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.security}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Password</span><button class="st-btn" onClick="{{changePassword}}" style="{{pill}}">Change password</button></div>
+            <div class="st-row"><span>Two-step sign-in</span><button class="st-btn" role="switch" aria-checked="{{t.twoStep.on}}" aria-label="Two-step sign-in" onClick="{{t.twoStep.flip}}" style="{{t.twoStep.track}}"><span style="{{t.twoStep.knob}}"></span></button></div>
+            <div class="st-row"><span>Slow down repeated wrong passwords</span><button class="st-btn" role="switch" aria-checked="{{t.rateLimit.on}}" aria-label="Slow down repeated wrong passwords" onClick="{{t.rateLimit.flip}}" style="{{t.rateLimit.track}}"><span style="{{t.rateLimit.knob}}"></span></button></div>
+            <div class="st-row"><span>Firewall</span><button class="st-btn" role="switch" aria-checked="{{t.firewall.on}}" aria-label="Firewall" onClick="{{t.firewall.flip}}" style="{{t.firewall.track}}"><span style="{{t.firewall.knob}}"></span></button></div>
+            <div class="st-row"><span>Developer access (SSH)</span><button class="st-btn" role="switch" aria-checked="{{t.ssh.on}}" aria-label="Developer access SSH" onClick="{{t.ssh.flip}}" style="{{t.ssh.track}}"><span style="{{t.ssh.knob}}"></span></button></div>
+            <p class="st-help">Leave SSH off unless you need a terminal on the box.</p>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <span style="font-weight: 700">Signed in</span>
+            <sc-for list="{{sessions}}" as="x" hint-placeholder-count="2">
+              <div class="st-row"><div style="display: flex; flex-direction: column"><span>{{x.device}}</span><span style="font-size: 13px; opacity: .7">{{x.when}}</span></div>
+                <sc-if value="{{x.other}}" hint-placeholder-val="{{true}}"><button class="st-btn" onClick="{{x.end}}" style="{{pill}}">Sign out</button></sc-if>
+                <sc-if value="{{x.self}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; opacity: .7">This device</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Encrypted connection</span><span style="{{okTag}}">HTTPS on</span></div>
+            <p class="st-help">Certificate fingerprint: [fingerprint]. Check it matches the one on your box's screen the first time you connect.</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.updates}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">JenerOS [version]</span><span style="font-size: 13px; opacity: .7">{{updateText}}</span></div>
+              <button class="st-btn" onClick="{{checkUpdates}}" disabled="{{checking}}" style="{{pill}}">Check now</button></div>
+            <div class="st-row"><span>Install updates automatically</span><button class="st-btn" role="switch" aria-checked="{{t.autoUpdate.on}}" aria-label="Install updates automatically" onClick="{{t.autoUpdate.flip}}" style="{{t.autoUpdate.track}}"><span style="{{t.autoUpdate.knob}}"></span></button></div>
+            <p class="st-help">Updates are signed and checked before they install. If one fails to start, JenerOS goes back to the previous version by itself.</p>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">Previous version</span><span style="font-size: 13px; opacity: .7">Still installed, ready to start</span></div>
+              <button class="st-btn" onClick="{{rollback}}" style="{{pill}}">{{rollbackLabel}}</button></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.account}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><label for="st-owner" style="font-weight: 700">Your name</label><input id="st-owner" class="st-sel" value="{{ownerName}}" onInput="{{setOwner}}" style="width: 220px"></div>
+            <div class="st-row"><span>Colour</span>
+              <div role="group" aria-label="Avatar colour" style="display: flex; gap: 10px">
+                <sc-for list="{{avatars}}" as="v" hint-placeholder-count="3">
+                  <button class="st-btn" aria-label="{{v.label}}" aria-pressed="{{v.on}}" onClick="{{v.pick}}" style="{{v.style}}"></button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><span style="font-weight: 700">Family members</span><button class="st-btn" onClick="{{addMember}}" style="{{pill}}">Add member</button></div>
+            <sc-for list="{{members}}" as="m" hint-placeholder-count="1">
+              <div class="st-row"><span>{{m.name}}</span><button class="st-btn" onClick="{{m.remove}}" style="{{pill}}">Remove</button></div>
+            </sc-for>
+            <p class="st-help">Everyone gets their own sign-in. No paid limits.</p>
+          </div>
+          <button class="st-btn" onClick="{{signOut}}" style="{{pill}}">Sign out</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{is.power}}" hint-placeholder-val="{{false}}">
+        <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
+          <div class="st-card" style="{{card}}">
+            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">Restart</span><span style="font-size: 13px; opacity: .7">Apps stop and start again in about a minute</span></div><button class="st-btn" onClick="{{restart}}" style="{{pill}}">{{restartLabel}}</button></div>
+            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">Shut down</span><span style="font-size: 13px; opacity: .7">Unplug and replug the power to start again</span></div><button class="st-btn" onClick="{{shutdown}}" style="{{pillDanger}}">{{shutdownLabel}}</button></div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"light":{"editor":"boolean","default":false},"frost":{"editor":"range","min":0,"max":100,"default":15},"wallpaper":{"editor":"enum","options":["ribbon","dune","plain"],"default":"ribbon"},"onTheme":{"editor":null},"onFrost":{"editor":null},"onWallpaper":{"editor":null},"onClose":{"editor":null},"backdrop":{"editor":"boolean","default":true},"$preview":{"width":1000,"height":660}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      section: 'general', boxName: 'JenerOS', owner: 'Jener', tz: 'local', h24: true, notice: '',
+      avatar: 'orange', members: [], ha: true, checking: false, updateText: 'Up to date', confirm: '',
+      t: { standby: true, ups: false, motion: false, rooms: true, climate: true, energy: true, remote: false, appUpdates: true,
+           twoStep: false, rateLimit: true, firewall: true, ssh: false, autoUpdate: true },
+      running: { 'Home Assistant': true, Immich: true, Jellyfin: false, Nextcloud: true },
+      sessions: [{ id: 1, device: 'Chrome on Windows', when: 'Now', self: true }, { id: 2, device: 'Safari on iPhone', when: 'Yesterday', self: false }],
+      light: null, icons: null, frost: null, wallpaper: null
+    };
+  }
+  say(msg) { this.setState({ notice: msg }); clearTimeout(this._n); this._n = setTimeout(() => this.setState({ notice: '' }), 3200); }
+  componentWillUnmount() { clearTimeout(this._n); clearTimeout(this._u); }
+  renderVals() {
+    const st = this.state, p = this.props;
+    const light = st.light ?? !!p.light;
+    const frost = st.frost ?? p.frost ?? 15;
+    const wallpaper = st.wallpaper ?? p.wallpaper ?? 'ribbon';
+    const ink = light ? '#1f1913' : '#f6f1e7';
+    const sub = light ? 'rgba(31,25,19,.06)' : 'rgba(255,255,255,.06)';
+    const call = (fn, v) => { if (typeof fn === 'function') fn(v); };
+    const seg = (on, pick) => ({ on: on ? 'true' : 'false', pick,
+      style: 'min-height: 36px; padding: 0 16px; border-radius: 18px; font-size: 13px; font-weight: 700; ' +
+        (on ? 'background: ' + (light ? '#ffffff' : 'rgba(255,255,255,.22)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 1px 4px rgba(0,0,0,.15);' : 'background: transparent;') });
+    const t = {};
+    Object.keys(st.t).forEach((k) => {
+      const on = st.t[k];
+      t[k] = { on: on ? 'true' : 'false',
+        flip: () => this.setState({ t: { ...this.state.t, [k]: !this.state.t[k] } }),
+        track: 'position: relative; width: 52px; height: 32px; border-radius: 16px; padding: 0; flex: none; background: ' + (on ? '#b9562f' : (light ? 'rgba(31,25,19,.18)' : 'rgba(255,255,255,.2)')) + ';',
+        knob: 'position: absolute; top: 3px; left: ' + (on ? '23px' : '3px') + '; width: 26px; height: 26px; border-radius: 13px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: left .25s cubic-bezier(.3,1.4,.5,1);' };
+    });
+    const icon = {
+      general: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12h2M3 12h2M12 3v2M12 19v2M17 7l1.4-1.4M5.6 18.4 7 17M17 17l1.4 1.4M5.6 5.6 7 7',
+      appearance: 'M12 3a9 9 0 1 0 0 18c1 0 1.5-.7 1.5-1.5 0-1.2-1-1.5-1-2.5s.8-1.5 2-1.5H17a4 4 0 0 0 4-4c0-4.4-4-8.5-9-8.5zM7.5 11.5h.01M10 7.5h.01M15 7.5h.01',
+      home: 'M3 10l9-7 9 7M5 9v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M9 21v-7h6v7',
+      storage: 'M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+      network: 'M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0M12 19.5h.01',
+      apps: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM17.5 14v7M14 17.5h7',
+      security: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4',
+      updates: 'M21 12a9 9 0 1 1-3-6.7M21 3v6h-6',
+      account: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0',
+      power: 'M12 3v9M6.3 6.3a8 8 0 1 0 11.4 0'
+    };
+    const names = { general: 'General', appearance: 'Appearance', storage: 'Storage', network: 'Network', apps: 'Apps', security: 'Security', updates: 'Updates', account: 'Account', power: 'Power' };
+    const sections = Object.keys(names).map((k) => ({
+      label: names[k], icon: icon[k], current: st.section === k ? 'page' : 'false',
+      go: () => this.setState({ section: k, confirm: '' }),
+      style: 'display: flex; align-items: center; gap: 12px; width: 100%; min-height: 40px; padding: 0 12px; border-radius: 12px; font-size: 14px; font-weight: 600; text-align: left; ' +
+        (st.section === k ? 'background: ' + (light ? 'rgba(31,25,19,.08)' : 'rgba(255,255,255,.14)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.25);' : 'background: transparent; opacity: .82;') +
+        (k === 'power' ? ' margin-top: auto;' : '')
+    }));
+    const is = {}; Object.keys(names).forEach((k) => { is[k] = st.section === k; });
+    const avatarColor = { orange: '#d97757', sage: '#7f9f7a', clay: '#a76440' };
+    const pill = 'min-height: 40px; padding: 0 18px; border-radius: 20px; font-size: 14px; font-weight: 700; background: ' + (light ? 'rgba(31,25,19,.08)' : 'rgba(255,255,255,.14)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.3);';
+    const wallImg = { ribbon: light ? '/_blob/6f5f5dbf18010018d7b7e9e71bc02e48' : '/_blob/a660d335a6a1a88e203551e9f8742a06', dune: '/_blob/16e9d19b899ffc6f6c5a2a1c1807bc1d', plain: '' };
+    const walls = [['ribbon','Ember ribbons'],['dune','Quiet dunes'],['plain','Plain']].map(([k, label]) => ({
+      label, on: wallpaper === k ? 'true' : 'false',
+      pick: () => { this.setState({ wallpaper: k }); call(p.onWallpaper, k); },
+      style: 'display: flex; flex-direction: column; gap: 8px; padding: 6px; border-radius: 16px; background: transparent; ' + (wallpaper === k ? 'box-shadow: 0 0 0 2px #d97757;' : 'box-shadow: 0 0 0 1px rgba(127,127,127,.3);'),
+      swatch: 'display: block; height: 72px; border-radius: 11px; background: ' + (light ? '#f6f1e7' : '#1f1913') + (wallImg[k] ? ' url(' + wallImg[k] + ') center / cover' : '') + ';'
+    }));
+    const appImg = { 'Home Assistant': '/_blob/ba43b73a9007a33633148d33045ea823', Immich: '/_blob/850a3b77b38eaaf67832e7c5b3cac656', Jellyfin: '/_blob/7b68198886e47c08abc49df0511448fb', Nextcloud: '/_blob/e9847bdb7d92bb1500a456cc20476a95' };
+    const META = { 'Home Assistant': ['2026.10.3', 8123, '612 MB', '3.1 GB'], Immich: ['1.142.0', 2283, '894 MB', '48.2 GB'], Jellyfin: ['10.11.2', 8096, '0 MB', '6.4 GB'], Nextcloud: ['31.0.4', 8081, '402 MB', '12.7 GB'] };
+    const cfgOf = (n) => ({ auto: true, upd: true, remote: false, limit: 1024, port: (META[n] || [])[1] || 8080, ...((st.appCfg || {})[n] || {}) });
+    const setCfg = (n, patch) => this.setState({ appCfg: { ...(this.state.appCfg || {}), [n]: { ...cfgOf(n), ...((this.state.appCfg || {})[n] || {}), ...patch } } });
+    const look = (on) => ({ track: 'position: relative; width: 52px; height: 32px; border-radius: 16px; padding: 0; flex: none; background: ' + (on ? '#b9562f' : (light ? 'rgba(31,25,19,.18)' : 'rgba(255,255,255,.2)')) + ';',
+      knob: 'position: absolute; top: 3px; left: ' + (on ? '23px' : '3px') + '; width: 26px; height: 26px; border-radius: 13px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: left .25s cubic-bezier(.3,1.4,.5,1);' });
+    const soft = light ? 'rgba(31,25,19,.06)' : 'rgba(255,255,255,.08)';
+    this._appStyles = { statBox: 'display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; background: ' + soft + ';',
+      inputStyle: 'min-height: 40px; padding: 0 12px; border-radius: 12px; border: 1px solid rgba(127,127,127,.25); font: inherit; color: inherit; background: ' + soft + ';',
+      logStyle: 'margin: 0; padding: 10px 12px; border-radius: 12px; font: 12px/1.6 ui-monospace, monospace; white-space: pre-wrap; background: ' + (light ? 'rgba(31,25,19,.08)' : 'rgba(0,0,0,.3)') + ';' };
+    const confirmBtn = (k, idle, sure, done) => ({ label: st.confirm === k ? sure : idle, run: () => { if (this.state.confirm === k) { this.setState({ confirm: '' }); done(); } else this.setState({ confirm: k }); } });
+    const apps = Object.keys(st.running).map((n) => {
+      const m = META[n] || ['1.0.0', 8080, '—', '—'];
+      const c = cfgOf(n);
+      const open = st.openApp === n;
+      const run = st.running[n];
+      const tg = (key) => { const tt = look(c[key]); return { on: c[key] ? 'true' : 'false', flip: () => setCfg(n, { [key]: !c[key] }), track: tt.track, knob: tt.knob }; };
+      const au = tg('auto'), up = tg('upd'), re = tg('remote');
+      const rk = confirmBtn('reset-' + n, 'Reset settings', 'Tap again to reset', () => { setCfg(n, { auto: true, upd: true, remote: false, limit: 1024, port: m[1] }); this.say(n + ' settings reset'); });
+      const keep = confirmBtn('rm-' + n, 'Remove app', 'Tap again to remove', () => { const r = { ...this.state.running }; delete r[n]; this.setState({ running: r, openApp: null }); this.say(n + ' removed. Its data is kept.'); });
+      const all = confirmBtn('rmall-' + n, 'Remove app and data', 'This deletes ' + m[3] + '. Tap again', () => { const r = { ...this.state.running }; delete r[n]; this.setState({ running: r, openApp: null }); this.say(n + ' and its data were deleted'); });
+      return {
+        name: n, img: appImg[n], status: run ? 'Running' : 'Stopped', action: run ? 'Stop' : 'Start', version: 'v' + m[0],
+        open, expanded: open ? 'true' : 'false', manageLabel: 'Manage ' + n,
+        expand: () => this.setState({ openApp: open ? null : n, confirm: '' }),
+        chev: 'margin-left: 4px; opacity: .55; transition: transform .25s; transform: rotate(' + (open ? 90 : 0) + 'deg);',
+        panel: 'display: flex; flex-direction: column; gap: 14px; margin: 4px 0 10px; padding: 16px; border-radius: 18px; background: ' + (light ? 'rgba(31,25,19,.05)' : 'rgba(255,255,255,.06)') + ';',
+        toggle: () => { const r = { ...this.state.running, [n]: !this.state.running[n] }; this.setState({ running: r }); this.say(n + (r[n] ? ' started' : ' stopped')); },
+        openApp: () => this.say('Opening ' + n + ' at jeneros.local:' + c.port),
+        restart: () => this.say(n + ' restarted'),
+        updateLabel: n === 'Immich' ? 'Update to 1.143.0' : 'Check for updates',
+        update: () => this.say(n === 'Immich' ? 'Immich updated. The old version is kept for rollback.' : n + ' is up to date'),
+        backup: () => this.say(n + ' backed up to the system disk'),
+        mem: run ? m[2] : '0 MB', disk: m[3], addr: ':' + c.port,
+        autoOn: au.on, autoFlip: au.flip, autoTrack: au.track, autoKnob: au.knob,
+        updOn: up.on, updFlip: up.flip, updTrack: up.track, updKnob: up.knob,
+        remoteOn: re.on, remoteFlip: re.flip, remoteTrack: re.track, remoteKnob: re.knob,
+        limit: c.limit, setLimit: (e) => setCfg(n, { limit: +e.target.value }),
+        port: c.port, setPort: (e) => setCfg(n, { port: +e.target.value || m[1] }),
+        log: run ? '23:14:02  started ' + n + ' ' + m[0] + '\n23:14:05  listening on :' + c.port + '\n23:18:40  health check ok' : '23:20:11  stopped by you',
+        dangerKeep: 'min-height: 40px; padding: 0 18px; border-radius: 20px; font-size: 14px; font-weight: 700; color: ' + (st.confirm === 'rm-' + n ? '#fff; background: #b42318;' : '#d4462f; background: ' + soft + ';'),
+        dangerAll: 'min-height: 40px; padding: 0 18px; border-radius: 20px; font-size: 14px; font-weight: 700; color: ' + (st.confirm === 'rmall-' + n ? '#fff; background: #b42318;' : '#d4462f; background: ' + soft + ';'),
+        resetLabel: rk.label, reset: rk.run, removeKeepLabel: keep.label, removeKeep: keep.run, removeAllLabel: all.label, removeAll: all.run
+      };
+    });
+    const meterTrack = 'display: block; height: 8px; border-radius: 4px; overflow: hidden; background: ' + (light ? 'rgba(31,25,19,.1)' : 'rgba(255,255,255,.12)') + ';';
+    const disks = [
+      { name: 'System disk', kind: 'Built-in eMMC · 32 GB', used: '41%', note: 'JenerOS, apps and settings live here.', bar: 'display: block; height: 100%; width: 41%; border-radius: 4px; background: #d97757;' },
+      { name: 'USB disk', kind: 'Not connected', used: '—', note: 'Plug in a USB drive to keep photos and files off the system disk.', bar: 'display: block; height: 100%; width: 0;' }
+    ];
+    const sessions = st.sessions.map((x) => ({ ...x, other: !x.self,
+      end: () => { this.setState({ sessions: this.state.sessions.filter((y) => y.id !== x.id) }); this.say(x.device + ' signed out'); } }));
+    const avatars = Object.keys(avatarColor).map((k) => ({
+      label: k + ' avatar', on: st.avatar === k ? 'true' : 'false', pick: () => this.setState({ avatar: k }),
+      style: 'width: 36px; height: 36px; border-radius: 18px; background: ' + avatarColor[k] + '; ' + (st.avatar === k ? 'box-shadow: 0 0 0 3px ' + (light ? '#f6f1e7' : '#2b241c') + ', 0 0 0 5px ' + avatarColor[k] + ';' : '')
+    }));
+    const members = st.members.map((m) => ({ name: m.name, remove: () => this.setState({ members: this.state.members.filter((y) => y.id !== m.id) }) }));
+    const twoStep = (k, word) => () => {
+      if (this.state.confirm === k) { this.setState({ confirm: '' }); this.say(word); }
+      else { this.setState({ confirm: k }); }
+    };
+    return {
+      stageStyle: this.props.backdrop === false ? 'display: contents;' : 'overflow: hidden; width: 1000px; height: 660px; background: ' + (light ? '#f6f1e7 url(/_blob/6f5f5dbf18010018d7b7e9e71bc02e48)' : '#1f1913 url(/_blob/a660d335a6a1a88e203551e9f8742a06)') + ' center / cover;',
+      winStyle: 'box-sizing: border-box; display: flex; width: 1000px; height: 660px; border-radius: 30px; overflow: hidden; font-family: "Bricolage Grotesque", system-ui, sans-serif; color: ' + ink + '; background: ' + (light ? 'rgba(250,246,238,.62)' : 'rgba(30,23,17,.55)') + '; backdrop-filter: blur(26px) saturate(170%); -webkit-backdrop-filter: blur(26px) saturate(170%); border: 1px solid rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 40px 90px rgba(0,0,0,.45);',
+      sideStyle: 'width: 236px; flex: none; display: flex; flex-direction: column; gap: 2px; padding: 20px 12px; background: ' + sub + ';',
+      avatarStyle: 'width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ffffff; background: ' + avatarColor[st.avatar] + ';',
+      initial: (st.owner || '?').slice(0, 1).toUpperCase(), ownerName: st.owner,
+      sections, is, title: names[st.section],
+      close: () => call(p.onClose),
+      iconBtn: 'width: 36px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: ' + (light ? 'rgba(31,25,19,.08)' : 'rgba(255,255,255,.12)') + ';',
+      notice: st.notice, noticeStyle: 'margin: 0 28px 10px; padding: 10px 14px; border-radius: 14px; font-size: 14px; font-weight: 600; background: rgba(217,119,87,.18);',
+      card: 'background: ' + (light ? 'rgba(255,255,255,.7)' : 'rgba(255,255,255,.06)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,' + (light ? '.9' : '.12') + ');',
+      segWrap: 'display: flex; gap: 2px; padding: 3px; border-radius: 21px; background: ' + (light ? 'rgba(31,25,19,.07)' : 'rgba(255,255,255,.08)') + ';',
+      ...this._appStyles, pill, pillAccent: pill.replace(/background: [^;]+;/, 'background: #b9562f; color: #ffffff;'),
+      pillDanger: pill + (st.confirm === 'shutdown' ? ' background: #b42318; color: #ffffff;' : ''),
+      okTag: 'font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 10px; background: rgba(127,159,122,.25);',
+      meterTrack, t,
+      boxName: st.boxName, setBoxName: (e) => this.setState({ boxName: e.target.value }),
+      hostname: (st.boxName || 'jeneros').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.local',
+      tz: st.tz, setTz: (e) => this.setState({ tz: e.target.value }),
+      h24: seg(st.h24, () => this.setState({ h24: true })), h12: seg(!st.h24, () => this.setState({ h24: false })),
+      lightSeg: seg(light, () => { this.setState({ light: true }); call(p.onTheme, 'Light'); }),
+      darkSeg: seg(!light, () => { this.setState({ light: false }); call(p.onTheme, 'Dark'); }),
+      frost, setFrost: (e) => { const v = Number(e.target.value); this.setState({ frost: v }); call(p.onFrost, v); },
+      walls,
+      haStatus: st.ha ? 'Connected · 24 devices' : 'Not connected', haAction: st.ha ? 'Disconnect' : 'Connect',
+      haToggle: () => { this.setState({ ha: !st.ha }); this.say(st.ha ? 'Home Assistant disconnected' : 'Home Assistant connected'); },
+      disks, createStorage: () => this.say('Plug in a disk first, then create storage on it.'), refreshDisks: () => this.say('Disks checked. Nothing new found.'),
+      apps, sessions,
+      changePassword: () => this.say('A password form opens here in the real dashboard.'),
+      updateText: st.updateText, checking: st.checking,
+      checkUpdates: () => { this.setState({ checking: true, updateText: 'Checking…' }); clearTimeout(this._u); this._u = setTimeout(() => this.setState({ checking: false, updateText: 'Up to date · checked just now' }), 1400); },
+      rollbackLabel: st.confirm === 'rollback' ? 'Restart into it?' : 'Start previous version', rollback: twoStep('rollback', 'Restarting into the previous version…'),
+      ownerName: st.owner, setOwner: (e) => this.setState({ owner: e.target.value }),
+      avatars, members, addMember: () => { const n = this.state.members.length + 1; this.setState({ members: [...this.state.members, { id: Date.now(), name: 'Family member ' + n }] }); },
+      signOut: () => this.say('Signed out.'),
+      restartLabel: st.confirm === 'restart' ? 'Restart now?' : 'Restart', restart: twoStep('restart', 'Restarting…'),
+      shutdownLabel: st.confirm === 'shutdown' ? 'Shut down now?' : 'Shut down', shutdown: twoStep('shutdown', 'Shutting down…')
+    };
+  }
+}
+</script>
+</body>
+</html>

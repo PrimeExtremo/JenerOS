@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#fff}a:hover{color:#ffe1c4}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-40px) scale(1.15)}100%{transform:translate(0,0) scale(1)}}
+@keyframes drift2{0%{transform:translate(0,0)}50%{transform:translate(-80px,50px)}100%{transform:translate(0,0)}}
+@keyframes rise{from{opacity:0;transform:perspective(1200px) translateZ(-300px) rotateX(30deg);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+@keyframes wall{from{transform:scale(1.04) translate(-14px,8px)}to{transform:scale(1.08) translate(14px,-8px)}}
+.jg-wall{background:url(/_blob/a660d335a6a1a88e203551e9f8742a06) center / cover no-repeat;animation:wall 30s ease-in-out infinite alternate}
+.jg-blob1{animation:drift 18s ease-in-out infinite}
+.jg-blob2{animation:drift2 22s ease-in-out infinite}
+.jg-rise{animation:rise 1.2s cubic-bezier(.16,1,.3,1) both}
+.jg-grain{background-image:radial-gradient(rgba(255,255,255,.07) 0.6px,transparent 0.8px),radial-gradient(rgba(0,0,0,.08) 0.6px,transparent 0.8px);background-size:3px 3px,4px 4px;background-position:0 0,1px 2px}
+.jg-glass{background:rgba(255,255,255,var(--gfill,.04));backdrop-filter:var(--gfx,blur(4px) saturate(160%));-webkit-backdrop-filter:var(--gfxw,blur(4px) saturate(160%));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 1px 0 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(255,255,255,.15),inset 0 0 8px rgba(255,255,255,.06),0 10px 28px rgba(0,0,0,.18)}
+.jg-tile{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.jg-tile:hover{transform:translateY(-3px) scale(1.02)}
+.jg-btn{font:inherit;color:inherit;cursor:pointer}
+@keyframes jg-wiggle{0%,100%{transform:rotate(-.6deg)}50%{transform:rotate(.6deg)}}
+.jg-wiggle{animation:jg-wiggle .32s ease-in-out infinite}
+.jg-widget{transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+@keyframes jp-stroke{0%{transform:rotate(-9deg) scaleX(0)}100%{transform:rotate(-9deg) scaleX(1)}}
+@keyframes jp-fade{0%,52%{opacity:1}100%{opacity:0}}
+@keyframes jp-drip{0%{transform:scaleY(0)}100%{transform:scaleY(1)}}
+.jp-wrap{animation:jp-fade 1.5s ease-in-out both;pointer-events:none}
+.jp-s{position:absolute;left:-15%;width:130%;height:24%;border-radius:999px;transform-origin:0 50%;animation:jp-stroke .55s cubic-bezier(.6,0,.2,1) both;box-shadow:0 0 0 2px rgba(0,0,0,.04)}
+.jp-s:nth-child(even){transform-origin:100% 50%}
+.jp-d{position:absolute;width:26px;border-radius:0 0 13px 13px;transform-origin:50% 0;animation:jp-drip .6s .5s ease-in both}
+@media (prefers-reduced-motion: reduce){.jp-wrap{animation:jp-fade .6s both}.jp-s,.jp-d{animation:none}}
+@keyframes jw-in{0%{opacity:0;transform:scale(.6) translateY(30px);filter:blur(8px)}60%{opacity:1;transform:scale(1.04);filter:blur(0)}100%{transform:none}}
+@keyframes jw-out{0%{opacity:1;transform:none}30%{transform:scale(1.05)}100%{opacity:0;transform:scale(.3) rotate(-6deg);filter:blur(10px)}}
+@keyframes jw-size{0%{transform:scale(.92,.96)}45%{transform:scale(1.04,1.02)}75%{transform:scale(.99)}100%{transform:none}}
+@keyframes jw-move{0%{transform:translateX(var(--jw-dx,0)) scale(1.06)}70%{transform:translateX(0) scale(.98)}100%{transform:none}}
+@keyframes jw-settle{0%{transform:scale(.97)}60%{transform:scale(1.01)}100%{transform:none}}
+.jw-in{animation:jw-in .55s cubic-bezier(.2,.9,.3,1.2) both!important}.jw-out{animation:jw-out .32s ease-in both!important;pointer-events:none}
+.jw-size{animation:jw-size .5s cubic-bezier(.3,1.3,.5,1) both!important}.jw-move{animation:jw-move .45s cubic-bezier(.3,1.3,.5,1) both!important;z-index:2}
+.jw-settle{animation:jw-settle .45s ease-out both!important}
+@media (prefers-reduced-motion: reduce){.jw-in,.jw-out,.jw-size,.jw-move,.jw-settle{animation:none!important}}
+@keyframes jg-sheet{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.jg-sheet{animation:jg-sheet .35s cubic-bezier(.2,.8,.2,1) both}.jg-sheet::-webkit-scrollbar{display:none}
+@keyframes lw-a{0%{transform:translate(-8%,4%) rotate(-14deg) scaleX(1)}50%{transform:translate(6%,-6%) rotate(-6deg) scaleX(1.15)}100%{transform:translate(-8%,4%) rotate(-14deg) scaleX(1)}}
+@keyframes lw-b{0%{transform:translate(10%,-2%) rotate(22deg)}50%{transform:translate(-6%,8%) rotate(30deg) scaleY(1.2)}100%{transform:translate(10%,-2%) rotate(22deg)}}
+@keyframes lw-c{0%{transform:translate(0,12%) rotate(-32deg)}50%{transform:translate(-10%,-4%) rotate(-24deg)}100%{transform:translate(0,12%) rotate(-32deg)}}
+@keyframes lw-sweep{0%,55%{transform:translateX(-60%) rotate(18deg);opacity:0}62%{opacity:1}80%,100%{transform:translateX(160%) rotate(18deg);opacity:0}}
+@keyframes lw-glow{0%,100%{opacity:.55}50%{opacity:.95}}
+.lw-a{animation:lw-a 22s ease-in-out infinite}.lw-b{animation:lw-b 28s ease-in-out infinite}.lw-c{animation:lw-c 34s ease-in-out infinite}
+.lw-sweep{animation:lw-sweep 14s ease-in-out infinite}.lw-glow{animation:lw-glow 9s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.lw-a,.lw-b,.lw-c,.lw-sweep,.lw-glow,.jg-wall{animation:none}}
+.jg-reflect{-webkit-box-reflect:below 5px linear-gradient(transparent 62%,rgba(255,255,255,.2))}
+.jg-glow{position:relative}
+.jg-glow::before,.jg-glass.jg-glow::before{inset:auto 12% -14px 12%;mix-blend-mode:normal;content:'';position:absolute;left:12%;right:12%;bottom:-14px;height:22px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,220,.28),rgba(255,236,220,0));filter:blur(6px);pointer-events:none}
+.jg-dockitem{transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.jg-dockitem:hover{transform:translateY(-8px) scale(1.12)}
+.jg-dockitem:active{transform:translateY(-4px) scale(1.02);transition:transform .06s}
+.jg-glass{position:relative}
+.jg-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(50% 30% at 16% 0%,rgba(255,255,255,.1),rgba(255,255,255,0) 70%)}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
+.jg-pop{animation:pop .22s cubic-bezier(.2,.8,.2,1) both;transform-origin:top right}
+.jg-press{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.3,1.6,.5,1),box-shadow .3s}
+.jg-press:active{transform:scale(.92);transition:transform .08s}
+.jg-press::after{content:'';position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 60%);opacity:0;transform:scale(.2);transition:opacity .6s,transform .6s;pointer-events:none}
+.jg-press:active::after{opacity:1;transform:scale(1.3);transition:0s}
+/* cinematic camera: the home scene tilts with the pointer and dollies back when a window opens */
+.cm-scene{transform:perspective(1800px) rotateX(var(--cy,0deg)) rotateY(var(--cx,0deg));transform-origin:50% 50%;transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .9s ease}
+.cm-scene.cm-away{transform:perspective(1800px) translateZ(-340px) rotateX(5deg) rotateY(12deg);filter:blur(7px) brightness(.6)}
+@keyframes cm-dim{from{background:rgba(15,10,6,0);backdrop-filter:blur(0)}}
+.cm-portal{animation:cm-dim .7s ease both;perspective:1600px}
+@keyframes cm-portal-in{0%{opacity:0;transform:translateZ(-900px) rotateX(24deg) rotateY(-20deg);filter:blur(18px)}55%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none}}
+.cm-portal .st-win,.cm-portal .sa-win,.cm-portal .jg-sheet{animation:cm-portal-in 1.05s cubic-bezier(.16,1,.3,1) both!important}
+@media (prefers-reduced-motion: reduce){.cm-scene,.cm-scene.cm-away{transform:none;transition:none}.cm-portal .st-win,.cm-portal .sa-win,.cm-portal .jg-sheet{animation:none!important}}
+
+</style>
+</helmet>
+<div style="{{rootStyle}}">
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true"><filter id="jg-lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.009" numOctaves="2" seed="7" result="n"></feTurbulence><feGaussianBlur in="n" stdDeviation="3" result="m"></feGaussianBlur><feDisplacementMap in="SourceGraphic" in2="m" scale="{{lensScale}}" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter></svg>
+  <div class="jg-wall" style="{{wallStyle}}"></div>
+  <div class="jg-blob1" style="position: absolute; right: -120px; top: -160px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(217,119,87,.45) 0%, rgba(217,119,87,0) 70%)"></div>
+  <div class="jg-grain" style="position: absolute; inset: 0"></div>
+
+  <div class="{{sceneCls}}" style="position: relative; height: 100%; box-sizing: border-box; padding: 36px 56px; display: flex; flex-direction: column; gap: 22px">
+    <div class="jg-rise" style="position: absolute; top: 36px; right: 56px; z-index: 20; display: flex; align-items: center; gap: 10px">
+      <div style="display: flex; gap: 10px; align-items: center">
+        <button class="jg-glass jg-btn jg-press" onClick="{{toggleEdit}}" aria-pressed="{{editingStr}}" style="{{editStyle}}">{{editLabel}}</button>
+        <button class="jg-glass jg-btn jg-press" aria-label="Search" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+        <div style="position: relative">
+        <button class="jg-glass jg-btn jg-press" aria-label="Settings" aria-haspopup="true" aria-expanded="{{menuOpen}}" onClick="{{toggleMenu}}" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="jg-rise" style="animation-delay: .08s">
+      <div style="font-size: 15px; font-weight: 600; opacity: .8">Monday, 27 October</div>
+      <h1 style="margin: 4px 0 0; font-size: 52px; font-weight: 800; letter-spacing: -0.035em">Good evening, Jener</h1>
+    </div>
+
+    <div class="jg-rise" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 210px; gap: 18px; animation-delay: .18s">
+      <sc-for list="{{widgets}}" as="w" hint-placeholder-count="3">
+        <div class="{{w.cls}}" data-wk="{{w.wk}}" style="{{w.style}}">
+          <sc-if value="{{w.is.room}}" hint-placeholder-val="{{false}}">
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <span style="font-size: 17px; font-weight: 700">Living room</span>
+              <a href="#" style="font-size: 13px; font-weight: 600; text-decoration: none; opacity: .85">Open Home ›</a>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; flex: 1">
+              <sc-for list="{{lights}}" as="l" hint-placeholder-count="3">
+                <button class="jg-btn jg-press" onClick="{{l.toggle}}" style="{{l.style}}">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"></path></svg>
+                  <span style="font-size: 14px; font-weight: 700">{{l.name}}</span>
+                  <span style="font-size: 12px; font-weight: 600; opacity: .75">{{l.label}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{w.is.climate}}" hint-placeholder-val="{{false}}">
+            <span style="font-size: 15px; font-weight: 700; opacity: .9">Climate</span>
+            <div style="font-size: 64px; font-weight: 800; letter-spacing: -0.04em; line-height: 1">{{temp}}°</div>
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <span style="font-size: 13px; font-weight: 600; opacity: .8">Heating to {{target}}°</span>
+              <div style="display: flex; gap: 8px">
+                <button class="jg-btn jg-press" aria-label="Cooler" onClick="{{cooler}}" style="width: 44px; height: 44px; border-radius: 22px; border: none; background: rgba(255,255,255,.18); font-size: 22px">−</button>
+                <button class="jg-btn jg-press" aria-label="Warmer" onClick="{{warmer}}" style="width: 44px; height: 44px; border-radius: 22px; border: none; background: rgba(255,255,255,.18); font-size: 22px">+</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{w.is.energy}}" hint-placeholder-val="{{false}}">
+            <span style="font-size: 15px; font-weight: 700; opacity: .9">Energy today</span>
+            <div><span style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em">[kWh]</span></div>
+            <div style="display: flex; align-items: flex-end; gap: 6px; height: 48px"><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 30%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 55%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 40%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 80%"></div><div style="flex: 1; height: 100%; border-radius: 6px; background: #d97757"></div></div>
+          </sc-if>
+          <sc-if value="{{w.is.system}}" hint-placeholder-val="{{false}}">
+            <span style="font-size: 15px; font-weight: 700; opacity: .9">This box</span>
+            <sc-for list="{{meters}}" as="m" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600"><span>{{m.name}}</span><span style="opacity: .8">{{m.value}}</span></div>
+                <span style="display: block; height: 6px; border-radius: 3px; background: rgba(255,255,255,.14); overflow: hidden"><span style="{{m.bar}}"></span></span>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{w.is.clock}}" hint-placeholder-val="{{false}}">
+            <span style="font-size: 15px; font-weight: 700; opacity: .9">{{dateText}}</span>
+            <div style="font-size: 68px; font-weight: 800; letter-spacing: -0.04em; line-height: 1">{{timeText}}</div>
+            <span style="font-size: 13px; font-weight: 600; opacity: .75">Local time</span>
+          </sc-if>
+          <sc-if value="{{w.is.app}}" hint-placeholder-val="{{false}}">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <img src="{{w.img}}" alt="" style="width: 28px; height: 28px; object-fit: contain">
+              <span style="font-size: 15px; font-weight: 700">{{w.name}}</span>
+            </div>
+            <div style="font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05">{{w.big}}</div>
+            <span style="font-size: 13px; font-weight: 600; opacity: .78">{{w.small}}</span>
+          </sc-if>
+          <sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+            <button class="jg-btn" aria-label="{{w.removeLabel}}" onClick="{{w.remove}}" style="position: absolute; top: -10px; left: -10px; width: 30px; height: 30px; border-radius: 15px; border: none; background: rgba(40,32,26,.92); color: #fff; font-size: 20px; line-height: 1; box-shadow: 0 2px 8px rgba(0,0,0,.4)">−</button>
+            <div style="position: absolute; bottom: 10px; right: 10px; display: flex; gap: 6px">
+              <button class="jg-btn jg-press" aria-label="{{w.leftLabel}}" onClick="{{w.left}}" style="{{editBtn}}">‹</button>
+              <button class="jg-btn jg-press" aria-label="{{w.sizeLabel}}" onClick="{{w.resize}}" style="{{editBtn}}">{{w.sizeIcon}}</button>
+              <button class="jg-btn jg-press" aria-label="{{w.rightLabel}}" onClick="{{w.right}}" style="{{editBtn}}">›</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+        <button class="jg-btn jg-press" onClick="{{openGallery}}" style="border-radius: 28px; border: 2px dashed rgba(255,255,255,.35); background: rgba(255,255,255,.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 700">
+          <span style="font-size: 34px; line-height: 1">+</span>Add widget
+        </button>
+      </sc-if>
+    </div>
+
+    <div class="jg-rise" style="animation-delay: .32s">
+      <div style="font-size: 15px; font-weight: 700; opacity: .85; margin-bottom: 14px">Apps</div>
+      <div style="display: flex; gap: 40px 26px; flex-wrap: wrap">
+        <sc-for list="{{apps}}" as="a" hint-placeholder-count="6">
+          <button class="jg-btn jg-tile" onClick="{{a.open}}" aria-label="{{a.name}}" style="display: flex; flex-direction: column; align-items: center; gap: 10px; width: 96px; padding: 0; border: none; background: transparent">
+            <div class="jg-glass jg-press jg-reflect jg-glow" style="{{tileStyle}}">
+              <sc-if value="{{a.img}}" hint-placeholder-val="{{true}}"><img src="{{a.img}}" alt="" style="{{imgStyle}}"></sc-if>
+              <sc-if value="{{a.isStore}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"></path><path fill="currentColor" d="M144 208H176V240H144Z"></path></svg></sc-if>
+              <sc-if value="{{a.isFiles}}" hint-placeholder-val="{{false}}"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></sc-if>
+            </div>
+            <span style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 96px">{{a.name}}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div class="jg-glass jg-rise" style="margin-top: auto; align-self: center; border-radius: 26px; padding: 12px 22px; display: flex; gap: 28px; align-items: center; font-size: 13px; font-weight: 600; animation-delay: .4s">
+      <span>Storage 41% used</span>
+      <span style="opacity: .5">•</span>
+      <span>CPU 12%</span>
+      <span style="opacity: .5">•</span>
+      <span>Up to date</span>
+    </div>
+  </div>
+  <svg role="img" aria-label="JenerOS" width="28" height="28" viewBox="0 0 512 512" style="position: absolute; right: 40px; bottom: 36px; opacity: .85"><path fill="currentColor" d="M128 80H416V336L320 432H96V272H192V336H280L320 296V176H128Z"></path><path fill="currentColor" d="M144 208H176V240H144Z"></path></svg>
+  <sc-if value="{{galleryOpen}}" hint-placeholder-val="{{false}}">
+    <div class="cm-portal" style="position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: rgba(15,10,6,.4)">
+      <div class="jg-sheet" role="dialog" aria-label="Add widget" style="width: 980px; max-height: 560px; overflow-y: auto; scrollbar-width: none; margin-bottom: 30px; padding: 26px 28px; border-radius: 32px; background: rgba(30,23,17,.6); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); border: 1px solid rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 40px 90px rgba(0,0,0,.5)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px">
+          <h2 style="margin: 0; font-size: 24px; font-weight: 800">Add a widget</h2>
+          <button class="jg-btn jg-press" aria-label="Close" onClick="{{closeGallery}}" style="width: 40px; height: 40px; border-radius: 20px; border: none; background: rgba(255,255,255,.12); font-size: 16px">✕</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+          <sc-for list="{{gallery}}" as="g" hint-placeholder-count="6">
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 22px; background: rgba(255,255,255,.07); box-shadow: inset 0 1px 0 rgba(255,255,255,.14)">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <sc-if value="{{g.img}}" hint-placeholder-val="{{true}}"><img src="{{g.img}}" alt="" style="width: 32px; height: 32px; object-fit: contain"></sc-if>
+                <span style="font-size: 15px; font-weight: 800">{{g.name}}</span>
+              </div>
+              <span style="font-size: 12px; opacity: .72; min-height: 32px">{{g.desc}}</span>
+              <button class="jg-btn jg-press" onClick="{{g.add}}" disabled="{{g.added}}" style="{{g.btn}}">{{g.label}}</button>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin: 16px 0 0; font-size: 13px; opacity: .65">Apps you install from the App Store add their own widgets here.</p>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{storeOpen}}" hint-placeholder-val="{{false}}">
+    <div class="cm-portal" style="position: absolute; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; background: rgba(15,10,6,.35)">
+      <dc-import name="Store" backdrop="{{no}}" light="{{light}}" installed="{{installed}}" on-install="{{addApp}}" on-remove="{{removeApp}}" on-close="{{closeStore}}" hint-size="1100px,720px"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+    <div class="cm-portal" style="position: absolute; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; background: rgba(15,10,6,.35)">
+      <dc-import name="Settings" backdrop="{{no}}" light="{{light}}" frost="{{frost}}" wallpaper="{{wall}}" on-theme="{{setTheme}}" on-frost="{{setFrostVal}}" on-wallpaper="{{setWall}}" on-close="{{toggleMenu}}" hint-size="1000px,660px"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{painting}}" hint-placeholder-val="{{false}}">
+    <div class="jp-wrap" aria-hidden="true" style="position: absolute; inset: 0; z-index: 60; overflow: hidden">
+      <sc-for list="{{paintStrokes}}" as="p" hint-placeholder-count="6">
+        <div class="jp-s" style="{{p}}"></div>
+      </sc-for>
+      <sc-for list="{{paintDrips}}" as="d" hint-placeholder-count="5">
+        <div class="jp-d" style="{{d}}"></div>
+      </sc-for>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["Dark","Light"],"default":"Dark"},"frost":{"editor":"range","min":0,"max":100,"step":1,"default":15},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  componentDidMount(){
+    if (typeof window === 'undefined') return;
+    this._mv = (e) => { const root = document.documentElement; const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      root.style.setProperty('--cx', (x * 5).toFixed(2) + 'deg'); root.style.setProperty('--cy', (-y * 4).toFixed(2) + 'deg'); };
+    window.addEventListener('mousemove', this._mv);
+  }
+  wEl(k){ return typeof document !== 'undefined' ? document.querySelector('[data-wk="' + k + '"]') : null; }
+  flipSnap(newKey){
+    this.flipNew = newKey; this.flipPre = {};
+    if (typeof document === 'undefined') return;
+    document.querySelectorAll('[data-wk]').forEach((el) => { this.flipPre[el.getAttribute('data-wk')] = el.getBoundingClientRect(); });
+  }
+  componentDidUpdate(){
+    const pre = this.flipPre; if (!pre) return; this.flipPre = null;
+    const newKey = this.flipNew; this.flipNew = null;
+    const reduce = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('[data-wk]').forEach((el) => {
+      el.getAnimations().forEach((a) => { if (!(typeof CSSAnimation !== 'undefined' && a instanceof CSSAnimation)) a.cancel(); });
+      el.style.pointerEvents = '';
+      if (reduce) return;
+      const k = el.getAttribute('data-wk'); const b = el.getBoundingClientRect(); const a = pre[k];
+      if (k === newKey || !a) {
+        el.animate([{ transform: 'translateY(40px) scale(.6)', opacity: 0, filter: 'blur(8px)' }, { transform: 'scale(1.04)', opacity: 1, filter: 'blur(0)', offset: .6 }, { transform: 'none', opacity: 1 }],
+          { duration: 560, easing: 'cubic-bezier(.2,.9,.3,1)' });
+        return;
+      }
+      const dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < .01 && Math.abs(sy - 1) < .01) return;
+      el.animate([{ transformOrigin: '0 0', transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx + ',' + sy + ')' },
+                  { transformOrigin: '0 0', transform: 'none' }],
+        { duration: 620, easing: 'cubic-bezier(.3,1.25,.5,1)' });
+    });
+  }
+  componentWillUnmount(){ if (this._mv) window.removeEventListener('mousemove', this._mv); clearTimeout(this.animT); clearTimeout(this.paintT); clearTimeout(this.paintT2); }
+  constructor(p){ super(p); this.state = { on: { Ceiling: true, Lamp: false, TV: true }, icons: null, theme: null, menu: false, frost: null, wall: 'ribbon', store: false, editing: false, gallery: false, temp: 21.5, target: 22, widgets: [{ k: 'room', w: 2 }, { k: 'climate', w: 1 }, { k: 'energy', w: 1 }], installed: ['home-assistant', 'immich', 'jellyfin', 'nextcloud'] }; }
+  renderVals() {
+    const on = this.state.on;
+    const lights = ['Ceiling','Lamp','TV'].map((n) => ({
+      name: n,
+      label: on[n] ? 'On' : 'Off',
+      toggle: () => this.setState({ on: { ...on, [n]: !on[n] } }),
+      style: 'border: none; border-radius: 22px; padding: 16px; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; text-align: left; ' +
+        (on[n] ? 'background: #f6f1e7; color: #1f1913; box-shadow: 0 0 30px rgba(217,119,87,.55);' : 'background: rgba(255,255,255,.14); color: inherit;')
+    }));
+    const ICONS = {
+      'home-assistant': ['Home Assistant', '/_blob/ba43b73a9007a33633148d33045ea823'], immich: ['Immich', '/_blob/850a3b77b38eaaf67832e7c5b3cac656'],
+      jellyfin: ['Jellyfin', '/_blob/7b68198886e47c08abc49df0511448fb'], nextcloud: ['Nextcloud', '/_blob/e9847bdb7d92bb1500a456cc20476a95'],
+      vaultwarden: ['Vaultwarden', '/_blob/e970bc8bb9875cca9587f67badb17b28'], 'adguard-home': ['AdGuard Home', '/_blob/ae03b88e4a1b8bf4cd73abe00cdcd60d'],
+      'pi-hole': ['Pi-hole', '/_blob/77b34d719cf302e5220bf6e28849e9fb'], plex: ['Plex', '/_blob/84ef001f0c5180e44276b236c9feea47'],
+      'paperless-ngx': ['Paperless-ngx', '/_blob/afdec13d385d2e15e82d8031c373a4d4'], 'uptime-kuma': ['Uptime Kuma', '/_blob/642d685ac31c195e6dc5a6fd4e83719b'],
+      frigate: ['Frigate', '/_blob/9410922bf922f4cfaecb4c23d9cce782'], 'node-red': ['Node-RED', '/_blob/cc1f14d215db0c3eca817162f928d6f5'],
+      esphome: ['ESPHome', '/_blob/434352c361d38dfed91522286d6ba91f'], zigbee2mqtt: ['Zigbee2MQTT', '/_blob/eb28108ec613aed31d011b0ad9e0fed3'],
+      mosquitto: ['Mosquitto', '/_blob/13248d3343030443e9c85e46514228e7'], audiobookshelf: ['Audiobookshelf', '/_blob/ecddcd33a019413960d3e561bcc3d4bb'],
+      navidrome: ['Navidrome', '/_blob/a0fa23c12e839a467306c4ad85b41578'], mealie: ['Mealie', '/_blob/3f2a6b14c27a904bd3839605b403d355']
+    };
+    const openStore = () => this.setState({ store: true });
+    const WDEF = {
+      room: { name: 'Living room', desc: 'Lights from Home Assistant', app: 'home-assistant' },
+      climate: { name: 'Climate', desc: 'Temperature and heating', app: 'home-assistant' },
+      energy: { name: 'Energy', desc: 'Today\'s energy use', app: 'home-assistant' },
+      system: { name: 'This box', desc: 'CPU, memory and storage' },
+      clock: { name: 'Clock', desc: 'Time and date' },
+      immich: { name: 'Immich', desc: 'Photo backup status', app: 'immich', big: '[photos]', small: 'Backed up [time] ago' },
+      jellyfin: { name: 'Jellyfin', desc: 'Continue watching', app: 'jellyfin', big: '[title]', small: 'Continue watching · [time] left' },
+      nextcloud: { name: 'Nextcloud', desc: 'Your cloud drive', app: 'nextcloud', big: '[used]', small: 'of [total] used' },
+      'adguard-home': { name: 'AdGuard Home', desc: 'Ads and trackers blocked', app: 'adguard-home', big: '[blocked]', small: 'Blocked today' },
+      'uptime-kuma': { name: 'Uptime Kuma', desc: 'Are your services up?', app: 'uptime-kuma', big: 'All up', small: '[n] monitors' },
+      vaultwarden: { name: 'Vaultwarden', desc: 'Password health', app: 'vaultwarden', big: '[items]', small: 'Items in your vault' }
+    };
+    const st = this.state;
+    const editing = st.editing;
+    const reduce = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pulse = (k, kind, extra) => { this.flipSnap(kind === 'in' ? k : null); this.setState(extra); };
+    const moveW = (i, d) => { const a = st.widgets.slice(); const j = i + d; if (j < 0 || j >= a.length) return; [a[i], a[j]] = [a[j], a[i]]; pulse(a[j].k, d < 0 ? 'move-l' : 'move-r', { widgets: a }); };
+    const widgets = st.widgets.map((w, i) => {
+      const def = WDEF[w.k] || {};
+      const is = { room: w.k === 'room', climate: w.k === 'climate', energy: w.k === 'energy', system: w.k === 'system', clock: w.k === 'clock' };
+      is.app = !Object.values(is).some(Boolean);
+      return { is, name: def.name, img: def.app && ICONS[def.app] ? ICONS[def.app][1] : '', big: def.big, small: def.small,
+        cls: 'jg-glass jg-widget' + (editing ? ' jg-wiggle' : ''), wk: w.k,
+        style: 'position: relative; grid-column: span ' + w.w + '; border-radius: 28px; padding: 22px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; animation-delay: ' + (i % 2 ? '-.16s' : '0s') + ';',
+        remove: () => {
+          if (this.removing) return;
+          const el = this.wEl(w.k);
+          const done = () => { this.removing = false; this.flipSnap(null); this.setState({ widgets: this.state.widgets.filter((x) => x.k !== w.k) }); };
+          if (!el || reduce || !el.animate) return done();
+          this.removing = true;
+          el.style.pointerEvents = 'none';
+          el.animate([{ transform: 'none', opacity: 1, filter: 'blur(0)' }, { transform: 'scale(1.05)', opacity: 1, offset: .25 }, { transform: 'scale(.35) rotate(-5deg)', opacity: 0, filter: 'blur(10px)' }],
+            { duration: 380, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }).onfinish = done;
+        },
+        left: () => moveW(i, -1), right: () => moveW(i, 1),
+        resize: () => pulse(w.k, 'size', { widgets: st.widgets.map((x, j) => (j === i ? { ...x, w: x.w === 2 ? 1 : 2 } : x)) }),
+        sizeIcon: w.w === 2 ? '▭' : '▢', removeLabel: 'Remove ' + def.name, leftLabel: 'Move ' + def.name + ' left', rightLabel: 'Move ' + def.name + ' right', sizeLabel: w.w === 2 ? 'Make ' + def.name + ' small' : 'Make ' + def.name + ' wide' };
+    });
+    const gallery = Object.keys(WDEF).filter((k) => !WDEF[k].app || st.installed.includes(WDEF[k].app)).map((k) => {
+      const added = st.widgets.some((w) => w.k === k);
+      return { name: WDEF[k].name, desc: WDEF[k].desc, img: WDEF[k].app && ICONS[WDEF[k].app] ? ICONS[WDEF[k].app][1] : '', added, label: added ? 'On home' : 'Add',
+        add: () => { if (!added) pulse(k, 'in', { widgets: [...this.state.widgets, { k, w: k === 'room' ? 2 : 1 }], gallery: false }); },
+        btn: 'min-height: 36px; border-radius: 18px; border: none; font-size: 13px; font-weight: 800; ' + (added ? 'background: rgba(255,255,255,.1); opacity: .6;' : 'background: #b9562f; color: #fff;') };
+    });
+    const now = new Date();
+    const meters = [['CPU', 12], ['Memory', 38], ['Storage', 41]].map(([name, v]) => ({ name, value: v + '%', bar: 'display: block; height: 100%; border-radius: 3px; background: #d97757; width: ' + v + '%;' }));
+    const dockStyle = 'width: 56px; height: 56px; border-radius: 17px; border: none; padding: 0; display: flex; align-items: center; justify-content: center; '
+      + 'background: linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 6px 14px rgba(0,0,0,.25);';
+    const dock = [
+      { name: 'Files', img: '', isFiles: true, open: () => {} },
+      { name: 'Home Assistant', img: '/_blob/ba43b73a9007a33633148d33045ea823', open: () => {} },
+      { name: 'Immich', img: '/_blob/850a3b77b38eaaf67832e7c5b3cac656', open: () => {} },
+      { name: 'Jellyfin', img: '/_blob/7b68198886e47c08abc49df0511448fb', open: () => {} },
+      { name: 'App Store', img: '', isStore: true, open: openStore },
+      { name: 'Settings', img: '', isSettings: true, open: () => this.setState({ menu: true }) }
+    ].map((d) => ({ ...d, style: dockStyle }));
+    const apps = this.state.installed.filter((id) => ICONS[id]).map((id) => ({ name: ICONS[id][0], img: ICONS[id][1], open: () => {} }))
+      .concat([{ name: 'App Store', img: '', isStore: true, open: openStore }, { name: 'Files', img: '', isFiles: true, open: () => {} }]);
+    const mode = 'Original';
+    const light = (this.state.theme || this.props.theme || 'Dark') === 'Light';
+    const ink = light ? '#1f1913' : '#f6f1e7';
+    const seg = (on) => 'border: none; min-height: 36px; border-radius: 18px; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: background .3s, color .3s; ' +
+      (on ? 'background: rgba(255,255,255,.32); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 2px 8px rgba(0,0,0,.12); color: ' + ink + ';' : 'background: transparent; color: ' + ink + ';');
+    const frost = this.state.frost ?? this.props.frost ?? 15;
+    const blurPx = (2 + frost * 0.28).toFixed(1);
+    const fill = (0.03 + frost * 0.0015).toFixed(3);
+    const lensScale = Math.round((100 - frost) * 0.45);
+    const glassVars = ' --gfill: ' + fill + '; --gfx: ' + (lensScale > 0 ? 'url(#jg-lens) ' : '') + 'blur(' + blurPx + 'px) saturate(160%); --gfxw: blur(' + blurPx + 'px) saturate(160%);';
+    const rootStyle = 'position: relative; width: 1440px; height: 900px; overflow: hidden; border-radius: 28px; font-family: "Bricolage Grotesque", system-ui, sans-serif; transition: background .5s, color .5s; color: ' + ink + '; background: ' + (light ? '#f6f1e7' : '#1f1913') + ';' + glassVars;
+    const wallUrl = { ribbon: light ? '/_blob/6f5f5dbf18010018d7b7e9e71bc02e48' : '/_blob/a660d335a6a1a88e203551e9f8742a06', dune: '/_blob/16e9d19b899ffc6f6c5a2a1c1807bc1d', plain: '' }[this.state.wall];
+    const wallStyle = 'position: absolute; inset: -6%; background-image: ' + (wallUrl ? 'url(' + wallUrl + ')' : 'none') + '; background-size: cover; background-position: center; transition: opacity .5s;';
+    const styles = ['Tinted','Original'].map((label) => ({
+      label, on: mode === label ? 'true' : 'false',
+      pick: () => this.setState({ icons: label }),
+      style: seg(mode === label) + ' padding: 0 16px;'
+    }));
+    const glassIcon = ' drop-shadow(0 1px 0 rgba(255,255,255,.75)) drop-shadow(0 -1px 0 rgba(0,0,0,.18)) drop-shadow(0 4px 8px rgba(0,0,0,.22)); opacity: .9;';
+    const base = 'width: 50px; height: 50px; object-fit: contain; transition: filter .5s ease, opacity .5s; ';
+    const imgStyle = base + 'filter: none;';
+    const tileBase = 'width: 84px; height: 84px; border-radius: 26px; display: flex; align-items: center; justify-content: center; transition: background .5s ease, box-shadow .5s ease; ';
+    const tileStyle = tileBase;
+    return { sceneCls: 'cm-scene' + (st.store || st.menu || st.gallery ? ' cm-away' : ''), lights, apps, styles, imgStyle, tileStyle, rootStyle, wallStyle,
+      widgets, gallery, editing, editingStr: editing ? 'true' : 'false', meters,
+      editLabel: editing ? 'Done' : 'Edit', toggleEdit: () => this.setState({ editing: !editing, gallery: false }),
+      editStyle: 'min-height: 44px; padding: 0 18px; border-radius: 22px; font-size: 14px; font-weight: 700; ' + (editing ? 'background: #b9562f; color: #fff;' : ''),
+      editBtn: 'width: 32px; height: 32px; border-radius: 16px; border: none; background: rgba(40,32,26,.85); color: #fff; font-size: 16px; font-weight: 700;',
+      galleryOpen: st.gallery, openGallery: () => this.setState({ gallery: true }), closeGallery: () => this.setState({ gallery: false }),
+      temp: st.temp.toFixed(1), target: st.target, cooler: () => this.setState({ target: st.target - 0.5 }), warmer: () => this.setState({ target: st.target + 0.5 }),
+      timeText: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), dateText: now.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' }),
+      flowOpacity: light ? '.35' : '1',
+      no: false, storeOpen: this.state.store, installed: this.state.installed, closeStore: () => this.setState({ store: false }),
+      addApp: (id) => this.setState({ installed: this.state.installed.includes(id) ? this.state.installed : [...this.state.installed, id] }),
+      removeApp: (id) => this.setState({ installed: this.state.installed.filter((x) => x !== id) }),
+      wall: this.state.wall, setWall: (w) => this.setState({ wall: w }),
+      setTheme: (t) => {
+        if (this.state.paint || t === this.state.theme) { this.setState({ theme: t }); return; }
+        clearTimeout(this.paintT); clearTimeout(this.paintT2);
+        this.setState({ paint: t });
+        this.paintT = setTimeout(() => this.setState({ theme: t }), 720);
+        this.paintT2 = setTimeout(() => this.setState({ paint: null }), 1500);
+      },
+      painting: !!st.paint,
+      paintStrokes: [0, 1, 2, 3, 4, 5].map((n) => {
+        const ink = st.paint === 'Light' ? ['#f6f1e7', '#efe6d6'] : ['#1f1913', '#2a211a'];
+        return 'top: ' + (-8 + n * 19) + '%; animation-delay: ' + (n * 0.07) + 's; background: linear-gradient(180deg, ' + ink[1] + ', ' + ink[0] + ' 40%, ' + ink[0] + ' 70%, ' + ink[1] + '), ' + ink[0] + ';';
+      }),
+      paintDrips: [12, 31, 48, 67, 84].map((x, n) => 'left: ' + x + '%; top: ' + (88 - (n % 2) * 6) + '%; height: ' + (40 + (n * 23) % 70) + 'px; background: ' + (st.paint === 'Light' ? '#f6f1e7' : '#1f1913') + ';'), setFrostVal: (v) => this.setState({ frost: v }),
+      frost, lensScale, setFrost: (e) => this.setState({ frost: Number(e.target.value) }),
+      light, dark: !light, menuOpen: this.state.menu,
+      toggleMenu: () => this.setState({ menu: !this.state.menu }),
+      setLight: () => this.setState({ theme: 'Light' }), setDark: () => this.setState({ theme: 'Dark' }),
+      setTinted: () => this.setState({ icons: 'Tinted' }), setOriginal: () => this.setState({ icons: 'Original' }),
+      lightBtn: seg(light), darkBtn: seg(!light),
+      tintedBtn: seg(mode === 'Tinted'), originalBtn: seg(mode === 'Original') };
+  }
+}
+</script>
+</body>
+</html>

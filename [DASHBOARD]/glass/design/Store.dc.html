@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS App Store</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;overflow:hidden}
+.noscroll::-webkit-scrollbar{display:none}
+@keyframes sa-in{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes sa-card{from{opacity:0;transform:perspective(900px) translateZ(-220px) rotateX(35deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.sa-win{animation:sa-in .32s cubic-bezier(.2,.8,.2,1) both}
+.sa-card{animation:sa-card .8s cubic-bezier(.16,1,.3,1) both;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.sa-card:hover{transform:translateY(-2px)}
+.sa-btn{font:inherit;color:inherit;cursor:pointer;border:none;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .2s}
+.sa-btn:active{transform:scale(.95);transition:transform .06s}
+.sa-reflect{-webkit-box-reflect:below 3px linear-gradient(transparent 65%,rgba(255,255,255,.18))}
+@keyframes sa-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+.sa-float{animation:sa-float 6s ease-in-out infinite}
+.sa-card:hover img{transform:scale(1.08) translateY(-2px)}.sa-card img{transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.sa-in{font:inherit;font-size:15px;color:inherit;border:none;outline:none;background:transparent;flex:1;min-width:0}
+</style>
+</helmet>
+<div style="{{stageStyle}}">
+<div class="sa-win" style="{{winStyle}}">
+  <header style="display: flex; align-items: center; gap: 16px; padding: 24px 32px 12px">
+    <h2 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.03em; flex: 1">App Store</h2>
+    <label style="{{searchStyle}}">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span style="position: absolute; width: 1px; height: 1px; overflow: hidden">Search apps</span>
+      <input class="sa-in" type="search" placeholder="Search apps" value="{{query}}" onInput="{{setQuery}}">
+    </label>
+    <button class="sa-btn" aria-label="Close App Store" onClick="{{close}}" style="{{iconBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+  </header>
+  <div role="tablist" aria-label="Categories" class="noscroll" style="display: flex; gap: 6px; padding: 0 32px 16px; overflow-x: auto; scrollbar-width: none; flex: none">
+    <sc-for list="{{cats}}" as="c" hint-placeholder-count="8">
+      <button class="sa-btn" role="tab" aria-selected="{{c.on}}" onClick="{{c.pick}}" style="{{c.style}}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{c.icon}}"></path></svg>
+        <span>{{c.label}}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div class="noscroll" style="flex: 1; overflow-y: auto; scrollbar-width: none; padding: 0 32px 32px">
+    <sc-if value="{{showFeature}}" hint-placeholder-val="{{true}}">
+      <div style="position: relative; height: 250px; border-radius: 26px; overflow: hidden; margin-bottom: 12px">
+        <sc-for list="{{slides}}" as="h" hint-placeholder-count="3">
+          <div style="{{h.style}}">
+            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,7,5,.75), rgba(10,7,5,.1) 70%)"></div>
+            <img src="{{h.img}}" alt="" class="sa-float" style="position: absolute; right: 70px; top: 50%; width: 150px; height: 150px; object-fit: contain; margin-top: -75px; filter: drop-shadow(0 24px 40px rgba(0,0,0,.5))">
+            <div style="position: relative; max-width: 460px; padding: 40px 40px; display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 13px; font-weight: 700; opacity: .85">{{h.name}}</span>
+              <span style="font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em">{{h.title}}</span>
+              <button class="sa-btn" onClick="{{h.act}}" style="{{h.btn}}">{{h.label}}</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px">
+        <div style="display: flex; gap: 6px">
+          <sc-for list="{{dots}}" as="o" hint-placeholder-count="3">
+            <button class="sa-btn" aria-label="{{o.label}}" onClick="{{o.go}}" style="{{o.style}}"></button>
+          </sc-for>
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button class="sa-btn" aria-label="Previous" onClick="{{prev}}" style="{{iconBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button class="sa-btn" aria-label="Next" onClick="{{next}}" style="{{iconBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+      </div>
+      <span style="font-size: 11px; font-weight: 800; letter-spacing: .08em; opacity: .55">FEATURED</span>
+      <h3 style="margin: 2px 0 14px; font-size: 18px; font-weight: 800">Loved on JenerOS</h3>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px">
+        <sc-for list="{{popular}}" as="a" hint-placeholder-count="7">
+          <button class="sa-btn sa-card" onClick="{{a.act}}" aria-label="{{a.aria}}" style="{{popCard}}">
+            <img src="{{a.img}}" alt="" class="sa-reflect" style="width: 52px; height: 52px; object-fit: contain">
+            <span style="font-size: 13px; font-weight: 800; margin-top: 10px">{{a.name}}</span>
+            <span style="font-size: 11px; opacity: .6">{{a.cat}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="{{panel}}">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: .08em; opacity: .55">MOST INSTALLED</span>
+        <h3 style="margin: 2px 0 10px; font-size: 18px; font-weight: 800">Everyone's favourites</h3>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 22px">
+          <sc-for list="{{most}}" as="a" hint-placeholder-count="9">
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 64px">
+            <img src="{{a.img}}" alt="" class="sa-reflect" style="width: 44px; height: 44px; object-fit: contain; flex: none">
+            <div style="display: flex; flex-direction: column; min-width: 0; flex: 1">
+              <span style="font-size: 14px; font-weight: 800">{{a.name}}</span>
+              <span style="font-size: 12px; opacity: .65; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{a.desc}}</span>
+              <sc-if value="{{a.busy}}" hint-placeholder-val="{{false}}"><span style="{{track}} margin-top: 6px"><span style="{{a.bar}}"></span></span></sc-if>
+            </div>
+            <button class="sa-btn" onClick="{{a.act}}" aria-label="{{a.aria}}" disabled="{{a.busy}}" style="{{a.btn}}">{{a.label}}</button>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin: 26px 0 8px">
+      <h3 style="margin: 0; font-size: 18px; font-weight: 800">{{listTitle}}</h3>
+      <span style="font-size: 12px; opacity: .6">A to Z</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 22px">
+      <sc-for list="{{apps}}" as="a" hint-placeholder-count="9">
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 64px">
+            <img src="{{a.img}}" alt="" class="sa-reflect" style="width: 44px; height: 44px; object-fit: contain; flex: none">
+            <div style="display: flex; flex-direction: column; min-width: 0; flex: 1">
+              <span style="font-size: 14px; font-weight: 800">{{a.name}}</span>
+              <span style="font-size: 12px; opacity: .65; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{a.desc}}</span>
+              <sc-if value="{{a.busy}}" hint-placeholder-val="{{false}}"><span style="{{track}} margin-top: 6px"><span style="{{a.bar}}"></span></span></sc-if>
+            </div>
+            <button class="sa-btn" onClick="{{a.act}}" aria-label="{{a.aria}}" disabled="{{a.busy}}" style="{{a.btn}}">{{a.label}}</button>
+          </div>
+      </sc-for>
+    </div>
+    <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+      <p style="margin: 40px 0; text-align: center; font-size: 15px; opacity: .7">No apps match “{{query}}”.</p>
+    </sc-if>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"light":{"editor":"boolean","default":false},"installed":{"editor":null},"onInstall":{"editor":null},"onRemove":{"editor":null},"onClose":{"editor":null},"backdrop":{"editor":"boolean","default":true},"$preview":{"width":1100,"height":720}}'>
+const CATALOG = [
+  { id: 'home-assistant', name: 'Home Assistant', cat: 'Smart home', size: '1.1 GB', img: '/_blob/ba43b73a9007a33633148d33045ea823', desc: 'Control lights, climate and every device in your home.' },
+  { id: 'immich', name: 'Immich', cat: 'Photos', size: '820 MB', img: '/_blob/850a3b77b38eaaf67832e7c5b3cac656', desc: 'Back up photos and videos from every phone, privately.' },
+  { id: 'jellyfin', name: 'Jellyfin', cat: 'Media', size: '410 MB', img: '/_blob/7b68198886e47c08abc49df0511448fb', desc: 'Stream your movies, shows and music to any screen.' },
+  { id: 'nextcloud', name: 'Nextcloud', cat: 'Files', size: '650 MB', img: '/_blob/e9847bdb7d92bb1500a456cc20476a95', desc: 'Your own cloud drive, calendar and contacts.' },
+  { id: 'vaultwarden', name: 'Vaultwarden', cat: 'Security', size: '90 MB', img: '/_blob/e970bc8bb9875cca9587f67badb17b28', desc: 'A password manager that works with the Bitwarden apps.' },
+  { id: 'adguard-home', name: 'AdGuard Home', cat: 'Network', size: '60 MB', img: '/_blob/ae03b88e4a1b8bf4cd73abe00cdcd60d', desc: 'Block ads and trackers for every device on your network.' },
+  { id: 'pi-hole', name: 'Pi-hole', cat: 'Network', size: '120 MB', img: '/_blob/77b34d719cf302e5220bf6e28849e9fb', desc: 'Network-wide ad blocking with detailed stats.' },
+  { id: 'plex', name: 'Plex', cat: 'Media', size: '380 MB', img: '/_blob/84ef001f0c5180e44276b236c9feea47', desc: 'Organise and stream your media library.' },
+  { id: 'paperless-ngx', name: 'Paperless-ngx', cat: 'Files', size: '540 MB', img: '/_blob/afdec13d385d2e15e82d8031c373a4d4', desc: 'Scan, index and search all your paper documents.' },
+  { id: 'uptime-kuma', name: 'Uptime Kuma', cat: 'Tools', size: '150 MB', img: '/_blob/642d685ac31c195e6dc5a6fd4e83719b', desc: 'Watch your sites and services and get alerts.' },
+  { id: 'frigate', name: 'Frigate', cat: 'Smart home', size: '1.4 GB', img: '/_blob/9410922bf922f4cfaecb4c23d9cce782', desc: 'Security camera recorder with object detection.' },
+  { id: 'node-red', name: 'Node-RED', cat: 'Smart home', size: '230 MB', img: '/_blob/cc1f14d215db0c3eca817162f928d6f5', desc: 'Build automations by wiring blocks together.' },
+  { id: 'esphome', name: 'ESPHome', cat: 'Smart home', size: '310 MB', img: '/_blob/434352c361d38dfed91522286d6ba91f', desc: 'Make your own smart sensors and switches.' },
+  { id: 'zigbee2mqtt', name: 'Zigbee2MQTT', cat: 'Smart home', size: '140 MB', img: '/_blob/eb28108ec613aed31d011b0ad9e0fed3', desc: 'Use Zigbee devices without the brand hubs.' },
+  { id: 'mosquitto', name: 'Mosquitto', cat: 'Smart home', size: '20 MB', img: '/_blob/13248d3343030443e9c85e46514228e7', desc: 'The message broker many smart devices talk through.' },
+  { id: 'audiobookshelf', name: 'Audiobookshelf', cat: 'Media', size: '200 MB', img: '/_blob/ecddcd33a019413960d3e561bcc3d4bb', desc: 'Your audiobooks and podcasts, synced across devices.' },
+  { id: 'navidrome', name: 'Navidrome', cat: 'Media', size: '70 MB', img: '/_blob/a0fa23c12e839a467306c4ad85b41578', desc: 'Stream your own music collection anywhere.' },
+  { id: 'mealie', name: 'Mealie', cat: 'Tools', size: '260 MB', img: '/_blob/3f2a6b14c27a904bd3839605b403d355', desc: 'Save recipes and plan meals for the week.' },
+  { id: 'syncthing', name: 'Syncthing', cat: 'Files', size: '45 MB', img: '/_blob/4403cae89b2b1066148f15aaaf953406', desc: 'Keep folders in sync between your devices, no cloud.' },
+  { id: 'photoprism', name: 'PhotoPrism', cat: 'Photos', size: '700 MB', img: '/_blob/b33f2d3b2256877ce274f57a1870c88b', desc: 'Browse and search your photos with smart tagging.' },
+  { id: 'gitea', name: 'Gitea', cat: 'Developer', size: '160 MB', img: '/_blob/13e848a4dd7696eeb71e881309de9b58', desc: 'Host your own Git repositories.' },
+  { id: 'forgejo', name: 'Forgejo', cat: 'Developer', size: '170 MB', img: '/_blob/95c60feb4e04b21a9c07c33679e762c2', desc: 'A community-run Git forge for your code.' },
+  { id: 'code-server', name: 'code-server', cat: 'Developer', size: '520 MB', img: '/_blob/0d5d22526961ec7ea758341ba27607fb', desc: 'A full code editor in your browser.' },
+  { id: 'grafana', name: 'Grafana', cat: 'Tools', size: '330 MB', img: '/_blob/8ef83c24f4dfa150a33d12ccf0b26645', desc: 'Beautiful dashboards for any data.' },
+  { id: 'portainer', name: 'Portainer', cat: 'Developer', size: '260 MB', img: '/_blob/4ba1736afe792cc32a8d543b189f4732', desc: 'Manage containers with a friendly interface.' },
+  { id: 'dockge', name: 'Dockge', cat: 'Developer', size: '120 MB', img: '/_blob/5692998b61413db3add23038556a2bcf', desc: 'Write and run compose stacks from a simple page.' },
+  { id: 'tailscale', name: 'Tailscale', cat: 'Network', size: '80 MB', img: '/_blob/4efacf7957a9ed5630a1f5dd8588c9e4', desc: 'Reach your box from anywhere, safely.' },
+  { id: 'wireguard', name: 'WireGuard', cat: 'Network', size: '30 MB', img: '/_blob/6a4c18ba2f67f9791446b3c12323ed9c', desc: 'A fast, simple VPN into your home network.' },
+  { id: 'nginx-proxy-manager', name: 'Nginx Proxy Manager', cat: 'Network', size: '190 MB', img: '/_blob/1a638a54e2372eec349c4c9013d0eca2', desc: 'Give apps nice addresses with HTTPS.' },
+  { id: 'bitcoin', name: 'Bitcoin Node', cat: 'Finance', size: '1.2 GB', img: '/_blob/c37eb659692c8553a47de1301349ef59', desc: 'Run your own Bitcoin node and verify for yourself.' },
+  { id: 'sonarr', name: 'Sonarr', cat: 'Media', size: '210 MB', img: '/_blob/54b6bb96233ead71b71271a5f2811d22', desc: 'Track and organise your TV shows.' },
+  { id: 'radarr', name: 'Radarr', cat: 'Media', size: '210 MB', img: '/_blob/c4e45bf8bc0dd1ca792395d8384e88c2', desc: 'Track and organise your movie collection.' },
+  { id: 'prowlarr', name: 'Prowlarr', cat: 'Media', size: '180 MB', img: '/_blob/ab0758ab26e6763c4213afd50b6346b6', desc: 'One place to manage your media indexers.' },
+  { id: 'qbittorrent', name: 'qBittorrent', cat: 'Media', size: '95 MB', img: '/_blob/3bbe444c144a94d34045324824b9e1cc', desc: 'A light download client with a web interface.' },
+  { id: 'transmission', name: 'Transmission', cat: 'Media', size: '40 MB', img: '/_blob/02d1a4dc64106744cbe26e4cb8dd655f', desc: 'A simple, tiny download client.' },
+  { id: 'calibre-web', name: 'Calibre-Web', cat: 'Media', size: '230 MB', img: '/_blob/510d0ad0a08f345f22951f5c6fe5507a', desc: 'Your ebook library, readable in the browser.' },
+  { id: 'kavita', name: 'Kavita', cat: 'Media', size: '150 MB', img: '/_blob/b0ee15aa83cdd19e714666a3807f35dc', desc: 'Read comics, manga and books from your library.' },
+  { id: 'linkding', name: 'linkding', cat: 'Tools', size: '60 MB', img: '/_blob/73ef86afbf710f7b03dbc3b80374d42a', desc: 'Save and tag bookmarks in one place.' },
+  { id: 'miniflux', name: 'Miniflux', cat: 'Tools', size: '35 MB', img: '/_blob/de78cf5a6cefaec46fe0836bc7defb30', desc: 'A minimal, fast news reader.' },
+  { id: 'freshrss', name: 'FreshRSS', cat: 'Tools', size: '90 MB', img: '/_blob/5a5e340f5ecd278e25176ec5584c49b8', desc: 'Follow your favourite sites with RSS.' },
+  { id: 'actual-budget', name: 'Actual Budget', cat: 'Finance', size: '110 MB', img: '/_blob/38f32ae84ea92fa9b5bd24f4f2f6724f', desc: 'Simple, private budgeting that you own.' },
+  { id: 'firefly-iii', name: 'Firefly III', cat: 'Finance', size: '380 MB', img: '/_blob/728eee990bb97578899cb5e2940059fd', desc: 'Track spending, budgets and bills.' },
+  { id: 'n8n', name: 'n8n', cat: 'Tools', size: '480 MB', img: '/_blob/bdd8155287218511d576420ad485b210', desc: 'Automate anything by connecting your apps.' },
+  { id: 'homebox', name: 'Homebox', cat: 'Tools', size: '40 MB', img: '/_blob/ac9ff18a2550c4adf0d76300e3b028c9', desc: 'Keep an inventory of everything you own.' },
+  { id: 'stirling-pdf', name: 'Stirling PDF', cat: 'Files', size: '420 MB', img: '/_blob/1036c6d93118ca929e2fa923e15763b8', desc: 'Merge, split, sign and convert PDFs privately.' },
+  { id: 'filebrowser', name: 'File Browser', cat: 'Files', size: '30 MB', img: '/_blob/0104fd4c4e4c04de54fc953a7e72a2f1', desc: 'Browse and share files on your box.' },
+  { id: 'duplicati', name: 'Duplicati', cat: 'Files', size: '240 MB', img: '/_blob/de485d1fb58e8d8e93ed5559e545a780', desc: 'Encrypted backups to any cloud or disk.' },
+  { id: 'ollama', name: 'Ollama', cat: 'AI', size: '1.8 GB', img: '/_blob/7aba76e6c2a281c58c67c6e34787a72c', desc: 'Run AI language models on your own box.' },
+  { id: 'open-webui', name: 'Open WebUI', cat: 'AI', size: '900 MB', img: '/_blob/9d7525917863d2bc6b1b68dda5c6dd14', desc: 'A chat interface for your local AI models.' },
+  { id: 'searxng', name: 'SearXNG', cat: 'Security', size: '150 MB', img: '/_blob/257b0c57705c44ab218718d0f61f9008', desc: 'Private search that keeps your searches to yourself.' },
+  { id: 'changedetection', name: 'changedetection.io', cat: 'Tools', size: '260 MB', img: '/_blob/aabac73592d9b081b6ae6ce17eef3cf2', desc: 'Get told when a web page changes.' },
+  { id: 'memos', name: 'Memos', cat: 'Tools', size: '50 MB', img: '/_blob/e1571b35899e3c4fb3f0194c7f5cda56', desc: 'Quick private notes, like a personal timeline.' }
+];
+const STAGES = ['Checking the package', 'Downloading', 'Setting up', 'Starting'];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { cat: 'All', query: '', jobs: {}, local: null, slide: 0 }; this.timers = {}; }
+  componentDidMount() { this.rot = setInterval(() => this.setState({ slide: (this.state.slide + 1) % 3 }), 5000); }
+  componentWillUnmount() { Object.values(this.timers).forEach(clearInterval); clearInterval(this.rot); }
+  installedList() { return this.state.local ?? (Array.isArray(this.props.installed) ? this.props.installed : ['home-assistant', 'immich', 'jellyfin', 'nextcloud']); }
+  install(id) {
+    if (this.timers[id]) return;
+    this.setState({ jobs: { ...this.state.jobs, [id]: 0 } });
+    this.timers[id] = setInterval(() => {
+      const p = (this.state.jobs[id] ?? 0) + 7;
+      if (p >= 100) {
+        clearInterval(this.timers[id]); delete this.timers[id];
+        const jobs = { ...this.state.jobs }; delete jobs[id];
+        this.setState({ jobs, local: [...this.installedList(), id] });
+        if (typeof this.props.onInstall === 'function') this.props.onInstall(id);
+      } else {
+        this.setState({ jobs: { ...this.state.jobs, [id]: p } });
+      }
+    }, 140);
+  }
+  remove(id) {
+    this.setState({ local: this.installedList().filter((x) => x !== id) });
+    if (typeof this.props.onRemove === 'function') this.props.onRemove(id);
+  }
+  renderVals() {
+    const light = !!this.props.light;
+    const ink = light ? '#1f1913' : '#f6f1e7';
+    const soft = light ? 'rgba(31,25,19,.07)' : 'rgba(255,255,255,.08)';
+    const installed = this.installedList();
+    const CI = { All: 'M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z', 'Smart home': 'M3 10l9-7 9 7M5 9v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9', Media: 'M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM10 9l5 3-5 3z',
+      Photos: 'M3 5h18v14H3zM3 16l5-5 5 6 3-3 5 5', Files: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', Network: 'M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0',
+      Security: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z', AI: 'M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z', Developer: 'M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14', Finance: 'M12 3v18M16.5 7.5c-.8-1.2-2.5-2-4.5-2-2.5 0-4 1.2-4 3s1.6 2.5 4 3 4 1.3 4 3.2-1.6 3.3-4.2 3.3c-2 0-3.7-.8-4.6-2.2', Tools: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z' };
+    const cats = ['All', 'Smart home', 'Media', 'Photos', 'Files', 'Network', 'Security', 'AI', 'Developer', 'Finance', 'Tools'].map((label) => ({
+      label: label === 'All' ? 'Discover' : label, icon: CI[label], on: this.state.cat === label ? 'true' : 'false', pick: () => this.setState({ cat: label }),
+      style: 'flex: none; display: flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 14px; border-radius: 18px; font-size: 13px; font-weight: 700; white-space: nowrap; ' +
+        (this.state.cat === label ? 'background: ' + (light ? '#ffffff' : 'rgba(255,255,255,.2)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 2px 8px rgba(0,0,0,.2);' : 'background: ' + soft + ';')
+    }));
+    const q = this.state.query.trim().toLowerCase();
+    const list = CATALOG.filter((a) => (this.state.cat === 'All' || a.cat === this.state.cat) && (!q || (a.name + ' ' + a.desc + ' ' + a.cat).toLowerCase().includes(q)));
+    const pillBase = 'flex: none; min-height: 32px; padding: 0 14px; border-radius: 18px; font-size: 13px; font-weight: 800; ';
+    const view = (a) => {
+      const has = installed.includes(a.id);
+      const job = this.state.jobs[a.id];
+      const busy = job !== undefined;
+      return { ...a, busy, idle: !busy,
+        stage: busy ? STAGES[Math.min(3, Math.floor(job / 25))] + '…' : '',
+        bar: 'display: block; height: 100%; border-radius: 3px; background: #d97757; transition: width .14s linear; width: ' + (job || 0) + '%;',
+        label: busy ? 'Installing' : (has ? 'Open' : 'Install'), aria: (has ? 'Open ' : 'Install ') + a.name,
+        act: () => (busy ? null : has ? (typeof this.props.onClose === 'function' && this.props.onClose()) : this.install(a.id)),
+        btn: pillBase + (has ? 'background: ' + soft + ';' : 'background: #b9562f; color: #ffffff;')
+      };
+    };
+    const apps = list.slice().sort((x, y) => x.name.localeCompare(y.name)).map(view);
+    const pick = (ids) => ids.map((id) => CATALOG.find((a) => a.id === id)).filter(Boolean).map(view);
+    const popular = pick(['home-assistant', 'immich', 'jellyfin', 'vaultwarden', 'adguard-home', 'frigate', 'nextcloud']);
+    const HERO = [
+      { id: 'home-assistant', title: 'Your whole home, on one screen', art: 'linear-gradient(120deg, #0b3c5d, #18bcf2 55%, #8fe3ff)' },
+      { id: 'immich', title: 'Every photo, backed up privately', art: 'linear-gradient(120deg, #3a0d2e, #ed79b5 50%, #ffb400)' },
+      { id: 'jellyfin', title: 'Your movies, on every screen', art: 'linear-gradient(120deg, #1d0f3a, #aa5cc3 50%, #00a4dc)' }
+    ];
+    const slides = HERO.map((h, i) => {
+      const a = view(CATALOG.find((c) => c.id === h.id));
+      const on = this.state.slide === i;
+      return { ...a, title: h.title,
+        style: 'position: absolute; inset: 0; color: #ffffff; background: ' + h.art + '; transition: opacity .8s ease, transform 1.2s cubic-bezier(.2,.8,.2,1); opacity: ' + (on ? 1 : 0) + '; transform: scale(' + (on ? 1 : 1.06) + '); pointer-events: ' + (on ? 'auto' : 'none') + ';',
+        btn: 'align-self: flex-start; margin-top: 8px; min-height: 36px; padding: 0 18px; border-radius: 18px; font-size: 13px; font-weight: 800; color: #1f1913; background: rgba(255,255,255,.92);' };
+    });
+    const dots = HERO.map((h, i) => ({ label: 'Show slide ' + (i + 1), go: () => this.setState({ slide: i }),
+      style: 'height: 6px; border-radius: 3px; padding: 0; transition: width .3s, background .3s; width: ' + (this.state.slide === i ? '24px' : '6px') + '; background: ' + (this.state.slide === i ? ink : (light ? 'rgba(31,25,19,.25)' : 'rgba(255,255,255,.3)')) + ';' }));
+    const most = pick(['home-assistant', 'immich', 'nextcloud', 'jellyfin', 'pi-hole', 'vaultwarden', 'plex', 'paperless-ngx', 'uptime-kuma']);
+    return {
+      winStyle: 'box-sizing: border-box; display: flex; flex-direction: column; width: 1100px; height: 720px; border-radius: 30px; overflow: hidden; font-family: "Bricolage Grotesque", system-ui, sans-serif; color: ' + ink + '; background: ' + (light ? 'rgba(250,246,238,.62)' : 'rgba(30,23,17,.55)') + '; backdrop-filter: blur(26px) saturate(170%); -webkit-backdrop-filter: blur(26px) saturate(170%); border: 1px solid rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 40px 90px rgba(0,0,0,.45);',
+      searchStyle: 'position: relative; width: 260px; display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: 20px; background: ' + soft + ';',
+      iconBtn: 'width: 40px; height: 40px; flex: none; border-radius: 20px; display: flex; align-items: center; justify-content: center; background: ' + soft + ';',
+      featureStyle: 'display: flex; align-items: center; gap: 20px; padding: 22px 24px; margin-bottom: 16px; border-radius: 24px; background: linear-gradient(120deg, rgba(24,188,242,.22), rgba(217,119,87,.18)); box-shadow: inset 0 1px 0 rgba(255,255,255,.25);',
+      showFeature: this.state.cat === 'All' && !q,
+      card: 'display: flex; flex-direction: column; gap: 12px; min-height: 172px; padding: 18px; border-radius: 22px; box-sizing: border-box; background: ' + (light ? 'rgba(255,255,255,.7)' : 'rgba(255,255,255,.06)') + '; box-shadow: inset 0 1px 0 rgba(255,255,255,' + (light ? '.9' : '.12') + ');',
+      track: 'display: block; height: 6px; border-radius: 3px; overflow: hidden; background: ' + soft + ';',
+      stageStyle: this.props.backdrop === false ? 'display: contents;' : 'overflow: hidden; width: 1100px; height: 720px; background: ' + (light ? '#f6f1e7 url(/_blob/6f5f5dbf18010018d7b7e9e71bc02e48)' : '#1f1913 url(/_blob/a660d335a6a1a88e203551e9f8742a06)') + ' center / cover;',
+      pageTitle: this.state.cat === 'All' ? 'Discover' : this.state.cat,
+      sideStyle: 'width: 236px; flex: none; display: flex; flex-direction: column; padding: 20px 12px; background: ' + (light ? 'rgba(31,25,19,.05)' : 'rgba(255,255,255,.05)') + ';',
+      slides, dots, prev: () => this.setState({ slide: (this.state.slide + 2) % 3 }), next: () => this.setState({ slide: (this.state.slide + 1) % 3 }),
+      popular, most, listTitle: this.state.cat === 'All' && !q ? 'All apps' : (q ? 'Results' : this.state.cat),
+      popCard: 'display: flex; flex-direction: column; align-items: center; padding: 18px 8px 16px; border-radius: 20px; background: ' + soft + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.14);',
+      panel: 'padding: 20px 22px; border-radius: 24px; background: ' + soft + '; box-shadow: inset 0 1px 0 rgba(255,255,255,.12);',
+      cats, apps, empty: apps.length === 0, query: this.state.query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+/* The design is a 1440×900 board; it is scaled to fit any screen. */
+html, body { margin: 0; height: 100%; overflow: hidden; background: #120d09; }
+#stage { position: fixed; left: 50%; top: 50%; width: 1440px; height: 900px; transform-origin: 50% 50%; }
+.dc-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #1f1913; transition: opacity .6s ease, visibility .6s; }
+.dc-splash > div { transform-origin: 50% 50%; }
+.dc-splash.done { opacity: 0; visibility: hidden; }
