@@ -1,6 +1,5 @@
 # Product
 
-<!-- impeccable:product-schema 1 -->
 
 ## Platform
 
@@ -36,7 +35,7 @@ Terminology: Photos, Drive, Home, TV, Relay (store app names); Machines (VMs/con
 
 - Name: JenerOS, by Jener, Inc. Site: jener.dev. Never use the retired "Arvey" name or AV logo.
 - Jener's binding direction (2026-10-07): monochrome black and white; fun, cute, something kids would want and the public instantly gets; in the family of arvey.co and samdanpc.com (both Jener's own sites); keep the current dashboard layout, make it functional.
-- Logo: J monogram + wordmark in `[BRAND]/logo/` (drafted by Codex, Jener will refine).
+- Logo: J monogram + wordmark in `[BRAND]/logo/` (Jener will refine).
 - Voice: friendly, plain words, no jargon on the dashboard (from samdanpc.com's "no confusing tech talk").
 
 ## Evidence on Hand
