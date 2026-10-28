@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS splash 9:16</title>
+<link rel="stylesheet" href="../../[DASHBOARD]/glass/glass.css">
+<style>
+/* Portrait cut of the boot splash: same shot, recomposed for 1080×1920. */
+html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0d0907; }
+.cm-bars { width: 1080px !important; height: 1920px !important; border-radius: 0 !important; }
+.cm-bars::before, .cm-bars::after { height: 150px; }
+.cm-cam { perspective: 1700px; perspective-origin: 50% 47%; }
+.cm-world { scale: 1.55; }
+.cm-word { font-size: 128px; }
+.cm-mark { top: 112px; font-size: 56px; }
+.cm-ui { top: 206px; }
+.cm-floor { top: 230px; }
+.cm-aurora { width: 2000px; height: 2000px; margin: -1000px 0 0 -1000px; }
+.tagline { position: fixed; z-index: 10; left: 0; right: 0; bottom: 250px; text-align: center; font: 700 44px/1.2 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; color: #f6f1e7; opacity: 0; animation: tag 10s ease infinite; }
+.tagline small { display: block; margin-top: 14px; font-size: 30px; font-weight: 700; color: #e8957a; }
+@keyframes tag { 0%, 76% { opacity: 0; transform: translateY(24px); filter: blur(8px); } 83%, 95% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="../../[DASHBOARD]/glass/dc-runtime.js"></script>
+<script src="../../[DASHBOARD]/glass/components.js"></script>
+<script>
+window.host = DC.mount('Splash', document.getElementById('stage'));
+const tag = document.createElement('div');
+tag.className = 'tagline';
+tag.innerHTML = 'Your stuff lives at home.<small>jener.dev</small>';
+document.body.append(tag);
+// For frame-by-frame rendering: freeze every animation at time t (ms).
+window.seek = (t) => {
+  clearInterval(host.inst.t);
+  host.inst.setState({ step: Math.min(4, Math.floor(Math.max(0, t - 7600) / 520)) });
+  return new Promise((r) => queueMicrotask(() => { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t; }); requestAnimationFrame(() => requestAnimationFrame(r)); }));
+};
+</script>
+</body>
+</html>

@@ -607,3 +607,27 @@ thead th { color: var(--soft); font-size: .9rem; }
   .site-header, .site-footer, .hero-art, .skip { display: none; }
   body { background: #fff; color: #000; }
 }
+
+/* JenerOS Glass film: the 9:16 start-up video beside its copy */
+.film-split {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+.film { margin: 0; justify-self: center; width: min(100%, 340px); }
+.film video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: 28px;
+  background: #0d0907;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow), 0 30px 80px rgb(217 119 87 / 18%);
+}
+.film figcaption { margin-top: .8rem; text-align: center; font-size: .9rem; color: var(--soft, inherit); }
+@media (max-width: 760px) {
+  .film-split { grid-template-columns: minmax(0, 1fr); }
+  .film { width: min(100%, 300px); }
+}

@@ -762,3 +762,17 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
 - **`glass/dc-runtime.js`:** elements from different `sc-if` branches no longer patch into each other, so switching a section remounts it and its entrance plays.
 - **Files:** design sources are in `glass/design/`, regenerated with `glass/port.py`. The mockup artifact is updated too.
 - **Tested** in Chromium with the box CSP, with no console errors.
+
+## 2026-10-28 - Claude - Splash film with ElevenLabs sound; website shows JenerOS Glass
+
+- **9:16 start-up film:** `.scratch/splash-916/` renders it frame by frame with `render.mjs`.
+  - Voice by ElevenLabs (Sterling voice, eleven_v4): "Private." / "Yours." / "JenerOS. Your stuff lives at home."
+  - Three ElevenLabs sound effects (spark, impact, glass lock) and an ElevenLabs Music v2.5 trailer bed
+  - Mixed with ffmpeg: the music ducks under the voice, loudness is -13.7 LUFS
+  - Output: `[SITE]/assets/video/jeneros-splash-9x16.mp4`, 1080×1920, 60 fps, 10 s
+- **Website, home page:**
+  - new "Meet JenerOS Glass" section with the film
+  - the Home and App Store screenshots are replaced with JenerOS Glass captures, in light and dark at 1x and 2x (`assets/shots/glass-*.webp`); the caption says widgets show sample data
+- **Website, preview tour:** the dashboard, settings and store screens are swapped for the glass captures, and the film is linked.
+- **Screenshot capture:** `.scratch/site-shots/shots.mjs`.
+- **Not changed:** og-image, about and download pages.
