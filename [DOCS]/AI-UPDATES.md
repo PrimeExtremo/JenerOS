@@ -766,7 +766,7 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
 ## 2026-10-28 - Claude - Splash film with ElevenLabs sound; website shows JenerOS Glass
 
 - **9:16 start-up film:** `.scratch/splash-916/` renders it frame by frame with `render.mjs`.
-  - Voice by ElevenLabs (Sterling voice, eleven_v4): "Private." / "Yours." / "JenerOS. Your stuff lives at home."
+  - No voiceover (removed at the user's request); sound is music and effects only
   - Three ElevenLabs sound effects (spark, impact, glass lock) and an ElevenLabs Music v2.5 trailer bed
   - Mixed with ffmpeg: the music ducks under the voice, loudness is -13.7 LUFS
   - Output: `[SITE]/assets/video/jeneros-splash-9x16.mp4`, 1080×1920, 60 fps, 10 s
