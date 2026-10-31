@@ -815,3 +815,19 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
   - the finale type zooms in over a morphing blob
 - **Fallbacks:** browsers without scroll timelines get the static layout, and reduced motion gets a still page.
 - **Tested** at 1440×900 and 375×812, with no horizontal scroll.
+
+## 2026-10-31 - Claude - Portfolio remade to the installed skills
+
+The portfolio was audited against the redesign (taste), web-interface-guidelines, motion-design, stop-slop and apple-design skills, then fixed.
+
+- **Colour:** one accent (the purple aurora stop is gone), and no red/blue fringes on the type.
+- **Opening:** content lands at about 1.6 s instead of 3 s, and headline staggers stay under 500 ms.
+- **Motion:** scroll-driven moves use easing instead of linear.
+- **Layout and controls:**
+  - the portrait is a squircle
+  - the skills are an offset two-column layout instead of an even four-card row
+  - secondary actions are text links instead of ghost buttons
+  - buttons have press and hover states
+- **Reading and wrapping:** smooth scroll (off for reduced motion), balanced and pretty text wrapping, 60ch line length, safe-area padding.
+- **Copy:** rewritten to be plain and specific ("I build every layer myself", "Have a project in mind?").
+- **Social preview:** a PNG og image (`assets/og-jener.png`) using a large-image card.
