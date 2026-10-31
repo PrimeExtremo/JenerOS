@@ -6,8 +6,7 @@
 <title>Jener · Software, from the OS to the pixels</title>
 <meta name="description" content="Jener builds software end to end: JenerOS, an open-source home server operating system with its own liquid-glass dashboard, and tools for small home hardware.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1F1913" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0d0907">
 <link rel="canonical" href="https://jener.dev/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="32x32">
@@ -25,6 +24,21 @@
 </head>
 <body class="folio">
 <a class="skip" href="#main">Skip to content</a>
+
+<!-- Opening title sequence: plays once on load, then gets out of the way. -->
+<div class="intro" aria-hidden="true">
+  <div class="intro-spark"></div>
+  <div class="intro-word">
+    <span style="--i:0">J</span><span style="--i:1">E</span><span style="--i:2">N</span><span style="--i:3">E</span><span style="--i:4">R</span>
+  </div>
+  <div class="intro-sub">software · systems · motion</div>
+</div>
+
+<div class="sky" aria-hidden="true">
+  <div class="sky-aurora"></div>
+  <div class="sky-grid"></div>
+  <div class="sky-grain"></div>
+</div>
 
 <header class="site-header">
   <div class="wrap bar">
@@ -48,7 +62,10 @@
     <div class="wrap me-grid">
       <div class="me-copy">
         <p class="pill">Designer and developer</p>
-        <h1 id="me-title">Hi, I'm Jener.<br><span>I build software from the OS up to the pixels.</span></h1>
+        <h1 id="me-title">
+          <span class="line"><span class="word" style="--i:0">Hi,</span> <span class="word" style="--i:1">I'm</span> <span class="word accent" style="--i:2">Jener.</span></span>
+          <span class="line sub"><span class="word" style="--i:3">I</span> <span class="word" style="--i:4">build</span> <span class="word" style="--i:5">software</span> <span class="word" style="--i:6">from</span> <span class="word" style="--i:7">the</span> <span class="word" style="--i:8">OS</span> <span class="word" style="--i:9">up</span> <span class="word" style="--i:10">to</span> <span class="word" style="--i:11">the</span> <span class="word" style="--i:12">pixels.</span></span>
+        </h1>
         <p class="lede">I make whole products on my own: the Linux system that boots, the Go service behind it, the dashboard people touch, and the motion, film and sound that introduce it.</p>
         <div class="actions">
           <a class="btn btn-primary" href="https://github.com/PrimeExtremo">
@@ -58,86 +75,115 @@
           <a class="btn btn-ghost" href="#work">See my work</a>
         </div>
       </div>
-      <figure class="me-photo">
-        <img src="assets/jener.webp" srcset="assets/jener.webp 480w, assets/jener@2x.webp 960w" sizes="(min-width: 900px) 420px, 70vw" width="480" height="480" alt="Illustrated portrait of Jener: short brown hair, black t-shirt, looking up with a small smile.">
-      </figure>
+      <div class="me-stage" aria-hidden="false">
+        <div class="me-orbit">
+          <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+          <span class="shard s1"></span><span class="shard s2"></span><span class="shard s3"></span><span class="shard s4"></span><span class="shard s5"></span><span class="shard s6"></span>
+          <figure class="me-photo">
+            <img src="assets/jener.webp" srcset="assets/jener.webp 480w, assets/jener@2x.webp 960w" sizes="(min-width: 900px) 420px, 70vw" width="480" height="480" alt="Illustrated portrait of Jener: short brown hair, black t-shirt, looking up with a small smile.">
+          </figure>
+        </div>
+      </div>
     </div>
+    <a class="scroll-cue" href="#statement"><span>Scroll</span></a>
   </section>
 
-  <section class="section" id="work" aria-labelledby="work-title">
+  <section class="statement" id="statement" aria-label="What I believe">
+    <p class="big-type">
+      <span class="w">Software</span> <span class="w">should</span> <span class="w">feel</span> <span class="w hot">alive.</span><br>
+      <span class="w">Every</span> <span class="w">layer,</span> <span class="w">from</span> <span class="w">the</span> <span class="w hot">boot</span> <span class="w hot">loader</span><br>
+      <span class="w">to</span> <span class="w">the</span> <span class="w">last</span> <span class="w hot">pixel.</span>
+    </p>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="row r-a"><span>Systems · Backend · Interface · Motion · Film · Sound · </span><span>Systems · Backend · Interface · Motion · Film · Sound · </span></div>
+    <div class="row r-b"><span>Linux · Go · JavaScript · CSS 3D · ffmpeg · Debian · </span><span>Linux · Go · JavaScript · CSS 3D · ffmpeg · Debian · </span></div>
+  </div>
+
+  <section class="section work" id="work" aria-labelledby="work-title">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="eyebrow">Selected work</span>
         <h2 id="work-title">Projects</h2>
         <p>Open source on GitHub. Everything below was designed and built by me.</p>
       </div>
 
-      <article class="project project-feature">
-        <div class="project-media">
-          <video controls playsinline preload="none" poster="assets/video/jeneros-preview-glass-9x16-poster.jpg" width="1080" height="1920" aria-label="JenerOS Glass preview, 15 seconds">
-            <source src="assets/video/jeneros-preview-glass-9x16.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="project-copy">
-          <span class="eyebrow">Operating system · Flagship</span>
-          <h3>JenerOS</h3>
-          <p class="project-lede">A free home server OS that turns an old PC into a private cloud for photos, files, movies and the smart home.</p>
-          <ul class="checks">
-            <li>Read-only, tamper-checked Debian 13 system with A/B updates that roll themselves back</li>
-            <li>Go service with owner login, storage wizard and an app runtime</li>
-            <li>JenerOS Glass: a liquid-glass dashboard with 3D cinematic motion, built under a strict CSP</li>
-            <li>Phone setup by QR code, a product website and launch films</li>
-          </ul>
-          <ul class="tags" aria-label="Built with">
-            <li>Debian</li><li>Go</li><li>JavaScript</li><li>CSS 3D</li><li>systemd</li><li>dm-verity</li>
-          </ul>
-          <div class="actions">
-            <a class="btn btn-primary" href="jeneros.html">Project page</a>
-            <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">Code on GitHub</a>
+      <div class="depth">
+        <article class="project project-feature fly">
+          <div class="project-media">
+            <video controls playsinline preload="none" poster="assets/video/jeneros-preview-glass-9x16-poster.jpg" width="1080" height="1920" aria-label="JenerOS Glass preview, 15 seconds">
+              <source src="assets/video/jeneros-preview-glass-9x16.mp4" type="video/mp4">
+            </video>
           </div>
-        </div>
-      </article>
-
-      <div class="shots-strip" aria-label="JenerOS Glass screens">
-        <picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-home.webp"><img src="assets/shots/glass-home-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="JenerOS Glass home screen with widgets and app icons."></picture>
-        <picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-apps.webp"><img src="assets/shots/glass-apps-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Per-app manager in JenerOS Settings."></picture>
-        <picture><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-store.webp"><img src="assets/shots/glass-store-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS App Store window."></picture>
+          <div class="project-copy">
+            <span class="eyebrow">Operating system · Flagship</span>
+            <h3>JenerOS</h3>
+            <p class="project-lede">A free home server OS that turns an old PC into a private cloud for photos, files, movies and the smart home.</p>
+            <ul class="checks">
+              <li>Read-only, tamper-checked Debian 13 system with A/B updates that roll themselves back</li>
+              <li>Go service with owner login, storage wizard and an app runtime</li>
+              <li>JenerOS Glass: a liquid-glass dashboard with 3D cinematic motion, built under a strict CSP</li>
+              <li>Phone setup by QR code, a product website and launch films</li>
+            </ul>
+            <ul class="tags" aria-label="Built with">
+              <li>Debian</li><li>Go</li><li>JavaScript</li><li>CSS 3D</li><li>systemd</li><li>dm-verity</li>
+            </ul>
+            <div class="actions">
+              <a class="btn btn-primary" href="jeneros.html">Project page</a>
+              <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/JenerOS">Code on GitHub</a>
+            </div>
+          </div>
+        </article>
       </div>
+    </div>
 
-      <article class="project">
-        <div class="project-copy">
-          <span class="eyebrow">Embedded · Tooling</span>
-          <h3>UmbrelOS on the Home Assistant Green</h3>
-          <p class="project-lede">Getting UmbrelOS 2.0 onto the Home Assistant Green's internal eMMC (Rockchip RK3566), a board it was never made for, with a repeatable installer and safety checks so the device can't be bricked.</p>
-          <ul class="tags" aria-label="Built with">
-            <li>PowerShell</li><li>Linux</li><li>ARM64</li>
-          </ul>
-          <div class="actions">
-            <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/umbrelos-green">Code on GitHub</a>
+    <div class="gallery" aria-label="JenerOS Glass screens">
+      <div class="gallery-ring">
+        <picture class="g g1"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-home.webp"><img src="assets/shots/glass-home-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="JenerOS Glass home screen with widgets and app icons."></picture>
+        <picture class="g g2"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-apps.webp"><img src="assets/shots/glass-apps-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Per-app manager in JenerOS Settings."></picture>
+        <picture class="g g3"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-store.webp"><img src="assets/shots/glass-store-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS App Store window."></picture>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="depth">
+        <article class="project fly">
+          <div class="project-copy">
+            <span class="eyebrow">Embedded · Tooling</span>
+            <h3>UmbrelOS on the Home Assistant Green</h3>
+            <p class="project-lede">Getting UmbrelOS 2.0 onto the Home Assistant Green's internal eMMC (Rockchip RK3566), a board it was never made for, with a repeatable installer and safety checks so the device can't be bricked.</p>
+            <ul class="tags" aria-label="Built with">
+              <li>PowerShell</li><li>Linux</li><li>ARM64</li>
+            </ul>
+            <div class="actions">
+              <a class="btn btn-ghost" href="https://github.com/PrimeExtremo/umbrelos-green">Code on GitHub</a>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </div>
   </section>
 
   <section class="section" id="skills" aria-labelledby="skills-title">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="eyebrow">What I do</span>
         <h2 id="skills-title">From the boot loader to the brand</h2>
       </div>
-      <div class="grid skills">
-        <article class="card"><h3>Systems</h3><p>Linux images, read-only roots, verified boot, A/B updates and rollback, ARM boards.</p></article>
-        <article class="card"><h3>Backend</h3><p>Go services, local APIs, authentication, storage management and root workers.</p></article>
-        <article class="card"><h3>Interface</h3><p>Hand-built HTML, CSS and JavaScript: glass materials, 3D motion, accessible and fast.</p></article>
-        <article class="card"><h3>Brand and film</h3><p>Logos, product sites, frame-perfect launch videos, sound design and music.</p></article>
+      <div class="grid skills depth">
+        <article class="card fan" style="--n:0"><span class="card-no">01</span><h3>Systems</h3><p>Linux images, read-only roots, verified boot, A/B updates and rollback, ARM boards.</p></article>
+        <article class="card fan" style="--n:1"><span class="card-no">02</span><h3>Backend</h3><p>Go services, local APIs, authentication, storage management and root workers.</p></article>
+        <article class="card fan" style="--n:2"><span class="card-no">03</span><h3>Interface</h3><p>Hand-built HTML, CSS and JavaScript: glass materials, 3D motion, accessible and fast.</p></article>
+        <article class="card fan" style="--n:3"><span class="card-no">04</span><h3>Brand and film</h3><p>Logos, product sites, frame-perfect launch videos, sound design and music.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="contact-title">
+  <section class="section finale" aria-labelledby="contact-title">
+    <div class="blob" aria-hidden="true"></div>
     <div class="wrap cta">
-      <h2 id="contact-title">Let's build something</h2>
+      <h2 id="contact-title" class="finale-type">Let's build<br>something.</h2>
       <p>The best way to reach me is on GitHub.</p>
       <div class="actions">
         <a class="btn btn-primary" href="https://github.com/PrimeExtremo">Find me on GitHub</a>

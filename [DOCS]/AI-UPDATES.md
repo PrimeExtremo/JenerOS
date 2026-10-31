@@ -798,3 +798,20 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
 - **JenerOS page moved:** the product page is now `jeneros.html` (canonical `/jeneros`). The navigation on every page links back to "Jener", and the sitemap is updated.
 - **Git history:** rewritten to remove every Claude co-author line and Claude credit, then force-pushed to main. A backup branch `backup-before-attribution-strip` is kept locally only.
 - **Claude Code settings:** commit and PR attribution are turned off.
+
+## 2026-10-31 - Claude - Cinematic portfolio
+
+`[SITE]/index.html` and `assets/portfolio.css` were rebuilt as a cinematic page with no JavaScript, so the site CSP stays `script-src 'none'`.
+
+- **Opening titles:** a spark stretches into a light streak, JENER flips up letter by letter, then the letterbox bars open.
+- **Hero:** the portrait floats in a 3D orbit of rings and glass shards, and the headline rises word by word.
+- **Scroll-driven camera** (`animation-timeline: view()`):
+  - the hero pulls back into depth
+  - the statement's giant type rises word by word
+  - a two-row marquee slides both ways
+  - project cards fly in from depth
+  - a curved 3D wall of JenerOS screens swings past
+  - the skill cards fan up one by one
+  - the finale type zooms in over a morphing blob
+- **Fallbacks:** browsers without scroll timelines get the static layout, and reduced motion gets a still page.
+- **Tested** at 1440×900 and 375×812, with no horizontal scroll.
