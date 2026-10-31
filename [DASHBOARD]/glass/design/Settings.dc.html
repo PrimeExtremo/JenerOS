@@ -139,7 +139,7 @@ body{margin:0;overflow:hidden}
         <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
           <div class="st-card" style="{{card}}">
             <div class="st-row"><span style="font-weight: 700">Ethernet</span><span style="{{okTag}}">Connected</span></div>
-            <div class="st-row"><span>Address</span><span style="opacity: .75">[box IP]</span></div>
+            <div class="st-row"><span>Address</span><span style="opacity: .75">192.168.1.42</span></div>
             <div class="st-row"><span>Name on your network</span><span style="opacity: .75">{{hostname}}</span></div>
           </div>
           <div class="st-card" style="{{card}}">
@@ -226,7 +226,7 @@ body{margin:0;overflow:hidden}
           </div>
           <div class="st-card" style="{{card}}">
             <div class="st-row"><span style="font-weight: 700">Encrypted connection</span><span style="{{okTag}}">HTTPS on</span></div>
-            <p class="st-help">Certificate fingerprint: [fingerprint]. Check it matches the one on your box's screen the first time you connect.</p>
+            <p class="st-help">Certificate fingerprint: 5C 1E 9B 04 … 7D A9. Check it matches the one on your box's screen the first time you connect.</p>
           </div>
         </div>
       </sc-if>
@@ -234,7 +234,7 @@ body{margin:0;overflow:hidden}
       <sc-if value="{{is.updates}}" hint-placeholder-val="{{false}}">
         <div class="st-page" style="display: flex; flex-direction: column; gap: 14px">
           <div class="st-card" style="{{card}}">
-            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">JenerOS [version]</span><span style="font-size: 13px; opacity: .7">{{updateText}}</span></div>
+            <div class="st-row"><div style="display: flex; flex-direction: column"><span style="font-weight: 700">JenerOS 0.4.0</span><span style="font-size: 13px; opacity: .7">{{updateText}}</span></div>
               <button class="st-btn" onClick="{{checkUpdates}}" disabled="{{checking}}" style="{{pill}}">Check now</button></div>
             <div class="st-row"><span>Install updates automatically</span><button class="st-btn" role="switch" aria-checked="{{t.autoUpdate.on}}" aria-label="Install updates automatically" onClick="{{t.autoUpdate.flip}}" style="{{t.autoUpdate.track}}"><span style="{{t.autoUpdate.knob}}"></span></button></div>
             <p class="st-help">Updates are signed and checked before they install. If one fails to start, JenerOS goes back to the previous version by itself.</p>

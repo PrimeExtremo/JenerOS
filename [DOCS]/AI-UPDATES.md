@@ -850,3 +850,13 @@ The portfolio was audited against the redesign (taste), web-interface-guidelines
   - `privacy.html` names Cloudflare's processing and uses hello@jener.dev
   - open question for the owner: the site says "Jener, Inc." in several places
 - **Email:** iCloud+ custom domain on jener.dev with MX, SPF, DKIM and DMARC (`p=quarantine`). Receiving is verified; the first send from hello@ did not arrive in Gmail.
+
+## 2026-10-31 - Claude - Portfolio: mustard redesign rejected, cinematic version kept and cleaned
+
+- **Rejected redesign:** a taste-skill "pinned poster" redesign (mustard, Big Shoulders) was built and inspected locally, then rejected by the owner. It was never deployed, and its files were removed. The design brief stays in `[DOCS]/reviews/portfolio/DESIGN-BRIEF.md` for reference.
+- **Cinematic version kept, with fixes that keep its look:**
+  - the Pause motion button is removed, since the page relies on the system reduce-motion setting
+  - no small labels above headings, and no 01–04 card numbers
+  - the intro line and scroll cue are in sentence case
+  - JenerOS carries an "early preview" status
+- **Dashboard design files:** every bracketed placeholder ([kWh], [photos], [box IP]…) is replaced with sample values. All site and README screenshots were recaptured, and `.scratch/site-shots/crops.sh` rebuilds them.
