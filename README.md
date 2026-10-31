@@ -27,7 +27,17 @@
   <a href="https://jener.dev">jener.dev</a>
 </p>
 
-<!-- screenshots: docs/readme/dashboard-light.png, dashboard-dark.png -->
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="%5BDOCS%5D/screenshots/glass-home.webp"><img src="%5BDOCS%5D/screenshots/glass-home-light.webp" width="860" alt="JenerOS Glass home screen: a greeting, liquid-glass widgets and floating app icons"></picture>
+</p>
+
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="%5BDOCS%5D/screenshots/glass-settings.webp"><img src="%5BDOCS%5D/screenshots/glass-settings-light.webp" width="280" alt="Settings window with sections on the left"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="%5BDOCS%5D/screenshots/glass-apps.webp"><img src="%5BDOCS%5D/screenshots/glass-apps-light.webp" width="280" alt="Per-app manager: start, stop, update, back up, memory limit and port"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="%5BDOCS%5D/screenshots/glass-store.webp"><img src="%5BDOCS%5D/screenshots/glass-store-light.webp" width="280" alt="App Store window with categories, a featured banner and popular apps"></picture>
+</p>
+
+<p align="center"><sub>The new JenerOS Glass dashboard. Early preview: widgets and apps show sample data. Screenshots follow your light or dark mode.</sub></p>
 
 > [!WARNING]
 > **Early preview.** JenerOS boots, shows a live dashboard, updates itself and rolls back bad updates. Most apps are still on the way. There is **no login yet**, so anyone on your home network can open the dashboard. Keep it off the internet, and don't trust it with your only copy of anything.

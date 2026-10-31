@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JenerOS Glass preview 9:16</title>
+<style>
+/* A 15-second 9:16 tour of the real JenerOS Glass screens.
+   Every animation runs once with a delay, so seek(t) can freeze any frame. */
+@font-face { font-family: "Bricolage Grotesque"; src: url("../../[DASHBOARD]/fonts/bricolage-grotesque-700.woff2") format("woff2"); font-weight: 400 800; }
+html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0d0907; color: #f6f1e7; font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+* { animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+*, *::after { animation-fill-mode: both !important; }
+.bg { position: absolute; inset: -10%; background: url("../../[DASHBOARD]/glass-assets/a660d335a6a1a88e203551e9f8742a06.svg") center / cover; opacity: .55; animation: bgdrift 15s linear; }
+@keyframes bgdrift { from { transform: scale(1.25) rotate(-4deg); } to { transform: scale(1.05) rotate(3deg); } }
+.aurora { position: absolute; left: 50%; top: 40%; width: 1800px; height: 1800px; margin: -900px; border-radius: 50%; background: conic-gradient(from 0deg, rgba(217,119,87,.4), rgba(124,80,53,.1), rgba(229,178,139,.32), rgba(217,119,87,.4)); filter: blur(170px); mix-blend-mode: screen; animation: spin 15s linear; }
+@keyframes spin { to { transform: rotate(240deg); } }
+.vignette { position: absolute; inset: 0; background: radial-gradient(70% 55% at 50% 45%, rgba(13,9,7,0), rgba(13,9,7,.85)); }
+.grain { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.05) .6px, transparent .8px); background-size: 3px 3px; }
+
+.cam { position: absolute; inset: 0; perspective: 1600px; perspective-origin: 50% 42%; }
+.panel { position: absolute; left: 50%; top: 800px; width: 980px; height: 612px; margin: -306px 0 0 -490px; border-radius: 30px; overflow: hidden; opacity: 0;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 50px 120px rgba(0,0,0,.6), 0 0 120px rgba(217,119,87,.18);
+  -webkit-box-reflect: below 24px linear-gradient(transparent 70%, rgba(255,255,255,.14)); }
+.panel img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.panel::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.22) 45%, rgba(255,255,255,0) 60%); transform: translateX(-120%); animation: inherit; animation-name: sheen; }
+@keyframes sheen { 0%, 25% { transform: translateX(-120%); } 55%, 100% { transform: translateX(120%); } }
+
+/* title: 0 - 2.6 s */
+.title { position: absolute; left: 0; right: 0; top: 620px; text-align: center; }
+.title small { display: block; font-size: 54px; font-weight: 700; color: #e8957a; letter-spacing: -.01em; animation: tsmall 2.6s 0s; }
+@keyframes tsmall { 0% { opacity: 0; transform: translateY(30px); filter: blur(10px); } 20%, 78% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; transform: translateY(-40px); filter: blur(10px); } }
+.title .big { display: flex; justify-content: center; font-size: 150px; font-weight: 800; letter-spacing: -.045em; line-height: 1.05; perspective: 900px; }
+.title .big span { display: inline-block; transform-origin: 50% 100%; animation: tchar 2.6s var(--d); text-shadow: 0 18px 50px rgba(0,0,0,.5); }
+@keyframes tchar { 0% { opacity: 0; transform: translateY(80px) rotateX(-90deg); filter: blur(12px); } 26%, 74% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; transform: translateZ(600px); filter: blur(14px); } }
+.title .big .w2 { color: #ffd9c4; }
+.title .sp { width: .28em; }
+
+/* panels */
+.p-home { animation: home 3.4s 2.1s; }
+@keyframes home { 0% { opacity: 0; transform: translateZ(-1600px) rotateY(-40deg) rotateX(12deg); } 24% { opacity: 1; transform: rotateY(-10deg) rotateX(4deg); } 86% { opacity: 1; transform: translateZ(160px) rotateY(9deg) rotateX(-2deg); } 100% { opacity: 0; transform: translateX(-120%) translateZ(-200px) rotateY(55deg); } }
+.p-apps { animation: apps 3.2s 5.1s; }
+@keyframes apps { 0% { opacity: 0; transform: translateY(700px) rotateX(75deg); } 26% { opacity: 1; transform: rotateX(6deg); } 86% { opacity: 1; transform: translateZ(140px) rotateX(-6deg) rotateZ(-1deg); } 100% { opacity: 0; transform: translateZ(1300px); } }
+.p-store { animation: store 3.2s 7.9s; }
+@keyframes store { 0% { opacity: 0; transform: translateZ(-2200px) rotateZ(-8deg); } 26% { opacity: 1; transform: rotateY(7deg); } 86% { opacity: 1; transform: translateZ(120px) rotateY(-9deg) rotateZ(1deg); } 100% { opacity: 0; transform: translateY(-130%) rotateX(-45deg); } }
+.p-dark { animation: darkp 2.9s 10.7s; }
+.p-light { animation: lightp 2.9s 10.7s; clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+@keyframes darkp { 0% { opacity: 0; transform: translateX(110%) rotateY(-50deg); } 22% { opacity: 1; transform: rotateY(-6deg); } 88% { opacity: 1; transform: translateZ(80px) rotateY(6deg); } 100% { opacity: 0; transform: translateZ(-400px); } }
+@keyframes lightp { 0% { opacity: 0; transform: translateX(110%) rotateY(-50deg); clip-path: polygon(0 0, 0 0, -30% 100%, -30% 100%); } 22%, 34% { opacity: 1; transform: rotateY(-6deg); clip-path: polygon(0 0, 0 0, -30% 100%, -30% 100%); } 62% { clip-path: polygon(0 0, 130% 0, 100% 100%, -30% 100%); } 88% { opacity: 1; transform: translateZ(80px) rotateY(6deg); clip-path: polygon(0 0, 130% 0, 100% 100%, -30% 100%); } 100% { opacity: 0; transform: translateZ(-400px); clip-path: polygon(0 0, 130% 0, 100% 100%, -30% 100%); } }
+.brush { position: absolute; left: 50%; top: 800px; width: 220px; height: 760px; margin: -380px 0 0 -110px; border-radius: 110px; background: linear-gradient(90deg, rgba(246,241,231,0), #f6f1e7 40%, #fff 55%, rgba(246,241,231,0)); filter: blur(6px); opacity: 0; animation: brush 2.9s 10.7s; }
+@keyframes brush { 0%, 32% { opacity: 0; transform: translateX(-700px) rotate(14deg); } 36% { opacity: .9; } 60% { opacity: .9; transform: translateX(700px) rotate(14deg); } 64%, 100% { opacity: 0; transform: translateX(760px) rotate(14deg); } }
+
+/* finale: 13.4 - 15 s */
+.fan { position: absolute; inset: 0; transform-style: preserve-3d; }
+.fan .panel { width: 640px; height: 400px; margin: -200px 0 0 -320px; top: 700px; animation: fan 1.6s calc(13.3s + var(--i) * .07s); }
+@keyframes fan { 0% { opacity: 0; transform: translateZ(-900px) rotateY(0); } 70%, 100% { opacity: 1; transform: translateX(var(--x)) translateZ(var(--z)) rotateY(var(--r)); } }
+.final { position: absolute; left: 0; right: 0; top: 1060px; text-align: center; animation: final 1.4s 13.6s; }
+.final img { width: 120px; height: 120px; filter: drop-shadow(0 0 30px rgba(255,214,190,.6)); }
+.final h2 { margin: 18px 0 0; font-size: 112px; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+.final p { margin: 18px 0 0; font-size: 46px; font-weight: 700; color: #e8957a; }
+@keyframes final { 0% { opacity: 0; transform: translateY(60px) scale(.9); filter: blur(12px); } 60%, 100% { opacity: 1; transform: none; filter: none; } }
+
+/* captions */
+.cap { position: absolute; left: 70px; right: 70px; top: 1330px; text-align: center; font-size: 84px; font-weight: 800; letter-spacing: -.035em; line-height: 1.05; opacity: 0; animation: cap var(--len) var(--at); }
+.cap small { display: block; margin-top: 20px; font-size: 40px; font-weight: 700; letter-spacing: -.01em; color: rgba(246,241,231,.72); }
+@keyframes cap { 0% { opacity: 0; transform: translateY(50px); filter: blur(12px); } 18%, 84% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; transform: translateY(-30px); filter: blur(10px); } }
+.chip { position: absolute; left: 50%; top: 250px; transform: translateX(-50%); padding: 18px 34px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); backdrop-filter: blur(12px); font-size: 34px; font-weight: 700; white-space: nowrap; animation: chip 12.2s 2.2s; }
+@keyframes chip { 0% { opacity: 0; transform: translate(-50%, -30px); } 6%, 92% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -30px); } }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="aurora"></div>
+<div class="vignette"></div>
+
+<div class="title">
+  <small>Meet the new</small>
+  <div class="big"><span style="--d:.00s">J</span><span style="--d:.04s">e</span><span style="--d:.08s">n</span><span style="--d:.12s">e</span><span style="--d:.16s">r</span><span style="--d:.20s">O</span><span style="--d:.24s">S</span></div>
+  <div class="big"><span class="w2" style="--d:.30s">G</span><span class="w2" style="--d:.34s">l</span><span class="w2" style="--d:.38s">a</span><span class="w2" style="--d:.42s">s</span><span class="w2" style="--d:.46s">s</span></div>
+</div>
+
+<div class="chip">Early preview · sample data</div>
+
+<div class="cam">
+  <div class="panel p-home"><img src="../site-shots/out/glass-home.png" alt=""></div>
+  <div class="panel p-apps"><img src="../site-shots/out/glass-apps.png" alt=""></div>
+  <div class="panel p-store"><img src="../site-shots/out/glass-store.png" alt=""></div>
+  <div class="panel p-dark"><img src="../site-shots/out/glass-home.png" alt=""></div>
+  <div class="panel p-light"><img src="../site-shots/out/glass-home-light.png" alt=""></div>
+  <div class="brush"></div>
+  <div class="fan">
+    <div class="panel" style="--i:0; --x:-300px; --z:-260px; --r:28deg"><img src="../site-shots/out/glass-store.png" alt=""></div>
+    <div class="panel" style="--i:1; --x:300px; --z:-260px; --r:-28deg"><img src="../site-shots/out/glass-apps-light.png" alt=""></div>
+    <div class="panel" style="--i:2; --x:0px; --z:-60px; --r:0deg"><img src="../site-shots/out/glass-home.png" alt=""></div>
+  </div>
+</div>
+
+<div class="cap" style="--at:2.5s; --len:3s">Your home, at a glance.<small>Glass widgets you can move and resize</small></div>
+<div class="cap" style="--at:5.5s; --len:2.8s">Every app, under control.<small>Start, stop, update and back up</small></div>
+<div class="cap" style="--at:8.3s; --len:2.8s">Pick the apps you want.<small>A whole store, one tap away</small></div>
+<div class="cap" style="--at:11.1s; --len:2.4s">Light or dark.<small>Painted across the screen</small></div>
+
+<div class="final">
+  <img src="../../[SITE]/assets/logo/j-monogram-light.svg" alt="">
+  <h2>JenerOS</h2>
+  <p>jener.dev</p>
+</div>
+<div class="grain"></div>
+<script>
+window.seek = (t) => new Promise((r) => { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t; }); requestAnimationFrame(() => requestAnimationFrame(r)); });
+</script>
+</body>
+</html>

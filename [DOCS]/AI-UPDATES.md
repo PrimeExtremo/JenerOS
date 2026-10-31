@@ -776,3 +776,12 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
 - **Website, preview tour:** the dashboard, settings and store screens are swapped for the glass captures, and the film is linked.
 - **Screenshot capture:** `.scratch/site-shots/shots.mjs`.
 - **Not changed:** og-image, about and download pages.
+
+## 2026-10-31 - Claude - Website preview reel replaces the boot-splash film; README screenshots
+
+- **New preview reel:** `.scratch/preview-916/` is a 15 s, 9:16 tour of the real JenerOS Glass screens.
+  - It runs the title, then Home, the app manager, the App Store, the light/dark paint wipe, then the ending.
+  - It has its own ElevenLabs Music v2.5 soundtrack at -14 LUFS.
+  - It is rendered frame by frame with `render.mjs`.
+- **Website:** the "Meet JenerOS Glass" section and the tour page now use `assets/video/jeneros-preview-glass-9x16.mp4`. The boot-splash film was removed from the site.
+- **README:** a JenerOS Glass gallery (home, settings, app manager, store) that follows light/dark mode. The images are in `[DOCS]/screenshots/`.
