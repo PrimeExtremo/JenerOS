@@ -831,3 +831,22 @@ The portfolio was audited against the redesign (taste), web-interface-guidelines
 - **Reading and wrapping:** smooth scroll (off for reduced motion), balanced and pretty text wrapping, 60ch line length, safe-area padding.
 - **Copy:** rewritten to be plain and specific ("I build every layer myself", "Have a project in mind?").
 - **Social preview:** a PNG og image (`assets/og-jener.png`) using a large-image card.
+
+## 2026-10-31 - Claude - Cross-reviewed portfolio, security headers, legal page, hello@jener.dev
+
+- **Review:** Codex, Cursor (via `agent.cmd -p`) and Gemini were asked for adversarial reviews. Rounds are logged in `[DOCS]/reviews/portfolio/`. Codex gave SHIP in round 4, and Cursor's remaining points were fixed through round 6. Gemini's connector returned empty responses.
+- **Fixes:**
+  - hello@jener.dev is the main contact
+  - JenerOS is labelled an early preview with a sample-data note, and the hardware claim is softened
+  - heavy animated blur and spinning layers are removed
+  - CSS-only "Pause motion" toggle, which pauses ambient loops, stops scroll animations and swaps the film for a still
+  - an unclosed `@supports` block is fixed
+  - inline style attributes are removed, because the CSP blocked them, so the staggers broke live
+  - dark-only screens; phones show all three screens stacked
+- **Film:** autoplays muted and looping as decoration, with no controls, on the portfolio and on `/jeneros`.
+- **Security headers** (`_headers`): HSTS (1 year, subdomains), COOP and CORP same-origin, X-Permitted-Cross-Domain-Policies none.
+- **Legal:**
+  - new `legal.html` covering terms of use, no warranty, unofficial hardware guides, trademarks, copyright and takedown contact; linked in every footer and the sitemap
+  - `privacy.html` names Cloudflare's processing and uses hello@jener.dev
+  - open question for the owner: the site says "Jener, Inc." in several places
+- **Email:** iCloud+ custom domain on jener.dev with MX, SPF, DKIM and DMARC (`p=quarantine`). Receiving is verified; the first send from hello@ did not arrive in Gmail.
