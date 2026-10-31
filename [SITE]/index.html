@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jener · Software, from the OS to the pixels</title>
 <meta name="description" content="Jener builds software end to end: JenerOS, an open-source home server operating system with its own liquid-glass dashboard, and tools for small home hardware.">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0d0907">
 <link rel="canonical" href="https://jener.dev/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -24,6 +24,9 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Illustrated portrait of Jener on a dark background.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jener · Software, from the OS to the pixels">
+<meta name="twitter:description" content="Builder of JenerOS, an open-source home server OS with a liquid-glass dashboard.">
+<meta name="twitter:image" content="https://jener.dev/assets/og-jener.png">
 </head>
 <body class="folio">
 <a class="skip" href="#main">Skip to content</a>
@@ -32,7 +35,7 @@
 <div class="intro" aria-hidden="true">
   <div class="intro-spark"></div>
   <div class="intro-word">
-    <span style="--i:0">J</span><span style="--i:1">E</span><span style="--i:2">N</span><span style="--i:3">E</span><span style="--i:4">R</span>
+    <span>J</span><span>E</span><span>N</span><span>E</span><span>R</span>
   </div>
   <div class="intro-sub">software · systems · motion</div>
 </div>
@@ -54,6 +57,7 @@
         <li><a href="#work">Work</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="https://github.com/PrimeExtremo">GitHub</a></li>
+        <li><a class="nav-mail" href="mailto:hello@jener.dev">Email me</a></li>
       </ul>
     </nav>
   </div>
@@ -66,8 +70,8 @@
       <div class="me-copy">
         <p class="kicker">Jener · designer and developer</p>
         <h1 id="me-title">
-          <span class="line"><span class="word" style="--i:0">Hi,</span> <span class="word" style="--i:1">I'm</span> <span class="word accent" style="--i:2">Jener.</span></span>
-          <span class="line sub"><span class="word" style="--i:3">I</span> <span class="word" style="--i:4">build</span> <span class="word" style="--i:5">software</span> <span class="word" style="--i:6">from</span> <span class="word" style="--i:7">the</span> <span class="word" style="--i:8">OS</span> <span class="word" style="--i:9">up</span> <span class="word" style="--i:10">to</span> <span class="word" style="--i:11">the</span> <span class="word" style="--i:12">pixels.</span></span>
+          <span class="line"><span class="word">Hi,</span> <span class="word">I'm</span> <span class="word accent">Jener.</span></span>
+          <span class="line sub"><span class="word">I</span> <span class="word">build</span> <span class="word">software</span> <span class="word">from</span> <span class="word">the</span> <span class="word">OS</span> <span class="word">up</span> <span class="word">to</span> <span class="word">the</span> <span class="word">pixels.</span></span>
         </h1>
         <p class="lede">I build whole products alone. The Linux system that boots, the Go service behind it, the dashboard you touch, and the film and sound that launch it.</p>
         <div class="actions">
@@ -76,6 +80,7 @@
             github.com/PrimeExtremo
           </a>
           <a class="text-link" href="#work">See my work <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="mailto:hello@jener.dev">hello@jener.dev</a>
         </div>
       </div>
       <div class="me-stage" aria-hidden="false">
@@ -116,18 +121,19 @@
       <div class="depth">
         <article class="project project-feature fly">
           <div class="project-media">
-            <video controls playsinline preload="none" poster="assets/video/jeneros-preview-glass-9x16-poster.jpg" width="1080" height="1920" aria-label="JenerOS Glass preview, 15 seconds">
+            <video class="film-live" autoplay muted loop playsinline disablepictureinpicture disableremoteplayback preload="auto" poster="assets/video/jeneros-preview-glass-9x16-poster.jpg" width="1080" height="1920" aria-hidden="true" tabindex="-1">
               <source src="assets/video/jeneros-preview-glass-9x16.mp4" type="video/mp4">
             </video>
+            <img class="film-still" src="assets/video/jeneros-preview-glass-9x16-poster.jpg" width="540" height="960" alt="JenerOS Glass home screen inside a phone-shaped frame, from the 15-second preview film.">
           </div>
           <div class="project-copy">
-            <span class="eyebrow">Operating system · Flagship</span>
+            <span class="eyebrow">Operating system · Early preview</span>
             <h3>JenerOS</h3>
             <p class="project-lede">A free home server OS that turns an old PC into a private cloud for photos, files, movies and the smart home.</p>
             <ul class="checks">
               <li>Read-only, tamper-checked Debian 13 system with A/B updates that roll themselves back</li>
               <li>Go service with owner login, storage wizard and an app runtime</li>
-              <li>JenerOS Glass: a liquid-glass dashboard with 3D cinematic motion, built under a strict CSP</li>
+              <li>JenerOS Glass: a liquid-glass dashboard with 3D motion, built under a strict CSP (currently showing sample data)</li>
               <li>Phone setup by QR code, a product website and launch films</li>
             </ul>
             <ul class="tags" aria-label="Built with">
@@ -143,10 +149,11 @@
     </div>
 
     <div class="gallery" aria-label="JenerOS Glass screens">
+      <p class="gallery-note">JenerOS Glass screens. Widgets and apps show sample data in this preview.</p>
       <div class="gallery-ring">
-        <picture class="g g1"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-home.webp"><img src="assets/shots/glass-home-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="JenerOS Glass home screen with widgets and app icons."></picture>
-        <picture class="g g2"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-apps.webp"><img src="assets/shots/glass-apps-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Per-app manager in JenerOS Settings."></picture>
-        <picture class="g g3"><source media="(prefers-color-scheme: dark)" srcset="assets/shots/glass-store.webp"><img src="assets/shots/glass-store-light.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS App Store window."></picture>
+        <picture class="g g1"><img src="assets/shots/glass-home.webp" width="1280" height="800" loading="lazy" decoding="async" alt="JenerOS Glass home screen with widgets and app icons."></picture>
+        <picture class="g g2"><img src="assets/shots/glass-apps.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Per-app manager in JenerOS Settings."></picture>
+        <picture class="g g3"><img src="assets/shots/glass-store.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The JenerOS App Store window."></picture>
       </div>
     </div>
 
@@ -156,7 +163,7 @@
           <div class="project-copy">
             <span class="eyebrow">Embedded · Tooling</span>
             <h3>UmbrelOS on the Home Assistant Green</h3>
-            <p class="project-lede">Getting UmbrelOS 2.0 onto the Home Assistant Green's internal eMMC (Rockchip RK3566), a board it was never made for, with a repeatable installer and safety checks so the device can't be bricked.</p>
+            <p class="project-lede">Getting UmbrelOS 2.0 onto the Home Assistant Green's internal eMMC (Rockchip RK3566), a board it was never made for, with a repeatable installer that checks the target disk before it writes anything.</p>
             <ul class="tags" aria-label="Built with">
               <li>PowerShell</li><li>Linux</li><li>ARM64</li>
             </ul>
@@ -173,13 +180,13 @@
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">What I do</span>
-        <h2 id="skills-title">From the boot loader to the brand</h2>
+        <h2 id="skills-title">What you can hand me</h2>
       </div>
       <div class="skills depth">
-        <article class="card fan" style="--n:0"><span class="card-no">01</span><h3>Systems</h3><p>Linux images, read-only roots, verified boot, A/B updates and rollback, ARM boards.</p></article>
-        <article class="card fan" style="--n:1"><span class="card-no">02</span><h3>Backend</h3><p>Go services, local APIs, authentication, storage management and root workers.</p></article>
-        <article class="card fan" style="--n:2"><span class="card-no">03</span><h3>Interface</h3><p>Hand-built HTML, CSS and JavaScript: glass materials, 3D motion, accessible and fast.</p></article>
-        <article class="card fan" style="--n:3"><span class="card-no">04</span><h3>Brand and film</h3><p>Logos, product sites, frame-perfect launch videos, sound design and music.</p></article>
+        <article class="card fan"><span class="card-no">01</span><h3>Systems</h3><p>Linux images, read-only roots, verified boot, A/B updates and rollback, ARM boards.</p></article>
+        <article class="card fan"><span class="card-no">02</span><h3>Backend</h3><p>Go services, local APIs, authentication, storage management and root workers.</p></article>
+        <article class="card fan"><span class="card-no">03</span><h3>Interface</h3><p>Hand-built HTML, CSS and JavaScript: glass materials, 3D motion, accessible and fast.</p></article>
+        <article class="card fan"><span class="card-no">04</span><h3>Brand and film</h3><p>Logos, product sites, frame-perfect launch videos, sound design and music.</p></article>
       </div>
     </div>
   </section>
@@ -188,9 +195,10 @@
     <div class="blob" aria-hidden="true"></div>
     <div class="wrap cta">
       <h2 id="contact-title" class="finale-type">Have a project<br>in mind?</h2>
-      <p>Message me or open an issue on GitHub. I read everything.</p>
+      <p>Email me and I reply within a couple of days. My code lives on GitHub.</p>
       <div class="actions">
-        <a class="btn btn-primary" href="https://github.com/PrimeExtremo">Message me on GitHub</a>
+        <a class="btn btn-primary" href="mailto:hello@jener.dev">hello@jener.dev</a>
+        <a class="text-link" href="https://github.com/PrimeExtremo">github.com/PrimeExtremo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -205,13 +213,16 @@
     </div>
     <nav aria-label="Footer">
       <ul>
+        <li><a href="mailto:hello@jener.dev">hello@jener.dev</a></li>
         <li><a href="https://github.com/PrimeExtremo">GitHub</a></li>
         <li><a href="jeneros.html">JenerOS</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="privacy.html">Privacy</a></li><li><a href="legal.html">Terms</a></li>
       </ul>
     </nav>
     <p class="fine">© 2026 Jener.</p>
   </div>
 </footer>
+<input class="motion-toggle" type="checkbox" id="motion-off">
+<label class="motion-label" for="motion-off"><span class="on">Pause motion</span><span class="off">Play motion</span></label>
 </body>
 </html>

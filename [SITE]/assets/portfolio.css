@@ -6,7 +6,7 @@ html:has(.folio) { overflow-x: clip; }
 /* The portfolio is always shot "at night". */
 .folio {
   --paper: #0d0907; --card: rgb(255 255 255 / 4%); --ink: #f6f1e7; --soft: #c9bfb1;
-  --line: rgb(246 241 231 / 12%); --link: #eda083; --focus: #eda083; --tint: rgb(217 119 87 / 14%);
+  --line: rgb(246 241 231 / 12%); --link: #e0896b; --focus: #d97757; --tint: rgb(217 119 87 / 14%);
   --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 24px 60px rgb(0 0 0 / 40%);
   --ease: cubic-bezier(.16, 1, .3, 1);
   color-scheme: dark; background: var(--paper); color: var(--ink); overflow-x: clip;
@@ -20,10 +20,10 @@ html:has(.folio) { overflow-x: clip; }
 .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .sky-aurora { position: absolute; left: 50%; top: 30%; width: 160vmax; height: 160vmax; margin: -80vmax; border-radius: 50%;
   background: conic-gradient(from 0deg, rgb(217 119 87 / 38%), rgb(124 80 53 / 8%), rgb(229 178 139 / 30%), rgb(217 119 87 / 38%));
-  filter: blur(120px); opacity: .55; animation: spin 40s linear infinite; }
+  filter: blur(90px); opacity: .5; }
 .sky-grid { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 70%; transform-origin: 50% 100%; transform: perspective(600px) rotateX(64deg);
   background-image: linear-gradient(rgb(255 214 190 / 9%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 214 190 / 9%) 1px, transparent 1px); background-size: 80px 80px;
-  -webkit-mask-image: linear-gradient(transparent, #000 40%, transparent); mask-image: linear-gradient(transparent, #000 40%, transparent); animation: grid-run 6s linear infinite; }
+  -webkit-mask-image: linear-gradient(transparent, #000 40%, transparent); mask-image: linear-gradient(transparent, #000 40%, transparent); }
 .sky-grain { position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / 5%) .6px, transparent .8px); background-size: 3px 3px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes grid-run { to { background-position: 0 80px, 0 0; } }
@@ -33,7 +33,7 @@ html:has(.folio) { overflow-x: clip; }
 .intro::before, .intro::after { content: ""; position: absolute; left: 0; right: 0; height: 12vh; background: #000; animation: bars .9s 1.35s var(--ease) both; }
 .intro::before { top: 0; transform-origin: top; } .intro::after { bottom: 0; transform-origin: bottom; }
 .intro-spark { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 0 40px 14px rgb(255 214 190 / 90%), 0 0 140px 50px rgb(217 119 87 / 60%); animation: spark 1s var(--ease) both; }
-.intro-word { display: flex; perspective: 900px; font-family: var(--head); font-weight: 800; font-size: clamp(5rem, 22vw, 18rem); letter-spacing: -.05em; line-height: 1; }
+.intro-word { display: flex; perspective: 900px; font-family: var(--head); font-weight: 700; font-size: clamp(5rem, 22vw, 18rem); letter-spacing: -.05em; line-height: 1; }
 .intro-word span { display: inline-block; transform-origin: 50% 100%; animation: letter-in .8s calc(.3s + var(--i) * .05s) var(--ease) both, letter-out .45s calc(1.3s + var(--i) * .03s) cubic-bezier(.3, 0, 1, 1) both;
   text-shadow: 0 30px 60px rgb(0 0 0 / 60%); }
 .intro-word span:nth-child(odd) { color: #ffd9c4; }
@@ -52,7 +52,7 @@ html:has(.folio) { overflow-x: clip; }
 .me h1 .line { display: block; }
 .me h1 .sub { color: var(--soft); font-size: .5em; letter-spacing: -.02em; margin-top: .45em; line-height: 1.1; }
 .me h1 .word { display: inline-block; transform-origin: 50% 100%; animation: word-in .7s calc(1.6s + var(--i) * .035s) var(--ease) both; }
-.me h1 .accent { background: linear-gradient(100deg, #fff 10%, #ffd9c4 40%, #d97757 70%, #fff 95%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: word-in .7s calc(1.6s + var(--i) * .035s) var(--ease) both, shimmer 5s 3s ease-in-out infinite; }
+.me h1 .accent { color: #ffd9c4; } @supports (background-clip: text) or (-webkit-background-clip: text) { .me h1 .accent { background: linear-gradient(100deg, #fff 10%, #ffd9c4 40%, #d97757 70%, #fff 95%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: word-in .7s calc(1.6s + var(--i) * .035s) var(--ease) both, shimmer 5s 3s ease-in-out infinite; } }
 @keyframes word-in { from { opacity: 0; transform: translateY(.5em) rotateX(-80deg); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
 .me .kicker, .me .lede, .me .actions { animation: rise .7s var(--ease) both; }
@@ -77,7 +77,7 @@ html:has(.folio) { overflow-x: clip; }
 @keyframes ring2 { from { transform: rotateY(65deg) rotateZ(0); } to { transform: rotateY(65deg) rotateZ(360deg); } }
 @keyframes ring3 { from { transform: rotateX(20deg) rotateZ(0); } to { transform: rotateX(20deg) rotateZ(360deg); } }
 .shard { position: absolute; width: 54px; height: 40px; border-radius: 12px; background: linear-gradient(140deg, rgb(255 255 255 / 30%), rgb(255 255 255 / 3%)); border: 1px solid rgb(255 255 255 / 25%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%), 0 10px 30px rgb(0 0 0 / 40%); backdrop-filter: blur(6px); animation: shard 8s ease-in-out infinite alternate; }
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%), 0 10px 30px rgb(0 0 0 / 40%); animation: shard 8s ease-in-out infinite alternate; }
 .s1 { left: -6%; top: 10%; --z: 120px; --r: 30deg; animation-duration: 7s; }
 .s2 { right: -4%; top: 4%; width: 70px; height: 50px; --z: 80px; --r: -40deg; animation-duration: 9s; }
 .s3 { right: -10%; bottom: 18%; width: 40px; height: 30px; --z: 160px; --r: 50deg; }
@@ -91,13 +91,13 @@ html:has(.folio) { overflow-x: clip; }
 
 /* ---------- statement: giant kinetic type ---------- */
 .statement { position: relative; padding: clamp(6rem, 18vh, 12rem) 0; }
-.big-type { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); font-family: var(--head); font-weight: 800; font-size: clamp(2.6rem, 8vw, 7.4rem); line-height: 1.02; letter-spacing: -.045em; perspective: 900px; }
+.big-type { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); font-family: var(--head); font-weight: 700; font-size: clamp(2.6rem, 8vw, 7.4rem); line-height: 1.02; letter-spacing: -.045em; perspective: 900px; }
 .big-type .w { display: inline-block; transform-origin: 50% 100%; }
-.big-type .hot { background: linear-gradient(180deg, #fff 20%, #d97757); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.big-type .hot { color: #e8957a; } @supports (background-clip: text) or (-webkit-background-clip: text) { .big-type .hot { background: linear-gradient(180deg, #fff 20%, #d97757); -webkit-background-clip: text; background-clip: text; color: transparent; } }
 
 /* ---------- marquee band ---------- */
-.marquee { position: relative; overflow: hidden; padding: 2rem 0; border-block: 1px solid var(--line); transform: rotate(-3deg) scale(1.08); background: rgb(13 9 7 / 60%); }
-.marquee .row { display: flex; white-space: nowrap; width: max-content; font-family: var(--head); font-weight: 800; font-size: clamp(2.4rem, 7vw, 6rem); letter-spacing: -.04em; line-height: 1.1; }
+.marquee { position: relative; overflow: hidden; padding: 2rem 0; border-block: 1px solid var(--line); transform: rotate(-2deg) scale(1.03); background: rgb(13 9 7 / 60%); }
+.marquee .row { display: flex; white-space: nowrap; width: max-content; font-family: var(--head); font-weight: 700; font-size: clamp(2.4rem, 7vw, 6rem); letter-spacing: -.04em; line-height: 1.1; }
 .marquee .r-a { color: transparent; -webkit-text-stroke: 1.5px rgb(255 214 190 / 55%); }
 .marquee .r-b { color: #d97757; }
 
@@ -130,7 +130,7 @@ html:has(.folio) { overflow-x: clip; }
 .skills .card h3 { font-size: 1.5rem; letter-spacing: -.02em; }
 .folio .card { background: rgb(255 255 255 / 4%); border: 1px solid var(--line); box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), var(--shadow); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: transform .5s var(--ease), border-color .3s; }
 .folio .card:hover { transform: translateY(-6px) rotateX(6deg); border-color: rgb(217 119 87 / 50%); }
-.card-no { display: block; font-family: var(--head); font-size: 2.6rem; font-weight: 800; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgb(217 119 87 / 70%); margin-bottom: .4rem; }
+.card-no { display: block; font-family: var(--head); font-size: 2.6rem; font-weight: 700; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgb(217 119 87 / 70%); margin-bottom: .4rem; }
 
 /* ---------- finale ---------- */
 .finale { position: relative; overflow: hidden; padding-block: clamp(6rem, 16vh, 11rem); }
@@ -144,11 +144,11 @@ html:has(.folio) { overflow-x: clip; }
 @supports (animation-timeline: view()) {
   /* hero: the camera pulls back and the portrait drifts away as you scroll on */
   .me-grid { animation: hero-out cubic-bezier(.2, 0, 0, 1) both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
-  @keyframes hero-out { to { transform: translateZ(-500px) rotateX(18deg); opacity: 0; filter: blur(8px); } }
+  @keyframes hero-out { to { transform: translateZ(-500px) rotateX(18deg); opacity: 0; } }
 
   /* statement: words rise out of the floor one after another as they scroll into view */
   .big-type .w { animation: word-scrub cubic-bezier(.2, 0, 0, 1) both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
-  @keyframes word-scrub { from { opacity: .08; transform: translateY(.35em) rotateX(-70deg); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes word-scrub { from { opacity: .08; transform: translateY(.35em) rotateX(-70deg); } to { opacity: 1; transform: none; filter: none; } }
 
   /* marquee: the rows slide in opposite directions with the scroll */
   .marquee .r-a { animation: slide-l linear both; animation-timeline: view(); }
@@ -158,7 +158,7 @@ html:has(.folio) { overflow-x: clip; }
 
   /* headings and project cards fly in from depth */
   .reveal { animation: reveal cubic-bezier(.2, 0, 0, 1) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
-  @keyframes reveal { from { opacity: 0; transform: translateY(60px); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes reveal { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
   .fly { animation: fly cubic-bezier(.2, 0, 0, 1) both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
   @keyframes fly { from { opacity: 0; transform: translateZ(-700px) rotateX(28deg) rotateY(-10deg); } to { opacity: 1; transform: none; } }
 
@@ -172,7 +172,7 @@ html:has(.folio) { overflow-x: clip; }
 
   /* finale: the type zooms toward you */
   .finale-type { animation: zoom cubic-bezier(.2, 0, 0, 1) both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
-  @keyframes zoom { from { opacity: 0; transform: scale(.6) translateZ(-300px); letter-spacing: .1em; filter: blur(14px); } to { opacity: 1; transform: none; letter-spacing: -.05em; filter: none; } }
+  @keyframes zoom { from { opacity: 0; transform: scale(.6) translateZ(-300px); } to { opacity: 1; transform: none; } }
 }
 
 /* ---------- smaller screens ---------- */
@@ -181,7 +181,8 @@ html:has(.folio) { overflow-x: clip; }
   .me-grid, .project-feature { grid-template-columns: minmax(0, 1fr); }
   .me-stage { order: -1; width: min(72vw, 320px); }
   .project-media { justify-self: center; width: min(100%, 300px); }
-  .g1, .g3 { display: none; }
+  .gallery-ring { height: auto; display: grid; gap: 1rem; padding-inline: 1rem; animation: none !important; transform: none !important; }
+  .g { position: static; width: 100%; margin: 0; transform: none !important; }
   .scroll-cue { display: none; }
 }
 
@@ -206,9 +207,65 @@ html:has(.folio) { scroll-behavior: smooth; }
 }
 @media (prefers-reduced-motion: reduce) { html:has(.folio) { scroll-behavior: auto; } }
 
+
+/* ---------- review round 1 ---------- */
+/* the header and skip link stay above the opening titles, so keyboard focus is never hidden */
+.folio .site-header { position: sticky; z-index: 110; }
+.folio .skip:focus { z-index: 120; }
+.gallery-note { text-align: center; color: var(--soft); font-size: .9rem; margin: 0 auto 1.5rem; padding-inline: 1rem; }
+.nav-mail { color: var(--ink) !important; border: 1px solid rgb(217 119 87 / 55%); border-radius: 999px; padding: .35rem .9rem !important; }
+/* CSS-only pause for all decorative motion */
+.motion-toggle { position: fixed; opacity: 0; pointer-events: none; }
+.motion-label { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 115; padding: .55rem .95rem; min-height: 44px; display: inline-flex; align-items: center; border-radius: 999px; font-size: .85rem; font-weight: 600; color: var(--ink); background: rgb(13 9 7 / 70%); border: 1px solid var(--line); cursor: pointer; backdrop-filter: blur(10px); }
+.motion-label .off { display: none; }
+.motion-label { pointer-events: none; animation: label-on .6s 2.5s var(--ease) both; }
+@keyframes label-on { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; pointer-events: auto; } }
+.motion-toggle:focus-visible + .motion-label { outline: 3px solid var(--focus); outline-offset: 3px; animation: none; opacity: 1; }
+body:has(.motion-toggle:checked) .motion-label .on { display: none; }
+body:has(.motion-toggle:checked) .motion-label .off { display: inline; }
+body:has(.motion-toggle:checked) :is(.me-orbit, .ring, .shard, .blob) { animation-play-state: paused !important; }
+body:has(.motion-toggle:checked) .me h1 .accent { animation-play-state: paused !important; }
+body:has(.motion-toggle:checked) .me-photo::after, body:has(.motion-toggle:checked) .scroll-cue::after { animation-play-state: paused !important; }
+body:has(.motion-toggle:checked) :is(.big-type .w, .marquee .row, .reveal, .fly, .gallery-ring, .fan, .finale-type, .me-grid) { animation: none !important; opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) { .motion-label, .motion-toggle { display: none; } }
+
 /* ---------- people who prefer less motion get the still version ---------- */
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
   .folio *, .folio *::before, .folio *::after { animation: none !important; transition: none !important; }
   .me-grid, .big-type .w, .reveal, .fly, .fan, .finale-type { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
+
+.motion-toggle:focus-visible { outline: none; }
+
+/* Stagger order comes from position, not inline styles: the CSP blocks style attributes. */
+.intro-word span:nth-child(1) { --i: 0; }
+.intro-word span:nth-child(2) { --i: 1; }
+.intro-word span:nth-child(3) { --i: 2; }
+.intro-word span:nth-child(4) { --i: 3; }
+.intro-word span:nth-child(5) { --i: 4; }
+.me h1 .line:first-child .word:nth-child(1) { --i: 0; }
+.me h1 .line:first-child .word:nth-child(2) { --i: 1; }
+.me h1 .line:first-child .word:nth-child(3) { --i: 2; }
+.me h1 .line.sub .word:nth-child(1) { --i: 3; }
+.me h1 .line.sub .word:nth-child(2) { --i: 4; }
+.me h1 .line.sub .word:nth-child(3) { --i: 5; }
+.me h1 .line.sub .word:nth-child(4) { --i: 6; }
+.me h1 .line.sub .word:nth-child(5) { --i: 7; }
+.me h1 .line.sub .word:nth-child(6) { --i: 8; }
+.me h1 .line.sub .word:nth-child(7) { --i: 9; }
+.me h1 .line.sub .word:nth-child(8) { --i: 10; }
+.me h1 .line.sub .word:nth-child(9) { --i: 11; }
+.me h1 .line.sub .word:nth-child(10) { --i: 12; }
+.skills .fan:nth-child(1) { --n: 0; }
+.skills .fan:nth-child(2) { --n: 1; }
+.skills .fan:nth-child(3) { --n: 2; }
+.skills .fan:nth-child(4) { --n: 3; }
+
+/* film: the live video is decoration; a still replaces it when motion is paused or reduced */
+.project-media { position: relative; }
+.project-media video, .project-media .film-still { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 22px; background: #0d0907; box-shadow: 0 0 0 1px var(--line), 0 30px 80px rgb(0 0 0 / 50%), 0 0 80px rgb(217 119 87 / 20%); pointer-events: none; }
+.film-still { display: none !important; object-fit: cover; }
+body:has(.motion-toggle:checked) .film-live { display: none; }
+body:has(.motion-toggle:checked) .film-still { display: block !important; }
+@media (prefers-reduced-motion: reduce) { .film-live { display: none; } .film-still { display: block !important; } }
