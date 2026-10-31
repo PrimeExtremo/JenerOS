@@ -1,0 +1,4 @@
+# Review brief: jener.dev portfolio, redesign v2
+Files: index.html, folio.css. DESIGN-BRIEF.md lists the rules it must follow (taste-skill house rules and dealt direction "The pinned poster", Apple HIG, Vercel web interface guidelines, motion-design, stop-slop). Constraints: no JavaScript (CSP script-src 'none', style-src 'self' so no inline style attributes), static hosting, prefers-reduced-motion respected, no horizontal scroll, only public projects, no invented facts.
+Known and accepted: taste-skill inspect warns that the pinned "TO PIXEL" and "THE STACK" titles cross pictures; both are what the dealt blueprints specify.
+Be adversarial: find what is broken, inaccessible, off-brief, slow or unconvincing to a hiring manager. Format: severity | file:line | problem | fix. End with one line: VERDICT: SHIP or VERDICT: CHANGES NEEDED.

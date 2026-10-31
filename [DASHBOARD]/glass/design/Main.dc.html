@@ -134,7 +134,7 @@ a{color:#fff}a:hover{color:#ffe1c4}
           </sc-if>
           <sc-if value="{{w.is.energy}}" hint-placeholder-val="{{false}}">
             <span style="font-size: 15px; font-weight: 700; opacity: .9">Energy today</span>
-            <div><span style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em">[kWh]</span></div>
+            <div><span style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em">4.7 kWh</span></div>
             <div style="display: flex; align-items: flex-end; gap: 6px; height: 48px"><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 30%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 55%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 40%"></div><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,.35); height: 80%"></div><div style="flex: 1; height: 100%; border-radius: 6px; background: #d97757"></div></div>
           </sc-if>
           <sc-if value="{{w.is.system}}" hint-placeholder-val="{{false}}">
@@ -310,12 +310,12 @@ class Component extends DCLogic {
       energy: { name: 'Energy', desc: 'Today\'s energy use', app: 'home-assistant' },
       system: { name: 'This box', desc: 'CPU, memory and storage' },
       clock: { name: 'Clock', desc: 'Time and date' },
-      immich: { name: 'Immich', desc: 'Photo backup status', app: 'immich', big: '[photos]', small: 'Backed up [time] ago' },
-      jellyfin: { name: 'Jellyfin', desc: 'Continue watching', app: 'jellyfin', big: '[title]', small: 'Continue watching · [time] left' },
-      nextcloud: { name: 'Nextcloud', desc: 'Your cloud drive', app: 'nextcloud', big: '[used]', small: 'of [total] used' },
-      'adguard-home': { name: 'AdGuard Home', desc: 'Ads and trackers blocked', app: 'adguard-home', big: '[blocked]', small: 'Blocked today' },
-      'uptime-kuma': { name: 'Uptime Kuma', desc: 'Are your services up?', app: 'uptime-kuma', big: 'All up', small: '[n] monitors' },
-      vaultwarden: { name: 'Vaultwarden', desc: 'Password health', app: 'vaultwarden', big: '[items]', small: 'Items in your vault' }
+      immich: { name: 'Immich', desc: 'Photo backup status', app: 'immich', big: '12,480 photos', small: 'Backed up 4 min ago' },
+      jellyfin: { name: 'Jellyfin', desc: 'Continue watching', app: 'jellyfin', big: 'Arrival', small: 'Continue watching · 38 min left' },
+      nextcloud: { name: 'Nextcloud', desc: 'Your cloud drive', app: 'nextcloud', big: '312 GB', small: 'of 1 TB used' },
+      'adguard-home': { name: 'AdGuard Home', desc: 'Ads and trackers blocked', app: 'adguard-home', big: '1,284', small: 'Blocked today' },
+      'uptime-kuma': { name: 'Uptime Kuma', desc: 'Are your services up?', app: 'uptime-kuma', big: 'All up', small: '9 monitors' },
+      vaultwarden: { name: 'Vaultwarden', desc: 'Password health', app: 'vaultwarden', big: '214', small: 'Items in your vault' }
     };
     const st = this.state;
     const editing = st.editing;

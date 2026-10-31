@@ -214,20 +214,6 @@ html:has(.folio) { scroll-behavior: smooth; }
 .folio .skip:focus { z-index: 120; }
 .gallery-note { text-align: center; color: var(--soft); font-size: .9rem; margin: 0 auto 1.5rem; padding-inline: 1rem; }
 .nav-mail { color: var(--ink) !important; border: 1px solid rgb(217 119 87 / 55%); border-radius: 999px; padding: .35rem .9rem !important; }
-/* CSS-only pause for all decorative motion */
-.motion-toggle { position: fixed; opacity: 0; pointer-events: none; }
-.motion-label { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 115; padding: .55rem .95rem; min-height: 44px; display: inline-flex; align-items: center; border-radius: 999px; font-size: .85rem; font-weight: 600; color: var(--ink); background: rgb(13 9 7 / 70%); border: 1px solid var(--line); cursor: pointer; backdrop-filter: blur(10px); }
-.motion-label .off { display: none; }
-.motion-label { pointer-events: none; animation: label-on .6s 2.5s var(--ease) both; }
-@keyframes label-on { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; pointer-events: auto; } }
-.motion-toggle:focus-visible + .motion-label { outline: 3px solid var(--focus); outline-offset: 3px; animation: none; opacity: 1; }
-body:has(.motion-toggle:checked) .motion-label .on { display: none; }
-body:has(.motion-toggle:checked) .motion-label .off { display: inline; }
-body:has(.motion-toggle:checked) :is(.me-orbit, .ring, .shard, .blob) { animation-play-state: paused !important; }
-body:has(.motion-toggle:checked) .me h1 .accent { animation-play-state: paused !important; }
-body:has(.motion-toggle:checked) .me-photo::after, body:has(.motion-toggle:checked) .scroll-cue::after { animation-play-state: paused !important; }
-body:has(.motion-toggle:checked) :is(.big-type .w, .marquee .row, .reveal, .fly, .gallery-ring, .fan, .finale-type, .me-grid) { animation: none !important; opacity: 1 !important; transform: none !important; }
-@media (prefers-reduced-motion: reduce) { .motion-label, .motion-toggle { display: none; } }
 
 /* ---------- people who prefer less motion get the still version ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -236,7 +222,6 @@ body:has(.motion-toggle:checked) :is(.big-type .w, .marquee .row, .reveal, .fly,
   .me-grid, .big-type .w, .reveal, .fly, .fan, .finale-type { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
 
-.motion-toggle:focus-visible { outline: none; }
 
 /* Stagger order comes from position, not inline styles: the CSP blocks style attributes. */
 .intro-word span:nth-child(1) { --i: 0; }
@@ -266,6 +251,11 @@ body:has(.motion-toggle:checked) :is(.big-type .w, .marquee .row, .reveal, .fly,
 .project-media { position: relative; }
 .project-media video, .project-media .film-still { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 22px; background: #0d0907; box-shadow: 0 0 0 1px var(--line), 0 30px 80px rgb(0 0 0 / 50%), 0 0 80px rgb(217 119 87 / 20%); pointer-events: none; }
 .film-still { display: none !important; object-fit: cover; }
-body:has(.motion-toggle:checked) .film-live { display: none; }
-body:has(.motion-toggle:checked) .film-still { display: block !important; }
 @media (prefers-reduced-motion: reduce) { .film-live { display: none; } .film-still { display: block !important; } }
+
+/* ---------- v3: skill fixes that keep the cinematic look ---------- */
+.intro-sub { letter-spacing: .02em; text-transform: none; font-size: clamp(1rem, 1.8vw, 1.3rem); }
+.scroll-cue { width: 44px; height: 70px; justify-items: center; align-content: end; letter-spacing: 0; }
+.status { display: inline-block; vertical-align: middle; margin-left: .5rem; padding: .25rem .7rem; border-radius: 999px; font-family: var(--body); font-size: 1rem; font-weight: 600; letter-spacing: 0; color: #ffd9c4; background: var(--tint); }
+.folio p, .folio li { font-size: max(1rem, 1em); }
+.project-copy h3 { margin-top: 0; }
