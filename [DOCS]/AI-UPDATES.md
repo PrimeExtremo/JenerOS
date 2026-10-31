@@ -785,3 +785,16 @@ The user asked for cinematic motion on all screens and a splash that is "blowing
   - It is rendered frame by frame with `render.mjs`.
 - **Website:** the "Meet JenerOS Glass" section and the tour page now use `assets/video/jeneros-preview-glass-9x16.mp4`. The boot-splash film was removed from the site.
 - **README:** a JenerOS Glass gallery (home, settings, app manager, store) that follows light/dark mode. The images are in `[DOCS]/screenshots/`.
+
+## 2026-10-31 - Claude - jener.dev becomes a portfolio; attribution removed
+
+- **Portfolio home:** `[SITE]/index.html` is now Jener's portfolio. It has:
+  - the photo (`assets/jener*.webp`) and a short intro
+  - JenerOS as the flagship project, with the preview reel and screenshots
+  - the UmbrelOS-on-Green project
+  - a skills section, and GitHub as the contact
+  - its styles in `assets/portfolio.css`
+  - only public repos listed
+- **JenerOS page moved:** the product page is now `jeneros.html` (canonical `/jeneros`). The navigation on every page links back to "Jener", and the sitemap is updated.
+- **Git history:** rewritten to remove every Claude co-author line and Claude credit, then force-pushed to main. A backup branch `backup-before-attribution-strip` is kept locally only.
+- **Claude Code settings:** commit and PR attribution are turned off.
