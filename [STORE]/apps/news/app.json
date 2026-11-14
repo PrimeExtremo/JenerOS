@@ -1,0 +1,61 @@
+{
+  "manifest": 1,
+  "id": "news",
+  "name": "News",
+  "upstream": "FreshRSS",
+  "developer": "FreshRSS team",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "tools",
+  "icon": "apps",
+  "tagline": "All your news feeds in one quiet place.",
+  "description": "News gathers articles from the sites and blogs you follow into one reading list, with no ads and no tracking. It checks for new articles twice an hour. It is built on FreshRSS, a free and open-source feed reader.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 512,
+    "diskGB": 2
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "docker.io/freshrss/freshrss:1.30.4",
+      "env": {
+        "TZ": "UTC",
+        "CRON_MIN": "1,31"
+      },
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/var/www/FreshRSS/data"
+        },
+        {
+          "pool": "extensions",
+          "path": "/var/www/FreshRSS/extensions"
+        }
+      ],
+      "health": {
+        "port": 80,
+        "path": "/i/"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 80,
+    "host": 8082
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "data"
+    ],
+    "services": []
+  },
+  "available": true
+}

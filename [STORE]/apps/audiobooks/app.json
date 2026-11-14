@@ -1,0 +1,67 @@
+{
+  "manifest": 1,
+  "id": "audiobooks",
+  "name": "Audiobooks",
+  "upstream": "Audiobookshelf",
+  "developer": "advplyr",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "media",
+  "icon": "apps",
+  "tagline": "Audiobooks and podcasts that remember where you stopped.",
+  "description": "Audiobooks keeps your audiobooks and podcasts in one library and remembers your place on every device. Put your files in the app audiobooks or podcasts folder on your selected storage. It is built on Audiobookshelf, a free and open-source audiobook server.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 1024,
+    "diskGB": 3
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "ghcr.io/advplyr/audiobookshelf:2.37.2",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "config",
+          "path": "/config"
+        },
+        {
+          "pool": "metadata",
+          "path": "/metadata"
+        },
+        {
+          "pool": "audiobooks",
+          "path": "/audiobooks"
+        },
+        {
+          "pool": "podcasts",
+          "path": "/podcasts"
+        }
+      ],
+      "health": {
+        "port": 80,
+        "path": "/healthcheck"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 80,
+    "host": 13378
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "config",
+      "metadata"
+    ],
+    "services": []
+  },
+  "available": true
+}
