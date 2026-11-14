@@ -27,7 +27,19 @@ Cloudflare Registrar, bought 2026-10-07; site intentionally offline for now).
 Code is public (early preview) at **github.com/PrimeExtremo/JenerOS** under GPL-3.0-or-later; installed systems update from its Releases.
 Company socials planned as **@jener_inc**. Jener's personal accounts are NOT changing.
 
-## 3. Current state (2026-10-10)
+## 3. Current state (latest continuation: 2026-10-31)
+
+**VM-CHECKS 5–8 (Claude, 2026-11-13):** the VMware test box runs 0.4.4, updated from 0.4.3 over A/B through the API. Stop/start/reboot, uninstall and reinstall keeping files, rollback, a Btrfs data pool, a missing data disk and the failure cases pass. One bug was fixed in source only: app restore could skip every app at boot (`status_linux.go`). Results are in `[DOCS]/AI-UPDATES.md`.
+
+**App Store polish (Codex, 2026-11-13):** App details, categories, My Apps, dock refraction and the responsive layout are serving on the VMware test box through the existing dashboard overlay. Chromium checks passed with local sample and mocked runtime data. See the latest AI-UPDATES entry.
+
+**October 31 website reference refresh:** portfolio and JenerOS marketing now share scoped reference-family.css, informed by Apple/Umbrel/ZimaOS/Claude/Zen. Local responsive portfolio checks passed; product browser review caught/fixed 320px nav overflow. See newest AI-UPDATES and vault Reference Website Direction note. Review locally before deployment; no publishing performed.
+
+**Personal portfolio refinement (Codex, October 31):** homepage now leads introduction → two projects → existing interface/film experiments → personal About/contact. Dark cinematic style and circular side portrait retained. Eight Chrome phone/tablet/desktop and reduced-motion cases pass. Changes remain local, uncommitted and unpublished; see newest AI-UPDATES and vault Portfolio note.
+
+
+**October 31 continuation (Codex):** portfolio/Green case study and download information now distinguish verified release v0.4.2, sample-data Glass design and the separate UmbrelOS Green port. Glass exposes classic device controls and a real API hostname/memory summary; event-template parsing now works without CSP violations. Session return paths and device-status lifecycle have regression checks. Local Chrome checks passed at phone/desktop sizes; no build, deployment or hardware testing. See the newest AI-UPDATES entry. Older entries below are historical.
+
 
 **App runtime (Codex, 2026-10-10):** resumed `.scratch/apps/PROMPT-runtime.md`, preserving the interrupted run's Incus image hook/preseed, root worker, owner API, four pinned manifests, store controls and VM checklist. Completed review fixes for stale readings, long storage names, queued requests, persistent health errors, dashboard error states and Incus subordinate-ID setup after A/B upgrades. The App Store's 32 Edge browser cases, desktop and unit-ordering checks pass. Go/gofmt are absent locally; no real image pull, app boot, photo upload or persistence test ran. See `.scratch/apps/REVIEW.md` and `VM-CHECKS.md` for validation and exact remaining commands. Files only; no installs, image builds, commits or pushes. Phase 1 acceptance boxes remain open.
 
@@ -124,6 +136,15 @@ Storage polish (Codex, 2026-10-08): unavailable disks and layouts are faded with
 
 ## 6. Next steps (in order)
 
+Next (2026-11-13): build 0.4.5 with the app-restore fix and confirm apps start over several boots. Jener reviews the dashboard on the box. Decide on the open findings in AI-UPDATES (pool `state` when the disk is missing, the 409 message, one-boot rollback).
+
+Claude should check real catalog images and the install, progress, stop/start and uninstall flows on 192.168.184.129, plus glass in reduced-transparency mode. Check the bottom status pill’s refraction on the live dashboard and its plain blur fallback in Firefox or Safari.
+
+**October 31 website reference refresh:** portfolio and JenerOS marketing now share scoped reference-family.css, informed by Apple/Umbrel/ZimaOS/Claude/Zen. Local responsive portfolio checks passed; product browser review caught/fixed 320px nav overflow. See newest AI-UPDATES and vault Reference Website Direction note. Review locally before deployment; no publishing performed.
+
+October 31: review the local portfolio, Green case study and Glass previews. Then complete Linux Go/Incus acceptance before building/releasing a new OS image. Glass still uses sample app/widget controls; port acceptance still needs BusyBox ash, warm restart and OTA testing. The UmbrelOS port is separate from any future JenerOS ARM64 image.
+
+
 App runtime: Claude should first run gofmt, vet, unit/race tests and build in the build VM, then follow `.scratch/apps/VM-CHECKS.md` on a disposable test box. Verify Incus 7.0 OCI compatibility, fresh and pre-Incus A/B upgrades, real Immich photo upload, dependency health, bind-mount ownership, missing disks, stop/start, reboot/A/B persistence and uninstall/reinstall with retained data. No real-app acceptance is claimed by the local browser fixtures. Remaining browser results are in `.scratch/apps/REVIEW.md`.
 
 Blender trailer PROMPT-5: supply `music/falling-apart.mp3` or `.wav`, rebuild to analyze/retime, and rerun the cut review. Claude renders and watches the draft, then final/vertical/per-shot exports with `--render draft|final|vertical|shots`. Use `--output-dir 'S:/[VMs]/[JENEROS-TRAILER]/v3'` for full video output. The current 63.5-second edit uses placeholder beats; full-motion review, actual-song retiming, fine VO sync and long-file/per-shot encoding remain. Mix audio in Premiere. See `.scratch/trailer-blender/README.md` and `REVIEW-v3.md`.
@@ -194,3 +215,19 @@ Logo follow-up: Claude can embed the approved angular v1 monochrome assets and r
 | `[OS]/` | Image build (mkosi config, overlay files, scripts, VMware template) — runs in the build VM |
 | `[BRAND]/` | Brand tokens + future logo files |
 | `[CLIENTS]/` | Future TV / phone apps (empty for now) |
+
+October 31 motion follow-up: Claude's cards/footer phone review completed at 320/375. Portfolio media now loads nearby and respects motion/tab visibility through assets/portfolio-media.js; see latest AI-UPDATES and shared vault Mobile Motion Review. No deployment.
+
+October 31 user correction: reference motion ideas only; do not copy reference layouts. Six notes cards replaced with original system assembly; main rounded clipping fixes dark corner backing. See latest AI-UPDATES and vault Original Portfolio Motion.
+
+October 31 annotated polish: two independent landscape/portrait previews with explicit play under reduced motion; layers separate on scroll; portrait glow/header and contact glass approximation; footer independence notice; enriched symbolic Green SVG. See newest AI-UPDATES and vault Annotated Portfolio Polish. Normal-motion cross-engine visual review remains; no publication.
+
+Latest Oct31 correction: silent autoplay/no controls, active scroll separation, one-line footer linked legal notices and footer gap fixed. Explicit requested video/assembly motion supersedes previous reduced-motion suppression for those elements. See newest AI-UPDATES/vault note.
+
+Oct31 latest: Green scroll/pointer depth, faster assembly, displaced-backdrop glass contact and charcoal footer utility strip. Browser desktop/375 review passed; cross-engine optics remain. See newest AI-UPDATES/vault Optical Contact and Mobile Depth.
+
+Latest Oct31: video poster/decoded-frame regression repaired; both project figures share scroll depth; blur scene transition and compact footer. See newest AI-UPDATES/vault Video Recovery and Compact Ending. No publish.
+
+DEPLOYED Oct31 at explicit user request: https://jener.dev/ . Final Cloudflare version65b2208c-8999-4a38-a75d-e29e1512d4cf. Fixed conflicting deployed CSP policies; local tooling excluded. No Git commit/push. See latest AI-UPDATES and vault Portfolio Deployment.
+
+Nov1 deployed phone header/safe-area update: version9b4ca3bf-0241-41bb-9455-2052cafcf600 at jener.dev.320/390/430 header single row, footer gap0. Physical iPhone Safari check remains. No Git commit/push.
