@@ -17,10 +17,10 @@ for (const file of fs.readdirSync('[DASHBOARD]').filter(name => /\.(js|css)$/.te
   const source = fs.readFileSync('[DASHBOARD]/' + file, 'utf8');
   assert.doesNotMatch(source, /\?<!|\?<=|\.at\(|structuredClone\(|:has\(|\.replaceAll\(/, file + ': avoid unguarded newer syntax/APIs');
 }
-for (const page of ['setup', 'login', 'index', 'screen']) {
+for (const page of ['setup', 'login', 'classic', 'screen']) {
   const markup = fs.readFileSync(`[DASHBOARD]/${page}.html`, 'utf8');
-  assert.match(markup, page === 'index' ? /src="ui-compat.js"><\/script>/ : /src="ui-compat.js" defer/);
-  if (page === 'index') assert.ok(markup.indexOf('src="ui-compat.js"') < markup.indexOf('src="app.js"'));
+  assert.match(markup, page === 'classic' ? /src="ui-compat.js"><\/script>/ : /src="ui-compat.js" defer/);
+  if (page === 'classic') assert.ok(markup.indexOf('src="ui-compat.js"') < markup.indexOf('src="app.js"'));
 }
 class FakeEvent {
   constructor(type, init = {}) { this.type = type; Object.assign(this, init); this.defaultPrevented = false; }
