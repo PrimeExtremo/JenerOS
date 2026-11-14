@@ -1,0 +1,54 @@
+{
+  "manifest": 1,
+  "id": "notes",
+  "name": "Notes",
+  "upstream": "Memos",
+  "developer": "Memos team",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "tools",
+  "icon": "apps",
+  "tagline": "Quick notes and ideas, kept private on your box.",
+  "description": "Notes is a fast place to jot down thoughts, lists and links from any device. Notes are plain text with simple formatting and stay on your box. It is built on Memos, a free and open-source note-taking app.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 512,
+    "diskGB": 2
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "docker.io/neosmemo/memos:26.11.0",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/var/opt/memos"
+        }
+      ],
+      "health": {
+        "port": 5230,
+        "path": "/"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 5230,
+    "host": 5230
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "data"
+    ],
+    "services": []
+  },
+  "available": true
+}

@@ -1,0 +1,59 @@
+{
+  "manifest": 1,
+  "id": "music",
+  "name": "Music",
+  "upstream": "Navidrome",
+  "developer": "Navidrome team",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "media",
+  "icon": "apps",
+  "tagline": "Your music collection, streamed to every device.",
+  "description": "Music turns your song files into a library with albums, artists and playlists, then streams it to phones, computers and speakers. Put your music in the app music folder on your selected storage. It is built on Navidrome, a free and open-source music server that works with many player apps.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 512,
+    "diskGB": 2
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "docker.io/deluan/navidrome:0.64.2",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/data"
+        },
+        {
+          "pool": "music",
+          "path": "/music",
+          "readOnly": true
+        }
+      ],
+      "health": {
+        "port": 4533,
+        "path": "/ping"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 4533,
+    "host": 4533
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "data"
+    ],
+    "services": []
+  },
+  "available": true
+}

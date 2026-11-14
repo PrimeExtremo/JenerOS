@@ -1,0 +1,57 @@
+{
+  "manifest": 1,
+  "id": "recipes",
+  "name": "Recipes",
+  "upstream": "Mealie",
+  "developer": "Mealie team",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "home",
+  "icon": "apps",
+  "tagline": "Save recipes, plan meals and build shopping lists.",
+  "description": "Recipes saves recipes from any website, then helps you plan the week and build a shopping list. Everyone at home can share the same cookbook. It is built on Mealie, a free and open-source recipe manager.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 1024,
+    "diskGB": 3
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "ghcr.io/mealie-recipes/mealie:v3.31.0",
+      "env": {
+        "ALLOW_SIGNUP": "false",
+        "TZ": "UTC"
+      },
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/app/data"
+        }
+      ],
+      "health": {
+        "port": 9000,
+        "path": "/api/app/about"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 9000,
+    "host": 9000
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "data"
+    ],
+    "services": []
+  },
+  "available": true
+}

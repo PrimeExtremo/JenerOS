@@ -1,0 +1,54 @@
+{
+  "manifest": 1,
+  "id": "monitor",
+  "name": "Monitor",
+  "upstream": "Uptime Kuma",
+  "developer": "Louis Lam",
+  "version": "0.1.0",
+  "added": "2026-11-14",
+  "category": "network",
+  "icon": "apps",
+  "tagline": "Tells you when a site, app or device goes down.",
+  "description": "Monitor keeps checking your websites, apps and devices and shows which ones are up. It keeps a history so you can see when something went down and for how long. It is built on Uptime Kuma, a free and open-source monitoring tool.",
+  "whatsNew": "Installs on your box with saved files, live status and start and stop controls. Finish account setup when you first open the app.",
+  "arch": [
+    "amd64",
+    "arm64"
+  ],
+  "requirements": {
+    "memoryMB": 512,
+    "diskGB": 2
+  },
+  "services": [
+    {
+      "name": "server",
+      "image": "docker.io/louislam/uptime-kuma:2.5.11",
+      "env": {},
+      "mounts": [
+        {
+          "pool": "data",
+          "path": "/app/data"
+        }
+      ],
+      "health": {
+        "port": 3001,
+        "path": "/"
+      }
+    }
+  ],
+  "web": {
+    "service": "server",
+    "port": 3001,
+    "host": 3001
+  },
+  "auth": {
+    "type": "none"
+  },
+  "backup": {
+    "pools": [
+      "data"
+    ],
+    "services": []
+  },
+  "available": true
+}
