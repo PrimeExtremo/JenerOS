@@ -3,7 +3,7 @@ const fs = require('fs');
 const vm = require('vm');
 const assert = require('assert/strict');
 const path = require('path');
-const html = fs.readFileSync('[DASHBOARD]/index.html', 'utf8');
+const html = fs.readFileSync('[DASHBOARD]/classic.html', 'utf8');
 const source = fs.readFileSync('[DASHBOARD]/app.js', 'utf8');
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 assert.equal(new Set(ids).size, ids.length, 'duplicate HTML IDs');
