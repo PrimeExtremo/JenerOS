@@ -69,12 +69,13 @@ const server = http.createServer((req, res) => {
       const dashboard = ['phone-polish', 'storage', 'apps'].includes(suite) && /index.html/.test(req.headers.referer || '');
       res.writeHead(dashboard ? 200 : 401); res.end('{"username":"Owner"}'); return;
     }
-    if (['phone-polish', 'storage', 'apps'].includes(suite) && !['/api/system', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
+    if (['phone-polish', 'storage', 'apps'].includes(suite) && !['/api/system', '/api/setup', '/api/setup/status', '/api/setup/options'].includes(url.pathname)) { res.writeHead(503); res.end('{}'); return; }
     res.end(JSON.stringify(url.pathname === '/api/system' ? { hostname: 'jeneros', addresses: ['192.168.1.20'] }
       : url.pathname === '/api/setup/status' ? { state: 'waiting' }
       : { keymaps: [{ id: 'us', name: 'English (US)' }], timezones: ['UTC'], interfaces: ['eth0'], hostname: 'jeneros', reservedUsernames: [] })); return;
   }
-  const file = path.resolve(root, '.' + decodeURIComponent(url.pathname));
+  // index.html is the glass shell; the desktop these suites drive lives in classic.html.
+  const file = path.resolve(root, '.' + decodeURIComponent(url.pathname === '/index.html' ? '/classic.html' : url.pathname));
   if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); res.end(); return; }
   res.setHeader('Content-Type', types[path.extname(file)] || 'application/octet-stream');
   let source = baseline && /\.(html|css|js)$/.test(file)
