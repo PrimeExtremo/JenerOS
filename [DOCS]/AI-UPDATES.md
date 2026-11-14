@@ -860,3 +860,296 @@ The portfolio was audited against the redesign (taste), web-interface-guidelines
   - the intro line and scroll cue are in sentence case
   - JenerOS carries an "early preview" status
 - **Dashboard design files:** every bracketed placeholder ([kWh], [photos], [box IP]…) is replaced with sample values. All site and README screenshots were recaptured, and `.scratch/site-shots/crops.sh` rebuilds them.
+
+
+## 2026-10-31 - Codex - Portfolio evidence, Green case study and Glass device access
+
+- Read the HR Assistant chat requested by Jener. Kept legal name, school, location, age, phone and private résumé out of public pages. Used its suggestions to explain contributions and distinguish tested results from source/design previews.
+- Website: `[SITE]/index.html` retains the dark cinematic layout and round side portrait. Replaced solo-build claims with a plain description of open-source and AI assistance. Added `[SITE]/green.html`, `assets/case-study.css` and an original `assets/green-boot.svg` schematic; linked the case study and added it to the sitemap.
+- Download page: verified GitHub's latest release metadata (v0.4.2, October 10). Replaced the incorrect no-download message, linked the release, added checksum guidance, separated released dashboard from Glass, and clarified that x86-64 images do not support Green/Pi. README now distinguishes release, current source and hardware acceptance.
+- OS interface: `[DASHBOARD]/index.html` labels Glass sample controls and links to `classic.html#/home`. `glass/device-status.js` reads hostname/memory from the real `/api/system` endpoint when available, rejects malformed values, clears failed readings, times out requests, pauses hidden-tab work and resumes after browser back navigation. Static preview shows unavailable, never fake live readings.
+- Fixed `glass/dc-runtime.js`: Chromium was reporting blocked inline handlers even while parsing inert template contents. Convert event-binding attributes to data attributes before HTML parsing; attach actual handler functions as properties. Kept the existing CSP.
+- `session.js` now preserves classic-dashboard destinations through sign-in, using the fixed local allowlist. Regression checks: `.scratch/setup/check-session-destinations.cjs` (18 assertions) and `check-device-status.cjs` (success/failure/invalid/recovery/hidden/timeout/page lifecycle).
+- Separate Green repository: fixed the installer fixture's obsolete absolute path and failing-test exit status; added truncated-image/missing-target cases. Builder refuses existing outputs/checksums and invalid bootloader sizes before copying. Added six builder-guard cases. Overlay script now takes an explicit prepared Nabu source tree and logs there rather than using Jener's old paths. README explains ownership and test limits.
+- Validation: 12 local browser scenarios passed in Chrome at 375 and 1440 pixels, using production CSP and a fixture API; no JS exceptions or CSP violations. Browser screenshots and JSON are in the current chat's outputs folder. The visible browser was also checked for portfolio, Green case study and Settings interaction. The installer had 12 passing checks under Bash; the builder had six. JS/shell syntax and diff whitespace passed.
+- Not tested: Go compile/vet/tests (Go is absent on this host), real backend API in this run, BusyBox ash, Nabu build, full image build, hardware restart, OTA compatibility, live Incus apps and persistence. No Phase 1 boxes ticked. No disk flashed, commit, push or deployment.
+- Next: run the existing Go/Incus acceptance checklist on the prepared Linux build/test environment; integrate real store/storage data into Glass rather than its design samples. Validate Green cold/warm boots and updates independently of JenerOS ARM64 work.
+
+
+## 2026-10-31 - Codex - Shared Obsidian continuation memory
+
+- At Jener's request, saved 13 linked handoff/project notes in `C:\Users\jener\Documents\Vault\Home Assistant Green`, covering portfolio, JenerOS, the Green port, tests, preferences, tools, recovered Claude context and deferred Fire Stick idea. User explicitly approved direct Markdown after the transaction helper rolled back on Windows permission metadata.
+- Updated AGENTS.md to point future sessions to the vault; root CLAUDE.md already imports AGENTS.md. Added corresponding pointers in the port repository and current chat workspace.
+- Verified note content hashes, preserved Welcome.md, and ran Obsidian lint: 13 wiki pages, 40 links, zero findings. The broader vault contains three intentionally out-of-scope startup/welcome Markdown files. No code, image, hardware, commit, push or deployment changes in this handoff step.
+
+
+## 2026-10-31 - Codex - Personal portfolio hierarchy and experiments
+
+- Continued the user-approved portfolio work using the existing redesign skill and researched references. `[SITE]/index.html` now puts the two real projects immediately after a shorter introduction, with project images, contribution descriptions, tested/development state and direct source links. Removed the intervening statement/marquee and generic services grid from this page.
+- Added Experiments using the existing Glass app-store study and 15-second film, with native playback controls, no autoplay and no video preload. Added a personal About section and a simple contact ending. No invented projects or private HR details were added; Fire Stick remains deferred in the vault.
+- New `assets/portfolio-work.css` preserves the warm dark cinematic style, existing fonts and circular side portrait while improving spacing, project layout and phone stacking. The public page remains script-free. Updated `green.html` navigation to the new Experiments/About anchors.
+- Checks: installed Chrome at 320/375/820/1440 widths, normal and reduced motion (8 cases), internal anchors, local assets/page links, responsive overflow, native video settings, reduced-motion suppression, and zero JS/CSP faults. Screenshots visually reviewed for desktop projects and phone opening. `git diff --check` passed. Report/screenshots in current chat outputs; focused harness is `work/check-portfolio.mjs` in that chat workspace.
+- Saved continuation notes in the shared vault. Source only; no commit, push or deployment. Other OS/port working-tree edits preserved.
+
+Navigation follow-up: supplied the missing top offset for the sticky portfolio header. Added explicit Work-anchor landing checks to the responsive browser fixture.
+
+
+## 2026-10-31 — Codex — Five-reference public website refresh
+
+Inspected Apple, Umbrel, ZimaOS, Claude (redirected sign-in landing; partial) and Zen typography/layout at user request. Added scoped assets/reference-family.css and revised index.html/jeneros.html. Portfolio now has immediate editorial introduction, circular side portrait and quieter project rows. JenerOS now has centered promise, large own Glass screenshot, smaller navigation, accurate released-vs-design-preview text, planned-app description and native on-request film playback. No new dependencies or copied reference assets/fonts. Portfolio eight responsive normal/reduced-motion Chrome CSP cases passed; browser-reviewed JenerOS desktop/375/320 including fixed narrow navigation overflow. Full product multi-browser/a11y review remains. Shared vault has measurements, sources, exact limits and handoff. No build/install/commit/push/deploy; unrelated edits preserved.
+
+## 2026-10-31 - Claude - Coherence pass on the five-reference refresh (continuing Codex)
+
+- **Review:** reviewed both local pages (http://127.0.0.1:8765/) at 1440 and 375 px after Codex's reference refresh.
+- **Portfolio contact** (`[SITE]/index.html`): it now uses the same sans display type as every other heading, with one Georgia italic accent ("notes.") like the hero. It is laid on a two-column grid inside the full-width ivory band, instead of a floating shadowed card with an upright serif.
+- **JenerOS page** (`[SITE]/jeneros.html`): removed the five small labels above headings (Less e-waste, Setup, Safe updates, A look inside, Questions), which Jener rejected earlier as generic.
+- **Styles** (`[SITE]/assets/reference-family.css`): appended a scoped "coherence pass" block.
+- **Backup:** Codex's pre-edit copies are in `.scratch/site-shots/pre-refine/`.
+- **Checked:**
+  - no horizontal overflow at 1440 and 375 px on either page
+  - the contact section stacks on phones
+  - real Tab focus shows a solid outline
+  - zero labels remain
+  - no new animation was added, so Codex's reduced-motion checks still hold
+- **Not done:** no commit, push or deploy, per Jener. Full product-page accessibility and cross-browser review are still open.
+- **Codex's other uncommitted work** (dashboard, `green.html`, docs) is untouched.
+
+## 2026-10-31 - Claude - Umbrel-style ending, footer reveal and media motion (portfolio)
+
+- **Request:** Jener asked for umbrel.com's footer and closing motion, and its motion, images and video treatment. I inspected the live site:
+  - the footer is `position: sticky; bottom: 0`, full height, revealed as the page layer (rounded bottom corners) scrolls away
+  - the last section has tilted glass cards rising from `translateY(28px) scale(.96)`
+  - a 38vh gradient fades the black into light grey
+  - 12 muted, looping, control-less clips
+  - the umbrelOS screen flattens from a 3D tilt
+- **`[SITE]/index.html`:**
+  - removed the footer "jener.dev" line
+  - new "Notes from the work" section: six tilted cards of true project facts (no invented testimonials), fading into the ivory contact band
+  - new coral reveal footer: portrait, one statement, Contact/Projects/Elsewhere/Legal columns
+  - the film is now a muted, looping, autoplaying moving picture with no controls; a still poster replaces it for reduced motion
+- **`[SITE]/assets/reference-family.css`:** appended blocks for the footer reveal, the notes section and media motion (the JenerOS screen tilts back and flattens on scroll with a coral glow; the experiment media rise in). All use transform and opacity with scroll timelines, and reduced motion turns them off.
+- **Checked:**
+  - the film plays muted with no controls
+  - the screen-flatten and card animations run
+  - no horizontal overflow and no console errors at 1440 px
+  - phones switch the footer to normal flow
+- **Not done:** no commit, push or deploy. The phone layout of the notes section needs a visual check.
+
+## 2026-10-31 — Codex — Claude motion follow-up
+
+Reviewed Claude's current floating notes and coral reveal footer at 375x812 and 320x812 in the in-app browser. All six transformed cards remain inside visible width; no horizontal overflow; footer readable and available in normal mobile document flow. Increased mobile footer link height to at least 44px.
+
+Added [SITE]/assets/portfolio-media.js and adjusted index.html/reference-family.css: source attaches only near viewport, plays silently only onscreen, pauses offscreen/hidden tab, unloads when reduced motion is enabled. Poster remains without JavaScript, unsupported IntersectionObserver, blocked playback or media error. Preserves Claude's looping visual direction; no visible motion toggle added. Corrected unsupported "first downloadable preview" wording. _headers enables same-origin scripts only for / and /index.html; other pages retain their existing policy. Production header behavior still requires deployed validation; nothing deployed.
+
+Node lifecycle fixture work/check-media-lifecycle.cjs in the October 31 chat passed deferred loading, viewport pause/play, tab visibility, motion preference changes and error fallback. JS syntax and git diff --check passed. Live browser's current reduced-motion setting showed no attached video source and visible poster; no warn/error logs. Normal-motion hardware playback and cross-browser checks remain unverified in this pass. Earlier script-free/control-video tests are obsolete for this new intentional behavior. No build/install/commit/push/deploy. Existing unrelated work preserved.
+
+## 2026-10-31 — Codex — Original system assembly, rounded page correction
+
+Jener explicitly rejected copying Umbrel's layout; wants motion principles interpreted originally. Replaced the six tilted notes cards and large gradient with an original four-layer system illustration: hardware circuit traces, system slots, service nodes, own Glass screenshot. A direct scroll scrub assembles the layers, changes their perspective and reveals the system trace. No scroll interception or looping assembly animation. Reduced motion uses the exploded static diagram in ordinary flow. Small-height phones use ordinary flow as well. Deleted obsolete notes styles. Files: [SITE]/index.html, assets/reference-family.css, assets/portfolio-media.js.
+
+Rounded the actual main page layer and clipped it, fixing its dark background behind the contact band's rounded corners. Kept existing footer behavior. Browser visual review confirmed coral immediately outside the rounded corners; original scene reviewed desktop and 375px, no overflow. Current browser uses reduced motion, so normal animated rendering was not visually verified here. Local Node assembly fixture checks start/midpoint/end/reverse/live preference; existing media lifecycle fixture still passes. JS syntax and git diff --check pass. No publish/commit/push. Record latest intent in shared vault; older notes/card-layout directions are superseded.
+
+## 2026-10-31 — Codex — Nine annotation refinements
+
+Addressed Jener's browser comments: removed caption already confirmed absent; reversed assembly presentation so scroll separates layers (reverse scroll recombines), static exploded view under reduced motion. Both experiment panels now use existing landscape/Glass portrait videos with independent lifecycle controllers and accessible Play preview buttons. Explicit playback works under reduced motion with native controls; automatic silent playback still respects motion/visibility. Added subtle portrait glow, stronger translucent/backdrop-blurred header, scroll-responsive ivory-to-glass contact surface with highlights and transparency fallback. This is a CSS glass approximation, not Apple's native optical renderer. Existing rounded-main clipping retained.
+
+Added copyright/license attribution and independence/non-endorsement notice naming Umbrel, Nabu Casa and Open Home Foundation without claiming legal clearance. Enriched original Green SVG with illustrated chip pins, passive components, traces and port details; symbolic placement explicitly labelled. index.html, assets/reference-family.css, assets/portfolio-media.js, assets/green-boot.svg changed. No dependencies or third-party assets added.
+
+Verified both films actually playing at readyState 4 after user-style clicks in the in-app browser (current reduced-motion environment), native controls available. Phone 375/320 layouts have no horizontal overflow, 2 video panels and zero overlapping captions; footer notice readable. No browser warn/error logs. Node media lifecycle and assembly fixtures, JS syntax and git diff --check pass. Normal-motion scrolling and optical appearance on other engines remain for real device review; deployed headers untested. Source only; no commit/push/deploy/build. Shared Obsidian continuation updated.
+
+## 2026-10-31 — Codex — Silent autoplay, active scroll separation, compact legal line
+
+Latest user request explicitly removes players/buttons and requires both previews autoplay muted, and again requests actual scroll separation. Removed button/control opt-in behavior; both independently deferred-load/play nearby, loop silently, pause offscreen/hidden and keep posters for playback failure. For these explicitly requested previews and assembly only, removed reduced-motion suppression. System settings were not changed. Other existing motion preferences remain in CSS. Assembly stays sticky and scroll-scrubs even in this browser's reduced-motion environment; short phone layout remains normal flow.
+
+Revisited the five reference sites via web and reread redesign skill footer/layout guidance. Reduced footer fine print to one desktop line with a link; detailed independence/trademark/license text moved to legal.html#project-notices. Fixed inherited footer margin gap using 40px overlap behind the rounded page. Files index.html, legal.html, assets/reference-family.css, assets/portfolio-media.js.
+
+Live browser evidence: both films readyState4, pausedfalse, mutedtrue, controlsfalse without clicks; assembly progress changes 0→0.7007 with visible separation during native scrolling; desktop footer line fits; gap fixed with visible coral at corners and measured40px overlap. No warn/error logs. JS syntax and git diff --check pass. Earlier reduced-motion/unload/manual-controls fixture expectations are now obsolete by explicit user direction; do not report them as current passing checks. No commit/push/deploy/install. Shared vault updated.
+
+## 2026-10-31 — Codex — Phone Green depth, faster assembly, optical contact, utility strip
+
+Implemented four latest browser comments in [SITE]/index.html, assets/reference-family.css and assets/portfolio-media.js. Green figure now has perspective rotateX/vertical travel driven by page scroll on all inputs, plus rotateY for fine-pointer movement. Disabled conflicting old image animation on this figure. Assembly scene shortened175→145svh desktop and155→130svh mobile; progress travel multiplied by.55 for faster separation.
+
+Replaced cream contact band appearance with an actual translucent inset pane over original visible orbital artwork. SVG turbulence/displacement filters its backdrop (URL backdrop-filter when supported), softened blur fallback, rounded illuminated edges, sharp separate text. Reduced-transparency remains solid. Current browser computed filter confirms URL displacement active. Browser result is not Apple's native renderer; cross-engine optics remain to review.
+
+Reviewed user-provided Headspace reference via web. Footer now ends in full-width charcoal utility bar: copyright, Terms, Privacy, Independence & credits, GitHub and Back to top. Only real destinations; no copied branding, fake social profiles, language or privacy controls. Detailed notices remain legal.html.
+
+Live browser: desktop contact/utility visually reviewed.375px no overflow, readable footer, Green scroll rotation changed -1.01deg→-4.53deg with corresponding matrix3d. No warnings/errors. JS syntax/diff check pass. No full Safari/Firefox or physical touch-device test; source only, no commit/push/deploy. Shared vault updated.
+
+## 2026-10-31 — Codex — Video poster regression and tighter ending
+
+Four user comments addressed in [SITE]/assets/portfolio-media.js and reference-family.css. Fixed missing-video fallback: actual video stays in normal flow/visible compositor surface, poster overlays until requestVideoFrameCallback reports decoded frame; pause/waiting/stalled/emptied/error restore poster and invalidate stale callback. pageshow resyncs playback. Silent autoplay/loop/no-controls remains. Initial dark encoded film frames may still appear briefly as part of source media; browser showed both actual films playing at5.18seconds after scroll away/back.
+
+Generalized Green's scroll/pointer perspective controller and styles to both .work-visual figures, removing conflicting CSS image animation. Soft mask plus progressive backdrop blur dissolves orbital artwork into dark section without blurring contact text. Footer min-height filler and 1fr empty row removed: compact portrait/statement beside2x2 link groups, single-column phone arrangement, retained utility bar.
+
+New focused Node regression work/check-video-poster.cjs passed decoded-frame handoff, buffering, offscreen pause/reentry, error and stale callback. JS syntax/diff check passed. Live desktop films visible after reentry; project turn values changed on native scroll (JenerOS .57→-4.89deg; Green10.28→5.05).375px footer readable/no overflow; browser log empty. No full Safari/Firefox or physical-device decoder check. No commit/push/deploy. Vault updated.
+
+
+## 2026-10-31 — Codex — Navigation pill spacing
+
+Added 14px horizontal/8px vertical padding to portfolio navigation links and reduced inter-link gaps; phone padding8px/gaps4px. Scoped to portfolio header, preserving product-page navigation. Addresses user annotation that pill backgrounds hug their text. CSS-only; diff whitespace check passes. No deployment/commit/push.
+
+
+
+## 2026-10-31 — Codex — Navigation cached stylesheet verification
+
+User still saw zero inset. Live browser measured About padding0px/width39.44px before reload, then8px14px/width67.44px after reload. Added version query to index.html reference-family.css link so updated navigation spacing loads reliably. No new sizing change needed. Local only; no deployment.
+
+## 2026-10-31 — Codex — Refractive navigation hover
+
+Portfolio header links now reveal glass lens pseudo-elements on hover/keyboard focus: existing SVG backdrop-displacement filter where supported, blur fallback, specular rim and subtle lift. Text remains separate/sharp; reduced transparency uses opaque fallback. Preserves tested inset padding. Versioned stylesheet link refreshed. CSS-only local edit; no deployment.
+
+
+## 2026-10-31 — Codex — Authorized production deployment
+
+
+Jener explicitly requested "deploy this". Current site is published at https://jener.dev/ through existing Cloudflare Worker jener-dev. Alternative https://jener-dev.jenerdaniel.workers.dev/ . Final version: 65b2208c-8999-4a38-a75d-e29e1512d4cf. Initial version 8b7b3cd0-553c-45ce-80ba-90781de194b0 superseded by security-header fix.
+
+Used existing cached Wrangler 4.149.0 and existing OAuth. No program installation, Git commit or push. Source C:/Users/jener/jeneros/[SITE]. Unrelated OS/port work preserved.
+
+Deployment corrections: .assetsignore excludes .taste-skill/ and .wrangler/. Production returned intersecting CSPs (scriptself and scriptnone); replacement syntax did not eliminate the old global policy. _headers now has one global same-origin-script policy and explicit restrictive scriptnone policies for all script-free HTML/clean URL paths. Root/preview allow their local scripts; Green/JenerOS remain script-free. Other security directives retained. Corrected deployment verified by live response headers.
+
+Checks: Wrangler dry-run, local video-poster regression, HTTP200 homepage/preview/Green/JenerOS/CSS/JS; newest stylesheet marker present. Production browser shows updated glass hover and script-driven media source loading; no warn/error logs on initial inspection. Physical-device/cross-engine glass review remains unverified.
+
+Earlier local-only notes are historical; this supersedes deployment status. Save future changes in this vault and repository logs.
+
+Final production browser check: both videos readyState4 and playing with advancing time; warn/error log empty.
+
+## 2026-11-01 — Codex — Single-row phone header and safe-area footer (deployed)
+
+Portfolio index.html now has native details/summary phone menu, brand left/Menu right below640px; desktop nav retained. JS closes on link activation/Escape; no-JS disclosure still works. viewport-fit=cover, header top/side safe-area insets, footer bottom safe-area inset, root overscroll suppression and matching charcoal root background added. Mobile footer stays in normal flow; assembly sticky offset updated for61px header. Browser/Safari address bar cannot be removed by site; no fullscreen tricks, scroll trapping or touchmove cancellation used.
+
+Local in-app browser at320/390/430: header61px, no horizontal overflow; body bottom equals footer bottom (gap0); menu opens/selects/closes. Actual Safari toolbar/rubber-band and iPhone safe-area hardware remain untested. MDN overscroll/env references checked; overscroll support varies. Video poster regression and JS syntax pass. Deployed updated live site, Cloudflare version9b4ca3bf-0241-41bb-9455-2052cafcf600. Live HTTP200 and phone-menu/viewport/version markers verified. No Git commit/push. Vault updated.
+
+## 2026-11-04 - Claude - First Go compile/vet/race-test run of the core (WSL Ubuntu)
+
+- **Repo location:** the repo moved to `C:\Users\jener\Documents\[JENEROS]\jeneros`.
+- **Build environment:** the old VMware build VM no longer exists (`S:\[VMs]` only holds Hyper-V Fedora and Windows 11). Jener chose WSL Ubuntu 24.04 (`UmbrelGreenBuilder`) and installed `golang-go` (Go 1.22.2) there.
+- **Commands, in `[CORE]`:** `gofmt -l .`, `go vet ./...`, `go test -race -count=1 ./...`, and `go build -trimpath ./cmd/jenerd` for linux/amd64 and linux/arm64.
+- **Fixes:**
+  - `gofmt` reformatted `internal/runtime/incus.go`, `init_linux.go`, `runtime_test.go` and `internal/transport/tls.go` (operator spacing only)
+  - `internal/setup/security_test.go`: `TestCodeRotationAndExpiry` wrote the setup-done marker with `os.WriteFile` into a `state/` directory its fixture never creates. It now uses the package's `atomicWrite`, as `apply.go` does in production, which creates the directory. This was a test-only bug; production code is unchanged.
+- **Result:**
+  - `gofmt` clean and `go vet` clean
+  - all 10 packages pass under `-race`
+  - `jenerd` builds for amd64 (9.8 MB) and arm64 (9.4 MB) in `~/jeneros-build/` inside WSL
+- **Not covered:** these are unit tests on a WSL kernel. Nothing exercised systemd, DynamicUser, Incus, the root worker, mkosi image builds, A/B updates or real disks. The VM acceptance checklists (`.scratch/apps/VM-CHECKS.md`, `.scratch/zimaos/PHASE-4-REVIEW.md`, owner-login and phone-setup checks) still need a real JenerOS test machine.
+
+## 2026-11-04 - Claude - First JenerOS image build in WSL
+
+- Built x86-64 dev image 0.3.0 (non-release, NO_VMDK) in WSL `UmbrelGreenBuilder` with upstream mkosi 25.3, on an ext4 build disk at `S:\[VMs]\[JENEROS]\build.ext4`.
+- Output: `S:\[VMs]\[JENEROS]\image\jeneros_0.3.0.raw` (6.3 GiB) plus split usr/verity/ESP; update files in `S:\[VMs]\[JENEROS]\updates`. Build log: `S:\[VMs]\[JENEROS]\build.log`.
+- Fix: `[OS]/mkosi.conf` now lists `apt` in Packages; mkosi 25 no longer adds it and `mkosi.prepare.chroot` needs it to install Incus.
+- Not yet booted. Continuation prompt for apps + Green port: `.scratch/green/PROMPT-green.md`.
+
+## 2026-11-04 - Claude - First real boot and app run (x86-64 QEMU/KVM in WSL)
+
+**Setup.** Booted dev image 0.3.0 in QEMU/KVM inside WSL `UmbrelGreenBuilder` (OVMF, 4 vCPU, 10 GiB RAM, disks on `/srv/jb/vm`, which lives on `S:`). Ports 80/443/2283/8081/8096/8123 are forwarded to Windows localhost as 18080/18443/2283/8081/8096/8123. A root debug shell on the second serial port came from an SMBIOS kernel-cmdline credential, for the test VM only; the image is unchanged. Dev builds ship `setup-done`, so I deleted it on the VM to run real owner setup.
+
+**Worked on first try:** boot to console and dashboard; owner setup via the API with the screen code; sign-in; Incus 7.0.2 from `/usr/lib/incus`; no Docker; `jenerd` has `DynamicUser=yes` and no Incus group; root subuid/subgid ranges exist.
+
+**Bugs found and fixed. Each one blocked every app.**
+1. `jeneros-apps-init` failed on every boot. The unit's `ProtectHome=tmpfs` leaves `/root` read-only (the `TemporaryFileSystem=/root:rw` line doesn't override it), the `incus` client fails on `mkdir /root/.config`, and jenerd discarded stderr. Fix in `[CORE]/internal/runtime/init_linux.go`: private temp `HOME`/`INCUS_CONF` for the client, and Incus's stderr is logged (the preseed holds no secrets).
+2. No container could start: "Too many levels of symbolic links - Failed to open rootfs /opt/incus/lib/lxc/rootfs". LXC won't follow the `/opt/incus -> /usr/lib/incus` symlink. Fix: `/opt/incus` is now an empty directory (`mkosi.prepare.chroot`, tmpfiles `d` in place of `L`). The new `opt-incus.mount` bind-mounts `/usr/lib/incus` there read-only, and `mkosi.postinst.chroot` adds it to `local-fs.target.wants`.
+3. Containers then failed with "Permission denied" mounting into the rootfs. The pool path `/var/lib/jeneros/.jeneros/incus` and its parent were `0700`, both because safeDir asks for that and because of the unit's `UMask=0077`, so the mapped container root can't traverse them. Fix in `init_linux.go`: chmod both to `0711` (like Incus's own storage-pools directory) on every init, which also repairs existing boxes.
+4. Containers got no IP, and health checks timed out. `80-jeneros-wired.network` (`Type=ether`) also matches each container's host-side veth, so networkd takes it over and it never joins its `ja-<app>` bridge. Fix: new `70-jeneros-app-links.network` (`Kind=veth`, `Unmanaged=yes`).
+
+**Real results after the fixes (live-patched VM):**
+- Photos (Immich, 4 containers): installed, Immich admin created, test PNG uploaded, album "JenerOS VM test" made, and the original downloads byte-identical.
+- Rebooted: no failed units; all four containers came back with their addresses; account, album and photo intact.
+- Drive, TV and Home installed and ran without intervention. `status.php`, `/health` and `manifest.json` return 200 on 8081/8096/8123. Progress follows queued → pulling → creating → starting → health → done.
+- API: a second install while one is queued gets 409. No cookie gets 401 (GET and POST); no `X-JenerOS` gets 403; relay 501; unknown app 404; path traversal, unknown field, bad JSON and unconfirmed `deleteData` all 400.
+- `go vet` clean and `go test ./...` passes after the Go changes.
+
+**Other findings, not fixed:**
+- Photos requires `memoryMB: 6144`, and the check compares it with kernel MemTotal, which is always under the nominal RAM. It fails on a 6 GiB machine and **can never install on the 4 GB Green**. Drive, Home and TV fit.
+- The setup interface list includes `incusbr0` (and would include `ja-*` bridges).
+- `jeneros-update-check` fails in dev because it points at `localhost:8000`, as expected.
+- `/etc/hosts` is missing (dnsmasq warns).
+- Once `opt-incus.mount` is in place, a box that already has the old `/opt/incus` symlink needs it replaced. No such image was ever shipped.
+
+**Not yet verified:** a fresh boot of a rebuilt image with these fixes (0.3.1 build running), stop/start/uninstall/reinstall, data pools, A/B update and rollback, the dashboard UI in a browser (its self-signed certificate blocks the in-app browser), and any arm64/Green work.
+
+## 2026-11-04 - Claude - 0.3.1 fresh-boot check, auth socket fix
+
+- **Rebuilt dev image 0.3.1** with the four app-runtime fixes above (`S:\[VMs]\[JENEROS]\build-0.3.1.log`, image in `S:\[VMs]\[JENEROS]\image\`). Uncached `go test -race -count=1 ./...`: all 10 packages pass; gofmt and vet are clean.
+- **Fresh boot, no hand patches:** no failed units; `opt-incus.mount` active; Incus pool and bridge created by `jeneros-apps-init` on first boot. After owner setup, TV and Drive installed and opened (8096 `/health` 200, 8081 `status.php` 200).
+- **Bug 5, found on 0.3.1 (fixed in source, verified live only):** after `systemctl restart jenerd`, `jeneros-auth.socket` failed with "Failed to resolve user jenerd" (`SocketUser=` named the DynamicUser before it was registered again). Owner sign-in then returned 503 until reboot. `Restart=on-failure` would trigger the same after any jenerd crash.
+  - Fix: new sysusers group `jeneros-auth` (`usr/lib/sysusers.d/jeneros-auth.conf`); the socket is now `root:jeneros-auth 0660` and ordered after `systemd-sysusers`; `jenerd.service` gets `SupplementaryGroups=jeneros-auth`. The helper has no peer-credential check, so file permissions remain the only gate, and only jenerd is in the group.
+  - Live test (the same changes as `/etc` overrides on the VM): six spaced jenerd restarts, socket active every time, sign-in 200.
+  - This change is **not yet in a built image**.
+- The test VM is still running in WSL (`/root/vm.sh stop` stops it). Test credentials are only in `/srv/jb/vm/*.env`.
+
+## 2026-11-13 — Claude: new build VM, first Go compile
+
+- Build VM rebuilt at `W:\[VMs]\[JENEROS-BUILD]` (Debian 13.7, 8 vCPU, 16 GB, NAT, SSH alias `jeneros-build`, user `jener`). Drive letters changed: old D:/S: Seagate is `S:`; new VMs go on `W:` (VMware default path set to `W:\[VMs]`). Host blocks nested VT-x, so the test box can run Incus OCI containers but not Incus KVM VMs.
+- Repo now lives at `C:\Users\jener\Documents\[JENEROS]\jeneros` (fresh clone + the backup's 90 uncommitted changes).
+- In the VM (Go 1.24.4): `gofmt -l` clean, `go vet ./...` clean, `go test -race ./...` all packages pass, `go build ./cmd/jenerd` OK. This is the first compile of the app runtime / storage / login code. No image built, no app installed yet. Nothing committed.
+
+## 2026-11-13 — Claude: build 0.4.3 started, paths moved
+
+- Changed: `[OS]/fetch-vm.ps1` default dest `W:\[VMs]\[JENEROS]`; restored `[OS]/vmware/jeneros.vmx` (was deleted in the working tree, build.sh copies it).
+- Unprivileged mkosi 25.3 fails apt in `mkosi.prepare.chroot` (setgroups EPERM). Run build.sh as root: `sudo env HOME=$HOME VERSION=... UPDATE_URL=... ./[OS]/build.sh`.
+- Old WSL/QEMU tooling (`UmbrelGreenBuilder`, `/srv/jb`, sh.py, vm.sh) is gone after the Windows reset. Testing now uses VMware on W: + SSH.
+- Full state: vault `wiki/sessions/2026-11-13 Claude Build VM Restore.md`.
+
+- 2026-11-13 Claude: 0.4.3 built (root) and booted on W: test box 192.168.184.129. No failed units; opt-incus.mount, jeneros-auth.socket (root:jeneros-auth 0660), jenerd active. Owner setup and VM-CHECKS 5-8 still open.
+- 2026-11-13 Claude: task 2 of PROMPT-continue passes on 0.4.3: owner setup via API, sign-in OK across 6 jenerd restarts, 401 without session. jeneros-update-check fails only because no update server is running.
+
+## 2026-11-13 — Claude: design pass 1
+- `[CORE]/cmd/jenerd/main.go`: `/` now serves classic.html (real box). Glass sample preview only at /index.html.
+- `[DASHBOARD]/glass-os.css` (new, linked last in classic.html): sheet windows, glass material, per-app icon glow, smooth scroll, reduced-motion/transparency fallbacks. Tiles top-aligned in desktop.css/home.css.
+- Untested: visual review in a browser (Jener to check), Go tests for the new route (main.go has none). Photos install on 0.4.3 passed; section 5 still open.
+- 2026-11-13 Claude: App Store Discover rebuilt in store.js/store.css (pills, scroll-snap banner, tile shelf, 2-col list); scroll kept across refresh; fixtures retargeted to .store-tile but not run.
+
+## 2026-11-13 — Codex: App Store detail and dashboard polish
+
+- `[DASHBOARD]/store.js`, `store.css`, `glass-os.css`: The classic App Store now has a glowing app detail header, screenshot shelf, glass detail sections, category tiles and a glass My Apps list with direct links to app details. The desktop sidebar is 156px wide so Search, My Apps and Custom install stay in reach while reading an app page. On phones it becomes a horizontal navigation strip with Custom install beside it.
+- `[DASHBOARD]/home.css` and `store.css`: increased small labels in the classic dashboard and App Store. Install and manage hooks, IDs and ARIA attributes were preserved.
+- Verification: `node --check` passed for `store.js`. Chromium passed at 375, 820 and 1440px in dark/light and normal/reduced motion with both the sample catalog and a mocked installed app. Screenshots verified the detail layouts. A mocked screenshot row retained focus and scroll through polling. The Python server bound to 127.0.0.1:8099, but browser requests timed out in this session. Browser checks served the same files through Playwright request routing.
+- Live follow-up: Claude should check real catalog images and the install, progress, stop/start and uninstall flows on 192.168.184.129, plus glass in reduced-transparency mode. Optional dock refraction was deferred.
+
+## 2026-11-13 — Codex: bottom status pill refraction
+
+- `[DASHBOARD]/classic.html`, `glass-os.css`, `home.css`: The bottom status pill now uses a subtle Chromium SVG displacement with plain blur as fallback. Reduced transparency disables the filter and higher contrast uses plain blur. Chromium computed-style checks passed at 375, 820 and 1440px in both themes. Live GPU rendering and non-Chromium fallback still need review.
+
+## 2026-11-13 — Codex: responsive dashboard update on VMware
+
+Codex synced classic.html, store.js, store.css, home.css and glass-os.css to the existing live dashboard overlay on VMware 0.4.3 at 192.168.184.129. All five HTTP response hashes match the source files. The compact sheet uses the available height and more of the phone width, with tighter navigation and header spacing. Chromium passed 36 sample-catalog checks from 320 to 2560px, including a short landscape viewport, in both themes and motion modes. The bind mount needs reapplying after a reboot. Previous copies are in /opt/jdev/dashboard-update.J1416X. Physical devices and authenticated live app operations remain untested.
+
+## 2026-11-13 — Claude: brief review, VM-CHECKS 5–8 on VMware, restore race fix
+
+**Dashboard.** Codex had already done all five brief tasks and synced the box. Reviewed, not redone. In-app browser against a local server (port 8098; 8099 hung when started from Git Bash) at 375, 820 and 1440px: Discover, Category, My Apps, Search and app detail render, no sideways scroll, no visible text under 11px. `node --check` passes for `store.js` and `session.js`. All 107 files in `/opt/jdev/dash` matched the repo byte for byte, so no copy was needed.
+
+**New image 0.4.4** built as root on `jeneros-build` from the current tree (dashboard + `/` → classic.html), served by `serve-updates.sh` on 192.168.184.128:8000. The test box now runs 0.4.4, so the dashboard no longer needs the `/opt/jdev` bind mounts.
+
+| VM-CHECKS | Result |
+|---|---|
+| 5 Stop / Start | Pass. All four Photos containers stop and start; test account and photo intact. |
+| 5 Reboot while stopped | Pass. Stayed stopped, no failed units. |
+| 5 Reboot while running | Pass. All four came back; account and photo intact. |
+| 5 Data disk missing | Pass with one bug (below). TV on the pool stayed stopped, Start says "Your app storage is not connected", nothing written under the empty mount folder, Storage shows "Needs attention". After reattach: pool mounted, marker file there, TV 200. |
+| 6 A/B update 0.4.3 → 0.4.4 | Pass, through `POST /api/update/check` and `POST /api/update`. `/opt/incus` mounted from `/usr`, Incus 7.0.2 on both, apps and photo kept. |
+| 6 Rollback | Pass. `POST /api/update/rollback` booted 0.4.3 once; photo intact. Next reboot returned to 0.4.4 (rollback is `bootctl set-oneshot`). |
+| 7 Uninstall keeping files, reinstall | Pass. Project and `ja-photos` bridge removed, files and root-only record kept, same subnet 10.82.210.0/24 reused, same account and photo after reinstall. |
+| 7 Delete files | Pass. 400 without the typed id; with `confirm` only that app's folder and record went. |
+| 8 Foreign `jener-tv` project / `ja-tv` bridge | Pass. Install fails, Uninstall leaves the foreign object. Message is "App engine request failed (409)." (jargon). |
+| 8 Port already in use | Pass. "Another app is using this port." Photos untouched. |
+| 8 Network down 60 s during pull | Pull paused and resumed, install finished. No error path seen. No secrets in `/api/apps`, `/api/store` or the journal (records only hold `${secret.*}` templates). |
+| 8 Worker killed mid-install, then reboot | Pass. Drive shows `error`, Uninstall cleans it. `jeneros-apps.service` is listed as failed after that boot. |
+| 8 Power off during Stop | Pass. TV stayed stopped. |
+| 8 Idmapped mounts, ext4 and Btrfs | Pass. `security.privileged=false`, disk devices `shift=true` on both. |
+| 8 32-character pool name | Pass (`testpool-32-abcdefghijklmnopqrst`, single, 8 GB). Capitals are rejected with a clear message. Drive (10 GB) refused: "not enough free space"; a kept-files app refuses another pool: "Reinstall on the same storage". |
+
+**Bug 6, fixed in source only:** on the boot without the data disk, `jeneros-apps-status` and `jeneros-apps-restore` started in the same second. Status took `worker.lock`, restore saw it busy and exited 0, so **no app started** (Photos on the system disk too). `[CORE]/internal/runtime/status_linux.go`: restore now waits for the lock (`lockWorker(p, restore)`). gofmt, `go vet`, `go test ./internal/runtime/` and a build pass on the build VM. Not in an image and not seen fixed at boot (the race is random). `systemctl restart jeneros-apps-restore` recovers a box that hit it.
+
+**Other findings, not fixed:**
+- `/api/storage` reports a missing pool as `state: "ready", mounted: false`. The dashboard reads `mounted`, so the UI is right, but the state is misleading.
+- A failed install on a pool leaves an empty `Apps/<app>` folder there.
+- Rollback is one boot only; nothing marks the newer version as bad.
+- After rollback to 0.4.3 the old image's dashboard shows (expected).
+
+**Not run:** unhealthy-service retry, reboot during Uninstall, 45 s "Unavailable" readings, pre-Incus image upgrade, kiosk CPU, touch/screen reader, TV/Drive/Home native setup pages, signed-in dashboard UI in a browser (in-app browser cannot sign in on a non-localhost host), dock refraction on a real GPU.
+
+**Test box now:** 0.4.4, Photos (system disk) and TV (test pool) running. Extra 8 GB disk `W:\[VMs]\[JENEROS]\jeneros-testdata.vmdk` attached as `sata0:1`; vmx backup `jeneros.vmx.bak-pre-datadisk`. Helpers on the box: `/root/immich.sh check`, `/root/w.sh`, `/root/remount.sh`; Immich test login only in `/root/immich.env`. VM was started headless with `vmrun ... nogui`. Nothing committed.
+
+**Codex should check:** the one-line restore change, and whether the 409 message and the pool `state` should be reworded.

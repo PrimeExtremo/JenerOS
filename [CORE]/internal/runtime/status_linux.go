@@ -18,7 +18,7 @@ func Refresh(p Paths, restore bool) error {
 	if os.Geteuid() != 0 {
 		return errors.New("App status worker requires root.")
 	}
-	lock, err := lockWorker(p, false)
+	lock, err := lockWorker(p, restore) // restore waits: a status tick holding the lock must not skip boot-time app start
 	if errors.Is(err, ErrBusy) {
 		return nil
 	}
