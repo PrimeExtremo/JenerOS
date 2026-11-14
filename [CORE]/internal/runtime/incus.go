@@ -34,7 +34,7 @@ type response struct {
 type incusError int
 
 func (e incusError) Error() string { return fmt.Sprintf("App engine request failed (%d).", e) }
-func missing(err error) bool      { return errors.Is(err, incusError(404)) }
+func missing(err error) bool       { return errors.Is(err, incusError(404)) }
 
 func (c *client) call(ctx context.Context, method, path string, body any, out any) error {
 	var data []byte

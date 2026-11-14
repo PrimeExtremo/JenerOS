@@ -132,7 +132,7 @@ func (i *Identity) refresh(host string, ips []net.IP, now time.Time) error {
 	}
 	template := &x509.Certificate{SerialNumber: serial, Subject: pkix.Name{CommonName: host},
 		DNSNames: []string{host, host + ".local"}, IPAddresses: ips,
-		NotBefore: now.Add(-24*time.Hour), NotAfter: now.Add(365*24*time.Hour),
+		NotBefore: now.Add(-24 * time.Hour), NotAfter: now.Add(365 * 24 * time.Hour),
 		KeyUsage: x509.KeyUsageDigitalSignature, ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth}, BasicConstraintsValid: true}
 	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
 	if err != nil {
