@@ -42,7 +42,8 @@ func TestCodeRotationAndExpiry(t *testing.T) {
 	if err := m.Submit(req); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(p.Done, nil, 0o600); err != nil {
+	// Mark setup finished the way apply does, so the state directory is created too.
+	if err := atomicWrite(p.Done, nil, 0o600); err != nil {
 		t.Fatal(err)
 	}
 	if code, err := m.LocalCode(); err != nil || code != "" || !errors.Is(m.Submit(req), ErrDone) {
