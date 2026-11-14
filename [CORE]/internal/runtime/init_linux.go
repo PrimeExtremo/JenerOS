@@ -77,9 +77,9 @@ func Init(p Paths) error {
 	}
 	var config struct {
 		Config       map[string]string `json:"config"`
-		Networks     []map[string]any   `json:"networks"`
-		StoragePools []map[string]any   `json:"storage_pools"`
-		Profiles     []map[string]any   `json:"profiles"`
+		Networks     []map[string]any  `json:"networks"`
+		StoragePools []map[string]any  `json:"storage_pools"`
+		Profiles     []map[string]any  `json:"profiles"`
 	}
 	if err := json.Unmarshal(preseed, &config); err != nil {
 		return err

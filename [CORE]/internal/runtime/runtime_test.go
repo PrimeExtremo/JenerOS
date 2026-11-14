@@ -100,7 +100,7 @@ func TestBusyProgressDoesNotRefreshOldReadings(t *testing.T) {
 	b, err := json.Marshal(Snapshot{
 		Updated: time.Now(), Sampled: time.Now().Add(-time.Minute),
 		Progress: Progress{Stage: "pulling"},
-		Apps: []App{{ID: "tv", State: Running, CPU: &cpu, URL: "http://192.168.1.20:8096"}},
+		Apps:     []App{{ID: "tv", State: Running, CPU: &cpu, URL: "http://192.168.1.20:8096"}},
 	})
 	if err != nil {
 		t.Fatal(err)
