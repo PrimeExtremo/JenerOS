@@ -12,7 +12,7 @@ preview page, and `_headers` allows scripts on `/preview` only.
 | `preview.html` | "A closer look": scroll-driven 3D tour of real screens on liquid glass |
 | `download.html` | Download, hardware needs, flashing, virtual machines |
 | `privacy.html` | Privacy policy (from `[DOCS]/PRIVACY.md`), links `privacy.pdf` |
-| `about.html` | Jener, Inc., why JenerOS exists, contact |
+| `about.html` | JenerDev, why JenerOS exists, contact |
 | `404.html` | "Page not found" (uses `/` paths, since it can show at any address) |
 | `assets/site.css` | All styles. Colors are tokens at the top, light and dark |
 | `assets/preview.css`, `assets/preview.js` | The preview page only (glass, 3D story, still-grid fallback) |

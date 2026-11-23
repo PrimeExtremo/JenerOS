@@ -177,7 +177,7 @@ function clock() {
 const previewFailure = error => !boxOnline && (error.status === 404 || (error.status === undefined && error.message !== 'Sign in to your owner account to continue.'));
 function sampleSystem() {
   const tick = Math.floor(performance.now() / 5000);
-  return { hostname: 'jeneros', manufacturer: 'Jener, Inc.', model: 'Sample box', arch: 'amd64', cpus: 4,
+  return { hostname: 'jeneros', manufacturer: 'JenerDev', model: 'Sample box', arch: 'amd64', cpus: 4,
     memTotalMB: 8192, memFreeMB: 6500, uptimeSec: 273600 + tick * 5,
     diskTotalB: 128e9, diskFreeB: 94e9, addresses: ['192.168.1.20'], sshStatus: 'off',
     cpuCounters: { total: 100000 + tick * 2000, idle: 85000 + tick * 1840 },

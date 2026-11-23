@@ -2,7 +2,7 @@
 
 Draft for the early preview. Have a lawyer check this before JenerOS is sold or marketed in the EU/UK.
 
-Effective: 2026-10-08 · Jener, Inc. · jener.dev
+Effective: 2026-10-08 · JenerDev · jener.dev
 
 ## The short version
 Your box is yours. JenerOS keeps your photos, files, passwords and settings on your box. We don't run accounts, collect analytics, or see what you store.

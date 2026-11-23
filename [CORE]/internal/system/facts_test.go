@@ -18,14 +18,14 @@ func TestBoxFacts(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	write("dmi/sys_vendor", " Jener, Inc.\n")
+	write("dmi/sys_vendor", " JenerDev\n")
 	write("dmi/product_name", "Tiny box\x00\n")
 	write("proc/sys/kernel/osrelease", "6.12.0-amd64\n")
 	write("os-release", "# comment\nIMAGE_VERSION=\"0.3.1\"\nVERSION_ID=0.3.0\nBUILD_DATE='2026-10-07T12:00:00Z'\n")
 	write("proc/net/tcp", "  sl  local_address rem_address st\n 0: 00000000:0050 00000000:0000 0A\n")
 	var info Info
 	readBoxFacts(&info, filepath.Join(dir, "dmi"), filepath.Join(dir, "proc"), filepath.Join(dir, "os-release"))
-	if info.Manufacturer != "Jener, Inc." || info.Model != "Tiny box" || info.Kernel != "6.12.0-amd64" || info.OSVersion != "0.3.1" || info.BuildDate != "2026-10-07T12:00:00Z" || info.SSHStatus != "off" {
+	if info.Manufacturer != "JenerDev" || info.Model != "Tiny box" || info.Kernel != "6.12.0-amd64" || info.OSVersion != "0.3.1" || info.BuildDate != "2026-10-07T12:00:00Z" || info.SSHStatus != "off" {
 		t.Fatalf("unexpected facts: %+v", info)
 	}
 	write("proc/net/tcp6", "0: 00000000000000000000000000000000:0016 00000000000000000000000000000000:0000 0A\n")

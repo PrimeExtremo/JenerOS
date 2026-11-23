@@ -2,7 +2,7 @@
 @page {
   size: A4; margin: 22mm 20mm 20mm;
   background: #F6F1E7;
-  @bottom-left { content: "Jener, Inc. · jener.dev"; font: 8pt "DejaVu Sans", sans-serif; color: #6B5D4F; }
+  @bottom-left { content: "JenerDev · jener.dev"; font: 8pt "DejaVu Sans", sans-serif; color: #6B5D4F; }
   @bottom-right { content: counter(page) " / " counter(pages); font: 8pt "DejaVu Sans", sans-serif; color: #6B5D4F; }
 }
 body { font: 10pt/1.55 "DejaVu Sans", sans-serif; color: #1F1913; }

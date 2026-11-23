@@ -18,7 +18,7 @@ Applies to Claude, ChatGPT, Codex and any other agent.
 - Don't commit or push unless Jener asks.
 - Don't run admin/system-level commands, purchases, sign-ups or installs on Jener's PC. Write the command and explain it; Jener runs it.
 - Don't put VM disks, ISOs or large build output on `C:`. Use `S:\[VMs]\...`.
-- Don't use the "Arvey" name or AV logo. The brand is JENER / JenerOS / Jener, Inc.
+- Don't use the "Arvey" name or AV logo. The brand is JenerDev / JenerOS
 - Don't reopen decisions in `handoff.md` §4 without asking Jener.
 - Don't add dependencies to `jenerd` without a reason written in AI-UPDATES.md (stdlib-only so far).
 

@@ -10,3 +10,4 @@
 
 # Local agent worktrees
 .claude/worktrees/
+.wrangler/

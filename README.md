@@ -48,7 +48,7 @@ Running your own home server usually means a pile of separate tools: one for pho
 
 JenerOS puts all of that into one operating system. You install it once. You get one dashboard, one app store and one update button. It feels a bit like iCloud, except the box sits on your shelf and your stuff never leaves the house.
 
-JenerOS is made by [Jener, Inc.](https://jener.dev) and is free software.
+JenerOS is made by [JenerDev](https://jener.dev) and is free software.
 
 ## What's inside
 
@@ -189,5 +189,5 @@ JenerOS is young, and help is welcome.
 JenerOS is free software under the [GNU General Public License v3.0 or later](LICENSE). It builds on Debian, systemd, mkosi and many other open-source projects, each under its own license. The apps in the store keep their own licenses too.
 
 <p align="center">
-  <sub>Made at home by <a href="https://jener.dev">Jener, Inc.</a></sub>
+  <sub>Made at home by <a href="https://jener.dev">JenerDev</a></sub>
 </p>
